@@ -153,7 +153,7 @@ void log_construct(LogType _type, const char* file, const char* func, int line, 
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
     char time[128];
-    snprintf(time, 128, "[%d-%02d-%02d %02d:%02d:%02d]", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
+    snprintf(time, 128, "[\033[0;33m%d-%02d-%02d %02d:%02d:%02d\033[0m]", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
     snprintf(buffer, 256, "%s-%s-%s-%s-%i-%s", type, time, file, func, line, msg);
     char path[64];
     snprintf(path, 64, "log/%s.log", type);
@@ -163,3 +163,94 @@ void log_construct(LogType _type, const char* file, const char* func, int line, 
     printf("%s\n", buffer);
 #endif
 }
+
+void log_construct(PrizmProfile* _profile, LogType _type, const char* subtype, int category, const char* file, const char* func, int line, const char* msg) {
+    const char* type = log_get_label(_type);
+    char buffer[256];
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    char time[128];
+    snprintf(time, 128, "[\033[0;32m%d-%02d-%02d\033[0m \033[0;33m%02d:%02d:%02d\033[0m]", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
+    switch (category) {
+        case 0: 
+            snprintf(buffer, 256, "%s-%s-%s-%s-%i: %s-%s", type, time, file, func, line, subtype, msg);
+            break;
+        case 1: 
+            snprintf(buffer, 256, "%s-%s-%s-%s-%i:\033[0;31m%s\033[0m-%s", type, time, file, func, line, subtype, msg);
+            break;
+        case 2: 
+            snprintf(buffer, 256, "%s-%s-%s-%s-%i:\033[0;32m%s\033[0m-%s", type, time, file, func, line, subtype, msg);
+            break;
+        case 3: 
+            snprintf(buffer, 256, "%s-%s-%s-%s-%i:\033[0;33m%s\033[0m-%s", type, time, file, func, line, subtype, msg);
+            break;
+        case 4: 
+            snprintf(buffer, 256, "%s-%s-%s-%s-%i:\033[0;34m%s\033[0m-%s", type, time, file, func, line, subtype, msg);
+            break;
+        case 5: 
+            snprintf(buffer, 256, "%s-%s-%s-%s-%i:\033[0;35m%s\033[0m-%s", type, time, file, func, line, subtype, msg);
+            break;
+        case 6: 
+            snprintf(buffer, 256, "%s-%s-%s-%s-%i:\033[0;36m%s\033[0m-%s", type, time, file, func, line, subtype, msg);
+            break;
+    }
+    // profile_set_state(_profile, true, category);
+    // if (strcmp(subtype, "ERROR") == 0) {
+    //     snprintf(buffer, 256, "%s-%s-%s-%s-%i: \033[0;31m%s\033[0m-%s", type, time, file, func, line, subtype, msg);
+    // } else {
+    //     snprintf(buffer, 256, "%s-%s-%s-%s-%i: \033[0;35m%s\033[0m-%s", type, time, file, func, line, subtype, msg);
+    // }
+    char path[64];
+    snprintf(path, 64, "log/%s.log", type);
+    write_file(path, buffer);
+    if (strcmp(subtype, "ERROR") == 0) {
+        write_file("log/error.log", buffer);
+    }
+    write_file(path, buffer);
+    write_file("log/master.log", buffer);
+#ifdef VERBOSE
+    printf("%s\n", buffer);
+#endif
+}
+
+void profile_print(PrizmProfile* _profile) {
+    printf("Red: %i\n", _profile->red);
+    printf("Green: %i\n", _profile->green);
+    printf("Yellow: %i\n", _profile->yellow);
+    printf("Blue: %i\n", _profile->blue);
+    printf("Magenta: %i\n", _profile->magenta);
+    printf("Cyan: %i\n", _profile->cyan);
+}
+
+void profile_set_state(PrizmProfile* _profile, bool inc, int color) {
+    profile_print(_profile);
+    int mult;
+    (inc) ? mult = 1 : mult = -1;
+    pthread_mutex_lock(&profile_mutex);
+    switch (color) {
+        case 1:
+            _profile->red += 1;
+            break;
+        case 2:
+            SEGH
+            _profile->green += 1;
+            break;
+        case 3:
+            _profile->yellow += 1;
+            break;
+        case 4:
+            _profile->blue += 1;
+            break;
+        case 5:
+            _profile->magenta += 1;
+            break;
+        case 6:
+            _profile->cyan += 1;
+            break;
+        default:
+            break;
+    }
+    profile_print(_profile);
+    pthread_mutex_unlock(&profile_mutex);
+}
+

@@ -1,0 +1,107 @@
+<html>
+    <head>
+        <title>Jericho</title>
+        <link rel="stylesheet" href="../css/nebula.css" type="text/css" />
+        <link rel="stylesheet" href="../css/final.css" type="text/css" />
+    </head>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function(event) { 
+            let ajaxLinks = document.querySelectorAll("[data-role='link']");
+            ajaxLinks.forEach((el) => {
+                el.style.backgroundColor = "red";
+                let link = el.getAttribute("data-target");
+                el.innerText = link;
+                el.addEventListener("click", () => {
+                    let xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            document.getElementById("demo").innerHTML =
+                            this.responseText;
+                        }
+                    };
+                    xhttp.open("GET", "demo.txt", true);
+                    xhttp.send();
+                });
+            });
+        });
+
+    </script>
+    <body>
+        <header style="background-color:var(--blue);">
+            <div class="stage">
+                <nav id="navbar" class="nav-header">
+                    <span class="left">
+                        <b class="brand" style="color:white;padding:0px 10px;">
+                            Jericho <i class="fas fa-meteor"></i>
+                        </b>
+                        <ul class="right white command-menu">
+                            <li class="pl-5 pr-5" style="line-height:40px;"><a class="modal-button" href="#new-scene">New</a></li> 
+                            <li class="pl-5 pr-5" style="line-height:40px;" data-role="command" data-type="save">Save</li> 
+                            <li class="pl-5 pr-5" style="line-height:40px;"><a class="modal-button" href="#scene-modal">Open</a></li> 
+                            <li class="pl-5 pr-5" style="line-height:40px;" data-role="command" data-type="run">Run</li> 
+                            <li class="pl-5 pr-5" style="line-height:40px;" data-role="command" data-type="debug">Debug</li> 
+                            <li class="pl-5 pr-5" style="line-height:40px;" data-role="command" data-type="voice">Voice</li> 
+                            <li class="pl-5 pr-5" style="line-height:40px;" href="#environment-select">Environment</li> 
+                            <!-- <div id="environment-select" class="hover-dropdown">
+                                    <li href="production">production</li>
+                                    <li href="development">development</li>
+                                    <li href="development">staging</li>
+                                    <li href="development">testing</li>
+                                    <li href="development">hybrid</li>					
+                            </div> -->
+                        </ul>
+                    </span>
+                    <span><img id="starzoku-logo starzoku-logo-mobile" class="logo" src="https://starzoku.s3.amazonaws.com/favicon-32x32.png"/></span>
+                        <ul id="navbar" class="header-navbar right white">
+                        <li id="fullscreen-menu-trigger" data-role="toggle" href="#fullscreen-menu" class="trigger"><i class="fas fa-globe"></i> Menu</li>
+                        <li id="camera-trigger" data-role="hover-dropdown-trigger" class="trigger"><i class="fas fa-camera"></i> Camera</li>
+                        <li data-role="hover-dropdown-trigger" class="trigger" href="#environments"><i class="fas fa-globe"></i> Scene</li>
+                        <li data-role="page-trigger" data-type="page" href="#page-visualizer"><i class="fas fa-cogs"></i> Visualizer</li>
+                        <li id="current-scene" style="display:none;" data-value="scene"></li>
+                        <li><a class="modal-button" href="#settings-modal"><i class="fas fa-cogs"></i> Settings</a></li> 
+                        <li><a data-role="sidenav-trigger"><i class="fa fa-bars sidenav-trig"></i></a></li>
+                        </ul>
+                    </nav>
+            </div>
+        </header>
+        <style>
+            .left-menu {
+                position:fixed;
+                left:0px;
+                background-color:var(--grey);
+                height:100%;
+                width:200px;
+            }
+
+            .vertical-list {
+
+            }
+
+            .vertical-list li {
+                border:1px solid var(--black);
+            }
+        </style>
+        <div class="body">
+            <div class="left-menu pl-25 pt-25">
+                <H2 class="pm-0">Docs</H2>
+                <ol class="vertical-list">
+                    
+                </ol>
+            </div>
+            <div class="stage">
+                <div class="card">
+                    A
+                    <div id="demo">
+
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="header">B</div>
+                    <div class="content">
+                        <a class="bttn" data-role="link" data-target="assetross/index.html">Assetross</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body> 
+</html>

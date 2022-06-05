@@ -210,20 +210,32 @@ void send_400(Client* client) {
     // drop_client(client);
 }
 
+/** WARN: Max of 4096 may be too small */
 //probably something unsfe going on here
 void send_404(Client* client) {
     const char* c404 = "HTTP/1.1 404 Not Found\r\n"
-                    "Connection: close\r\n"
-                    "Content-length: 200\r\n\r\n";
-    printf("Size of c404 is: %i\n", (int)strlen(c404));
+                    "Connection: close\r\n";
+    DEBUG("Size of c404 is: %i\n", (int)strlen(c404));
     char* result = (char*)malloc(strlen(c404) + 4096);
     char buffer[4096];
-    printf("404 size of buffer: %i\n", (int)strlen(buffer));
+    DEBUG("404 size of buffer: %i\n", (int)strlen(buffer));
     strncpy(result, c404, strlen(c404));
-    BMAG("Result is: %s\n", result);
-    file_read("frontend/response/404.html", buffer);
+    DEBUG("Pre result is: %s\n", result);
+    file_read("./scaffold/response/404.html", buffer);
+    // printf("Buffer: %s\n", buffer);
+    char buffer2[4096];
+    int l = strlen(buffer);
+    int n = l;
+    int count = 0;
+    while(n!=0) {  
+       n=n/10;  
+       count++;  
+    }  
+    snprintf(buffer2, count + 30 + 1, "Content-length: %i\r\n\r\n", l);
+    strncat(result, buffer2, count + 30);
     strncat(result, buffer, strlen(buffer) + strlen(result));
-    BBLU("Result is: %s\n", result);
+    // printf("Result: %s\n", result);
+
     SSL_write(client->ssl, result, strlen(result));
     free(result);
     // drop_client(client);
@@ -242,7 +254,7 @@ void file_read(const char* path, char* buffer) {
     if (!fp) { PFAIL(ESERVER, "File does not exist!\n"); }
 
     size_t sz = file_size(fp);
-    printf("Buffer size is: %i\n", (int)sizeof(buffer));
+    DEBUG("Buffer size is: %i\n", (int)sizeof(buffer));
     if (sz > 4096) { PFAIL(ESERVER, "File is too large (4096 bytes is the limit)"); }
 
     char file[4096];
@@ -285,46 +297,48 @@ void send_response(Client* client, HttpResponseType hresponse) {
 }
 
 void post_resource(Client* conn, char* resource) {
-    GRE("resource: %s\n", resource);
+    DEBUG("resource: %s\n", resource);
     char* vals = strstr(resource, "\r\n\r\n");
     if (vals == NULL) {
-        BRED("SUBSTRING NOT FOUND!\n");
+        DEBUG("SUBSTRING NOT FOUND!\n");
         exit(1);
     }
-    printf("vals: %s\n", vals + 4);
+    DEBUG("vals: %s\n", vals + 4);
     int position = vals - resource;
-    printf("idx: %d\n", position);
+    DEBUG("idx: %d\n", position);
     char* valcopy = vals;
     char* token;
-    
+    PLOGV(LSERVER, "CGI", 3, "Resource: %s", resource);
+
     int number, statval;
     int child_pid;
-    printf("%d: I'm the parent !\n", getpid());
+    DEBUG("%d: I'm the parent !\n", getpid());
     child_pid = fork();
     if(child_pid == -1) { 
-        printf("could not fork! \n");
+        DEBUG("could not fork! \n");
         exit( 1 );
     } else if(child_pid == 0) {
         execl("./cgi/login.sh", valcopy);
     } else {
-        printf("PID %d: waiting for child\n", getpid());
+        DEBUG("PID %d: waiting for child\n", getpid());
         waitpid( child_pid, &statval, WUNTRACED
                     #ifdef WCONTINUED       /* Not all implementations support this */
                             | WCONTINUED
                     #endif
                     );
-        if(WIFEXITED(statval))
-            printf("Child's exit code %d\n", WEXITSTATUS(statval));
-        else
-            printf("Child did not terminate with exit\n");
+        if(WIFEXITED(statval)) {
+            DEBUG("Child's exit code %d\n", WEXITSTATUS(statval));
+        } else {
+            DEBUG("Child did not terminate with exit\n");
+        }
     }
 }
 
 void serve_resource(Client* conn, const char* path) {
     char addr_buffer[16];
     client_get_address(conn, addr_buffer);
-    BLU("serve_resource %s %s\n", addr_buffer, path);
-
+    PLOGV(LSERVER, "RESOURCE", 6, "Serving resource: %s", path);
+    
     // if at root file
     if (strcmp(path, "/") == 0) path = "/index.html";
 
@@ -362,6 +376,7 @@ void serve_resource(Client* conn, const char* path) {
     FILE* fp = fopen(full_path, "rb"); // open file, set fds to read in bytes
 
     if (!fp) {
+        PLOGV(LSERVER, "RESOURCE", 1, "Can not serve file does not exist");
         send_404(conn); // file does not exist
         return;
     }

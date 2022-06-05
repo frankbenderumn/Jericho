@@ -86,7 +86,7 @@ int do_close(Frame *frame, int close_code) {
 			PERR(ESERVER, "An error has occurred while sending closing frame!\n");
 			return -1;
 		}
-		BRED("CUSTOM CLOSE SEGF\n");
+		DEBUG("CUSTOM CLOSE SEGF\n");
 		return (0);
 	}
 
@@ -96,6 +96,6 @@ send:
 		PERR(ESERVER, "An error has occurred while sending closing frame!\n");
 		return -1;
 	}
-	BRED("SEND SEGF\n");
+	DEBUG("SEND SEGF\n");
 	return (0);
 }

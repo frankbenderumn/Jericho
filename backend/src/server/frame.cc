@@ -109,8 +109,8 @@ static inline int next_byte(Frame *frame) {
 		// 	return (-1);
 		// }
 		frame->received = (size_t)(strlen(frame->client->request) + 1);
-		printf("Next byte: %s\n", (char*)frame->request);
-		printf("Frame received: %i\n", (int)frame->received);
+		DEBUG("Next byte: %s\n", (char*)frame->request);
+		DEBUG("Frame received: %i\n", (int)frame->received);
 		// frame->received = 0;
 		// frame->cur_pos = 0;
 	}
@@ -243,7 +243,7 @@ int next_frame(Frame* frame) {
 	/* Read until find a FIN or a unsupported frame. */
 	do {
 		cur_byte = next_byte(frame);
-		printf("Next byte\n");
+		DEBUG("Next byte\n");
 		if (cur_byte == -1) { PERR(ESERVER, "Can't read next byte"); return -1; }
 
 		is_fin = (cur_byte & 0xFF) >> FRAME_FIN;

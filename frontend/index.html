@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Project Nebula</title>
+        <link rel="stylesheet" href="css/nebula.css" type="text/css" />   
+    </head>
+    GET SOME
+    <body>
+        <header>
+            <brand class="white">Project Nebula</brand> 
+        </header>
+        Getting somewhere
+        <script type="text/javascript">
+            document.addEventListener("DOMContentLoaded", function(event) { 
+                let socket;
+                socketTest();
+                let open = false;
+                document.getElementById("web-socket").addEventListener("click", function() {
+                    if (!open) {
+                        socketTest();
+                        open = true;
+                    } else {
+                        socket.close(1000);
+                        open = false;
+                    }
+                });
+
+                document.getElementById("send-socket").addEventListener("click", function() {
+                    let s = JSON.stringify({route: "new", function: "main"});
+                    socket.send(s);
+                });
+
+                function socketTest() {
+                    socket = new WebSocket("wss://localhost:8080");
+                    socket.open = () => { socket.send("{hello: \"Message to send.\"}"); };
+                    socket.onmessage = (e) => {
+                        console.log("MESSAGE RECEIVED");
+                        // let received = e.data;
+                        // console.log(`%c Message Received: ${received}`, "color: green");
+                    };
+
+                    socket.onclose = () => { console.log("Connection is closed."); }
+                    socket.onerror = (error) => { console.log(error); }
+                }
+
+                let views = document.getElementsByClassName("eagle-eye")[0].children;
+                for (let child of views) {
+                    if (child.className == "eagle-view") {
+                        child.addEventListener("hover", () => {
+                            this.style.width="100%";
+                        });
+                    }
+                };
+
+            });
+
+        </script>
+        <div class="container" style="position:absolute;top:100px;">
+        <button id="web-socket">
+            Toggle Web Socket Connection
+        </button>
+        <button id="send-socket">
+            Send message to server
+        </button>
+
+        <style>
+            .web-logo {
+                border-radius:10px;
+                width:300px;
+                height:150px;
+                line-height:150px;
+                text-align:center;
+                font-size:1.5rem;
+                background-color:var(--black);
+                color:white;
+                margin:5px;
+                float:left;
+                background-size:cover;
+                border:2px solid var(--grey);
+            }
+
+            .web-logo:hover {
+                box-shadow:var(--shadow);
+                background-color:var(--grey);
+                transition: 0.2s;
+                border:2px solid var(--blue);
+            }
+
+            .stocket-img { background-image:url('assets/images/stocketWindow.png'); }
+            .quantizmo-img { background-image:url('assets/images/quantizmo_title.jpg'); }
+            .starzoku-img { background-image:url('assets/images/starzoku.png'); }
+
+        </style>
+
+        <div class="eagle-eye">
+            <a href="nebula/index.html" class="web-logo eagle-view">NebulaUI</a>
+            <a href="stocket/index.html" class="web-logo eagle-view stocket-img"></a>
+            <a href="assetross/index.html" class="web-logo eagle-view">Assetross</a>
+            <a href="iris/index.html" class="web-logo eagle-view">Iris</a>
+            <a href="jericho/index.html" class="web-logo eagle-view">Jericho</a>
+            <a href="quantizmo/index.html" class="web-logo eagle-view quantizmo-img">Quantizmo</a>
+            <a href="joeybenz/index.html" class="web-logo eagle-view">JoeyBenz</a>
+            <a href="eden/index.html" class="web-logo eagle-view">Eden</a>
+            <a href="starzoku/index.html" class="web-logo eagle-view starzoku-img"></a>
+            <a href="tillas/index.html" class="web-logo eagle-view">TillasHermanos</a>
+            <a href="hostbender/index.html" class="web-logo eagle-view">HostBender</a>
+            <a href="prizm/index.html" class="web-logo eagle-view">Prizm</a>
+            <a href="checkmate/index.html" class="web-logo eagle-view">Checkmate</a>
+            <a href="calorme/index.html" class="web-logo eagle-view">Calorme</a>
+            <a href="test.html" class="web-logo eagle-view">Test</a>
+        </div>
+    </body>
+</html>

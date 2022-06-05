@@ -83,6 +83,8 @@ typedef enum SocketState {
     SOCKST_OPEN_STATIC,
     SOCKST_OPEN_WS,
     SOCKST_UPGRADING,
+    SOCKST_UDP,
+    SOCKST_PEER,
     SOCKST_ALIVE,
     SOCKST_CLOSED
 } SocketState;
@@ -140,6 +142,7 @@ struct Client {
     int received; // bytes received
     struct Client* next; // next client in list
     SocketState state;
+    int port;
     pthread_mutex_t state_mutex;
     pthread_mutex_t grade_mutex;
     bool grade;

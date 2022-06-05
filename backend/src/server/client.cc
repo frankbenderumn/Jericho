@@ -115,9 +115,7 @@ fd_set wait_on_clients(SOCKET server, Client** clients) {
     // params: (num of fds + 1, read fds, write fds, exceptional conditions fds, timeout for blocking)
     // use pselect with 6th param for sigmask to ignore certain signals on threads
     if (select(max_socket + 1, &reads, 0, 0, 0) < 0) {
-        // fprintf(stderr, "select() failed. (%d)\n", GETSOCKETERRNO());
-        // exit(1);
-        PFAIL(ESERVER, "select() failed");
+        PFAIL(ESERVER, "select() failed (%d)\n", SOCKERR());
     }
 
     return reads;

@@ -16,6 +16,7 @@ Worker* worker_create(__ThreadFn fn, Any arg) {
 }
 
 void worker_destroy(Worker* worker) {
+    DEBUG("Destroying worker!\n");
     if (worker == NULL) {
         PERR(ENULL, "Worker does not exist!");
     }
@@ -124,7 +125,7 @@ ThreadPool* thread_pool_create(size_t num) {
 }
 
 void thread_pool_destroy(ThreadPool* tpool) {
-    printf("Destroying thread pool!\n");
+    YEL("Destroying thread pool!\n");
     Worker* worker1;
     Worker* worker2;
 
@@ -156,7 +157,7 @@ void thread_pool_destroy(ThreadPool* tpool) {
 
 // dispatcher
 bool thread_pool_add(ThreadPool* tpool, __ThreadFn fn, Any arg) {
-    printf("Adding worker to thread pool!\n");
+    DEBUG("Adding worker to thread pool!\n");
     Worker* worker;
 
     if (tpool == NULL) {
@@ -193,7 +194,7 @@ void thread_pool_wait(ThreadPool* tpool) {
 
     pthread_mutex_lock(&(tpool->worker_mutex));
     while (1) {
-        printf("Thread pool waiting!\n");
+        DEBUG("Thread pool waiting!\n");
         if ((!tpool->shutdown && tpool->working_count != 0) || (tpool->shutdown && tpool->thread_count != 0)) {
             pthread_cond_wait(&(tpool->working_cond), &(tpool->worker_mutex));
         } else {

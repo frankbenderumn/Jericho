@@ -2,8 +2,7 @@
 
 extern EventManager event_manager;
 
-int handshake_key(char *wsKey, unsigned char **dest)
-{
+int handshake_key(char *wsKey, unsigned char **dest) {
 	unsigned char hash[SHA1HashSize]; /* SHA-1 Hash.                   */
 	SHA1Context ctx;                  /* SHA-1 Context.                */
 	char *str;                        /* WebSocket key + magic string. */
@@ -41,9 +40,8 @@ int handshake_key(char *wsKey, unsigned char **dest)
  * for completeness.
  */
 
-int handshake(char *hsrequest, char **hsresponse)
-{
-	BCYA("Handshaking\n");
+int handshake(char *hsrequest, char **hsresponse) {
+	DEBUG("Handshaking\n");
 	unsigned char *accept; /* Accept message.     */
 	char *saveptr;         /* strtok_r() pointer. */
 	char *s;               /* Current string.     */
@@ -109,12 +107,12 @@ int upgrade(Frame* frame) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-    BBLU("Accept key is: %s\n", (char*)accept);
-    BLU("Size of is: %i\n", (int)strlen((char*)accept));
+    DEBUG("Accept key is: %s\n", (char*)accept);
+    DEBUG("Size of is: %i\n", (int)strlen((char*)accept));
 
 	response = (char*)malloc(sizeof(char) * ACCEPT_LEN);
 	if (response == NULL) {
-        printf("Failed request: %s\n", (const char*)frame->request);
+        DEBUG("Failed request: %s\n", (const char*)frame->request);
         PERR(ESERVER, "Cannot get handshake response");
         return -1;
     }
@@ -132,7 +130,7 @@ int upgrade(Frame* frame) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/* Valid request. */
-	printf("Handshaked, response: \n"
+	DEBUG("Handshaked, response: \n"
 		  "------------------------------------\n"
             "%s"
 		  "------------------------------------\n",
@@ -140,7 +138,7 @@ int upgrade(Frame* frame) {
 
     // strcat(response, "sUBSUSusush");
 
-    printf("RESPONSE SIZE IS: %i", (int)strlen(response));
+    DEBUG("RESPONSE SIZE IS: %i", (int)strlen(response));
 
 	/* Send handshake. */
 	if (broadcast(frame->client, response, strlen(response), 0) < 0) {
@@ -149,10 +147,7 @@ int upgrade(Frame* frame) {
 		return -1;
 	}
 
-    // do_pong(frame, strlen(frame->payload), FRAM)
-
 	// Trigger events and clean up buffers
-    GRE("YIPPEE KI YAE!\n");
 	event_manager.open(frame->client);
 	free(response);
 	return 0;

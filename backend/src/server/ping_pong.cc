@@ -41,7 +41,7 @@ static void send_ping_close(Client* client, int threshold, int lock) {
 		// Check previous PONG: if greater than threshold, abort.
 		if ((client->current_ping_id - client->last_pong_id) > threshold)
 			// close_client(client, lock);
-			BBLU("STUB: SENDING PING CLOSE\n");
+			DEBUG("STUB: SENDING PING CLOSE\n");
 
 	pthread_mutex_unlock(&client->ping_mutex);
 }

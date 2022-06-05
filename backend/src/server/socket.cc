@@ -14,7 +14,7 @@ void socket_close(int fd) {
 extern EventManager event_manager;
 
 SOCKET socket_create(const char* host, int port, int reuse, int family, int socktype) {
-    YEL("Configuring local address...\n");
+    DEBUG("Configuring local address...\n");
     struct addrinfo hints;
     memset(&hints, 0, sizeof(hints));
     hints.ai_family = AF_INET; // use AF_INET6 for IPv6 (websockets dont work with IPv6)
@@ -27,7 +27,7 @@ SOCKET socket_create(const char* host, int port, int reuse, int family, int sock
     getaddrinfo(host, cport, &hints, &bind_address);  // address to bind to
 
     // create the socket
-    printf("Creating socket...\n");
+    DEBUG("Creating socket...\n");
     SOCKET sock = socket(bind_address->ai_family, bind_address->ai_socktype, 
                                     bind_address->ai_protocol);
 
@@ -56,18 +56,17 @@ SOCKET socket_create(const char* host, int port, int reuse, int family, int sock
     }
 
     //  bind the socket to local address
-    printf("Binding socket to local address...\n");
+    DEBUG("Binding socket to local address...\n");
     if (bind(sock, bind_address->ai_addr, bind_address->ai_addrlen)) {
         PFAIL(ESERVER, "bind() failed."); // maybe change for vargs preprocess PFAIL(...) __VA_ARGS__
     }
     freeaddrinfo(bind_address);
 
     // set to listen for a conn
-    printf("Listening...\n");
+    DEBUG("Listening...\n");
     if (listen(sock, 10) < 0) {
         PFAIL(ESERVER, "listen() failed with thread_pool 5000");
     }
-    clearcolor();
 
     // YEL("Adding socket to server set\n");
     // /* Add the socket to the server's set of active sockets */
@@ -161,8 +160,8 @@ char* socket_key(const char* subkey) {
     // const char* magic = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
     // char* ext = b64_encode((const unsigned char*)"258EAFA5-E914-47DA-95CA-C5AB0DC85B11", strlen(base_digest));
     // yellow(); clearcolor();
-    purple(); printf("GOAL: %s\n", goal); clearcolor();
-    purple(); printf("BASE_DIGEST: %s\n", result); clearcolor();
+    DEBUG("GOAL: %s\n", goal);
+    DEBUG("BASE_DIGEST: %s\n", result);
     // if (strcmp(base_digest, goal) == 0) {
     //     bold(); green();
     //     printf("SUCCESS!!!!!\n");
@@ -174,8 +173,8 @@ char* socket_key(const char* subkey) {
 void handshake_response(Client* client, const char* path, const char* subkey) {
     const char* key = socket_key(subkey);
     // static test cases
-    printf("COMPARE: %s = %s\n", key, "SGVsbG8gV29ybGQh");
-    printf("COMPARE: %s = %s\n", key, "s3pPLMBiTxaQ9kYGzzhZRbK+xOo=");
+    DEBUG("COMPARE: %s = %s\n", key, "SGVsbG8gV29ybGQh");
+    DEBUG("COMPARE: %s = %s\n", key, "s3pPLMBiTxaQ9kYGzzhZRbK+xOo=");
     // Hello World! ->(Base64) SGVsbG8gV29ybGQh
     // 2nd one is for magic string websocket handshake
     char* buf = (char*)calloc(1, 75 + 50);

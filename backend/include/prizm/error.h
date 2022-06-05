@@ -89,6 +89,15 @@ typedef struct Err {
     char func[256];
 } Err;
 
+typedef struct PrizmProfile {
+    int red;
+    int green;
+    int yellow;
+    int blue;
+    int magenta;
+    int cyan;
+} PrizmProfile;
+
 void err_set_file(Err* err, const char* file);
 void err_set_msg(Err* err, const char* msg);
 void err_set_func(Err* err, const char* func);
@@ -96,6 +105,9 @@ void err_print(Err* err, int error);
 void err_construct(Err* err, ErrType type, const char* file, const char* func, 
                 int line, const char* msg);
 void log_construct(LogType _type, const char* file, const char* func, int line, const char* msg);
+void log_construct(PrizmProfile* profile, LogType _type, const char* subtype, int type, const char* file, const char* func, int line, const char* msg);
+void profile_set_state(PrizmProfile* profile, bool inc, int color);
+void profile_print(PrizmProfile* _profile);
 
 static int seg_helper = 0;
 
@@ -104,13 +116,36 @@ static int seg_helper = 0;
 static Err* err;
 static char error_buffer[ERR_BUF_SIZE];
 static pthread_mutex_t error_mutex = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t profile_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 // heap allocation of err may be too slow?
+
+static PrizmProfile* profile;
+
+#define PINIT \
+    YEL("Starting prizm profile...\n"); \
+    profile = (PrizmProfile*)calloc(1, sizeof(PrizmProfile)); \
+    profile->red = 0; \
+    profile->green = 0; \
+    profile->yellow = 0; \
+    profile->blue = 0; \
+    profile->magenta = 0; \
+    profile->cyan = 0;
+
+#define PSHUTDOWN \
+    YEL("Terminating prizm profile...\n"); \
+    free(profile);
 
 #define PLOG(_type, ...) \
     err = (Err*)malloc(sizeof(Err)); \
     snprintf(error_buffer, ERR_BUF_SIZE, __VA_ARGS__); \
     log_construct(_type, __FILE__, __PRETTY_FUNCTION__, __LINE__, error_buffer); \
+    free(err);
+
+#define PLOGV(_type, _subtype, _cat, ...) \
+    err = (Err*)malloc(sizeof(Err)); \
+    snprintf(error_buffer, ERR_BUF_SIZE, __VA_ARGS__); \
+    log_construct(profile, _type, _subtype, _cat, __FILE__, __PRETTY_FUNCTION__, __LINE__, error_buffer); \
     free(err);
 
 #define PERR(_type, ...) \
@@ -157,7 +192,6 @@ static pthread_mutex_t error_mutex = PTHREAD_MUTEX_INITIALIZER;
     free(err); \
     pthread_mutex_unlock(&error_mutex);
 
-#define _DEBUG
 
 #ifdef _DEBUG
 #define DEBUG(...) \

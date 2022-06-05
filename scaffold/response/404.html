@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <title>Jericho Infrastructure</title>
+        <link rel="stylesheet" href="https://localhost:8080/css/nebula.css" type="text/css" />   
+        <link rel="stylesheet" href="https://localhost:8080/css/final.css" type="text/css" />   
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js" integrity="sha512-334uBDwY0iZ2TklV1OtDtBW9vp7jjP7SWRzT7Ehu1fdtPIjTpCwTSFb8HI/YBau9L1/kRBEOALrS229Kry4yFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    </head>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "../jsm/quantizmo/three.module.js"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as Quantizmo from '../jsm/quantizmo/main.js';
+        import { FontLoader } from 'https://unpkg.com/three@0.137.0/examples/jsm/loaders/FontLoader.js';
+        import { TextGeometry } from 'https://unpkg.com/three@0.137.0/examples/jsm/geometries/TextGeometry.js';
+        Quantizmo.main();
+        const geometry = new THREE.BoxGeometry( 10, 10, 10 );
+        const material = new THREE.MeshLambertMaterial( {color: 0x2a4b6e} );
+        const cube = new THREE.Mesh( geometry, material );
+        cube.update = (dt) => {
+            this.rotation.x += 1 * dt;
+        }
+        const loader = new FontLoader();
+        loader.load( 'https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function ( font ) {
+            const textGeo = new TextGeometry( 'Coming Soon!', {
+                font: font,
+                size: 80,
+                height: 5,
+                curveSegments: 12,
+                bevelEnabled: true,
+                bevelThickness: 10,
+                bevelSize: 8,
+                bevelOffset: 0,
+                bevelSegments: 5
+            } );
+            textGeo.computeBoundingBox();
+            const centerOffset = - 0.5 * ( textGeo.boundingBox.max.x - textGeo.boundingBox.min.x );
+            let textMesh = new THREE.Mesh( textGeo, material );
+            textMesh.position.x = centerOffset;
+            let pivot = new THREE.Object3D();
+            pivot.add(textMesh);
+            pivot.update = (dt) => {
+                pivot.rotation.y += 2 * dt;
+            };
+            Quantizmo.add(pivot);
+        } );
+    </script>
+    <body>
+        <header class="header asphalt-bg">
+            <div class="stage">
+                <brand class="white">Project Nebula</brand> 
+            </div>
+        </header>
+        <div class="body">
+        </div>
+        <div id="scene-container" style="border:1px solid var(--red);position:absolute;height:100%;width:100%;"></div>
+    </body>
+</html> 

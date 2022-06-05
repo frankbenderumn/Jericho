@@ -16,12 +16,13 @@
 #define SERVER_SERVER_H_
 
 #include "server/defs.h"
-#include "server/event.h"
 #include "server/socket.h"
 #include "server/frame.h"
 #include "server/ping_pong.h"
 #include "server/shutdown.h"
 #include "server/client.h"
+#include "server/event.h"
+#include "server/peer.h"
 
 extern EventManager event_manager;
 

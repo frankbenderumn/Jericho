@@ -1,7 +1,7 @@
 #include "server/server.h"
 
 int link(Frame* frame, Client* client) {
-    BCYA("Linking...\n");
+    DEBUG("Linking...\n");
 	char* response; /* Handshake response message. */
 
     // ssize_t n;
@@ -15,7 +15,7 @@ int link(Frame* frame, Client* client) {
     sprintf(tbuffer, "Client request is: %s\n", frame->request);
     write_thread(frame->client->socket, tbuffer);
 
-	BYEL("Request: %s\n", (char*)frame->request);
+	DEBUG("Request: %s\n", (char*)frame->request);
 
 	/* Advance our pointers before the first next_byte(). */
 	const char* p = strstr((const char *)frame->request, "\r\n\r\n");
@@ -27,8 +27,8 @@ int link(Frame* frame, Client* client) {
 	frame->cur_pos = (size_t)((ptrdiff_t)(p - (char *)frame->request)) + 4;
 	frame->received = frame->cur_pos;
 
-	BYEL("FRAME bytes received: %i\n", (int)frame->received);
-	BYEL("FRAME current position: %i\n", (int)frame->cur_pos);
+	DEBUG("FRAME bytes received: %i\n", (int)frame->received);
+	DEBUG("FRAME current position: %i\n", (int)frame->cur_pos);
 
 	response = (char*)malloc(sizeof(char) * ACCEPT_LEN);
 	if (handshake((char *)frame->request, &response) < 0) {
@@ -36,7 +36,7 @@ int link(Frame* frame, Client* client) {
 		return (-1);
 	}
 
-	printf("Handshaked, response: \n"
+	DEBUG("Handshaked, response: \n"
 		"------------------------------------\n"
 		"%s"
 		"------------------------------------\n",
@@ -44,7 +44,7 @@ int link(Frame* frame, Client* client) {
 
     // strcat(response, "sUBSUSusush");
 
-    printf("RESPONSE SIZE IS: %i\n", (int)strlen(response) + 1);
+    DEBUG("RESPONSE SIZE IS: %i\n", (int)strlen(response) + 1);
 
 	/* Send handshake. */
 	if (broadcast(frame->client, response, strlen(response), 0) < 0) {
@@ -78,7 +78,7 @@ void recv_websocket(Any arg) {
 	while (next_frame(&frame) >= 0 && client_get_state(frame.client) == SOCKST_OPEN_WS) {
 	// 	/* Text/binary event. */
 		if ((frame.type == FRAME_TXT || frame.type == FRAME_BIN) && !frame.error) {
-			BGRE("Receiving Message\n");
+			DEBUG("Receiving Message\n");
 			event_manager.message(frame.client, frame.message, frame.size, frame.type);
 		}
 		/* Close event. */
@@ -89,7 +89,7 @@ void recv_websocket(Any arg) {
 			 */
 			if (client_get_state(client) != SOCKST_CLOSING) {
 				client_set_state(client, SOCKST_CLOSING);
-				BYEL("CLOSE FRAME RECEIVED!\n");
+				DEBUG("CLOSE FRAME RECEIVED!\n");
 				/* We only send a close frameSend close frame */
 				return;
 				// do_close(&frame, -1);
@@ -98,7 +98,7 @@ void recv_websocket(Any arg) {
 			break;			
         }
 		// free(frame.message);
-		BMAG("LEN OF REQUEST: %i\n", (int)strlen(frame.client->request));
+		DEBUG("LEN OF REQUEST: %i\n", (int)strlen(frame.client->request));
 		memset(frame.client->request, 0, sizeof(client->request));
 		frame.client->received = 0;
 	}
@@ -117,7 +117,7 @@ void connect(void* targ) {
 	frame.request[2048] = (unsigned char)'\0';
 	frame.received = client->received;
 
-	printf("Frame client fd: %i\n", frame.client->socket);
+	DEBUG("Frame client fd: %i\n", frame.client->socket);
 	
 
 	DEBUG("Connecting client...\n");
@@ -132,7 +132,7 @@ void connect(void* targ) {
 	ws_sendframe_txt(frame.client, "Web sockets enabled!");
 	memset(frame.client->request, 0, sizeof(client->request));
 	frame.client->received = 0;
-	BMAG("STARTING WEBSOCKET!\n");
+	DEBUG("STARTING WEBSOCKET!\n");
 	/*
 	 * on_close events always occur, whether for client closure
 	 * or server closure, as the server is expected to
