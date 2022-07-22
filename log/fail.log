@@ -1,0 +1,48 @@
+FAIL-1653026511-backend/cpp/src/server_pthread.cc-int get_client_state(Client*)-643 :: Invalid socket called
+FAIL-1653026559-backend/cpp/src/server_pthread.cc-int get_client_state(Client*)-643 :: Invalid socket called
+FAIL-1653026593-backend/cpp/src/server_pthread.cc-int get_client_state(Client*)-643 :: Invalid socket called
+FAIL-1653027010-backend/cpp/src/server_pthread.cc-int get_client_state(Client*)-643 :: Invalid socket called
+FAIL-1653027045-backend/cpp/src/server_pthread.cc-int get_client_state(Client*)-643 :: Invalid socket called
+FAIL-1653027094-backend/cpp/src/server_pthread.cc-int get_client_state(Client*)-643 :: Invalid socket called
+FAIL-1653028943-backend/cpp/src/server_pthread.cc-int get_client_state(Client*)-643 :: Invalid socket called
+FAIL-1653028985-backend/cpp/src/server_pthread.cc-int get_client_state(Client*)-643 :: Invalid socket called
+FAIL-1653029212-backend/cpp/src/server_pthread.cc-int get_client_state(Client*)-643 :: Invalid socket called
+FAIL-1653065004-backend/cpp/src/server_pthread.cc-int get_client_state(Client*)-643 :: Invalid socket called
+FAIL-1653065338-backend/cpp/src/server_pthread.cc-int get_client_state(Client*)-643 :: Invalid socket called
+FAIL-1653065353-backend/cpp/src/server_pthread.cc-int get_client_state(Client*)-643 :: Invalid socket called
+FAIL-1653065538-backend/cpp/src/server_pthread.cc-int get_client_state(Client*)-643 :: Invalid socket called
+FAIL-1653066389-backend/cpp/src/server_pthread.cc-int get_client_state(Client*)-643 :: Invalid socket called
+FAIL-1653066481-backend/cpp/src/server_pthread.cc-int get_client_state(Client*)-643 :: Invalid socket called
+FAIL-1653067494-backend/cpp/src/server_pthread.cc-int get_client_state(Client*)-643 :: Invalid socket called
+FAIL-1653071473-backend/cpp/src/server_pthread.cc-int get_client_state(Client*)-644 :: Invalid socket called
+FAIL-1653071514-backend/cpp/src/server_pthread.cc-int get_client_state(Client*)-644 :: Invalid socket called
+FAIL-1653071543-backend/cpp/src/server_pthread.cc-int get_client_state(Client*)-644 :: Invalid socket called
+FAIL-1653071590-backend/cpp/src/server_pthread.cc-int get_client_state(Client*)-644 :: Invalid socket called
+FAIL-[2022-05-22 00:07:41]-backend/cpp/src/server/socket.cc-int socket_create(const char*, const char*, int)-44-bind() failed.
+FAIL-[2022-05-22 00:12:24]-backend/cpp/src/server/socket.cc-int socket_create(const char*, const char*, int)-44-bind() failed.
+FAIL-[2022-05-22 01:19:57]-backend/cpp/src/server/server.cc-void connect(void*)-15-HANDSHAKE return -1
+FAIL-[2022-05-22 01:19:57]-backend/cpp/src/server/server.cc-void connect(void*)-15-HANDSHAKE return -1
+FAIL-[2022-05-22 01:25:57]-backend/cpp/src/server/server.cc-void connect(void*)-15-HANDSHAKE return -1
+FAIL-[2022-05-22 01:25:57]-backend/cpp/src/server/server.cc-void connect(void*)-15-HANDSHAKE return -1
+FAIL-[2022-05-22 03:58:10]-backend/cpp/src/server/socket.cc-int socket_create(const char*, const char*, int)-44-bind() failed.
+FAIL-[2022-05-22 04:38:01]-backend/cpp/src/server/connection.cc-SocketState conn_get_state(Conn*)-105-Not a valid socket!
+FAIL-[2022-05-22 04:38:39]-backend/cpp/src/server/connection.cc-SocketState conn_get_state(Conn*)-105-Not a valid socket!
+FAIL-[2022-05-22 17:26:06]-backend/cpp/src/main.cc-void socket_create(int, int)-205-bind() failed.
+FAIL-[2022-05-22 17:26:25]-backend/cpp/src/main.cc-void socket_create(int, int)-205-bind() failed.
+FAIL-[2022-05-22 17:31:31]-backend/cpp/src/main.cc-void socket_create(int, int)-205-bind() failed.
+FAIL-[2022-05-22 17:31:49]-backend/cpp/src/main.cc-void socket_create(int, int)-205-bind() failed.
+FAIL-[2022-05-22 17:32:06]-backend/cpp/src/main.cc-void socket_create(int, int)-205-bind() failed.
+FAIL-[2022-05-22 19:13:00]-backend/cpp/src/main.cc-int socket_create(const char*, int, int)-98-bind() failed.
+FAIL-[2022-05-22 19:17:44]-backend/cpp/src/server/connection.cc-void conn_set_address(Conn*)-55-Invalid peer name
+FAIL-[2022-05-22 19:44:07]-backend/cpp/src/main.cc-fd_set wait_on_clients(int)-201-select() failed
+FAIL-[2022-05-22 19:54:28]-backend/cpp/src/main.cc-fd_set wait_on_clients(int)-201-select() failed
+FAIL-[2022-05-22 20:03:48]-backend/cpp/src/main.cc-int socket_create(const char*, int, int)-80-bind() failed.
+FAIL-[2022-05-22 20:25:35]-backend/cpp/src/main.cc-fd_set wait_on_clients(int)-202-select() failed
+FAIL-[2022-05-22 20:26:59]-backend/cpp/src/main.cc-fd_set wait_on_clients(int)-202-select() failed
+FAIL-[2022-05-22 20:41:25]-backend/cpp/src/main.cc-fd_set wait_on_clients(int)-202-select() failed
+FAIL-[2022-05-22 22:36:54]-backend/cpp/src/server/client.cc-fd_set wait_on_clients(int, Client**)-166-select() failed
+FAIL-[2022-05-22 23:00:01]-backend/cpp/src/server/client.cc-fd_set wait_on_clients(int, Client**)-166-select() failed
+FAIL-[2022-05-25 23:37:28]-backend/cpp/src/server/client.cc-int socket_create(const char*, int, int)-44-bind() failed.
+FAIL-[2022-05-28 17:57:17]-backend/src/server/response.cc-void file_read(const char*, char*)-238-File is too large (4096 bytes is the limit)
+FAIL-[2022-05-28 17:58:23]-backend/src/server/response.cc-void file_read(const char*, char*)-239-File is too large (4096 bytes is the limit)
+FAIL-[2022-05-28 18:00:05]-backend/src/server/response.cc-void file_read(const char*, char*)-240-File is too large (4096 bytes is the limit)

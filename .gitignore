@@ -1,0 +1,6 @@
+*.pem
+frontend/assets/models/*
+frontend/*
+deps/*
+psql-data/*
+psql-install/*
