@@ -46,3 +46,9 @@ FAIL-[2022-05-25 23:37:28]-backend/cpp/src/server/client.cc-int socket_create(co
 FAIL-[2022-05-28 17:57:17]-backend/src/server/response.cc-void file_read(const char*, char*)-238-File is too large (4096 bytes is the limit)
 FAIL-[2022-05-28 17:58:23]-backend/src/server/response.cc-void file_read(const char*, char*)-239-File is too large (4096 bytes is the limit)
 FAIL-[2022-05-28 18:00:05]-backend/src/server/response.cc-void file_read(const char*, char*)-240-File is too large (4096 bytes is the limit)
+FAIL-[2022-07-23 14:21:17]-src/server/response.cc-void file_read(const char*, char*)-242-File does not exist!
+
+FAIL-[[0;33m2022-07-26 09:51:54[0m]-/mnt/d/jericho2/src/server/response.cc-void file_read(const char*, char*)-242-File does not exist!
+
+FAIL-[[0;33m2022-07-26 23:24:35[0m]-/mnt/d/jericho2/src/server/response.cc-void file_read(const char*, char*)-242-File does not exist!
+
