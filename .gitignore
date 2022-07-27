@@ -4,3 +4,16 @@ frontend/*
 deps/*
 psql-data/*
 psql-install/*
+archive/*
+build/*
+config/tokens
+config/device
+config/settings
+ext/openssl
+ext/openssl-source
+ext/prizm-cxx
+cmake/*
+export/*
+comet/*
+build/*
+build/obj/*
