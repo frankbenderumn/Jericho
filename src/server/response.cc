@@ -1,206 +1,12 @@
 #include "server/response.h"
+#include "server/resource.h"
 #include <sys/wait.h>
 
-const char* http_response[] = {
-    // Accepted
-    "200 OK",
-    "201 Created",
-    "202 Accepted",
-    "203 Non-Authorization Information",
-    "204 No Content",
-    "205 Reset Content",
-    "206 Partial Content",
-    // Redirection
-    "300 Multiple Choices",
-    "301 Moved Permanently",
-    "302 Found",
-    "303 See Other",
-    "304 Not Modified",
-    "305 Use Proxy",
-    "306 (Unused)",
-    "307 Temporary Direct",
-    // Client Error
-    "400 Bad Request",
-    "401 Unauthorized",
-    "402 Payment Required",
-    "403 Forbidden",
-    "404 Not Found",
-    "405 Method Not Allowed",
-    "406 Not Acceptable",
-    "407 Proxy Authentication Required",
-    "408 Request Timeout",
-    "409 Conflict",
-    "410 Gone",
-    "411 Length Required",
-    "412 Precondition Failed",
-    "413 Request Entity Too Large",
-    "414 Request-Uri Too Long",
-    "415 Unsupported Media Type",
-    "416 Requested Range Not Satisfiable",
-    "417 Expectation Failed",
-    // Server Error
-    "500 Internal Server Error",
-    "501 Not Implemented",
-    "502 Bad Gateway",
-    "503 Service Unavailable",
-    "504 Gateway Timeout",
-    "505 HTTP Version Not Unsupported"
-};
-
-const char* http_header[92] = {
-"Accept",
-"Accept-CH",
-// "ExperimentalNon-StandardDeprecated"
-// "Accept-CH-Lifetime"
-"Accept-Charset",
-"Accept-Encoding",
-"Accept-Language",
-"Accept-Patch",
-"Accept-Post",
-"Accept-Ranges",
-"Access-Control-Allow-Credentials",
-"Access-Control-Allow-Headers",
-"Access-Control-Allow-Methods",
-"Access-Control-Allow-Origin",
-"Access-Control-Expose-Headers",
-"Access-Control-Max-Age",
-"Access-Control-Request-Headers",
-"Access-Control-Request-Method",
-"Age",
-"Allow",
-"Alt-Svc",
-"Authorization",
-"Cache-Control",
-"Clear-Site-Data",
-"Connection",
-"Content-Disposition",
-// "ExperimentalNon-StandardDeprecated"
-// "Content-DPR"
-"Content-Encoding",
-"Content-Language",
-"Content-Length",
-"Content-Location",
-"Content-Range",
-"Content-Security-Policy",
-"Content-Security-Policy-Report-Only",
-"Content-Type",
-"Cookie",
-"Cross-Origin-Embedder-Policy",
-"Cross-Origin-Opener-Policy",
-"Cross-Origin-Resource-Policy",
-"Date",
-// "Experimental"
-// "Device-Memory"
-"Digest",
-"DNT",
-// "Experimental"
-// "Downlink"
-// "ExperimentalNon-StandardDeprecated"
-// "DPR"
-// "Experimental"
-// "Early-Data"
-// "Experimental"
-// "ECT"
-"ETag",
-"Expect",
-"Expect-CT",
-"Expires",
-// "Experimental"
-// "Feature-Policy"
-"Forwarded",
-"From",
-"Host",
-"If-Match",
-"If-Modified-Since",
-"If-None-Match",
-"If-Range",
-"If-Unmodified-Since",
-"Keep-Alive",
-// "Non-StandardDeprecated"
-// "Large-Allocation"
-"Last-Modified",
-"Link",
-"Location",
-"NEL",
-"Origin",
-// "Deprecated"
-// "Pragma"
-"Proxy-Authenticate",
-"Proxy-Authorization",
-// "Deprecated"
-// "Public-Key-Pins"
-// "Deprecated"
-// "Public-Key-Pins-Report-Only"
-"Range",
-"Referer",
-"Referrer-Policy",
-"Retry-After",
-// "Experimental"
-// "RTT"
-"Save-Data",
-
-/** TODO: research of interest */
-// "Experimental"
-// "Sec-CH-UA"
-// "Experimental"
-// "Sec-CH-UA-Arch"
-// "Experimental"
-// "Sec-CH-UA-Bitness"
-// "Experimental"
-// "Sec-CH-UA-Full-Version"
-// "Experimental"
-// "Sec-CH-UA-Full-Version-List"
-// "Experimental"
-// "Sec-CH-UA-Mobile"
-// "Experimental"
-// "Sec-CH-UA-Model"
-// "Experimental"
-// "Sec-CH-UA-Platform"
-// "Experimental"
-// "Sec-CH-UA-Platform-Version"
-
-"Sec-Fetch-Dest",
-"Sec-Fetch-Mode",
-"Sec-Fetch-Site",
-"Sec-Fetch-User",
-"Sec-WebSocket-Accept",
-"Server",
-"Server-Timing",
-"Service-Worker-Navigation-Preload",
-"Set-Cookie",
-"SourceMap",
-"Strict-Transport-Security",
-"TE",
-"Timing-Allow-Origin",
-"Tk",
-"Trailer",
-"Transfer-Encoding",
-"Upgrade",
-"Upgrade-Insecure-Requests",
-"User-Agent",
-"Vary",
-"Via",
-// "ExperimentalNon-StandardDeprecated"
-// "Viewport-Width"
-"Want-Digest",
-// "Deprecated"
-// "Warning"
-// "ExperimentalDeprecated"
-// "Width"
-"WWW-Authenticate",
-"X-Content-Type-Options",
-"X-DNS-Prefetch-Control",
-// "Non-Standard"
-// "X-Forwarded-For"
-// "Non-Standard"
-// "X-Forwarded-Host"
-// "Non-Standard"
-// "X-Forwarded-Proto"
-"X-Frame-Options",
-"X-XSS-Protection"
-};
-
 void file_read(const char* path, char* buffer);
+
+void serve(Client* client, const char* content) {
+    SSL_write(client->ssl, content, strlen(content));
+}
 
 void send_400(Client* client) {
     const char* c400 = "HTTP/1.1 400 Bad Request\r\n"
@@ -260,6 +66,21 @@ void build_header(char* dest, HttpHeaderType hheader, const char* value) {
     dest += '\0';
 }
 
+std::string header(Client* client, HttpResponseType hresponse) {
+    std::string http_version = "HTTP/1.1 ";
+    std::string http_method = http_version + std::string(http_response[hresponse]) + "\r\n";
+    int i = atoi(http_response[hresponse]);
+    std::string http_connection = "Connection: keep-alive\r\n";
+    if (i == 5 || i == 4 || i == 3) {
+        http_connection = "Connection: close\r\n";
+    }
+    std::string http_content_length = std::string("Content-length: ") + "100" + "\r\n";
+    // int length = (int)strlen(header) - 4;
+    std::string http_response = http_method + http_connection + http_content_length;
+    SSL_write(client->ssl, http_response.c_str(), sizeof(http_response.c_str()));
+}
+
+
 void send_response(Client* client, HttpResponseType hresponse) {
     const char* first = "HTTP/1.1 ";
     const char* header = http_response[hresponse];
@@ -318,6 +139,45 @@ void post_resource(Client* conn, char* resource) {
         else
             printf("Child did not terminate with exit\n");
     }
+}
+
+void resource::serve_cxx(Client* conn, const char* path) {
+    char addr_buffer[16];
+    client_get_address(conn, addr_buffer);
+    DEBUGC(4, "serve_resource %s %s\n", addr_buffer, path);
+    std::string p = std::string(path);
+    std::string dir = "frontend";
+    if (p == "/") p = "/index.html";
+    std::string full_path = dir + p;
+        FILE* fp = fopen(full_path.c_str(), "rb"); // open file, set fds to read in bytes
+
+    if (!fp) { 
+        BRED("vvvvvvvvvvvvvvvvvvvvvvvvv\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
+        resource::error(conn, "404"); return; }
+
+    size_t sz = file_size(fp);
+    const char* content = get_content_type(full_path.c_str()); 
+
+    char buffer[4096];
+    sprintf(buffer, "HTTP/1.1 200 OK\r\n");
+    SSL_write(conn->ssl, buffer, strlen(buffer));
+    sprintf(buffer, "Connection: close\r\n");
+    SSL_write(conn->ssl, buffer, strlen(buffer));
+    sprintf(buffer, "Content-Length: %lu\r\n", sz);
+    SSL_write(conn->ssl, buffer, strlen(buffer));
+    sprintf(buffer, "Content-Type: %s\r\n", content);
+    SSL_write(conn->ssl, buffer, strlen(buffer));
+    sprintf(buffer, "\r\n");
+    SSL_write(conn->ssl, buffer, strlen(buffer));
+
+    // read file contents into multiple 1024 packets
+    int r = fread(buffer, 1, 4096, fp);
+    while (r) {
+        SSL_write(conn->ssl, buffer, r); // send bytes
+        r = fread(buffer, 1, 4096, fp); // read another 1024
+    }
+
+    fclose(fp); // close file
 }
 
 void serve_resource(Client* conn, const char* path) {

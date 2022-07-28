@@ -1,0 +1,9 @@
+#!/bin/bash
+ROOT=`git rev-parse --show-toplevel`
+mkdir -p cmake
+cd cmake
+cmake .. -DCMAKE_INSTALL_PREFIX=${ROOT}/export
+make
+# sudo make install
+cd ..
+./cmake/server 10 ./frontend
