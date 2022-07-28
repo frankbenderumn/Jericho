@@ -31,6 +31,7 @@ add_library(jericho ${SHARED_FLAG}
     src/server/smtp.cc
     src/server/socket.cc
     src/server/server.cc
+    src/server/resource.cc
     src/server/thread_pool.cc
     src/server/web_socket.cc
     src/ssh/ssh_auth.cc
@@ -38,7 +39,7 @@ add_library(jericho ${SHARED_FLAG}
     src/ssh/ssh_connect.cc
     src/ssh/ssh_download.cc
     src/ssh/ssh_version.cc        
-    src/util/file_system.cpp    
+    src/util/file_system.cc   
     src/util/scan.cc
     src/client_ui.cc
     src/trash.c

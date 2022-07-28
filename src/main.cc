@@ -5,6 +5,7 @@
 #include "server/server.h"
 #include "server/client.h"
 #include "picojson.h"
+#include "server/router.h"
 
 typedef struct {
   int             num_active;
@@ -33,37 +34,6 @@ void server_create(int argc, char* argv[]);
 Any server_destroy(void *arg);
 
 static Client* clients = 0;
-
-/** TODO: switch to large scale response parse (send_response(code, socket)) */ 
-void parse_response(Client* client) {
-    CYA("request in parse: %s\n", client->request);
-    int g = strncmp("GET /", client->request, 5);
-    int p = strncmp("POST /", client->request, 6);
-    if (g && p) {
-        send_400(client);
-    } else {
-        if (!g) {
-            char* path = client->request + 4; // removes "GET "
-            char* end_path = strstr(path, " "); // finds first occurence of " "
-            if (!end_path) {
-                send_400(client); // none terminating path
-            } else {
-                *end_path = 0; // zero out char
-                serve_resource(client, path); // static file serving
-            }
-        } else if (!p) {
-            // char* path = client->request + 5; // removes "GET "
-            // char* end_path = strstr(path, " "); // finds first occurence of " "
-            // if (!end_path) {
-            //     send_400(client); // none terminating path
-            // } else {
-            //     *end_path = 0; // zero out char
-                // serve_resource(client, path); // static file serving
-                post_resource(client, client->request);
-            // }
-        }
-    }
-}
 
 void open(Client* client) {
     PLOG(LSERVER, "Opening Connection!");
@@ -223,7 +193,7 @@ int main(int argc, char* argv[]) {
                     SocketState state;
                     switch(state = client_get_state(client)) {
                         case SOCKST_ALIVE:
-                            parse_response(client);
+                            router::parse(client);
                             memset(client->request, 0, strlen(client->request));
                             break;
                         case SOCKST_CLOSING:
