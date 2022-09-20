@@ -1,6 +1,7 @@
 #include "server/response.h"
 #include "server/resource.h"
 #include <sys/wait.h>
+#include "server/iris.h"
 
 void file_read(const char* path, char* buffer);
 
@@ -141,6 +142,22 @@ void post_resource(Client* conn, char* resource) {
     }
 }
 
+void socket_write(SSL* ssl, const void *buf, unsigned size)
+{
+    int writedTotal = 0;
+    const char *ccBuf = reinterpret_cast<const char *>(buf);
+
+    while (writedTotal < size) {
+        int writedPart = SSL_write(ssl, ccBuf + writedTotal, size - writedTotal);
+        if (writedPart < 0) {
+            std::string error = "SSL_write error = ";
+            error += (std::to_string(writedPart) + ".");
+            throw std::runtime_error(error);
+        }
+        writedTotal += writedPart;
+    }
+}
+
 void resource::serve_cxx(Client* conn, const char* path) {
     char addr_buffer[16];
     client_get_address(conn, addr_buffer);
@@ -153,7 +170,8 @@ void resource::serve_cxx(Client* conn, const char* path) {
 
     if (!fp) { 
         BRED("vvvvvvvvvvvvvvvvvvvvvvvvv\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
-        resource::error(conn, "404"); return; }
+        resource::error(conn, "404"); return; 
+    }
 
     size_t sz = file_size(fp);
     const char* content = get_content_type(full_path.c_str()); 
@@ -170,12 +188,25 @@ void resource::serve_cxx(Client* conn, const char* path) {
     sprintf(buffer, "\r\n");
     SSL_write(conn->ssl, buffer, strlen(buffer));
 
-    // read file contents into multiple 1024 packets
-    int r = fread(buffer, 1, 4096, fp);
-    while (r) {
-        SSL_write(conn->ssl, buffer, r); // send bytes
-        r = fread(buffer, 1, 4096, fp); // read another 1024
+    std::string file_contents = FileSystem::read(full_path.c_str());
+    iris::interpret(file_contents);
+    BBLU("DONE INTERPRETING\n");
+    std::string ext = std::string(content);
+    BBLU("CONTNEN: %s\n", ext.c_str());
+    BMAG("SZ IS: %i\n", (int)strlen(file_contents.c_str()));
+    
+    if (ext == "text/html") {
+        SSL_write(conn->ssl, file_contents.c_str(), strlen(file_contents.c_str())); // send bytes
+        printf("DONE WRITING\n");
+    } else {
+        // read file contents into multiple 1024 packets
+        int r = fread(buffer, 1, 4096, fp);
+        while (r) {
+            SSL_write(conn->ssl, buffer, r); // send bytes
+            r = fread(buffer, 1, 4096, fp); // read another 1024
+        }
     }
+
 
     fclose(fp); // close file
 }

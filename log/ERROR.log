@@ -2383,3 +2383,8 @@ ERROR-[2022-05-26 23:42:43]-backend/src/server/frame.cc-int next_frame(Frame*)-2
 
 ERROR-[2022-05-26 23:42:44]-backend/src/server/frame.cc-int next_frame(Frame*)-261-Unexpected frame was received!, opcode: 0, previous: -1
 
+ERROR-[2022-07-28 20:59:49]-/mnt/d/jericho2/src/server/socket.cc-ssize_t broadcast(Client*, const void*, size_t, int)-210-Nothing sent to client
+ERROR-[2022-07-28 20:59:49]-/mnt/d/jericho2/src/server/server.cc-int link(Frame*, Client*)-52-As error has occurred while handshaking!
+
+ERROR-[2022-07-28 20:59:49]-/mnt/d/jericho2/src/server/server.cc-void connect(void*)-126-Failed to establish connection!
+ERROR-[2022-07-28 20:59:49]-/mnt/d/jericho2/src/server/socket.cc-ssize_t broadcast(Client*, const void*, size_t, int)-210-Nothing sent to client

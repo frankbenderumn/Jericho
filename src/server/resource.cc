@@ -1,4 +1,5 @@
 #include "server/resource.h"
+#include "server/iris.h"
 
 void resource::error(Client* client, const std::string& path) {
     std::string s;
@@ -9,6 +10,7 @@ void resource::error(Client* client, const std::string& path) {
     } else {
         s = FileSystem::read("resource/error/404.html");
     }
+    iris::interpret(s);
     std::string header = std::string("HTTP/1.1 404 Not Found\r\n"
                     "Connection: close\r\n"
                     "Content-length: ") + std::to_string(s.size()) + "\r\n\r\n";
