@@ -8025,3 +8025,333 @@ Sec-WebSocket-Key: oycYJkbdblbZuFB1XaxFZA==
 Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
 
 
+14 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: /eLl8RLanCcgh28ohVko3w==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+
+9 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: QfLhe7UZeBG1jD90kCxqtg==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+
+17 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: t+hkbSP/V6qmB3++A6JCHQ==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+
+10 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: 2V70DDGOgkWCVY4xLWXLeA==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+
+5 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: RfCU6cejX3yY0lv11rkz8Q==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+
+6 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: rMulc2wzEUgycXnpGwEmtA==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+
+5 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: 8I81fOtd3WBEEWF/mmdMIQ==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+
+6 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: 0AgUrkncjIVcmzPm7u/Lgg==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+
+10 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: pNhTrdAENFx4t/c5oYwNdg==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+
+19 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: ByHtP77rB133XsdPqryLVA==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+
+10 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: WLyTpJd/GobpF+bedAfaLg==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+
+20 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: HkYa64JHKGXfmjkjZ1gx6A==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+
+5 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: hh0KGOJNXfEGX64FnICg4g==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+
+6 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: qsXcdV6g7BlDwjYuzTvmvA==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+
+7 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: 75eAravnDRgWOxP7HRkh+w==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+
+5 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: n3FWr2MtEDl3OfZBmBMZ9w==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+
+10 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: hzFXB80dNiKPnSwrvb9x1Q==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+
+16 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: qsA2KZsLLp6JZYE2AzHqig==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+
+37 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: WwJUTxLw/n9je3Nce3252w==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+
+10 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: 7JqP6qJ6aTs+uYpV/6nGPA==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+
+9 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: zi7HNORAkPdpDuv9B1ZHIw==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+
+8 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: dHPFdcUVtI/13mzj7EGzKg==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+

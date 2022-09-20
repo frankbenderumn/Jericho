@@ -195,6 +195,7 @@ int main(int argc, char* argv[]) {
                         case SOCKST_ALIVE:
                             router::parse(client);
                             memset(client->request, 0, strlen(client->request));
+                            // drop_client(client, &clients);
                             break;
                         case SOCKST_CLOSING:
                             BRED("DROPPING CLIENT!\n");

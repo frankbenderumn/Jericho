@@ -7,58 +7,32 @@
 #include <deque>
 #include <regex>
 
+#include "prizm/prizm.h"
+
+#ifndef LEX
 #define LEX std::pair<std::string, int>
+#endif
+
+#ifndef LEXES
 #define LEXES std::deque<std::pair<std::string, int>>
+#endif
+
+#ifndef TOKS
 #define TOKS std::deque<std::string>
-#define MONEY_RGX std::regex("^$[0-9]{1,3}(?:,[0-9]{3})*\\.[0-9]{2}$")
+#endif
 
-LEXES scan(std::string substr, std::regex rgx) {
-    LEXES result;
-    std::regex_iterator<std::string::iterator> it(substr.begin(), substr.end(), rgx);
-    std::regex_iterator<std::string::iterator> end;
-    for (; it != end; ++it) {
-        LEX l({it->str(), it->position()});
-        result.push_back(l);
-    }
-    return result;
-}
+LEXES scan(std::string substr, std::regex rgx);
 
-bool validate(std::string substr, std::regex rgx) {
-    std::regex_iterator<std::string::iterator> it(substr.begin(), substr.end(), rgx);
-    std::regex_iterator<std::string::iterator> end;
-    if (std::distance(it, end) != 0) {
-        return true;
-    }
-    return false;
-}
+bool validate(std::string substr, std::regex rgx);
 
-    std::string::size_type p = orig.find(sub);
-    if (p != std::string::npos) {
-        orig.replace(p, sub.size(), rep);
-    }
+void replace(std::string& str, std::string sub, std::string rep);
+
+int loc(std::string& str, std::string sub);
 
 
 namespace iris {
-    void interpret(std::string& file) {
-    // std::stringstream ss(file);
-    // std::string word, push_field("");
-    // bool no_quotes = true;
-    // while (std::getline(ss, word, ',')) {
-    //     if (static_cast<size_t>(std::count(word.begin(), word.end(), '"')) % 2 != 0) {
-    //         no_quotes = !no_quotes;
-    //     }
-
-    //     push_field += word + (no_quotes ? "" : ",");
-
-    //     if (no_quotes) {
-    //         r.push_back(push_field);
-    //         push_field.clear();
-    //     }
-    // }
-    // for (auto w : r) {
-    //     printf("tok -> %s\n", w.c_str());
-    // }
-    }
+    void interpret(std::string& file);
+    void inject(std::string symbols, std::string& file);
 }
 
 #endif

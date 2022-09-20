@@ -2,6 +2,7 @@
 ROOT=`git rev-parse --show-toplevel`
 mkdir -p cmake
 cd cmake
+# make clean
 cmake .. -DCMAKE_INSTALL_PREFIX=${ROOT}/export
 make
 # sudo make install
