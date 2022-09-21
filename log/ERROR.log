@@ -2389,3 +2389,10 @@ ERROR-[2022-07-28 20:59:49]-/mnt/d/jericho2/src/server/server.cc-int link(Frame*
 ERROR-[2022-07-28 20:59:49]-/mnt/d/jericho2/src/server/server.cc-void connect(void*)-126-Failed to establish connection!
 ERROR-[2022-07-28 20:59:49]-/mnt/d/jericho2/src/server/socket.cc-ssize_t broadcast(Client*, const void*, size_t, int)-210-Nothing sent to client
 ERROR-[2022-09-21 14:04:07]-/mnt/d/jericho2/src/server/thread_pool.cc-void thread_pool_wait(ThreadPool*)-191-Thread pool is null!
+ERROR-[2022-09-21 14:12:56]-/mnt/d/jericho2/src/server/thread_pool.cc-void thread_pool_wait(ThreadPool*)-191-Thread pool is null!
+ERROR-[2022-09-21 14:14:21]-/mnt/d/jericho2/src/server/thread_pool.cc-void thread_pool_wait(ThreadPool*)-191-Thread pool is null!
+ERROR-[2022-09-21 14:16:12]-/mnt/d/jericho2/src/server/thread_pool.cc-void thread_pool_wait(ThreadPool*)-191-Thread pool is null!
+ERROR-[2022-09-21 14:16:26]-/mnt/d/jericho2/src/server/thread_pool.cc-bool thread_pool_add(ThreadPool*, __ThreadFn, Any)-163-Thread Pool is null!
+ERROR-[2022-09-21 14:16:33]-/mnt/d/jericho2/src/server/thread_pool.cc-bool thread_pool_add(ThreadPool*, __ThreadFn, Any)-163-Thread Pool is null!
+ERROR-[2022-09-21 14:33:16]-/mnt/d/jericho2/src/server/thread_pool.cc-void thread_pool_wait(ThreadPool*)-191-Thread pool is null!
+ERROR-[2022-09-21 14:33:55]-/mnt/d/jericho2/src/server/thread_pool.cc-void thread_pool_wait(ThreadPool*)-191-Thread pool is null!

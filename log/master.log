@@ -1,192 +1,146 @@
+SERVER-[2022-09-21 14:35:42]-/mnt/d/jericho2/src/main.cc-void server_create(int, char**)-264-Starting server...
+SERVER-[2022-09-21 14:35:58]-/mnt/d/jericho2/src/main.cc-void server_create(int, char**)-264-Starting server...
+SERVER-[2022-09-21 14:36:06]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:06]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 14:36:06]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:06]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 14:36:06]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:06]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-158-Request received from client: <client-address>
+SERVER-[2022-09-21 14:36:07]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:07]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-158-Request received from client: <client-address>
+SERVER-[2022-09-21 14:36:07]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:07]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 14:36:07]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:07]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 14:36:07]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:07]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 14:36:07]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:07]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:07]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:07]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-158-Request received from client: <client-address>
+SERVER-[2022-09-21 14:36:07]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-158-Request received from client: <client-address>
+SERVER-[2022-09-21 14:36:08]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-158-Request received from client: <client-address>
+SERVER-[2022-09-21 14:36:08]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 14:36:08]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:08]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 14:36:09]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:09]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 14:36:09]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:09]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-158-Request received from client: <client-address>
+SERVER-[2022-09-21 14:36:09]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 14:36:09]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:09]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-158-Request received from client: <client-address>
+SERVER-[2022-09-21 14:36:09]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 14:36:09]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:09]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 14:36:09]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:09]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 14:36:09]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:09]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 14:36:09]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:09]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 14:36:09]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:09]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:09]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-158-Request received from client: <client-address>
+SERVER-[2022-09-21 14:36:09]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 14:36:09]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:09]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-158-Request received from client: <client-address>
+SERVER-[2022-09-21 14:36:09]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 14:36:09]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:09]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-158-Request received from client: <client-address>
+SERVER-[2022-09-21 14:36:09]-/mnt/d/jericho2/src/main.cc-void open(Client*)-41-Opening WS Connection! IP Address: 127.0.0.1
 
-SERVER-[2022-09-21 12:43:35]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:35]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:35]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:35]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:35]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:35]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:35]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:35]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:35]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:35]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:35]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:35]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:35]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:35]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:35]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:35]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:35]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:35]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:35]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:35]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:35]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:35]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:36]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:37]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:38]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:39]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:40]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:40]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:40]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:40]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:40]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:40]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:40]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:40]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:40]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:40]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:40]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:40]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:40]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:40]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:40]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-137-New connection from 127.0.0.1.
-SERVER-[2022-09-21 12:43:40]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:40]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-SERVER-[2022-09-21 12:43:40]-/mnt/d/jericho2/src/main.cc-int main(int, char**)-187-Request received from client: <client-address>
-ERROR-[2022-09-21 14:04:07]-/mnt/d/jericho2/src/server/thread_pool.cc-void thread_pool_wait(ThreadPool*)-191-Thread pool is null!
+SERVER-[2022-09-21 14:36:11]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-158-Request received from client: <client-address>
+SERVER-[2022-09-21 14:36:11]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-158-Request received from client: <client-address>
+SERVER-[2022-09-21 14:36:11]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:11]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 14:36:11]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:11]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 14:36:11]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:11]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 14:36:12]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:12]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 14:36:12]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:12]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:12]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:12]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-158-Request received from client: <client-address>
+SERVER-[2022-09-21 14:36:12]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-158-Request received from client: <client-address>
+SERVER-[2022-09-21 14:36:12]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-158-Request received from client: <client-address>
+SERVER-[2022-09-21 14:36:12]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:13]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-158-Request received from client: <client-address>
+SERVER-[2022-09-21 14:36:13]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 14:36:14]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:14]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 14:36:14]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-108-New connection from 127.0.0.1.
+SERVER-[2022-09-21 14:36:14]-/mnt/d/jericho2/src/main.cc-int run(int*, Client**, SSL_CTX*)-158-Request received from client: <client-address>
+SERVER-[2022-09-21 14:36:14]-/mnt/d/jericho2/src/main.cc-void open(Client*)-41-Opening WS Connection! IP Address: 127.0.0.1
+
+SERVER-[2022-09-21 14:36:45]-/mnt/d/jericho2/src/main.cc-void* server_destroy(void*)-321-Gracefully terminated!
+SERVER-[2022-09-21 15:32:09]-/mnt/d/jericho2/src/main.cc-void server_create(int, char**)-264-Starting server...
+SERVER-[2022-09-21 15:33:15]-/mnt/d/jericho2/src/main.cc-void* server_destroy(void*)-321-Gracefully terminated!
+SERVER-[2022-09-21 15:33:20]-/mnt/d/jericho2/src/main.cc-void server_create(int, char**)-264-Starting server...
+SERVER-[2022-09-21 15:33:32]-/mnt/d/jericho2/src/main.cc-void* server_destroy(void*)-321-Gracefully terminated!
+SERVER-[2022-09-21 15:33:40]-/mnt/d/jericho2/src/main.cc-void server_create(int, char**)-264-Starting server...
+SERVER-[2022-09-21 15:38:15]-/mnt/d/jericho2/src/main.cc-void* server_destroy(void*)-321-Gracefully terminated!
+SERVER-[2022-09-21 15:38:24]-/mnt/d/jericho2/src/main.cc-void server_create(int, char**)-264-Starting server...
+SERVER-[2022-09-21 15:40:33]-/mnt/d/jericho2/src/main.cc-void* server_destroy(void*)-321-Gracefully terminated!
+SERVER-[2022-09-21 15:43:29]-/mnt/d/jericho2/src/main.cc-void server_create(int, char**)-118-Launching server...
+SERVER-[2022-09-21 15:43:29]-/mnt/d/jericho2/src/main.cc-void server_create(int, char**)-145-Thread pool created with size: 10
+
+SERVER-[2022-09-21 15:47:39]-/mnt/d/jericho2/src/main.cc-void server_create(int, char**)-118-Launching server...
+SERVER-[2022-09-21 15:47:39]-/mnt/d/jericho2/src/main.cc-void server_create(int, char**)-145-Thread pool created with size: 10
+
+SERVER-[2022-09-21 15:59:54]-/mnt/d/jericho2/src/main.cc-void server_create(int, char**)-118-Launching server...
+SERVER-[2022-09-21 15:59:54]-/mnt/d/jericho2/src/main.cc-void server_create(int, char**)-145-Thread pool created with size: 10
+
+SERVER-[2022-09-21 16:00:41]-/mnt/d/jericho2/src/main.cc-void server_create(int, char**)-118-Launching server...
+SERVER-[2022-09-21 16:00:41]-/mnt/d/jericho2/src/main.cc-void server_create(int, char**)-145-Thread pool created with size: 10
+
+SERVER-[2022-09-21 16:00:59]-/mnt/d/jericho2/src/main.cc-void server_create(int, char**)-118-Launching server...
+SERVER-[2022-09-21 16:00:59]-/mnt/d/jericho2/src/main.cc-void server_create(int, char**)-145-Thread pool created with size: 10
+
+SERVER-[2022-09-21 16:02:34]-/mnt/d/jericho2/src/main.cc-void server_create(int, char**)-118-Launching server...
+SERVER-[2022-09-21 16:02:34]-/mnt/d/jericho2/src/main.cc-void server_create(int, char**)-145-Thread pool created with size: 10
+
+SERVER-[2022-09-21 16:06:11]-/mnt/d/jericho2/src/main.cc-void server_create(int, char**)-118-Launching server...
+SERVER-[2022-09-21 16:06:11]-/mnt/d/jericho2/src/main.cc-void server_create(int, char**)-145-Thread pool created with size: 10
+
+SERVER-[2022-09-21 16:06:17]-/mnt/d/jericho2/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*)-177-New connection from 127.0.0.1.
+SERVER-[2022-09-21 16:06:17]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 16:06:18]-/mnt/d/jericho2/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*)-177-New connection from 127.0.0.1.
+SERVER-[2022-09-21 16:06:18]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 16:06:18]-/mnt/d/jericho2/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*)-177-New connection from 127.0.0.1.
+SERVER-[2022-09-21 16:06:18]-/mnt/d/jericho2/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*)-220-Request received from client: <client-address>
+SERVER-[2022-09-21 16:06:18]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 16:06:18]-/mnt/d/jericho2/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*)-177-New connection from 127.0.0.1.
+SERVER-[2022-09-21 16:06:18]-/mnt/d/jericho2/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*)-220-Request received from client: <client-address>
+SERVER-[2022-09-21 16:06:18]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 16:06:18]-/mnt/d/jericho2/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*)-177-New connection from 127.0.0.1.
+SERVER-[2022-09-21 16:06:18]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 16:06:18]-/mnt/d/jericho2/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*)-177-New connection from 127.0.0.1.
+SERVER-[2022-09-21 16:06:18]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 16:06:18]-/mnt/d/jericho2/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*)-177-New connection from 127.0.0.1.
+SERVER-[2022-09-21 16:06:18]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 16:06:18]-/mnt/d/jericho2/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*)-177-New connection from 127.0.0.1.
+SERVER-[2022-09-21 16:06:18]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 16:06:18]-/mnt/d/jericho2/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*)-177-New connection from 127.0.0.1.
+SERVER-[2022-09-21 16:06:18]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 16:06:18]-/mnt/d/jericho2/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*)-177-New connection from 127.0.0.1.
+SERVER-[2022-09-21 16:06:18]-/mnt/d/jericho2/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*)-220-Request received from client: <client-address>
+SERVER-[2022-09-21 16:06:18]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 16:06:19]-/mnt/d/jericho2/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*)-177-New connection from 127.0.0.1.
+SERVER-[2022-09-21 16:06:19]-/mnt/d/jericho2/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*)-177-New connection from 127.0.0.1.
+SERVER-[2022-09-21 16:06:19]-/mnt/d/jericho2/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*)-177-New connection from 127.0.0.1.
+SERVER-[2022-09-21 16:06:19]-/mnt/d/jericho2/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*)-220-Request received from client: <client-address>
+SERVER-[2022-09-21 16:06:19]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 16:06:19]-/mnt/d/jericho2/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*)-220-Request received from client: <client-address>
+SERVER-[2022-09-21 16:06:19]-/mnt/d/jericho2/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*)-256-Upgrading socket fd: 4
+SERVER-[2022-09-21 16:06:19]-/mnt/d/jericho2/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*)-177-New connection from 127.0.0.1.
+SERVER-[2022-09-21 16:06:19]-/mnt/d/jericho2/src/main.cc-void open(Client*)-41-Opening WS Connection! IP Address: 127.0.0.1
+
+SERVER-[2022-09-21 16:06:19]-/mnt/d/jericho2/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*)-220-Request received from client: <client-address>
+SERVER-[2022-09-21 16:06:19]-/mnt/d/jericho2/src/server/client.cc-void drop_client(Client*, Client**)-90-Dropping client: <client-address>
+SERVER-[2022-09-21 16:09:48]-/mnt/d/jericho2/src/main.cc-void* server_destroy(void*)-175-Gracefully terminated!
+SERVER-[2022-09-21 16:10:44]-/mnt/d/jericho2/src/main.cc-void server_create(int, char**)-118-Launching server...
+SERVER-[2022-09-21 16:10:44]-/mnt/d/jericho2/src/main.cc-void server_create(int, char**)-145-Thread pool created with size: 10
+

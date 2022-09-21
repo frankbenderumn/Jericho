@@ -142,8 +142,7 @@ void post_resource(Client* conn, char* resource) {
     }
 }
 
-void socket_write(SSL* ssl, const void *buf, unsigned size)
-{
+void socket_write(SSL* ssl, const void *buf, unsigned size) {
     int writedTotal = 0;
     const char *ccBuf = reinterpret_cast<const char *>(buf);
 
@@ -169,8 +168,18 @@ void resource::serve_cxx(Client* conn, Client** clients, const char* path) {
         FILE* fp = fopen(full_path.c_str(), "rb"); // open file, set fds to read in bytes
 
     if (!fp) { 
-        BRED("vvvvvvvvvvvvvvvvvvvvvvvvv\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
-        resource::error(conn, "404"); return; 
+        resource::error(conn, "404"); 
+        return; 
+    }
+
+    if (strstr(path, "..")) {
+        resource::error(conn, "404");
+        return;
+    }
+
+    if (strlen(path) > 100) { 
+        resource::error(conn, "404");
+        return;
     }
 
     size_t sz = file_size(fp);
@@ -207,7 +216,6 @@ void resource::serve_cxx(Client* conn, Client** clients, const char* path) {
         }
     }
 
-
     fclose(fp); // close file
     drop_client(conn, clients);
 }
@@ -221,20 +229,6 @@ void serve_resource(Client* conn, const char* path) {
     if (strcmp(path, "/") == 0) path = "/index.html";
 
     // need more sanity checks
-
-    // security precaution for long url, ex: https://localhost:8080////////////////////index.html
-    // and buffer overflow
-    // if (strlen(path) > 100) { 
-    //     send_400(conn->socket);
-    //     return;
-    // }
-
-    // security precaution to prevent unpriveleged access https://localhost:8080/../../keys/key.pem
-    // if (strstr(path, "..")) {
-    //     send_404(conn->socket);
-    //     return;
-    // }
-
     //may need more sanitization (xss attack prevention with regex/octet substition)
     // csrf tokens for same origin verification
     // session authentication for login 

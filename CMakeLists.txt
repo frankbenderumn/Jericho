@@ -34,6 +34,7 @@ add_library(jericho ${SHARED_FLAG}
     src/server/resource.cc
     src/server/thread_pool.cc
     src/server/web_socket.cc
+    src/server/router.cc
     src/server/iris.cc
     src/ssh/ssh_auth.cc
     src/ssh/ssh_command.cc
