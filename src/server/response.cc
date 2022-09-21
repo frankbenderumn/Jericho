@@ -158,7 +158,7 @@ void socket_write(SSL* ssl, const void *buf, unsigned size)
     }
 }
 
-void resource::serve_cxx(Client* conn, const char* path) {
+void resource::serve_cxx(Client* conn, Client** clients, const char* path) {
     char addr_buffer[16];
     client_get_address(conn, addr_buffer);
     DEBUGC(4, "serve_resource %s %s\n", addr_buffer, path);
@@ -209,6 +209,7 @@ void resource::serve_cxx(Client* conn, const char* path) {
 
 
     fclose(fp); // close file
+    drop_client(conn, clients);
 }
 
 void serve_resource(Client* conn, const char* path) {

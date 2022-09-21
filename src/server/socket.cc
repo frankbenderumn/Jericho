@@ -50,10 +50,10 @@ SOCKET socket_create(const char* host, int port, int reuse, int family, int sock
     // }
 
     // sets socket to non blocking
-    int i = 1;
-    if (ioctl(sock, FIONBIO, (char*)&i) < 0) {
-        PFAIL(ESERVER, "ioctl() failed.");
-    }
+    // int i = 1;
+    // if (ioctl(sock, FIONBIO, (char*)&i) < 0) {
+    //     PFAIL(ESERVER, "ioctl() failed.");
+    // }
 
     //  bind the socket to local address
     printf("Binding socket to local address...\n");

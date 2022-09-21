@@ -87,6 +87,8 @@ void drop_client(Client* client, Client** clients) {
         if (**p == client) { // if client
             **p = client->next; // set pointer to client
             free(client); // free memory, was allocated on heap
+            PLOG(LSERVER, "Dropping client: <client-address>");
+            BGRE("Client dropped!");
             return;
         }
         *p = &(**p)->next; // iterate

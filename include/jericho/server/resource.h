@@ -10,7 +10,7 @@
 namespace resource {
     void error(Client* client, const std::string& path);
 
-    void serve_cxx(Client* conn, const char* path);
+    void serve_cxx(Client* conn, Client** clients, const char* path);
 
 }
 

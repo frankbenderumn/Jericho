@@ -36,10 +36,10 @@ Any server_destroy(void *arg);
 static Client* clients = 0;
 
 void open(Client* client) {
-    PLOG(LSERVER, "Opening Connection!");
     char ipBuffer[16];
     client_get_address(client, ipBuffer);
-    BGRE("Opening Connection! IP Address: %s\n", ipBuffer);
+    PLOG(LSERVER, "Opening WS Connection! IP Address: %s\n", ipBuffer);
+    BGRE("Opening WS Connection! IP Address: %s\n", ipBuffer);
     ws_enabled = true;
     client_set_state(client, SOCKST_OPEN_WS);
     ws_client = client;
@@ -64,8 +64,9 @@ void message(Client* conn, const unsigned char* message, uint64_t size, int type
     char addr_buffer[16];
     client_get_address(conn, addr_buffer);
 	printf("I receive a message: %s (size: %ld, type: %d), from: %s\n", message, size, type, addr_buffer);
-// will need to find c implementation at some point or make own
-// but using picojson to speed up design considerations process
+    
+    // will need to find c implementation at some point or make own
+    // but using picojson to speed up design considerations process
     picojson::value data;
     std::string s((const char*)message);
     std::string err = picojson::parse(data, s);
@@ -104,6 +105,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
+    std::vector<std::string> ipAddresses = {};
     SOCKET server = socket_create(0, 8080, 1, AF_INET, SOCK_STREAM); // creates initial socket
 
     while (1) {
@@ -113,36 +115,51 @@ int main(int argc, char* argv[]) {
         if (FD_ISSET(server, &reads)) {
             Client* client = get_client(-1, &clients);
 
-            client->socket = accept(server, (struct sockaddr*) &(client->address), &(client->address_length));
+            // BOOL contains = 0;
+            // for (auto addr : ipAddresses) {
+            //     if (std::string(address_buffer) == addr) {
+            //         contains = 1;
+            //     }
+            // }
 
-            if (!ISVALIDSOCKET(client->socket)) {
-                PFAIL(ECONN, "accept() failed. (%d)\n", SOCKERR());
-            }
+            // if (!contains) {
+                client->socket = accept(server, (struct sockaddr*) &(client->address), &(client->address_length));
 
-            char address_buffer[16];
-            client_get_address(client, address_buffer);
-            CYA("New connection from %s.\n", address_buffer);
+                // PLOG(LSERVER, "Accepting client...")
+                if (!ISVALIDSOCKET(client->socket)) {
+                    PFAIL(ECONN, "accept() failed. (%d)\n", SOCKERR());
+                }
 
-            client->ssl = SSL_new(ctx);
-            if (!client->ssl) {
-                fprintf(stderr, "SSL_new() failed.\n");
-                return 1;
-            }
+                char address_buffer[16];
+                client_get_address(client, address_buffer);
+                ipAddresses.push_back(std::string(address_buffer));
+                CYA("New connection from %s.\n", address_buffer);
+                PLOG(LSERVER, "New connection from %s.", address_buffer);
 
-            SSL_set_fd(client->ssl, client->socket);
-            if (SSL_accept(client->ssl) != 1) {
-                //SSL_get_error(client->ssl, SSL_accept(...));
-                ERR_print_errors_fp(stderr);
-                drop_client(client, &clients);
-            } else {
-                printf("New connection from %s.\n",
-                        "localhost");
+                // PLOG(LSERVER, "Generating new SSL context...");
+                client->ssl = SSL_new(ctx);
+                if (!client->ssl) {
+                    PFAIL(ECONN, "SSL_new(ctx) failed.");
+                    fprintf(stderr, "SSL_new() failed.\n");
+                    return 1;
+                }
 
-                BRED("NUM CLIENTS: %i\n", (int)(sizeof(clients)/sizeof(Client)));
 
-                printf ("SSL connection using %s\n",
-                        SSL_get_cipher(client->ssl));
-            }
+                SSL_set_fd(client->ssl, client->socket);
+                if (SSL_accept(client->ssl) != 1) {
+                    //SSL_get_error(client->ssl, SSL_accept(...));
+                    ERR_print_errors_fp(stderr);
+                    drop_client(client, &clients);
+                } else {
+                    printf("New connection from %s.\n", "localhost");
+
+
+                    BRED("NUM CLIENTS: %i\n", (int)(sizeof(clients)/sizeof(Client)));
+
+                    printf ("SSL connection using %s\n",
+                            SSL_get_cipher(client->ssl));
+                }
+            // }
         }
 
         Client* client = clients;
@@ -167,6 +184,7 @@ int main(int argc, char* argv[]) {
 
                 if (r > 0) { // bytes received
 
+                    PLOG(LSERVER, "Request received from client: <client-address>");
                     MAG("REQUEST: %s\n", client->request);
 
                     client->received += r; // increment bytes received
@@ -193,12 +211,13 @@ int main(int argc, char* argv[]) {
                     SocketState state;
                     switch(state = client_get_state(client)) {
                         case SOCKST_ALIVE:
-                            router::parse(client);
+                            router::parse(client, &clients);
                             memset(client->request, 0, strlen(client->request));
                             // drop_client(client, &clients);
                             break;
                         case SOCKST_CLOSING:
                             BRED("DROPPING CLIENT!\n");
+                            PLOG(LSERVER, "Dropping client: <client-address>");
                             drop_client(client, &clients);
                             break;
                         case SOCKST_UPGRADING: 
@@ -232,11 +251,12 @@ void server_create(int argc, char* argv[]) {
     int retVal = 0;
 
     // intialize http headers log
-    for (int i = 0; i < H_END; i++) {
+    // for (int i = 0; i < H_END; i++) {
         // do nothing for now,
         // use later for debug enhancement 
         // and testing
-    }
+    // }
+    PLOG(LSERVER, "Starting server...");
 
     sigset_t signals_to_block;
     // value to thread to avoid deadlock
@@ -262,7 +282,7 @@ void server_create(int argc, char* argv[]) {
 
     YEL("Creating thread pool...\n");
     YEL("Number of threads: %i\n", MAX_CONNECTIONS);
-    tpool = thread_pool_create(MAX_CONNECTIONS);
+    // tpool = thread_pool_create(MAX_CONNECTIONS);
     GRE("Thread pool created!\n");
 }
 
