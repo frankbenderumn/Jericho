@@ -24,7 +24,7 @@ namespace router {
     // }
 
     /** TODO: switch to large scale response parse (send_response(code, socket)) */ 
-    void parse(Client* client) {
+    void parse(Client* client, Client** clients) {
         CYA("request in parse: %s\n", client->request);
         int g = strncmp("GET /", client->request, 5);
         int p = strncmp("POST /", client->request, 6);
@@ -41,7 +41,7 @@ namespace router {
                     // serve(client, resource.c_str());
                 } else {
                     *end_path = 0; // zero out char
-                    resource::serve_cxx(client, path); // static file serving
+                    resource::serve_cxx(client, clients, path); // static file serving
                 }
             } else if (!p) {
                 // char* path = client->request + 5; // removes "GET "
