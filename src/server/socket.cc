@@ -28,8 +28,10 @@ SOCKET socket_create(const char* host, int port, int reuse, int family, int sock
 
     // create the socket
     printf("Creating socket...\n");
-    SOCKET sock = socket(bind_address->ai_family, bind_address->ai_socktype, 
-                                    bind_address->ai_protocol);
+    SOCKET sock = socket(AF_INET, SOCK_STREAM, 0);
+
+    // SOCKET sock = socket(bind_address->ai_family, bind_address->ai_socktype, 
+    //                                 bind_address->ai_protocol);
 
     // error check in socket creation
     if (!ISVALIDSOCKET(sock)) {
@@ -50,17 +52,25 @@ SOCKET socket_create(const char* host, int port, int reuse, int family, int sock
     // }
 
     // sets socket to non blocking
-    // int i = 1;
-    // if (ioctl(sock, FIONBIO, (char*)&i) < 0) {
-    //     PFAIL(ESERVER, "ioctl() failed.");
-    // }
+    int i = 1;
+    if (ioctl(sock, FIONBIO, (char*)&i) < 0) {
+        PFAIL(ESERVER, "ioctl() failed.");
+    }
+
+    struct sockaddr_in myaddr;
+    memset((char *)&myaddr, 0, sizeof(myaddr));
+    myaddr.sin_family = AF_INET;
+    myaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+    // myaddr.sin_addr.s_addr = inet_addr("174.20.127.60");
+    myaddr.sin_port = htons(port);
 
     //  bind the socket to local address
     printf("Binding socket to local address...\n");
-    if (bind(sock, bind_address->ai_addr, bind_address->ai_addrlen)) {
+    if (bind(sock, (struct sockaddr *)&myaddr, sizeof(myaddr))) {
         PFAIL(ESERVER, "bind() failed."); // maybe change for vargs preprocess PFAIL(...) __VA_ARGS__
     }
     freeaddrinfo(bind_address);
+    // free(myaddr);
 
     // set to listen for a conn
     printf("Listening...\n");

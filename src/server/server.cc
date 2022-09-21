@@ -15,7 +15,7 @@ int link(Frame* frame, Client* client) {
     sprintf(tbuffer, "Client request is: %s\n", frame->request);
     write_thread(frame->client->socket, tbuffer);
 
-	BYEL("Request: %s\n", (char*)frame->request);
+	DEBUG("Request: %s\n", (char*)frame->request);
 
 	/* Advance our pointers before the first next_byte(). */
 	const char* p = strstr((const char *)frame->request, "\r\n\r\n");
@@ -27,8 +27,8 @@ int link(Frame* frame, Client* client) {
 	frame->cur_pos = (size_t)((ptrdiff_t)(p - (char *)frame->request)) + 4;
 	frame->received = frame->cur_pos;
 
-	BYEL("FRAME bytes received: %i\n", (int)frame->received);
-	BYEL("FRAME current position: %i\n", (int)frame->cur_pos);
+	DEBUG("FRAME bytes received: %i\n", (int)frame->received);
+	DEBUG("FRAME current position: %i\n", (int)frame->cur_pos);
 
 	response = (char*)malloc(sizeof(char) * ACCEPT_LEN);
 	if (handshake((char *)frame->request, &response) < 0) {
@@ -36,15 +36,13 @@ int link(Frame* frame, Client* client) {
 		return (-1);
 	}
 
-	printf("Handshaked, response: \n"
-		"------------------------------------\n"
-		"%s"
-		"------------------------------------\n",
-	response);
+	// printf("Handshaked, response: \n"
+	// 	"------------------------------------\n"
+	// 	"%s"
+	// 	"------------------------------------\n",
+	// response);
 
-    // strcat(response, "sUBSUSusush");
-
-    printf("RESPONSE SIZE IS: %i\n", (int)strlen(response) + 1);
+    // printf("RESPONSE SIZE IS: %i\n", (int)strlen(response) + 1);
 
 	/* Send handshake. */
 	if (broadcast(frame->client, response, strlen(response), 0) < 0) {
@@ -121,7 +119,6 @@ void connect(void* targ) {
 	
 
 	DEBUG("Connecting client...\n");
-
 	if (link(&frame, client) < 0) {
 		PERR(ECONN, "Failed to establish connection!");
 		// goto closed;
@@ -133,6 +130,7 @@ void connect(void* targ) {
 	memset(frame.client->request, 0, sizeof(client->request));
 	frame.client->received = 0;
 	BMAG("STARTING WEBSOCKET!\n");
+
 	/*
 	 * on_close events always occur, whether for client closure
 	 * or server closure, as the server is expected to
@@ -140,7 +138,7 @@ void connect(void* targ) {
 	 */
 	// event_manager.close(client);
 
-// TODO: Properly shutdown threads
+	// TODO: Properly shutdown threads
 // closed:
 	// close_timeout = client->close_thread;
 
@@ -159,87 +157,118 @@ void connect(void* targ) {
     return;
 }
 
-// static void* service(void* targ) {
-//     struct sockaddr_in client; /* Client.                */
-//     pthread_t client_thread;   /* Client thread.         */
-//     struct timeval time;       /* Client socket timeout. */
-//     SOCKET threaded_socket;    /* New opened clientection. */
-//     int i;                     /* Loop index.            */
+int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool) {
+    while (1) {
+        fd_set reads;
+        reads = wait_on_clients(*server, clients);
 
-// 	// SOCKET socket = *(int*)targ;
-//     SOCKET socket = *(SOCKET*)targ;
+        if (FD_ISSET(*server, &reads)) {
+            Client* client = get_client(-1, clients);
 
-// 	int len = sizeof(struct sockaddr_in);
-//     printf("Socket initialized\n");
+			client->socket = accept(*server, (struct sockaddr*) &(client->address), &(client->address_length));
 
-// 	while (1) {
-// 		/* Accept. */
-// 		threaded_socket = accept(socket, (struct sockaddr *)&client, (socklen_t *)&len);
-//         // SOCKET socket_thread = accept(server, (struct sockaddr*) &(client->address), &(client->address_length));
+			if (!ISVALIDSOCKET(client->socket)) {
+				PFAIL(ECONN, "accept() failed. (%d)\n", SOCKERR());
+			}
 
-//         printf("Threaded sockets initialized\n");
+			char address_buffer[16];
+			client_get_address(client, address_buffer);
+			CYA("New connection from %s.\n", address_buffer);
+			PLOG(LSERVER, "New connection from %s.", address_buffer);
 
-//         if (timeout) {
-//             time.tv_sec = timeout / 1000;
-//             time.tv_usec = (timeout % 1000) * 1000;
+			client->ssl = SSL_new(ctx);
+			if (!client->ssl) {
+				PFAIL(ECONN, "SSL_new(ctx) failed.");
+				fprintf(stderr, "SSL_new() failed.\n");
+				return 1;
+			}
 
-//             setsockopt(threaded_socket, SOL_SOCKET, SO_SNDTIMEO, &time, sizeof(struct timeval));
 
-//             printf("Setting socket timeout\n");
-//         }
+			SSL_set_fd(client->ssl, client->socket);
+			if (SSL_accept(client->ssl) != 1) {
+				//SSL_get_error(client->ssl, SSL_accept(...));
+				ERR_print_errors_fp(stderr);
+				drop_client(client, clients);
+			} else {
+				printf("SSL connection using %s\n", SSL_get_cipher(client->ssl));
+			}
+        }
 
-//         if (!ISVALIDSOCKET(threaded_socket)) {
-//             fprintf(stderr, "accept() failed. (%d)\n", SOCKERR());
-//             // return -1;
-//             PFAIL(ESERVER, "Failed to accept threaded socket\n");
-//             // exit(1);
-//         }
+        Client* client = *clients;
 
-// 		/* Adds client socket to socks list. */
-// 		pthread_mutex_lock(&global_mutex);
-// 		for (i = 0; i < THREAD_POOL; i++) {
-// 			if (clientections[i].socket == -1) {
-// 				clientections[i].socket = threaded_socket;
-// 				clientections[i].state = SOCKST_CONNECTING;
-// 				clientections[i].close_thread = FALSE;
-// 				clientections[i].last_pong_id = -1;
-// 				clientections[i].current_ping_id = -1;
-// 				client_set_address(&clientections[i]);
+        while (client) {
+            
+			// iterate through clients
+            Client* next = client->next;
 
-//                 write_thread(i, "Intitializing clientection\n");
+            if (FD_ISSET(client->socket, &reads)) {
 
-// 				if (pthread_mutex_init(&clientections[i].state_mutex, NULL)) {
-// 					PERR(ESERVER, "Error on allocating close mutex");
-// 				}
-// 				if (pthread_cond_init(&clientections[i].state_close_cond, NULL)) {
-// 					PERR(ESERVER, "Error on allocating condition var");
-// 				}
-// 				if (pthread_mutex_init(&clientections[i].send_mutex, NULL)) {
-// 					PERR(ESERVER, "Error on allocating send mutex");
-// 				}
-// 				if (pthread_mutex_init(&clientections[i].ping_mutex, NULL)) {
-// 					PERR(ESERVER, "Error on allocating ping/pong mutex");
-// 				}
-// 				break;
-// 			} else {
-// 				PWARN(ESERVER, "Socket = -1");
-// 			}
-// 		}
-// 		pthread_mutex_unlock(&global_mutex);
+                // max request
+                if (MAX_REQUEST_SIZE == client->received) {
+                    send_400(client);
+                    client = next;
+                    continue;
+                }
 
-//         printf("Thread clientections initialized\n");
+                /** STUB: do send before receive for fault tolerance? */
 
-// 		/* Client socket added to socks list ? */
-// 		// if (i != THREAD_POOL) {
-// 		// 	if (pthread_create(&client_thread, NULL, clientect, &clientections[i])) {
-//         //         PERR(ESERVER, "Could not create thread!");
-//         //     }
-// 		// 	pthread_detach(client_thread);
-// 		// } else {
-// 		// 	// close_socket(threaded_socket);
-//     	// }
-//     }
-	// free(targ);
-    // return;
-	// return (targ);
-// }
+                // receives bytes from client and asserts against request limit
+                int r = SSL_read(client->ssl, client->request + client->received, MAX_REQUEST_SIZE - client->received); 
+
+                if (r > 0) { // bytes received
+
+                    PLOG(LSERVER, "Request received from client: <client-address>");
+                    MAG("REQUEST: %s\n", client->request);
+
+                    client->received += r; // increment bytes received
+                    client->request[client->received] = 0; 
+                    char* q = strstr(client->request, "\r\n\r\n");
+
+                    // if http response aka (contains \r\n\r\n)
+                    /** TODO: switch from scan method to strtok_r */
+                    if (q) {
+                        if (scan("Connection: keep-alive", client->request)) {
+                            client_set_state(client, SOCKST_ALIVE);
+                            printf("Setting state\n");
+                        } else if (scan("Connection: closed", client->request)) {
+                            client_set_state(client, SOCKST_CLOSING);
+                            printf("Setting state\n");
+                        } else if (scan("Connection: Upgrade", client->request)) {
+                            client_set_state(client, SOCKST_UPGRADING);
+                            printf("Setting state\n");
+                        } else {
+                            BRED("INVALID HTTP REQUEST DETECTED\n");
+                        }
+                    }
+
+                    SocketState state;
+                    switch(state = client_get_state(client)) {
+                        case SOCKST_ALIVE:
+                            parser2::parse(client, clients);
+                            memset(client->request, 0, strlen(client->request));
+                            // drop_client(client, &clients);
+                            break;
+                        case SOCKST_CLOSING:
+                            PLOG(LSERVER, "Dropping client: <client-address>");
+                            drop_client(client, clients);
+                            break;
+                        case SOCKST_UPGRADING: 
+                            PLOG(LSERVER, "Upgrading socket fd: %i", client->socket);
+                            // PLOG(LSERVER, "Client request: %s", client->request);
+                            // connect((void*)client); non threaded version
+                            thread_pool_add(tpool, connect, (void*)client); // spawn thread for web socket
+                            break;
+                        case SOCKST_OPEN_WS:
+                            printf("Client request: %s\n", (unsigned char*)client->request);
+                            thread_pool_add(tpool, recv_websocket, (void*)client);
+                            break;
+                        default:
+                            PERR(ESERVER, "AN UNEXPECTED STATE WAS ENCOUNTERED!\n");
+                            break;
+                    }
+                }
+            }
+            client = next;
+        }
+    }
+}
