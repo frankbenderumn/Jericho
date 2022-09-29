@@ -1,0 +1,12 @@
+#!/bin/bash
+if [[ -z "$1" ]]; then
+    ./cmake-build/server 10 ./frontend
+elif [[ "$1" == "tf" ]]; then
+    ./cmake-build/tf
+elif [[ "$1" == "zmq" ]]; then
+    ./cmake-build/zmq
+elif [[ "$1" == "client" ]]; then
+    ./cmake-build/client $2 $3
+else
+    echo -e "\033[1;31mInvalid argument given to jericho\033[0m"
+fi

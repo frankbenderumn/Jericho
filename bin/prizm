@@ -1,6 +1,6 @@
 #!/bin/bash
 source config/tokens
-if [[ "$1" == "get" ]]; then
+if [[ "$1" == "install" ]]; then
     cd ext
     git clone https://frankbenderumn:${GITHUB_TOKEN}@github.com/frankbenderumn/prizm-cxx.git
 else

@@ -1,0 +1,22 @@
+#!/bin/bash
+ROOT = `git rev-parse --show-toplevel`
+if [[ $1 == "install" ]]; then
+    sudo apt-get install cmake curl g++-7 git python3-dev python3-numpy sudo wget
+    sudo apt install apt-transport-https curl gnupg
+    curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor >bazel-archive-keyring.gpg
+    sudo mv bazel-archive-keyring.gpg /usr/share/keyrings
+    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/bazel-archive-keyring.gpg] https://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
+    sudo apt-get update && sudo apt-get install bazel
+    cd ext
+    git clone https://github.com/FloopCZ/tensorflow_cc.git
+    mv tensorflow_cc tensorflow-source
+    cd tensorflow-source
+    cd tensorflow_cc
+    mkdir build && cd build
+    cmake .. -DCMAKE_INSTALL_PREFIX=${ROOT}/build
+    make
+    sudo make install
+    sudo ldconfig
+else
+    echo -e "\033[1;31m Invalid argument provided for tensorflow package"
+fi

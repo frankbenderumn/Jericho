@@ -1,0 +1,8 @@
+#!/bin/bash
+source config/tokens
+if [[ "$1" == "install" ]]; then
+    cd ext
+    git clone https://frankbenderumn:${GITHUB_TOKEN}@github.com/frankbenderumn/celerity.git
+else
+    echo -e "\033[1;31mInvalid argument for package celerity\033[0m"
+fi

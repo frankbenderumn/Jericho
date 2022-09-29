@@ -1,6 +1,8 @@
 #include <signal.h>
 #include <sys/ioctl.h>
 
+#include "api/router.h"
+#include "api/polygon.h"
 #include "server/thread_pool.h"
 #include "server/server.h"
 #include "server/client.h"
@@ -108,8 +110,14 @@ int main(int argc, char* argv[]) {
     std::vector<std::string> ipAddresses = {};
     SOCKET server = socket_create(0, 8080, 1, AF_INET, SOCK_STREAM); // creates initial socket
 
-    run(&server, &clients, ctx, tpool);
+    Router* router = new Router;
+    router->bind("/rsi", apiRsi);
+    router->bind("/ohlc", apiOhlc);
 
+    run(&server, &clients, ctx, tpool, router);
+
+    delete router;
+    
     return 0;
 }
 
