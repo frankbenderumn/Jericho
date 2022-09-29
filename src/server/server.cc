@@ -1,4 +1,7 @@
 #include "server/server.h"
+#include "server/request.h"
+#include "api/router.h"
+
 
 int link(Frame* frame, Client* client) {
     BCYA("Linking...\n");
@@ -157,7 +160,7 @@ void connect(void* targ) {
     return;
 }
 
-int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool) {
+int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Router* router) {
     while (1) {
         fd_set reads;
         reads = wait_on_clients(*server, clients);
@@ -242,9 +245,31 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool) {
                     }
 
                     SocketState state;
+					Request request;
+					Route route;
+					std::string result;
                     switch(state = client_get_state(client)) {
                         case SOCKST_ALIVE:
-                            parser2::parse(client, clients);
+                            // parser2::parse(client, clients);
+							if (!is_valid_request(client)) {
+								printf("Invalid request received!\n");
+								break;
+							}
+
+							if (parse_request(client, &request) < 0) {
+								printf("Invalid request received!");
+								break;
+							}
+
+							print_request(&request);
+
+							parse_path(request.path, &route);
+
+							
+
+							result = router->exec(request.path, {});
+							printf("Route executed. Result is: %s\n", result.c_str());
+
                             memset(client->request, 0, strlen(client->request));
                             // drop_client(client, &clients);
                             break;

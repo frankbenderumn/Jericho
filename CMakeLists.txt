@@ -9,6 +9,11 @@ if (NOT DEFINED DEPS_DIR)
 endif (NOT DEFINED DEPS_DIR)
 message("Deps dir is: ${DEPS_DIR}")
 
+if (NOT DEFINED BUILD_DIR)
+    set(BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/build")
+endif (NOT DEFINED BUILD_DIR)
+message("Deps dir is: ${DEPS_DIR}")
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/jericho)
 
 option(BUILD_SHARED_LIBS "Building shared library..." OFF)
@@ -36,6 +41,7 @@ add_library(jericho ${SHARED_FLAG}
     src/server/web_socket.cc
     src/server/router.cc
     src/server/iris.cc
+    src/server/request.cc
     src/ssh/ssh_auth.cc
     src/ssh/ssh_command.cc
     src/ssh/ssh_connect.cc
@@ -46,23 +52,45 @@ add_library(jericho ${SHARED_FLAG}
     src/client_ui.cc
     src/trash.c
     src/unbel.cc
+    src/util/string_utils.cc
 )
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
+# add_executable (curl-demo convert.cpp)
+# include_directories(${CURL_INCLUDE_DIR})
+# target_link_libraries(curl-demo ${CURL_LIBRARIES})
 
 
 add_subdirectory(${DEPS_DIR}/prizm-cxx)
 include_directories(${DEPS_DIR}/prizm-cxx/include)
 include_directories(${DEPS_DIR}/openssl/include)
+include_directories(${BUILD_DIR}/libzmq/include)
+include_directories(${BUILD_DIR}/cppzmq/include)
+include_directories(${DEPS_DIR}/tensorflow/include)
+
 link_directories(${DEPS_DIR}/openssl/lib64)
+link_directories(${DEPS_DIR}/tensorflow/lib)
+link_directories(${BUILD_DIR}/libzmq/lib)
+link_directories(${BUILD_DIR}/cppzmq/lib)
+
 target_link_libraries(jericho prizm-cxx)
 add_executable(server src/main.cc)
+add_executable(tf example/tensorflow.cc)
+add_executable(zero example/zeromq.cc)
+add_executable(client example/client.cc)
 
 target_link_libraries(server PRIVATE jericho)
 target_link_libraries(server PRIVATE prizm-cxx)
 target_link_libraries(server PRIVATE crypto)
 target_link_libraries(server PRIVATE ssl)
+target_link_libraries(server PRIVATE curl)
+
+target_link_libraries(client PRIVATE ssl)
+target_link_libraries(client PRIVATE crypto)
+
+target_link_libraries(zero PRIVATE zmq)
+target_link_libraries(tf PRIVATE tensorflow)
 
 target_link_libraries(server PRIVATE Threads::Threads)
 

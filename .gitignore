@@ -17,3 +17,10 @@ export/*
 comet/*
 build/*
 build/obj/*
+log/err.log
+log/ERROR.log
+log/fail.log
+log/master.log
+log/SERVER.log
+log/thread.log
+ext/*

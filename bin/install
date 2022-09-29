@@ -1,0 +1,22 @@
+#!/bin/bash
+ROOT=`git rev-parse --show-toplevel`
+mkdir ext
+apt-get install cmake
+apt-get install build-essential
+chmod +x ./bin/prizm
+chmod +x ./bin/openssl
+chmod +x ./bin/nebulaui
+chmod +x ./bin/celerity
+./bin/prizm
+./bin/openssl
+./bin/nebulaui
+./bin/celerity
+chmod 000 ./bin/openssl
+chmod 000 ./bin/prizm
+mkdir -p cmake
+cd cmake
+make clean
+cmake .. -DCMAKE_INSTALL_PREFIX=${ROOT}/export
+make
+sudo make install
+cd ..
