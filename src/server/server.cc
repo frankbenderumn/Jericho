@@ -191,7 +191,7 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 			if (SSL_accept(client->ssl) != 1) {
 				//SSL_get_error(client->ssl, SSL_accept(...));
 				ERR_print_errors_fp(stderr);
-				drop_client(client, clients);
+				// drop_client(client, clients); // this will cause bugs on mac localhost test
 			} else {
 				printf("SSL connection using %s\n", SSL_get_cipher(client->ssl));
 			}
@@ -263,7 +263,7 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 
 							print_request(&request);
 
-							parse_path(request.path, &route);
+							router->parse_path(request.path, &route);
 
 							
 
@@ -271,7 +271,7 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 							printf("Route executed. Result is: %s\n", result.c_str());
 
                             memset(client->request, 0, strlen(client->request));
-                            // drop_client(client, &clients);
+                            drop_client(client, clients);
                             break;
                         case SOCKST_CLOSING:
                             PLOG(LSERVER, "Dropping client: <client-address>");

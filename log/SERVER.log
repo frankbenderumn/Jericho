@@ -1449,3 +1449,545 @@ SERVER-[2022-09-28 23:07:42]-/mnt/d/jericho2/src/server/client.cc-void drop_clie
 SERVER-[2022-09-28 23:07:43]-/mnt/d/jericho2/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*, Router*)-180-New connection from 127.0.0.1.
 SERVER-[2022-09-28 23:07:43]-/mnt/d/jericho2/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*, Router*)-223-Request received from client: <client-address>
 SERVER-[2022-09-28 23:07:43]-/mnt/d/jericho2/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*, Router*)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:29:23]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-126-Launching server...
+SERVER-[2022-09-29 18:29:23]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-153-Thread pool created with size: 10
+
+SERVER-[2022-09-29 18:33:33]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-126-Launching server...
+SERVER-[2022-09-29 18:33:33]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-153-Thread pool created with size: 10
+
+SERVER-[2022-09-29 18:33:42]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:33:42]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:33:42]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:33:42]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:33:43]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:33:43]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:33:44]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:33:44]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:33:44]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:33:44]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:33:44]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:33:44]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:33:49]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:33:49]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:33:49]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:33:49]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:33:49]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:33:49]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:35:33]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:35:33]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:35:33]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:35:33]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:35:33]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:35:33]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-223-Request received from client: <client-address>
+SERVER-[2022-09-29 18:38:50]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-126-Launching server...
+SERVER-[2022-09-29 18:38:50]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-153-Thread pool created with size: 10
+
+SERVER-[2022-09-29 18:38:55]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:38:55]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:38:55]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:38:55]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:38:55]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:38:55]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:38:56]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:38:56]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:38:56]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:38:56]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:38:56]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:38:56]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:38:59]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:38:59]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:38:59]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:38:59]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:38:59]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:38:59]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:04]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:04]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:04]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:04]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:04]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:04]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:07]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:07]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:07]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:07]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:07]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:07]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:13]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:13]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:13]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:13]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:13]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:13]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:18]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:18]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:18]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:18]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:18]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:18]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:28]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:28]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:28]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:28]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:28]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:28]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:31]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:31]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:31]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:31]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:31]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:31]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:31]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:31]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:31]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:31]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:31]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:31]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:36]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:36]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:36]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:36]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:36]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:36]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:45]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:45]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:45]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:45]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:45]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:45]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:46]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:46]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:46]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:46]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:46]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:46]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:51]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:51]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:51]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:51]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:51]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:51]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:57]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:57]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:57]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:57]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:57]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:57]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:59]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:59]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:59]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:59]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:39:59]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:39:59]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:40:04]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:40:04]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:40:04]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:40:04]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:40:04]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:40:04]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:42:05]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:42:05]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:42:05]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:42:05]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:42:05]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:42:05]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:42:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:42:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:42:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:42:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:42:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:42:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:42:30]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:42:30]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:42:30]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:42:30]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:42:30]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:42:30]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:42:35]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:42:35]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:42:35]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:42:35]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:42:35]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:42:35]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:43:05]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:43:05]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:43:05]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:43:05]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:43:05]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:43:05]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:43:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:43:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:43:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:43:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:43:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:43:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:43:15]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:43:15]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:43:15]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:43:15]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:43:15]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:43:15]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:46:15]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:46:15]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:46:15]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:46:15]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:46:16]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:46:16]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-223-Request received from client: <client-address>
+SERVER-[2022-09-29 18:46:56]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:46:56]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:46:56]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:46:56]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:46:57]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:46:57]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:46:57]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:46:57]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:46:57]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:46:57]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:46:57]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:46:57]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:46:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:46:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:46:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:46:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:46:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:46:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:46:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:46:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:46:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:46:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:03]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:03]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:03]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:03]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:03]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:03]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:03]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:03]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:03]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:03]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:03]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:03]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:11]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:11]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:11]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:11]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:11]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:11]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:11]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:11]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:12]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:13]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:13]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:13]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:13]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:13]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:13]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:13]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:13]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:18]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:18]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:18]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:18]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:19]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:19]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:19]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:19]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:19]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:19]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:20]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:20]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:20]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:20]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:20]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:20]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:20]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:20]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:20]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:20]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:21]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:21]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:21]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:21]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:21]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:21]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:21]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:21]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:26]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:26]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:26]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:26]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:26]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:26]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:26]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:26]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:39]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:39]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:40]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:40]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:40]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:40]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:40]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:40]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:40]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:40]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:40]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:40]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:41]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:41]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:41]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:41]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:41]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:41]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:46]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:46]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:46]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:46]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:46]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:46]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:46]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:46]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:46]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:46]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:46]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:46]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:52]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-Any server_destroy(void *)-183-Gracefully terminated!
+SERVER-[2022-09-29 18:47:54]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-126-Launching server...
+SERVER-[2022-09-29 18:47:54]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-153-Thread pool created with size: 10
+
+SERVER-[2022-09-29 18:47:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:47:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:47:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:48:04]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:48:04]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:48:04]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:48:04]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:48:04]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:48:04]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:48:05]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:48:05]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:48:05]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:48:05]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:48:05]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:48:05]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:48:10]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:48:10]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:48:10]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:48:10]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:48:11]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:48:11]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:48:13]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:48:13]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:48:13]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:48:13]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:48:13]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:48:13]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:48:13]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:48:13]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:48:13]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:48:13]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:48:13]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:48:13]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:48:14]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:48:14]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:48:14]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:48:14]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:48:14]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:48:14]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:48:44]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:48:44]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:48:44]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:48:44]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:48:44]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:48:44]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 18:49:08]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-Any server_destroy(void *)-183-Gracefully terminated!
+SERVER-[2022-09-29 18:49:11]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-126-Launching server...
+SERVER-[2022-09-29 18:49:11]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-153-Thread pool created with size: 10
+
+SERVER-[2022-09-29 18:50:32]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-Any server_destroy(void *)-183-Gracefully terminated!
+SERVER-[2022-09-29 18:50:34]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-126-Launching server...
+SERVER-[2022-09-29 18:50:34]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-153-Thread pool created with size: 10
+
+SERVER-[2022-09-29 18:50:39]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:50:39]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:50:39]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:50:39]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-223-Request received from client: <client-address>
+SERVER-[2022-09-29 18:50:46]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:50:46]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:50:46]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:50:46]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:50:47]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:50:47]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:50:47]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:50:47]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:50:47]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:50:47]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:50:47]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:50:47]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-223-Request received from client: <client-address>
+SERVER-[2022-09-29 18:51:03]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:03]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:03]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:03]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:03]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:03]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:03]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:03]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:04]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:04]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:04]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:04]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-223-Request received from client: <client-address>
+SERVER-[2022-09-29 18:51:56]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:56]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:56]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:56]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:56]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:56]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:56]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:56]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:58]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:59]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:59]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:59]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:51:59]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-223-Request received from client: <client-address>
+SERVER-[2022-09-29 18:52:22]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-Any server_destroy(void *)-183-Gracefully terminated!
+SERVER-[2022-09-29 18:52:24]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-126-Launching server...
+SERVER-[2022-09-29 18:52:24]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-153-Thread pool created with size: 10
+
+SERVER-[2022-09-29 18:52:28]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:52:28]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:52:28]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:52:28]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-223-Request received from client: <client-address>
+SERVER-[2022-09-29 18:52:41]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:52:41]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:52:41]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:52:41]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-223-Request received from client: <client-address>
+SERVER-[2022-09-29 18:56:00]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:56:00]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:56:00]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:56:00]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-223-Request received from client: <client-address>
+SERVER-[2022-09-29 18:59:31]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-126-Launching server...
+SERVER-[2022-09-29 18:59:31]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-153-Thread pool created with size: 10
+
+SERVER-[2022-09-29 18:59:36]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:59:36]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:59:36]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 18:59:36]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-223-Request received from client: <client-address>
+SERVER-[2022-09-29 19:01:02]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-126-Launching server...
+SERVER-[2022-09-29 19:01:02]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-153-Thread pool created with size: 10
+
+SERVER-[2022-09-29 19:01:06]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:01:06]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:01:06]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:01:06]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-223-Request received from client: <client-address>
+SERVER-[2022-09-29 19:03:24]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-126-Launching server...
+SERVER-[2022-09-29 19:03:24]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-153-Thread pool created with size: 10
+
+SERVER-[2022-09-29 19:03:28]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:03:28]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:03:28]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:03:28]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-223-Request received from client: <client-address>
+SERVER-[2022-09-29 19:04:53]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-126-Launching server...
+SERVER-[2022-09-29 19:04:53]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-153-Thread pool created with size: 10
+
+SERVER-[2022-09-29 19:04:56]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:04:56]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:04:56]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:04:56]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-223-Request received from client: <client-address>
+SERVER-[2022-09-29 19:05:45]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-126-Launching server...
+SERVER-[2022-09-29 19:05:45]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-153-Thread pool created with size: 10
+
+SERVER-[2022-09-29 19:05:47]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:05:47]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:05:47]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:05:47]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-223-Request received from client: <client-address>
+SERVER-[2022-09-29 19:06:10]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-126-Launching server...
+SERVER-[2022-09-29 19:06:10]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-153-Thread pool created with size: 10
+
+SERVER-[2022-09-29 19:06:25]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:06:25]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:06:25]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:06:25]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-223-Request received from client: <client-address>
+SERVER-[2022-09-29 19:06:48]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-126-Launching server...
+SERVER-[2022-09-29 19:06:48]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-153-Thread pool created with size: 10
+
+SERVER-[2022-09-29 19:06:53]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:06:53]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:06:53]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:06:53]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-223-Request received from client: <client-address>
+SERVER-[2022-09-29 19:06:53]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 19:06:54]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:06:54]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:06:54]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:06:54]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-223-Request received from client: <client-address>
+SERVER-[2022-09-29 19:06:54]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 19:06:59]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:06:59]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:06:59]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:06:59]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-223-Request received from client: <client-address>
+SERVER-[2022-09-29 19:06:59]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 19:07:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:07:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:07:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:07:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:07:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-223-Request received from client: <client-address>
+SERVER-[2022-09-29 19:07:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 19:08:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:08:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:08:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:08:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-223-Request received from client: <client-address>
+SERVER-[2022-09-29 19:08:29]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 19:09:18]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-Any server_destroy(void *)-183-Gracefully terminated!
+SERVER-[2022-09-29 19:09:21]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-126-Launching server...
+SERVER-[2022-09-29 19:09:21]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-void server_create(int, char **)-153-Thread pool created with size: 10
+
+SERVER-[2022-09-29 19:09:25]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:09:25]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:09:25]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-180-New connection from 127.0.0.1.
+SERVER-[2022-09-29 19:09:25]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/server.cc-int run(int *, Client **, SSL_CTX *, ThreadPool *, Router *)-223-Request received from client: <client-address>
+SERVER-[2022-09-29 19:09:25]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/server/client.cc-void drop_client(Client *, Client **)-90-Dropping client: <client-address>
+SERVER-[2022-09-29 20:17:20]-/Users/josephbender/Desktop/jericho-prod/Jericho/src/main.cc-Any server_destroy(void *)-183-Gracefully terminated!

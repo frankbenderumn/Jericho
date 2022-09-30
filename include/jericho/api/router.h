@@ -11,7 +11,7 @@ struct JsonResponse {
     }
 };
 
-template<typename K>
+template<typename K, typename V>
 std::vector<K> keys(std::map<K, V> map) {
     std::vector<K> result = {};
     for (auto kv : map) {
@@ -20,7 +20,7 @@ std::vector<K> keys(std::map<K, V> map) {
     return result;
 }
 
-template<typename V>
+template<typename K, typename V>
 std::vector<V> values(std::map<K, V> map) {
     std::vector<V> result = {};
     for (auto kv : map) {
@@ -136,6 +136,7 @@ class Router {
                 route->path = path;
             }
             std::vector<std::string> dirs = tokenize(path, '/');
+            dirs[0] = "/" + dirs[0];
             std::vector<std::string> wildcards = {};
             for (auto d : dirs) {
                 if (d.at(0) == ':') {
@@ -155,7 +156,7 @@ class Router {
             }
             for (auto arg : args) {
                 printf("arg: %s\n", arg.c_str());
-                kv = tokenize(arg, "=");
+                std::vector<std::string> kv = tokenize(arg, "=");
                 route->kvs[kv[0]] = kv[1];
             }
             signature.pop_back();
@@ -165,29 +166,50 @@ class Router {
     }
 
     void parse_path(std::string path, Route* request) {
+        std::string signature = "";
+        printf("some bullshit\n");
         std::vector<std::string> dirs = tokenize(path, '/');
+        dirs[0] = "/" + dirs[0];
         std::vector<std::string> wildcards = {};
-        for (auto d : dirs) {
-            if (d.at(0) == ':') {
-                wildcards.push_back(d);
-                signature += "x";
-            }
-            dirs.push_back(d);
-            int sym = _registry->registerSymbol(d);
-            signature += std::to_string(sym) + "-";
-            printf("dir: %s\n", d.c_str());
+        std::string args_str = "";
+        std::string path2 = "";
+        if (path.find("?") != std::string::npos) {
+            BRED("? found\n");
+            std::string::size_type const p(path.find_first_of('?'));
+            path2 = path.substr(0, p);
+            args_str = path.substr(p+1, path.size());
         }
-        std::vector<std::string> args = tokenize(args_str, '&');
-        route->args = args;
-        route->wildcards = wildcards;
+        printf("iterating directories\n");
+        BRED("Iterating directories\n");
+        for (auto d : dirs) {
+            if (d.size() != 0) {
+                if (d.at(0) == ':') {
+                    wildcards.push_back(d);
+                    signature += "x";
+                }
+                dirs.push_back(d);
+                int sym = _registry->registerSymbol(d);
+                signature += std::to_string(sym) + "-";
+                printf("dir: %s\n", d.c_str());
+            }
+        }
+        std::vector<std::string> args = {};
+        if (args_str != "") {
+            args = tokenize(args_str, '&');
+        }
+        // request->args = args;
+        // request->wildcards = wildcards;
+        BRED("Assignments to route done\n");
         for (auto w : wildcards) {
             printf("wc: %s\n", w.c_str());
         }
         for (auto arg : args) {
             printf("arg: %s\n", arg.c_str());
         }
-        signature.pop_back();
-        route->signature = signature;
+        if(signature.size() != 0) {
+            signature.pop_back();
+        }
+        request->signature = signature;
         printf("signature: %s\n", signature.c_str());
     }
 };
