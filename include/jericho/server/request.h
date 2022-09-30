@@ -17,6 +17,7 @@ struct Request {
     std::string path;
     std::string request;
     std::vector<std::string> args;
+    std::string signature;
 };
 
 bool is_valid_request(Client* client);

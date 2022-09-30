@@ -1,0 +1,43 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/prizm-cxx.dir/src/benchmark.cc.o"
+  "CMakeFiles/prizm-cxx.dir/src/benchmark.cc.o.d"
+  "CMakeFiles/prizm-cxx.dir/src/defs.cc.o"
+  "CMakeFiles/prizm-cxx.dir/src/defs.cc.o.d"
+  "CMakeFiles/prizm-cxx.dir/src/error.cc.o"
+  "CMakeFiles/prizm-cxx.dir/src/error.cc.o.d"
+  "CMakeFiles/prizm-cxx.dir/src/file_system.cc.o"
+  "CMakeFiles/prizm-cxx.dir/src/file_system.cc.o.d"
+  "CMakeFiles/prizm-cxx.dir/src/hash.cc.o"
+  "CMakeFiles/prizm-cxx.dir/src/hash.cc.o.d"
+  "CMakeFiles/prizm-cxx.dir/src/print_color.cc.o"
+  "CMakeFiles/prizm-cxx.dir/src/print_color.cc.o.d"
+  "CMakeFiles/prizm-cxx.dir/src/stack.cc.o"
+  "CMakeFiles/prizm-cxx.dir/src/stack.cc.o.d"
+  "CMakeFiles/prizm-cxx.dir/src/test/assertion.cc.o"
+  "CMakeFiles/prizm-cxx.dir/src/test/assertion.cc.o.d"
+  "CMakeFiles/prizm-cxx.dir/src/test/commands.cc.o"
+  "CMakeFiles/prizm-cxx.dir/src/test/commands.cc.o.d"
+  "CMakeFiles/prizm-cxx.dir/src/test/comparator.cc.o"
+  "CMakeFiles/prizm-cxx.dir/src/test/comparator.cc.o.d"
+  "CMakeFiles/prizm-cxx.dir/src/test/ext.cc.o"
+  "CMakeFiles/prizm-cxx.dir/src/test/ext.cc.o.d"
+  "CMakeFiles/prizm-cxx.dir/src/test/prizm_test.cc.o"
+  "CMakeFiles/prizm-cxx.dir/src/test/prizm_test.cc.o.d"
+  "CMakeFiles/prizm-cxx.dir/src/test/shared.cc.o"
+  "CMakeFiles/prizm-cxx.dir/src/test/shared.cc.o.d"
+  "CMakeFiles/prizm-cxx.dir/src/test/suite.cc.o"
+  "CMakeFiles/prizm-cxx.dir/src/test/suite.cc.o.d"
+  "CMakeFiles/prizm-cxx.dir/src/test/suite_manager.cc.o"
+  "CMakeFiles/prizm-cxx.dir/src/test/suite_manager.cc.o.d"
+  "CMakeFiles/prizm-cxx.dir/src/test/test.cc.o"
+  "CMakeFiles/prizm-cxx.dir/src/test/test.cc.o.d"
+  "CMakeFiles/prizm-cxx.dir/src/time.cc.o"
+  "CMakeFiles/prizm-cxx.dir/src/time.cc.o.d"
+  "libprizm-cxx.a"
+  "libprizm-cxx.pdb"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/prizm-cxx.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

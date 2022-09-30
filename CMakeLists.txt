@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.8)
 project(jericho)
 
 set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_CXX_STANDARD 11)
 
 if (NOT DEFINED DEPS_DIR)
     set(DEPS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/ext")
@@ -70,6 +71,7 @@ include_directories(${BUILD_DIR}/cppzmq/include)
 include_directories(${DEPS_DIR}/tensorflow/include)
 
 link_directories(${DEPS_DIR}/openssl/lib64)
+link_directories(${DEPS_DIR}/openssl/lib)
 link_directories(${DEPS_DIR}/tensorflow/lib)
 link_directories(${BUILD_DIR}/libzmq/lib)
 link_directories(${BUILD_DIR}/cppzmq/lib)
