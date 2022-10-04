@@ -8,6 +8,7 @@
 #include "server/client.h"
 #include "picojson.h"
 #include "server/router.h"
+#include "server/fetch.h"
 
 typedef struct {
   int             num_active;
@@ -19,6 +20,9 @@ typedef struct {
 ThreadInfo thread_info;
 
 ThreadPool* tpool;
+
+std::string DIR;
+
 int job_ct = 0;
 
 int received_shutdown_req = 0;
@@ -83,6 +87,9 @@ void message(Client* conn, const unsigned char* message, uint64_t size, int type
 int main(int argc, char* argv[]) {
     server_create(argc, argv);
 
+    DIR = std::string(argv[3]);
+    int port = atoi(argv[1]);
+
     #ifdef _WIN32
         struct WSAData d;
         if (WSAStartup(MAKEWORD(2, 2), &d)) {
@@ -107,14 +114,51 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    std::vector<std::string> ipAddresses = {};
-    SOCKET server = socket_create(0, 8080, 1, AF_INET, SOCK_STREAM); // creates initial socket
+    MessageQueue* MQ = new MessageQueue;
 
-    Router* router = new Router;
-    router->bind("/rsi", apiRsi);
-    router->bind("/ohlc", apiOhlc);
+    MessageBuffer* buffer = new MessageBuffer;
+    buffer->mq = MQ;
+    buffer->hostname = "127.0.0.1";
+    buffer->port = "8081";
+    buffer->sent = "Welcome to the shit show";
+    buffer->path = "/";
+
+    MessageBuffer* buffer2 = new MessageBuffer;
+    buffer2->mq = MQ;
+    buffer2->hostname = "127.0.0.1";
+    buffer2->port = "8082";
+    buffer2->sent = "Welcome to the best show";
+    buffer2->path = "/";
+
+    MessageBuffer* buffer3 = new MessageBuffer;
+    buffer3->mq = MQ;
+    buffer3->hostname = "127.0.0.1";
+    buffer3->port = "8083";
+    buffer3->sent = "Welcome to another show";
+    buffer3->path = "/";
+    
+
+    std::vector<std::string> ipAddresses = {};
+    SOCKET server = socket_create(0, port, 1, AF_INET, SOCK_STREAM); // creates initial socket
+
+    Router* router = new Router(tpool, fetch);
+
+    router->bind(ROUTE_API, "/rsi", apiRsi);
+    router->secure("/jericho/denathrius.html");
+
+    if (port == 8080) {
+        router->bindNode("/node1", buffer);
+        router->bindNode("/node2", buffer2);
+        router->bindNode("/node3", buffer3);
+    }
+
+    // router->bind("/ohlc", apiOhlc);
 
     run(&server, &clients, ctx, tpool, router);
+
+    delete buffer;
+    delete buffer2;
+    delete buffer3;
 
     delete router;
     
@@ -142,15 +186,15 @@ void server_create(int argc, char* argv[]) {
     event_manager.message = &message;
     event_manager.dispatch = &dispatch;
 
-    if (argc < 2) {
-        DEBUG("Usage: ./thread_pool <number of threads> <directory>\n");
+    if (argc < 3) {
+        DEBUG("Usage: ./thread_pool <port> <number of threads> <directory>\n");
         exit(1);
     }
 
     DEBUG("Creating thread pool...\n");
-    DEBUG("Number of threads: %i\n", MAX_CONNECTIONS);
-    tpool = thread_pool_create(MAX_CONNECTIONS);
-    PLOG(LSERVER, "Thread pool created with size: %i\n", MAX_CONNECTIONS);
+    DEBUG("Number of threads: %i\n", (size_t)atoi(argv[2]));
+    tpool = thread_pool_create((size_t)atoi(argv[2]));
+    PLOG(LSERVER, "Thread pool created with size: %i\n", atoi(argv[2]));
 }
 
 /** WARN: not platform independent */

@@ -1,8 +1,18 @@
 #!/bin/bash
 source config/tokens
+ROOTDIR=`git rev-parse --show-toplevel`
+mkdir ${ROOTDIR}/db
 if [[ "$1" == "install" ]]; then
     cd ext
     git clone https://frankbenderumn:${GITHUB_TOKEN}@github.com/frankbenderumn/celerity.git
+    cd celerity
+    git checkout OLS
+    chmod -R +x celerity
+    # if [[ -n "$2" ]]; then
+    #     mkdir db
+    #     ./configure `pwd`/db `pwd`/ext
+    #     ./install
+    # fi
 else
     echo -e "\033[1;31mInvalid argument for package celerity\033[0m"
 fi

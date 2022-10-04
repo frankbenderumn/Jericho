@@ -12,6 +12,8 @@ namespace resource {
 
     void serve_cxx(Client* conn, Client** clients, const char* path);
 
+    void serve_dist(Client* conn, Client** clients, const char* message);
+
 }
 
 #endif

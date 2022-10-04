@@ -54,6 +54,7 @@ add_library(jericho ${SHARED_FLAG}
     src/trash.c
     src/unbel.cc
     src/util/string_utils.cc
+    src/server/fetch.cc
 )
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)

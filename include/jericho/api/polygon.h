@@ -8,6 +8,20 @@
 
 #define OPT std::pair<std::string, std::string>
 
+const std::unordered_map<std::string, int> TOKEN_LIST = {
+    {"kalmoru", 0},
+    {"assinine", 0},
+    {"ass", 0},
+    {"titties", 0},
+    {"kobutcha", 0}
+};
+
+template <typename K, typename V>
+bool contains(std::unordered_map<K, V> map, K key) {
+    if (map.find(key) != map.end()) return true;
+    return false;
+}
+
 class PolygonClient {
   public:
     static std::string send(std::string route, OPTS opts) {
@@ -173,6 +187,32 @@ std::string apiRsi(std::vector<std::string> args) {
         return PolygonClient::rsi(args[0], args[1], args[2], args[3], args[4], args[5]);
     }
         return "{\"status\": \"500\", \"error\": \"6 arguments required\"}";
+}
+
+// https://api.polygon.io/v1/indicators/rsi/AAPL?timespan=day&adjusted=true&window=14&series_type=close&order=desc&apiKey=*
+std::string apiRsi(std::unordered_map<std::string, std::string> args) {
+    std::unordered_map<std::string, std::string> v = {
+        {"timespan", "day"},
+        {"adjusted", "true"},
+        {"window", "14"},
+        {"series_type", "close"},
+        {"order", "desc"},
+        {"ticker", "AAPL"},
+        {"token", "undefined"}
+    }; 
+    if (subset(keys(args), std::set<std::string>{"timespan", "adjusted", "window", "series_type", "order", "ticker", "token"})) {
+        if (contains(TOKEN_LIST, args["token"])) {
+            for (auto arg : args) {
+                v[arg.first] = arg.second;
+            }
+            return PolygonClient::rsi(v["ticker"], v["timespan"], v["adjusted"], v["window"], v["series_type"], "desc");
+        } else {
+            return JsonResponse::error(404, "Invalid token provided");
+        }
+    } else {
+        print(keys(args));
+        return JsonResponse::error(500, "invalid arguments provided");
+    }
 }
 
 #endif
