@@ -52,3 +52,5 @@ FAIL-[[0;33m2022-07-26 09:51:54[0m]-/mnt/d/jericho2/src/server/response.cc-voi
 
 FAIL-[[0;33m2022-07-26 23:24:35[0m]-/mnt/d/jericho2/src/server/response.cc-void file_read(const char*, char*)-242-File does not exist!
 
+FAIL-[2022-09-30 18:12:31]-/mnt/d/jericho2/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-09-30 18:13:02]-/mnt/d/jericho2/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.

@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <map>
 
 #include "prizm/prizm.h"
 #include "server/resource.h"
@@ -16,7 +17,7 @@ struct Request {
     std::string method;
     std::string path;
     std::string request;
-    std::vector<std::string> args;
+    std::unordered_map<std::string, std::string> args;
     std::string signature;
 };
 

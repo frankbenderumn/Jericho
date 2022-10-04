@@ -63,17 +63,17 @@ namespace iris {
     }
 
     void interpret(std::string& file) {
-        BGRE("INTERPRETTING...\n");
+        // BGRE("INTERPRETTING...\n");
         LEXES ls = scan(file, std::regex("\\{\\{.+\\}\\}+"));
         if (ls.size() > 0) {
             for (auto lex : ls) {
-                printf("Lex found: %s - %i\n", lex.first.c_str(), lex.second);
+                // printf("Lex found: %s - %i\n", lex.first.c_str(), lex.second);
                 replace(file, lex.first, std::string("replacement"));
             }
         } else {
             printf("No lexes found\n");
         }
-        printf("NEW FILE IS: %s\n", file.c_str());
+        // printf("NEW FILE IS: %s\n", file.c_str());
     // std::stringstream ss(file);
     // std::string word, push_field("");
     // bool no_quotes = true;

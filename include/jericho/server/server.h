@@ -27,6 +27,8 @@
 
 extern EventManager event_manager;
 
+class Router;
+
 void connect(void* targ);
 static void* service(void* targ);
 void recv_websocket(Any args);

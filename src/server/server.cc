@@ -1,6 +1,7 @@
+#include "api/router.h"
 #include "server/server.h"
 #include "server/request.h"
-#include "api/router.h"
+#include "server/fetch.h"
 
 
 int link(Frame* frame, Client* client) {
@@ -160,6 +161,28 @@ void connect(void* targ) {
     return;
 }
 
+bool authenticate(std::string path, std::string content) {
+	std::vector<std::string> args = tokenize(content, '&');
+	std::unordered_map<std::string, std::string> kvs;
+	for (auto arg : args) {
+		std::vector<std::string> kv = tokenize(arg, '=');
+		kvs[kv[0]] = kv[1];
+	}
+	if (containsKey(kvs, std::string("username"))) {
+		if (kvs["username"] == "joey") return true;
+	} else {
+		return false;
+	}
+
+	if (containsKey(kvs, std::string("password"))) {
+		if (kvs["password"] == "pass1234") return true;
+	} else {
+		return false;
+	}
+
+	return false;
+}
+
 int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Router* router) {
     while (1) {
         fd_set reads;
@@ -191,7 +214,7 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 			if (SSL_accept(client->ssl) != 1) {
 				//SSL_get_error(client->ssl, SSL_accept(...));
 				ERR_print_errors_fp(stderr);
-				// drop_client(client, clients); // this will cause bugs on mac localhost test
+				drop_client(client, clients); // this will cause bugs on mac localhost test
 			} else {
 				printf("SSL connection using %s\n", SSL_get_cipher(client->ssl));
 			}
@@ -221,7 +244,7 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
                 if (r > 0) { // bytes received
 
                     PLOG(LSERVER, "Request received from client: <client-address>");
-                    MAG("REQUEST: %s\n", client->request);
+                    // MAG("REQUEST: %s\n", client->request);
 
                     client->received += r; // increment bytes received
                     client->request[client->received] = 0; 
@@ -248,6 +271,7 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 					Request request;
 					Route route;
 					std::string result;
+					std::string result2;
                     switch(state = client_get_state(client)) {
                         case SOCKST_ALIVE:
                             // parser2::parse(client, clients);
@@ -261,17 +285,51 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 								break;
 							}
 
-							print_request(&request);
 
 							router->parse_path(request.path, &route);
 
-							
+							request.args = route.kvs;
+							request.path = route.path;
 
-							result = router->exec(request.path, {});
+							print_request(&request);
+
+							switch (router->protocol(request.path)) {
+								case ROUTE_API:
+									result = router->exec(request.path, request.args);
+									resource::serve_dist(client, clients, result.c_str());
+									break;
+								case ROUTE_CLUSTER:
+									result2 = router->execNode(request.path, {});
+									resource::serve_dist(client, clients, result2.c_str());
+									t_write(8080, "./cluster/log/8080.boss", result2.c_str());
+									break;
+								case ROUTE_NULL:
+								case ROUTE_HTTP:
+								default:
+									BRED("UNREGISTERED ROUTE\n");
+									print(router->registry()->securePaths());
+								    if (router->secured(request.path)) {
+										BRED("ROUTE IS SENSITIVE\n");
+										if (authenticate(request.path, request.content)) {
+											BRED("ROUTE IS AUTHENTICATED\n");
+											result = router->exec(request.path, request.args);
+											resource::serve_cxx(client, clients, request.path.c_str());
+										} else {
+											resource::error(client, "305");
+										}
+									} else {
+										result = router->exec(request.path, request.args);
+										resource::serve_cxx(client, clients, request.path.c_str());
+									}
+									break;
+							}
+
 							printf("Route executed. Result is: %s\n", result.c_str());
+							printf("Route executed. Result 2 is: %s\n", result2.c_str());
 
-                            memset(client->request, 0, strlen(client->request));
-                            drop_client(client, clients);
+
+                            // memset(client->request, 0, strlen(client->request));
+                            // drop_client(client, clients);
                             break;
                         case SOCKST_CLOSING:
                             PLOG(LSERVER, "Dropping client: <client-address>");

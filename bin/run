@@ -1,12 +1,30 @@
 #!/bin/bash
-if [[ -z "$1" ]]; then
-    ./cmake-build/server 10 ./frontend
+if [[ -z "$1" ]] || [[ "$1" == "server" ]]; then
+    PORT=8080
+    if [[ -n "$2" ]]; then
+        PORT=$2
+    fi
+
+    THREADS=10
+    if [[ -n "$3" ]]; then
+        THREADS=$3
+    fi
+
+    DIR="./frontend"
+    if [[ -n "$4" ]]; then
+        DIR="$4"
+    fi
+
+    ./cmake-build/server $PORT $THREADS $DIR
 elif [[ "$1" == "tf" ]]; then
     ./cmake-build/tf
 elif [[ "$1" == "zmq" ]]; then
     ./cmake-build/zmq
 elif [[ "$1" == "client" ]]; then
     ./cmake-build/client $2 $3
+elif [[ "$1" == "cluster" ]]; then
+    ./cmake-build/server 8080 $THREADS ./cluster/8080 & \
+    ./cmake-build/server 8081 $THREADS ./cluster/8081
 else
     echo -e "\033[1;31mInvalid argument given to jericho\033[0m"
 fi

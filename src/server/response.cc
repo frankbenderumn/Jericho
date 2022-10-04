@@ -2,6 +2,7 @@
 #include "server/resource.h"
 #include <sys/wait.h>
 #include "server/iris.h"
+#include "server/defs.h"
 
 void file_read(const char* path, char* buffer);
 
@@ -159,12 +160,16 @@ void socket_write(SSL* ssl, const void *buf, unsigned size) {
 
 void resource::serve_cxx(Client* conn, Client** clients, const char* path) {
     char addr_buffer[16];
+    printf("Path to serve is: %s\n", path);
     client_get_address(conn, addr_buffer);
     DEBUGC(4, "serve_resource %s %s\n", addr_buffer, path);
     std::string p = std::string(path);
-    std::string dir = "frontend";
+    std::string dir = DIR;
+    if (p == "") p = "/index.html";
     if (p == "/") p = "/index.html";
+
     std::string full_path = dir + p;
+    BWHI("FULL PATH: %s\n", full_path.c_str());
         FILE* fp = fopen(full_path.c_str(), "rb"); // open file, set fds to read in bytes
 
     if (!fp) { 
@@ -185,7 +190,7 @@ void resource::serve_cxx(Client* conn, Client** clients, const char* path) {
     size_t sz = file_size(fp);
     const char* content = get_content_type(full_path.c_str()); 
 
-    char buffer[4096];
+    char buffer[8192];
     sprintf(buffer, "HTTP/1.1 200 OK\r\n");
     SSL_write(conn->ssl, buffer, strlen(buffer));
     sprintf(buffer, "Connection: close\r\n");
@@ -199,25 +204,32 @@ void resource::serve_cxx(Client* conn, Client** clients, const char* path) {
 
     std::string file_contents = FileSystem::read(full_path.c_str());
     iris::interpret(file_contents);
-    BBLU("DONE INTERPRETING\n");
+    // BBLU("DONE INTERPRETING\n");
     std::string ext = std::string(content);
-    BBLU("CONTNEN: %s\n", ext.c_str());
-    BMAG("SZ IS: %i\n", (int)strlen(file_contents.c_str()));
+    // BBLU("CONTNEN: %s\n", ext.c_str());
+    // BMAG("SZ IS: %i\n", (int)strlen(file_contents.c_str()));
+    // BWHI("Directory is: %s\n", dir.c_str());
+    // BWHI("Sending: %s\n", file_contents.c_str());
     
     if (ext == "text/html") {
         SSL_write(conn->ssl, file_contents.c_str(), strlen(file_contents.c_str())); // send bytes
         printf("DONE WRITING\n");
     } else {
         // read file contents into multiple 1024 packets
-        int r = fread(buffer, 1, 4096, fp);
+        int r = fread(buffer, 1, 1024, fp);
         while (r) {
             SSL_write(conn->ssl, buffer, r); // send bytes
-            r = fread(buffer, 1, 4096, fp); // read another 1024
+            r = fread(buffer, 1, 1024, fp); // read another 1024
         }
     }
 
     fclose(fp); // close file
     drop_client(conn, clients);
+}
+
+void resource::serve_dist(Client* conn, Client** clients, const char* message) {
+    SSL_write(conn->ssl, message, strlen(message)); // send bytes
+    printf("DONE WRITING DIST\n");
 }
 
 void serve_resource(Client* conn, const char* path) {

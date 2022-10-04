@@ -1,0 +1,98 @@
+<html>
+    <head>
+        <title>Jericho</title> 
+        <link rel="preload" src="../assets/images/jericho-white.png" as="image" crossorigin>
+        <link rel="preload" href="../assets/fonts/woff/mbf-space.woff" as="font" type="font/woff2" crossorigin>
+        <link rel="stylesheet" href="../css/final.css" type="text/css" /> 
+        <link rel="stylesheet" href="../css/main.css" type="text/css" /> 
+        <link rel="stylesheet" href="../css/nebula.css" type="text/css" /> 
+    </head>
+
+    <style>
+        body {
+            margin:0px;
+            background-image:url('../assets/images/matrix-binary.jpg');
+            background-size: contain;
+        }
+
+        .jericho-template-header {
+            background-color:#102489;
+            color:white;
+            height:40px;
+            width:100%;
+            font-weight:bold;
+            box-shadow:var(--shadow);
+        }
+
+        .jericho-template-body {
+            top:40px;
+            padding:20px;
+        }
+
+        .jericho-trace {
+            background-color:#333;
+            color:white;
+            padding:10px;
+            border-radius:5px;
+            box-shadow:var(--shadow);
+        }
+
+        .jericho-reference {
+            display:flex;
+        }
+
+        .jericho-reference-card {
+            float:left;
+            background-color:#ffcccc;
+            border-radius:5px;
+            box-shadow:var(--shadow);
+            padding:20px;
+            height:50px;
+            margin-right:5px;
+        }
+
+        .jericho-reference-card:hover {
+            transition:0.2s;
+            background-color:rgb(70, 70, 161);
+            box-shadow:none;
+        }
+
+    </style>
+
+    <body>
+        <header class="jericho-template-header">
+            <div class="stage">
+                <a href="index.html" class="brand" style="color:white;padding:8px 10px;float:left;">
+                    <image src="../assets/images/jericho-white.png" style="width:24px;height:24px;"  />
+                </a>
+                <span style="float:left;font-size:30px;" class="font-mbf">Jericho</span>
+            </div>
+        </header>
+        <div class="jericho-template-body">
+            <div class="stage" style="background-color:#ffffffcc;height:100%;padding:10px;">
+                <h1>
+                    REPORTED FOR ATTEMPTED HACKING
+                </h1>
+                <div class="jericho-trace">
+                    Can't trust anyone
+                </div> 
+                <h3>References</h3> 
+                <div class="jericho-reference">
+                    <div class="jericho-reference-card">
+                        Resource
+                    </div>
+                    <div class="jericho-reference-card">
+                        Uri
+                    </div>
+                    <div class="jericho-reference-card">
+                        Response
+                    </div>
+                    <div class="jericho-reference-card">
+                        Authentication
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>
