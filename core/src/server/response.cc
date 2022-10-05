@@ -4,6 +4,8 @@
 #include "server/iris.h"
 #include "server/defs.h"
 
+using namespace Jericho;
+
 void file_read(const char* path, char* buffer);
 
 void serve(Client* client, const char* content) {

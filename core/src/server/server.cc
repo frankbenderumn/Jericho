@@ -2,7 +2,9 @@
 #include "server/server.h"
 #include "server/request.h"
 #include "server/fetch.h"
+#include "celerity/celerity.h"
 
+using namespace Jericho;
 
 int link(Frame* frame, Client* client) {
     BCYA("Linking...\n");
@@ -214,7 +216,7 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 			if (SSL_accept(client->ssl) != 1) {
 				//SSL_get_error(client->ssl, SSL_accept(...));
 				ERR_print_errors_fp(stderr);
-				drop_client(client, clients); // this will cause bugs on mac localhost test
+				// drop_client(client, clients); // this will cause bugs on mac localhost test
 			} else {
 				printf("SSL connection using %s\n", SSL_get_cipher(client->ssl));
 			}
@@ -251,15 +253,15 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
                     char* q = strstr(client->request, "\r\n\r\n");
 
                     // if http response aka (contains \r\n\r\n)
-                    /** TODO: switch from scan method to strtok_r */
+                    /** TODO: switch from Jericho::jscan method to strtok_r */
                     if (q) {
-                        if (scan("Connection: keep-alive", client->request)) {
+                        if (Jericho::jscan("Connection: keep-alive", client->request)) {
                             client_set_state(client, SOCKST_ALIVE);
                             printf("Setting state\n");
-                        } else if (scan("Connection: closed", client->request)) {
+                        } else if (Jericho::jscan("Connection: closed", client->request)) {
                             client_set_state(client, SOCKST_CLOSING);
                             printf("Setting state\n");
-                        } else if (scan("Connection: Upgrade", client->request)) {
+                        } else if (Jericho::jscan("Connection: Upgrade", client->request)) {
                             client_set_state(client, SOCKST_UPGRADING);
                             printf("Setting state\n");
                         } else {
@@ -272,6 +274,8 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 					Route route;
 					std::string result;
 					std::string result2;
+					Celerity* celerity = new Celerity;
+
                     switch(state = client_get_state(client)) {
                         case SOCKST_ALIVE:
                             // parser2::parse(client, clients);
@@ -296,7 +300,10 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 							switch (router->protocol(request.path)) {
 								case ROUTE_API:
 									result = router->exec(request.path, request.args);
+									celerity->persist(DB_DOCUMENT, result);
 									resource::serve_dist(client, clients, result.c_str());
+									BYEL("Disting...\n");
+									delete celerity;
 									break;
 								case ROUTE_CLUSTER:
 									result2 = router->execNode(request.path, {});

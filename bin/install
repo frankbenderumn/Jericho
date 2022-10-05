@@ -7,10 +7,10 @@ chmod +x ./bin/prizm
 chmod +x ./bin/openssl
 chmod +x ./bin/nebulaui
 chmod +x ./bin/celerity
-./bin/prizm
-./bin/openssl
-./bin/nebulaui
-./bin/celerity
+./bin/prizm install
+./bin/openssl install
+./bin/nebulaui update
+./bin/celerity install
 chmod 000 ./bin/openssl
 chmod 000 ./bin/prizm
 mkdir -p cmake

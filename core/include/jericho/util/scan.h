@@ -7,6 +7,10 @@
 
 #include "server/defs.h"
 
-bool scan(const char* regex_val, char* request);
+namespace Jericho {
+
+bool jscan(const char* regex_val, char* request);
+
+}
 
 #endif

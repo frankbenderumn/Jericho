@@ -20,6 +20,7 @@
 #define LEX std::pair<std::string, int>
 #endif
 
+namespace Jericho {
 std::string reverse(std::string s);
 
 std::vector<std::string> reverse(std::vector<std::string> s);
@@ -53,5 +54,6 @@ bool lex_contains(std::string substr, std::regex rgx);
 bool lex_is(std::string substr, std::regex rgx);
 
 std::string replace(std::string s, char a, char b);
+}
 
 #endif

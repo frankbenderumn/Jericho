@@ -1,6 +1,6 @@
 #include "api/string_utils.h"
 
-std::string reverse(std::string s) {
+std::string Jericho::reverse(std::string s) {
     std::string str = s;
     int n = str.length();
     for (int i = 0; i < n / 2; i++) {
@@ -9,7 +9,7 @@ std::string reverse(std::string s) {
     return str;
 }
 
-std::vector<std::string> reverse(std::vector<std::string> s) {
+std::vector<std::string> Jericho::reverse(std::vector<std::string> s) {
     // bold(); yellow();
     // printf("reversing\n");
     // for (auto w : s) {
@@ -26,47 +26,47 @@ std::vector<std::string> reverse(std::vector<std::string> s) {
     // clearcolor();
 }
  
-std::string ltrim(const std::string &s) {
+std::string Jericho::ltrim(const std::string &s) {
     return std::regex_replace(s, std::regex("^\\s+"), std::string(""));
 }
  
-std::string rtrim(const std::string &s) {
+std::string Jericho::rtrim(const std::string &s) {
     return std::regex_replace(s, std::regex("\\s+$"), std::string(""));
 }
  
-std::string trim(const std::string &s) {
+std::string Jericho::trim(const std::string &s) {
     return ltrim(rtrim(s));
 }
 
-void ltrim_force(std::string& s) {
+void Jericho::ltrim_force(std::string& s) {
     s = std::regex_replace(s, std::regex("\\s+$"), std::string(""));
 }
 
-void rtrim_force(std::string& s) {
+void Jericho::rtrim_force(std::string& s) {
     s = std::regex_replace(s, std::regex("\\s+$"), std::string(""));
 }
 
-void trim_force(std::string& s) {
+void Jericho::trim_force(std::string& s) {
     ltrim(rtrim(s));
 }
 
-void erase(std::string& str, char toRemove) {
+void Jericho::erase(std::string& str, char toRemove) {
     str.erase(std::remove(str.begin(), str.end(), toRemove), str.end());
 }
 
-void trim_tokens(std::vector<std::string>& toks) {
+void Jericho::trim_tokens(std::vector<std::string>& toks) {
     for (int i = 0; i < toks.size(); i++) {
         toks.at(i) = trim(toks.at(i));
     }
 }
 
-void dump_tokens(std::vector<std::string> toks) {
+void Jericho::dump_tokens(std::vector<std::string> toks) {
     for (auto t : toks) {
         std::cout << "-> " << t << std::endl;
     }
 }
 
-std::vector<std::string> tokenize(std::string in, char delim) {
+std::vector<std::string> Jericho::tokenize(std::string in, char delim) {
     std::istringstream ss(in);
     std::string word;
     std::vector<std::string> words;
@@ -78,7 +78,7 @@ std::vector<std::string> tokenize(std::string in, char delim) {
     return words;
 }
 
-std::vector<std::string> tokenize(std::string in, std::string delim) {
+std::vector<std::string> Jericho::tokenize(std::string in, std::string delim) {
     size_t last = 0;
     size_t next = 0;
     std::vector<std::string> result = {};
@@ -94,7 +94,7 @@ std::vector<std::string> tokenize(std::string in, std::string delim) {
     return result;
 }
 
-LEXES lex_locs(std::string substr, std::regex rgx) {
+LEXES Jericho::lex_locs(std::string substr, std::regex rgx) {
     LEXES result;
     std::regex_iterator<std::string::iterator> it(substr.begin(), substr.end(), rgx);
     std::regex_iterator<std::string::iterator> end;
@@ -105,7 +105,7 @@ LEXES lex_locs(std::string substr, std::regex rgx) {
     return result;
 }
 
-bool lex_contains(std::string substr, std::regex rgx) {
+bool Jericho::lex_contains(std::string substr, std::regex rgx) {
     LEXES result;
     std::regex_iterator<std::string::iterator> it(substr.begin(), substr.end(), rgx);
     std::regex_iterator<std::string::iterator> end;
@@ -116,7 +116,7 @@ bool lex_contains(std::string substr, std::regex rgx) {
     return (result.size() > 0);
 }
 
-bool lex_is(std::string substr, std::regex rgx) {
+bool Jericho::lex_is(std::string substr, std::regex rgx) {
     std::regex_iterator<std::string::iterator> it(substr.begin(), substr.end(), rgx);
     std::regex_iterator<std::string::iterator> end;
     if (std::distance(it, end) > 0) {
@@ -125,7 +125,7 @@ bool lex_is(std::string substr, std::regex rgx) {
     return false;
 }
 
-std::string replace(std::string s, char a, char b) {
+std::string Jericho::replace(std::string s, char a, char b) {
     std::string result = s;
     std::replace( result.begin(), result.end(), a, b); // replace all 'x' to 'y'
     return result;
