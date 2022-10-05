@@ -1,6 +1,8 @@
 #include "server/resource.h"
 #include "server/iris.h"
 
+using namespace Jericho;
+
 void resource::error(Client* client, const std::string& path) {
     std::string s;
     if (path == "404") {

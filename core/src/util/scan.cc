@@ -1,6 +1,6 @@
 #include "util/scan.h"
 
-bool scan(const char* regex_val, char* request) {
+bool Jericho::jscan(const char* regex_val, char* request) {
     // the following regex scanners detect if websocket protocol and extracts key if so
     // const char* regex = "Upgrade: websocket"
     bool ws_protocol = false;

@@ -15,7 +15,7 @@ if (NOT DEFINED BUILD_DIR)
 endif (NOT DEFINED BUILD_DIR)
 message("Deps dir is: ${DEPS_DIR}")
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/jericho)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/core/include/jericho)
 
 option(BUILD_SHARED_LIBS "Building shared library..." OFF)
 if (BUILD_SHARED_LIBS)
@@ -25,36 +25,36 @@ else()
 endif (BUILD_SHARED_LIBS)
 
 add_library(jericho ${SHARED_FLAG} 
-    src/crypt/base64.cc
-    src/crypt/sha1.cc
-    src/crypt/utf8.cc
-    src/server/client.cc
-    src/server/event.cc
-    src/server/frame.cc
-    src/server/ping_pong.cc
-    src/server/response.cc
-    src/server/shutdown.cc
-    src/server/smtp.cc
-    src/server/socket.cc
-    src/server/server.cc
-    src/server/resource.cc
-    src/server/thread_pool.cc
-    src/server/web_socket.cc
-    src/server/router.cc
-    src/server/iris.cc
-    src/server/request.cc
-    src/ssh/ssh_auth.cc
-    src/ssh/ssh_command.cc
-    src/ssh/ssh_connect.cc
-    src/ssh/ssh_download.cc
-    src/ssh/ssh_version.cc        
-    src/util/file_system.cc   
-    src/util/scan.cc
-    src/client_ui.cc
-    src/trash.c
-    src/unbel.cc
-    src/util/string_utils.cc
-    src/server/fetch.cc
+    core/src/crypt/base64.cc
+    core/src/crypt/sha1.cc
+    core/src/crypt/utf8.cc
+    core/src/server/client.cc
+    core/src/server/event.cc
+    core/src/server/frame.cc
+    core/src/server/ping_pong.cc
+    core/src/server/response.cc
+    core/src/server/shutdown.cc
+    core/src/server/smtp.cc
+    core/src/server/socket.cc
+    core/src/server/server.cc
+    core/src/server/resource.cc
+    core/src/server/thread_pool.cc
+    core/src/server/web_socket.cc
+    core/src/server/router.cc
+    core/src/server/iris.cc
+    core/src/server/request.cc
+    core/src/ssh/ssh_auth.cc
+    core/src/ssh/ssh_command.cc
+    core/src/ssh/ssh_connect.cc
+    core/src/ssh/ssh_download.cc
+    core/src/ssh/ssh_version.cc        
+    core/src/util/file_system.cc   
+    core/src/util/scan.cc
+    core/src/client_ui.cc
+    core/src/trash.c
+    core/src/unbel.cc
+    core/src/util/string_utils.cc
+    core/src/server/fetch.cc
 )
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
@@ -63,9 +63,14 @@ find_package(Threads REQUIRED)
 # include_directories(${CURL_INCLUDE_DIR})
 # target_link_libraries(curl-demo ${CURL_LIBRARIES})
 
+#if (NOT TARGET prizm-cxx)
+#    add_subdirectory(${DEPS_DIR}/prizm-cxx)
+#    include_directories(${DEPS_DIR}/prizm-cxx/include)
+#endif()
 
-add_subdirectory(${DEPS_DIR}/prizm-cxx)
-include_directories(${DEPS_DIR}/prizm-cxx/include)
+add_subdirectory(${DEPS_DIR}/celerity)
+include_directories(${DEPS_DIR}/celerity/build/include)
+
 include_directories(${DEPS_DIR}/openssl/include)
 include_directories(${BUILD_DIR}/libzmq/include)
 include_directories(${BUILD_DIR}/cppzmq/include)
@@ -76,18 +81,22 @@ link_directories(${DEPS_DIR}/openssl/lib)
 link_directories(${DEPS_DIR}/tensorflow/lib)
 link_directories(${BUILD_DIR}/libzmq/lib)
 link_directories(${BUILD_DIR}/cppzmq/lib)
+link_directories(${DEPS_DIR}/celerity/build/lib)
 
-target_link_libraries(jericho prizm-cxx)
-add_executable(server src/main.cc)
+# target_link_libraries(jericho celerity)
+add_executable(server core/src/main.cc)
 add_executable(tf example/tensorflow.cc)
 add_executable(zero example/zeromq.cc)
 add_executable(client example/client.cc)
 
+
+
 target_link_libraries(server PRIVATE jericho)
-target_link_libraries(server PRIVATE prizm-cxx)
+target_link_libraries(server PRIVATE celerity)
 target_link_libraries(server PRIVATE crypto)
 target_link_libraries(server PRIVATE ssl)
 target_link_libraries(server PRIVATE curl)
+target_link_libraries(server PRIVATE prizm-cxx)
 
 target_link_libraries(client PRIVATE ssl)
 target_link_libraries(client PRIVATE crypto)
@@ -98,7 +107,7 @@ target_link_libraries(tf PRIVATE tensorflow)
 target_link_libraries(server PRIVATE Threads::Threads)
 
 INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/ext/prizm-cxx/include/prizm DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/export/include)
-INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/jericho DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/export/include)
+INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/core/include/jericho DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/export/include)
 INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/ext/openssl/include/openssl DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/export/include)
 
 if (UNIX)

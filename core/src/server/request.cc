@@ -1,5 +1,7 @@
 #include "server/request.h"
 
+using namespace Jericho;
+
 bool is_valid_request(Client* client) {
     // CYA("request in parse: %s\n", client->request);
     int g = strncmp("GET /", client->request, 5);

@@ -2,25 +2,25 @@
 
 #include <unordered_map>
 
-LEXES scan(std::string substr, std::regex rgx) {
-    LEXES result;
-    std::regex_iterator<std::string::iterator> it(substr.begin(), substr.end(), rgx);
-    std::regex_iterator<std::string::iterator> end;
-    for (; it != end; ++it) {
-        LEX l({it->str(), it->position()});
-        result.push_back(l);
-    }
-    return result;
-}
+// LEXES scan(std::string substr, std::regex rgx) {
+//     LEXES result;
+//     std::regex_iterator<std::string::iterator> it(substr.begin(), substr.end(), rgx);
+//     std::regex_iterator<std::string::iterator> end;
+//     for (; it != end; ++it) {
+//         LEX l({it->str(), it->position()});
+//         result.push_back(l);
+//     }
+//     return result;
+// }
 
-bool validate(std::string substr, std::regex rgx) {
-    std::regex_iterator<std::string::iterator> it(substr.begin(), substr.end(), rgx);
-    std::regex_iterator<std::string::iterator> end;
-    if (std::distance(it, end) != 0) {
-        return true;
-    }
-    return false;
-}
+// bool validate(std::string substr, std::regex rgx) {
+//     std::regex_iterator<std::string::iterator> it(substr.begin(), substr.end(), rgx);
+//     std::regex_iterator<std::string::iterator> end;
+//     if (std::distance(it, end) != 0) {
+//         return true;
+//     }
+//     return false;
+// }
 
 void replace(std::string& str, std::string sub, std::string rep) {
     std::string::size_type p = str.find(sub);

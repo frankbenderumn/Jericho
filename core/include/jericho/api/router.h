@@ -12,6 +12,8 @@
 #include "server/defs.h"
 #include "server/fetch.h"
 
+using namespace Jericho;
+
 typedef void (*WorkerThread)(void*);
 
 struct JsonResponse {
