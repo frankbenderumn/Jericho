@@ -1,0 +1,96 @@
+#!/bin/bash
+#!/bin/bash
+git init
+source config/tokens
+echo -e "\033[1;33mSetting up celerity...\033[0m"
+OS="Unknown OS"
+ARCH="Unknown Architecture"
+FILE="config/device"
+DISTRO="Unknown Distro"
+DISTRO_VERSION="Unknown Distro Version"
+ROOT=`git rev-parse --show-toplevel`
+LD=so
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then # ...
+    OS="linux"
+    DISTRO="unix"
+    LD=so
+elif [[ "$OSTYPE" == "darwin"* ]]; then # Mac OSX
+    OS="macos"
+    DISTRO="unix"
+    LD=dylib
+elif [[ "$OSTYPE" == "cygwin" ]]; then # POSIX compatibility layer and Linux environment emulation for Windows
+    OS="windows"
+    DISTRO="cygwin"
+    LD=dll
+elif [[ "$OSTYPE" == "msys" ]]; then # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
+    OS="windows"
+    DISTRO="msys"
+    LD=dll
+elif [[ "$OSTYPE" == "freebsd"* ]]; then
+    OS="linux"
+    DISTRO="bsd"
+    LD=so
+elif [[ "$OSTYPE" == "win32" ]]; then
+    OS="windows"
+    DISTRO="dos"
+    LD=dll
+else
+    :
+fi
+case $(uname -m) in
+    i386 | i686)   ARCH="386" ;;
+    x86_64) ARCH="x86_64" ;;
+    arm)    ARCH="arm" ;;
+    arm64)  ARCH="arm64" ;;
+esac
+
+if [[ "$OS" == "linux" ]]; then
+    DISTRO=`cat /etc/os-release | grep -E 'ID=[a-zA-Z0-9]+'`
+    DISTRO=`echo "$DISTRO" | grep -E -o '=(.+)'`
+    DISTRO=${DISTRO#"="}
+    DISTRO_VERSION=`cat /etc/os-release | grep -E 'VERSION_ID="([0-9]+.[0-9]+)+"'`
+    DISTRO_VERSION=`echo "$DISTRO_VERSION" | grep -E -o '"(.+)"'`
+    DISTRO_VERSION=${DISTRO_VERSION#"\""}
+    DISTRO_VERSION=${DISTRO_VERSION%"\""}
+fi
+
+make clean
+ROOT=`git rev-parse --show-toplevel`
+sudo rm -f $FILE
+echo "export ARCH=$ARCH" >> $FILE
+echo "export OS=$OS" >> $FILE
+echo "export LD=$LD" >> $FILE
+echo "export DISTRO=$DISTRO" >> $FILE
+echo "export DISTRO_VERSION=$DISTRO_VERSION" >> $FILE
+echo "export ROOT=$ROOT" >> $FILE
+mkdir -p deps
+cd deps
+git clone https://frankbenderumn:${GITHUB_TOKEN}@github.com/frankbenderumn/Prizm-cxx.git
+cd Prizm-cxx
+sudo chmod +x configure
+sudo ./configure
+mkdir -p ${ROOT}/comet/lib
+cp ./comet/lib/libprizm.so ${ROOT}/comet/lib
+cp ./comet/lib/libprizm.so ${ROOT}/build/lib
+cp -r ./comet/include ${ROOT}/comet
+cd ../..
+make all
+
+# if [[ "$OS" == "windows" ]]; then
+#     mkdir -p cmake-win
+#     cd cmake-win
+#     cmake .. 
+#     cd ..
+#     if [[ "$DISTRO" == "msys" ]]; then
+#         mkdir -p this-msys 
+#     fi
+# elif [[ "$OS" == "linux" ]]; then
+#     mkdir -p cmake-wsl
+#     cd cmake-wsl
+#     cmake .. -DBUILD_SHARED_LIBS=ON
+#     make
+#     mv libjericho.so build/lib/libjericho.so
+#     cd ..
+#     make test
+#     ./prizm-test
+# fi

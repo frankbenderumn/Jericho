@@ -1,0 +1,100 @@
+<html>
+    <head>
+        <title>Jericho</title> 
+        <link rel="stylesheet" href="css/final.css" type="text/css" /> 
+        <link rel="stylesheet" href="css/main.css" type="text/css" /> 
+        <link rel="stylesheet" href="css/nebula.css" type="text/css" /> 
+    </head>
+
+    <style>
+        body {
+            margin:0px;
+            background-image:linear-gradient(#fff, #ffdddd);
+        }
+
+        .jericho-template-header {
+            background-color:crimson;
+            color:white;
+            height:40px;
+            width:100%;
+            font-weight:bold;
+            box-shadow:var(--shadow);
+        }
+
+        .jericho-template-body {
+            top:40px;
+            padding:20px;
+        }
+
+        .jericho-trace {
+            background-color:#333;
+            color:white;
+            padding:10px;
+            border-radius:5px;
+            box-shadow:var(--shadow);
+        }
+
+        .jericho-reference {
+            display:flex;
+        }
+
+        .jericho-reference-card {
+            float:left;
+            background-color:#ffcccc;
+            border-radius:5px;
+            box-shadow:var(--shadow);
+            padding:20px;
+            height:50px;
+            margin-right:5px;
+        }
+
+        .jericho-reference-card:hover {
+            transition:0.2s;
+            background-color:#ff6666;
+            box-shadow:none;
+        }
+
+    </style>
+
+    <body>
+        <header class="jericho-template-header">
+            <div class="stage">
+                <span style="float:left;font-size:30px;">Jericho</span>
+            </div>
+        </header>
+        <div class="jericho-template-body">
+            <div class="stage">
+                <h1>
+                    {{ Error 404 - Not Found }}
+                    HELLO ITS ME, IVE BEEN WONDERING 
+                    {{ SHIT }}
+                </h1>
+                <div class="jericho-trace">
+                    Here is some sample code<br>
+                    that will be <br>
+                    rendered to further <br>
+                    allow for <br>
+                    effective <br>
+                    and <br>
+                    realtime debugging <br>
+                </div> 
+                <h3>References</h3> 
+                <div class="jericho-reference">
+                    <div class="jericho-reference-card">
+                        Resource
+                    </div>
+                    <div class="jericho-reference-card">
+                        Uri
+                    </div>
+                    <div class="jericho-reference-card">
+                        Response
+                    </div>
+                    <div class="jericho-reference-card">
+                        Authentication
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>

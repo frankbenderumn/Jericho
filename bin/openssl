@@ -1,0 +1,14 @@
+#!/bin/bash
+ROOT=`git rev-parse --show-toplevel`
+if [[ "$1" == "install" ]]; then
+    cd ext
+    git clone https://github.com/openssl/openssl.git
+    mv openssl openssl-source
+    mkdir -p openssl
+    cd openssl-source
+    ./Configure --prefix=${ROOT}/ext/openssl --openssldir=${ROOT}/ext/openssl '-Wl,-rpath,$(LIBRPATH)'
+    make -j`nproc`
+    sudo make -j`nproc` install
+else
+    echo -e "\033[1;31mInvalid argument given to openssl package\033[0m"
+fi

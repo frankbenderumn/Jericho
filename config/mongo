@@ -1,0 +1,13 @@
+ROOTEXPORT=`git rev-parse --show-toplevel`
+MONGO_DRIVER_PATH=${ROOTEXPORT}/deps
+C_VERSION=1.17.0
+CXX_VERSION=r3.6.7
+MONGO_VERSION=5.0.9
+DEFAULT_MONGO_DB=db
+DEFAULT_MONGO_CLUSTER=cluster
+export MONGO_URL=sh_test_database:W3AcVrXrPtZFLI7U@cluster0.w4wil.mongodb.net/admin
+export MONGO_USER=sh_test_database
+export MONGO_PASSWORD=W3AcVrXrPtZFLI7U
+export MONGO_HOST=cluster0.w4wil.mongodb.net
+export MONGO_DB=admin
+# mongodb+srv://fjbender2:<password>@cluster0.xnzypbj.mongodb.net/?retryWrites=true&w=majority

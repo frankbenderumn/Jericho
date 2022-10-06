@@ -1,0 +1,25 @@
+#!/bin/bash
+ROOT=`git rev-parse --show-toplevel`
+if [[ $1 == "install" ]]; then
+    sudo apt-get update
+    sudo apt-get install pkg-config cmake-data gnutls-dev
+    cd ext 
+    git clone https://github.com/zeromq/libzmq.git
+    mv libzmq libzmq-source
+    cd libzmq-source
+    mkdir build
+    cd build
+    cmake .. -DCMAKE_INSTALL_PREFIX=${ROOT}/build/libzmq
+    sudo make -j`nproc` install
+    cd ../..
+    git clone https://github.com/zeromq/cppzmq.git
+    mv cppzmq cppzmq-source
+    cd cppzmq-source
+    mkdir build
+    cd build
+    cmake .. -DCMAKE_INSTALL_PREFIX=${ROOT}/build/cppzmq -DCMAKE_PREFIX_PATH=${ROOT}/build/libzmq
+    sudo make -j`nproc` install
+    sudo apt-get install libzmq3-dev
+else
+    echo -e "\033[1;31mInvalid Parameter\033[0m"
+fi
