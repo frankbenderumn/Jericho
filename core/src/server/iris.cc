@@ -2,16 +2,16 @@
 
 #include <unordered_map>
 
-// LEXES scan(std::string substr, std::regex rgx) {
-//     LEXES result;
-//     std::regex_iterator<std::string::iterator> it(substr.begin(), substr.end(), rgx);
-//     std::regex_iterator<std::string::iterator> end;
-//     for (; it != end; ++it) {
-//         LEX l({it->str(), it->position()});
-//         result.push_back(l);
-//     }
-//     return result;
-// }
+LEXES scanzz(std::string substr, std::regex rgx) {
+    LEXES result;
+    std::regex_iterator<std::string::iterator> it(substr.begin(), substr.end(), rgx);
+    std::regex_iterator<std::string::iterator> end;
+    for (; it != end; ++it) {
+        LEX l({it->str(), it->position()});
+        result.push_back(l);
+    }
+    return result;
+}
 
 // bool validate(std::string substr, std::regex rgx) {
 //     std::regex_iterator<std::string::iterator> it(substr.begin(), substr.end(), rgx);
@@ -64,7 +64,7 @@ namespace iris {
 
     void interpret(std::string& file) {
         // BGRE("INTERPRETTING...\n");
-        LEXES ls = scan(file, std::regex("\\{\\{.+\\}\\}+"));
+        LEXES ls = scanzz(file, std::regex("\\{\\{.+\\}\\}+"));
         if (ls.size() > 0) {
             for (auto lex : ls) {
                 // printf("Lex found: %s - %i\n", lex.first.c_str(), lex.second);

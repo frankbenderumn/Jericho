@@ -12,7 +12,9 @@ namespace resource {
 
     void serve_cxx(Client* conn, Client** clients, const char* path);
 
-    void serve_dist(Client* conn, Client** clients, const char* message);
+    void serve_raw(Client* conn, Client** clients, const char* message);
+
+    void serve_http(Client* conn, Client** clients, const char* message);
 
 }
 

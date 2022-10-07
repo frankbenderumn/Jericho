@@ -7,9 +7,9 @@ if [[ "$1" == "install" ]]; then
     else
         git clone https://frankbenderumn:${GITHUB_TOKEN}@github.com/frankbenderumn/nebulaui.git
         cd nebulaui
-        mv frontend ${ROOTDIR}/frontend
-        cd ..
-        rm -rf nebulaui
+        # mv frontend ${ROOTDIR}/frontend
+        # cd ..
+        # rm -rf nebulaui
     fi 
 elif [[ "$1" == "update" ]]; then
     rm -rf frontend

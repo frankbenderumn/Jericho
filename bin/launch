@@ -4,4 +4,4 @@ cd cmake-build
 cmake ..
 make -j`nproc`
 cd ..
-./cmake-build/server 8080 5 ./frontend
+./cmake-build/server 8080 5 ./nebulaui/frontend

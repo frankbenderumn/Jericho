@@ -11,10 +11,13 @@
 #include "api/string_utils.h"
 #include "server/defs.h"
 #include "server/fetch.h"
+#include "celerity/celerity.h"
 
 using namespace Jericho;
 
 typedef void (*WorkerThread)(void*);
+
+class Router;
 
 struct JsonResponse {
     static std::string error(int code, std::string message) {
@@ -22,6 +25,9 @@ struct JsonResponse {
     }
     static std::string success(int code, std::string message) {
         return "{\"status\": \""+std::to_string(code)+"\", \"success\": \""+message+"\"}";
+    }
+    static std::string message(std::string message) {
+        return "{\"message\": \""+message+"\"}";
     }
 };
 
@@ -125,6 +131,7 @@ struct Route {
     std::string signature;
 };
 
+typedef std::string (*SystemFunction)(std::unordered_map<std::string, std::string>, Router*);
 typedef std::string (*RouteFunction)(std::unordered_map<std::string, std::string>);
 typedef std::string (*ClusterFunction)(ThreadPool* tpool, MessageQueue* mq, void* (*worker)(void*), std::string message);
 
@@ -134,7 +141,9 @@ enum RouteProtocol {
     ROUTE_NULL,
     ROUTE_HTTP,
     ROUTE_API,
-    ROUTE_CLUSTER
+    ROUTE_CLUSTER,
+    ROUTE_SYSTEM,
+    ROUTE_DB
 };
 
 struct ClusterNode {
@@ -156,12 +165,15 @@ class RouteRegistry {
     std::unordered_map<std::string, Route*> _routeTable;
     std::unordered_map<std::string, RouteFunction> _routeFunctions;
     std::unordered_map<std::string, RouteFunction> _httpFunctions;
+    std::unordered_map<std::string, SystemFunction> _systemFunctions;
     std::unordered_map<std::string, MessageBuffer*> _nodes;
     std::vector<std::string> _securePaths;
 
   public:
     bool hasFunction(std::string path) {
         if (_routeFunctions.find(path) != _routeFunctions.end()) return true;
+        if (_systemFunctions.find(path) != _systemFunctions.end()) return true;
+        if (_httpFunctions.find(path) != _httpFunctions.end()) return true;
         return false;
     }
 
@@ -210,20 +222,29 @@ class RouteRegistry {
         }
     }
 
+    void bindSystem(std::string path, SystemFunction function) {
+        _routeProtocols[path] = ROUTE_SYSTEM;
+        _systemFunctions[path] = function;
+    }
+
     void bindNode(std::string path, MessageBuffer* buffer) {
         _routeProtocols[path] = ROUTE_CLUSTER;
         _nodes[path] = buffer;
     }
 
-    std::string exec(std::string path, std::unordered_map<std::string, std::string> args) {
+    std::string exec(std::string path, std::unordered_map<std::string, std::string> args, Router* router = NULL) {
         if (!hasFunction(path)) {
             return JsonResponse::error(500, "Function does not exist for path: " + path);
         }
+
         if (_routeProtocols[path] == ROUTE_API) {
             return _routeFunctions[path](args);
         } else if (_routeProtocols[path] == ROUTE_HTTP) {
             return _httpFunctions[path](args);
+        } else if (_routeProtocols[path] == ROUTE_SYSTEM) {
+            return _systemFunctions[path](args, router);
         }
+
         return JsonResponse::error(500, "Invalid protocol provided");
     }
 
@@ -256,12 +277,14 @@ class Router {
     RouteRegistry* _registry = nullptr;
     ThreadPool* _tpool;
     WorkerThread _worker;
+    Celerity* _celerity;
 
   public:
-    Router(ThreadPool* tpool, WorkerThread worker) {
+    Router(ThreadPool* tpool, WorkerThread worker, Celerity* celerity) {
         _registry = new RouteRegistry;
         _worker = worker;
         _tpool = tpool;
+        _celerity = celerity;
     }
 
     ~Router() {
@@ -276,6 +299,9 @@ class Router {
         _registry->bindNode(path, buffer);
     }
 
+    void bindSystem(std::string path, SystemFunction fn) {
+        _registry->bindSystem(path, fn);
+    }
     
     RouteProtocol protocol(std::string path) { 
         return _registry->protocol(path);
@@ -293,12 +319,14 @@ class Router {
         return contains(_registry->securePaths(), path);
     }
 
+    Celerity* celerity() const { return _celerity; }
+
     // void bindHttp(std::string path, RouteFunction function) {
     //     _registry->bindHttp(path, function);
     // }
 
-    std::string exec(std::string path, std::unordered_map<std::string, std::string> args) {
-        return _registry->exec(path, args);
+    std::string exec(std::string path, std::unordered_map<std::string, std::string> args, Router* router = NULL) {
+        return _registry->exec(path, args, router);
     }
 
     std::string execNode(std::string path, std::unordered_map<std::string, std::string> args) {
