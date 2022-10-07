@@ -9105,3 +9105,33 @@ Sec-WebSocket-Key: +Pfo4/p5SrduqaLTj0ZH5w==
 Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
 
 
+13 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: i/6sDJ/CmlbEuMonFeaVsg==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+
+20 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: obx2mj9r7Oa62Sri6KmcRw==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+

@@ -1,5 +1,12 @@
 #include "api/string_utils.h"
 
+std::string serialize(const std::string& name, const std::vector<std::string>& vec) {
+    std::string response = "{\"" + name + "\": ["; 
+    for (int i = 0; i < vec.size(); i++) {
+        response += vec[i];
+    }
+}
+
 std::string Jericho::reverse(std::string s) {
     std::string str = s;
     int n = str.length();

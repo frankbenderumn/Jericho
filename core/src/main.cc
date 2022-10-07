@@ -141,9 +141,12 @@ int main(int argc, char* argv[]) {
     std::vector<std::string> ipAddresses = {};
     SOCKET server = socket_create(0, port, 1, AF_INET, SOCK_STREAM); // creates initial socket
 
-    Router* router = new Router(tpool, fetch);
+    Celerity* celerity = new Celerity;
+    Router* router = new Router(tpool, fetch, celerity);
 
     router->bind(ROUTE_API, "/rsi", apiRsi);
+    router->bindSystem("/mongo-databases", apiMongoDatabases);
+    router->bindSystem("/mongo-insert", apiMongoInsert);
     router->secure("/jericho/denathrius.html");
 
     if (port == 8080) {
@@ -160,6 +163,7 @@ int main(int argc, char* argv[]) {
     delete buffer2;
     delete buffer3;
 
+    delete celerity;
     delete router;
     
     return 0;

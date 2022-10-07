@@ -215,4 +215,51 @@ std::string apiRsi(std::unordered_map<std::string, std::string> args) {
     }
 }
 
+std::string apiMongoDatabases(std::unordered_map<std::string, std::string> args, Router* router) {
+    if (!contains(TOKEN_LIST, args["token"])) {
+        return JsonResponse::error(404, "Invalid token provided");
+    }
+
+    std::vector<std::string> result = router->celerity()->mongo()->databases();
+
+    return JsonResponse::success(200, "Suceesfully return mongo databases");
+
+}
+
+std::string apiMongoInsert(std::unordered_map<std::string, std::string> args, Router* router) {
+    if (!contains(TOKEN_LIST, args["token"])) {
+        return JsonResponse::error(404, "Invalid token provided");
+    }
+
+    std::vector<std::string> result = router->celerity()->mongo()->databases();
+
+    return JsonResponse::success(200, "Suceesfully return mongo databases");
+
+}
+
+std::string apiMongoCollection(std::unordered_map<std::string, std::string> args, Router* router) {
+    std::unordered_map<std::string, std::string> v = {
+        {"timespan", "day"},
+        {"adjusted", "true"},
+        {"window", "14"},
+        {"series_type", "close"},
+        {"order", "desc"},
+        {"ticker", "AAPL"},
+        {"token", "undefined"}
+    }; 
+    if (subset(keys(args), std::set<std::string>{"timespan", "adjusted", "window", "series_type", "order", "ticker", "token"})) {
+        if (contains(TOKEN_LIST, args["token"])) {
+            for (auto arg : args) {
+                v[arg.first] = arg.second;
+            }
+            return PolygonClient::rsi(v["ticker"], v["timespan"], v["adjusted"], v["window"], v["series_type"], "desc");
+        } else {
+            return JsonResponse::error(404, "Invalid token provided");
+        }
+    } else {
+        print(keys(args));
+        return JsonResponse::error(500, "invalid arguments provided");
+    }
+}
+
 #endif

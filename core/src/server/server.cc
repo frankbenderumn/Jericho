@@ -274,7 +274,6 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 					Route route;
 					std::string result;
 					std::string result2;
-					Celerity* celerity = new Celerity;
 
                     switch(state = client_get_state(client)) {
                         case SOCKST_ALIVE:
@@ -292,22 +291,25 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 
 							router->parse_path(request.path, &route);
 
-							request.args = route.kvs;
+							// request.args = route.kvs;
 							request.path = route.path;
 
 							print_request(&request);
 
 							switch (router->protocol(request.path)) {
+								case ROUTE_SYSTEM:
+									BYEL("System...\n");
+									result = router->exec(request.path, request.args, router);
+									resource::serve_http(client, clients, result.c_str());
+									break;
 								case ROUTE_API:
-									result = router->exec(request.path, request.args);
-									celerity->persist(DB_DOCUMENT, result);
-									resource::serve_dist(client, clients, result.c_str());
 									BYEL("Disting...\n");
-									delete celerity;
+									result = router->exec(request.path, request.args, router);
+									resource::serve_raw(client, clients, result.c_str());
 									break;
 								case ROUTE_CLUSTER:
 									result2 = router->execNode(request.path, {});
-									resource::serve_dist(client, clients, result2.c_str());
+									resource::serve_raw(client, clients, result2.c_str());
 									t_write(8080, "./cluster/log/8080.boss", result2.c_str());
 									break;
 								case ROUTE_NULL:

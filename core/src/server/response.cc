@@ -160,6 +160,25 @@ void socket_write(SSL* ssl, const void *buf, unsigned size) {
     }
 }
 
+void resource::serve_http(Client* conn, Client** clients, const char* content) {
+    char buffer[8192];
+    sprintf(buffer, "HTTP/1.1 200 OK\r\n");
+    SSL_write(conn->ssl, buffer, strlen(buffer));
+    sprintf(buffer, "Connection: close\r\n");
+    SSL_write(conn->ssl, buffer, strlen(buffer));
+    sprintf(buffer, "Content-Length: %lu\r\n", strlen(content));
+    SSL_write(conn->ssl, buffer, strlen(buffer));
+    sprintf(buffer, "Content-Type: %s\r\n", content);
+    SSL_write(conn->ssl, buffer, strlen(buffer));
+    sprintf(buffer, "\r\n");
+    SSL_write(conn->ssl, buffer, strlen(buffer));
+    
+    SSL_write(conn->ssl, content, strlen(content)); // send bytes
+    printf("DONE WRITING\n");
+
+    drop_client(conn, clients);
+}
+
 void resource::serve_cxx(Client* conn, Client** clients, const char* path) {
     char addr_buffer[16];
     printf("Path to serve is: %s\n", path);
@@ -229,7 +248,7 @@ void resource::serve_cxx(Client* conn, Client** clients, const char* path) {
     drop_client(conn, clients);
 }
 
-void resource::serve_dist(Client* conn, Client** clients, const char* message) {
+void resource::serve_raw(Client* conn, Client** clients, const char* message) {
     SSL_write(conn->ssl, message, strlen(message)); // send bytes
     printf("DONE WRITING DIST\n");
 }

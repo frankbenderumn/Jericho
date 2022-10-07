@@ -50,9 +50,6 @@ add_library(jericho ${SHARED_FLAG}
     core/src/ssh/ssh_version.cc        
     core/src/util/file_system.cc   
     core/src/util/scan.cc
-    core/src/client_ui.cc
-    core/src/trash.c
-    core/src/unbel.cc
     core/src/util/string_utils.cc
     core/src/server/fetch.cc
 )

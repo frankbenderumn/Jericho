@@ -18,10 +18,11 @@ int parse_request(Client* client, Request* request) {
     int p = strncmp("POST /", client->request, 6);
     std::string cxxreq = std::string(client->request);
     std::string cpath = tokenize(cxxreq, ' ')[1];
+    std::string args = "";
     if (cpath.find("?") != std::string::npos) {
-        cpath = tokenize(cpath, "?")[0];
-    } else {
-
+        std::vector<std::string> result = tokenize(cpath, "?");
+        cpath = result[0];
+        args = result[1];
     }
     if (g && p) {
         return 0;
@@ -48,6 +49,7 @@ int parse_request(Client* client, Request* request) {
             } else {
                 request->method = "get";
                 printf("PATH IS: %s\n", cpath.c_str());
+                printf("ARGS ARE: %s\n", args.c_str());
                 request->path = cpath;
                 std::string heading = std::string(headers + 2);
                 std::vector<std::string> h = tokenize(heading, "\r\n\r\n");
@@ -60,6 +62,20 @@ int parse_request(Client* client, Request* request) {
                 if (h.size() > 1) {
                     std::string content = h[1];
                     request->content = content;
+                }
+                std::unordered_map<std::string, std::string> map = {};
+                if (args != "") {
+                    std::vector<std::string> argu = tokenize(args, "&");
+                    for (auto a : argu) {
+                        std::vector<std::string> kv = tokenize(a, "=");
+                        if (kv.size() == 2) {
+                            map[kv[0]] = kv[1];
+                        }
+                    }
+                }
+                request->args = map;
+                for (auto m : map) {
+                    BGRE("%s: %s\n",m.first.c_str(), m.second.c_str());
                 }
                 *end_path = 0; // zero out char
                 return 1; // static file serving

@@ -10,7 +10,7 @@ if [[ -z "$1" ]] || [[ "$1" == "server" ]]; then
         THREADS=$3
     fi
 
-    DIR="./frontend"
+    DIR="./nebulaui/frontend"
     if [[ -n "$4" ]]; then
         DIR="$4"
     fi
