@@ -1,0 +1,52 @@
+#!/bin/bash
+
+PORT=8080
+THREADS=10
+DIRECTORY=frontend
+MAIN="false"
+
+POSITIONAL_ARGS=()
+
+echo -e "Number of args: $#"
+echo -e "Args are: $*"
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    -p|--port)
+      PORT="$2"
+      shift # past argument
+      shift # past value
+      ;;
+    -t|--threads)
+      THREADS="$2"
+      shift # past argument
+      shift # past value
+      ;;
+    -d|--directory)
+      DIRECTORY="$2"
+      shift # past argument
+      shift
+      ;;
+    -m|--main)
+      MAIN="true"
+      shift
+      ;;
+    -*|--*)
+      echo "Unknown option $1"
+      exit 1
+      ;;
+    *)
+      POSITIONAL_ARGS+=("$1") # save positional arg
+      shift # past argument
+      ;;
+  esac
+done
+
+set -- "${POSITIONAL_ARGS[@]}" # restore positional parameters
+
+echo -e "PORT      : ${PORT}"
+echo -e "THREADS   : ${THREADS}"
+echo -e "DIRECTORY : ${DIRECTORY}"
+echo -e "MAIN      : ${MAIN}"
+
+./cmake-build/server ${PORT} ${THREADS} ${DIRECTORY} ${MAIN} > /dev/null 2>&1 &

@@ -133,7 +133,7 @@ typedef enum SocketState {
 
 #define SOCK_SAN(s) if (!ISVALIDSOCKET(s)) { PFAIL(ESOCK, "Not a valid socket!"); }
 
-extern std::string DIR;
+extern std::string PUBLIC_DIRECTORY;
 
 // fd_set server_connections;
 
@@ -156,6 +156,8 @@ struct Client {
 	pthread_t thread_tout; // timeout
     BOOL close_thread;
     SSL* ssl;
+    bool promised = false;
+    int id = -1;
 };
 
 struct Frame {
@@ -173,17 +175,5 @@ struct Frame {
 typedef struct Client Client;
 
 static pthread_mutex_t MESSAGE_MUTEX = PTHREAD_MUTEX_INITIALIZER; 
-
-class MessageQueue {
-    std::queue<std::string> _messages;
-  public:
-    MessageQueue() {}
-    ~MessageQueue() {}
-    void publish(std::string message) {
-        pthread_mutex_lock(&MESSAGE_MUTEX);
-        _messages.push(message);
-        pthread_mutex_unlock(&MESSAGE_MUTEX);
-    }
-};
 
 #endif

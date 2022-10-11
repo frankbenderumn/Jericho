@@ -1,7 +1,74 @@
 #!/bin/bash
-mkdir cmake-build
-cd cmake-build
-cmake ..
-make -j`nproc`
-cd ..
-./cmake-build/server 8080 5 ./nebulaui/frontend
+
+# PORT=8080
+# THREADS=10
+# DIRECTORY=./nebula/frontend
+
+# if [[ -n "$1" ]]; then
+#     PORT=$1
+# else
+#     echo -e "\033[1;31mNo port specified. Default is 8080"
+# fi
+
+# if [[ -n "$2" ]]; then
+#     THREADS=$2
+# else
+#     echo -e "\033[1;31mNumber of threads not specified. Default is 10."
+# fi
+
+# if [[ -n "$3" ]]; then
+#     DIRECTORY=$3
+# else
+#     echo -e "\033[1;31mNo directory specified. Default is ./nebulaui/frontend"
+# fi
+
+PORT=8080
+THREADS=10
+DIRECTORY=frontend
+MAIN="false"
+
+POSITIONAL_ARGS=()
+
+echo -e "Number of args: $#"
+echo -e "Args are: $*"
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    -p|--port)
+      PORT="$2"
+      shift # past argument
+      shift # past value
+      ;;
+    -t|--threads)
+      THREADS="$2"
+      shift # past argument
+      shift # past value
+      ;;
+    -d|--directory)
+      DIRECTORY="$2"
+      shift # past argument
+      shift
+      ;;
+    -m|--main)
+      MAIN="true"
+      shift
+      ;;
+    -*|--*)
+      echo "Unknown option $1"
+      exit 1
+      ;;
+    *)
+      POSITIONAL_ARGS+=("$1") # save positional arg
+      shift # past argument
+      ;;
+  esac
+done
+
+set -- "${POSITIONAL_ARGS[@]}" # restore positional parameters
+
+echo -e "PORT      : ${PORT}"
+echo -e "THREADS   : ${THREADS}"
+echo -e "DIRECTORY : ${DIRECTORY}"
+echo -e "MAIN      : ${MAIN}"
+
+./cmake-build/server ${PORT} ${THREADS} ${DIRECTORY} ${MAIN}

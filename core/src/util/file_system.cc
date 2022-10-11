@@ -43,6 +43,10 @@ std::string Jericho::FileSystem::getDir(std::string name) {
     return fileBuffer;
 }
 
+std::vector<std::string> publicDir() {
+    
+}
+
 bool Jericho::FileSystem::sanitize(std::string s, std::regex r) {
     return true;
 }

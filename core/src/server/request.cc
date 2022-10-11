@@ -2,6 +2,18 @@
 
 using namespace Jericho;
 
+bool isHTTP(std::string request) {
+    std::vector<std::string> cpath = tokenize(request, ' ');
+    if (cpath.size() >= 3) {
+        if (cpath[0] == "HTTP/1.1" || cpath[0] == "HTTP/2.0") {
+            return true;
+        }
+    } else {
+        return false;
+    }
+    return false;
+}
+
 bool is_valid_request(Client* client) {
     // CYA("request in parse: %s\n", client->request);
     int g = strncmp("GET /", client->request, 5);
@@ -34,7 +46,7 @@ int parse_request(Client* client, Request* request) {
             int idx2 = (int)(end_path - client->request);
             printf("IDX1: %i\n", idx);
             printf("IDX2: %i\n", idx2);
-            int max_path_length = 100;
+            int max_path_length = 1000;
             if (idx2 - idx > max_path_length - 1) {
                 printf("Path is too long\n");
                 return 0;
@@ -73,6 +85,7 @@ int parse_request(Client* client, Request* request) {
                         }
                     }
                 }
+                map["content"] = request->content;
                 request->args = map;
                 for (auto m : map) {
                     BGRE("%s: %s\n",m.first.c_str(), m.second.c_str());
@@ -124,11 +137,11 @@ int parse_request(Client* client, Request* request) {
 }
 
 void print_request(Request* request) {
-    std::string ext = "undefined";
-    if (const std::string::size_type p = request->path.find_last_of(".") != std::string::npos) {
-        ext = request->path.substr(p+1, request->path.size());
-    }
-    if (ext == "html") {
+    // std::string ext = "undefined";
+    // if (const std::string::size_type p = request->path.find_last_of(".") != std::string::npos) {
+    //     ext = request->path.substr(p+1, request->path.size());
+    // }
+    // if (ext == "html") {
         BYEL("===============\n");
         BYEL("   REQUEST\n");
         BYEL("---------------\n");
@@ -144,5 +157,20 @@ void print_request(Request* request) {
             BYEL("arg: %-32s %s\n", arg.first.c_str(), arg.second.c_str());
         }
         BYEL("===============\n");
+    // }
+}
+
+bool is_distributed(std::string& path) {
+    std::string temp = path;
+    std::vector<std::string> args = tokenize(path, "/");
+    BYEL("IS DISTRIBUTED TEST");
+    for (auto a : args) {
+        BYEL("ARG: %s\n", a.c_str());
+        if (a == "cluster") {
+            path = join(args, "/", 2);
+            BYEL("PATH IS: %s\n", path.c_str());
+            return true;
+        }
     }
+    return false;
 }

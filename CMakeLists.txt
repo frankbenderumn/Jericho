@@ -40,9 +40,16 @@ add_library(jericho ${SHARED_FLAG}
     core/src/server/resource.cc
     core/src/server/thread_pool.cc
     core/src/server/web_socket.cc
-    core/src/server/router.cc
     core/src/server/iris.cc
     core/src/server/request.cc
+    core/src/router/router.cc
+    core/src/router/route_registry.cc
+    core/src/message/message_buffer.cc
+    core/src/message/message_broker.cc
+    core/src/cluster/cluster_index.cc
+    core/src/cluster/cluster_edge.cc
+    core/src/cluster/cluster_node.cc
+    core/src/cluster/cluster.cc
     core/src/ssh/ssh_auth.cc
     core/src/ssh/ssh_command.cc
     core/src/ssh/ssh_connect.cc
@@ -69,21 +76,22 @@ add_subdirectory(${DEPS_DIR}/celerity)
 include_directories(${DEPS_DIR}/celerity/build/include)
 
 include_directories(${DEPS_DIR}/openssl/include)
-include_directories(${BUILD_DIR}/libzmq/include)
-include_directories(${BUILD_DIR}/cppzmq/include)
-include_directories(${DEPS_DIR}/tensorflow/include)
+# include_directories(${BUILD_DIR}/libzmq/include)
+# include_directories(${BUILD_DIR}/cppzmq/include)
+# include_directories(${DEPS_DIR}/tensorflow/include)
 
 link_directories(${DEPS_DIR}/openssl/lib64)
 link_directories(${DEPS_DIR}/openssl/lib)
-link_directories(${DEPS_DIR}/tensorflow/lib)
-link_directories(${BUILD_DIR}/libzmq/lib)
-link_directories(${BUILD_DIR}/cppzmq/lib)
+# link_directories(${DEPS_DIR}/tensorflow/lib)
+# link_directories(${BUILD_DIR}/libzmq/lib)
+# link_directories(${BUILD_DIR}/cppzmq/lib)
 link_directories(${DEPS_DIR}/celerity/build/lib)
+link_directories(${DEPS_DIR}/celerity/db/mongo-c/lib)
 
 # target_link_libraries(jericho celerity)
 add_executable(server core/src/main.cc)
-add_executable(tf example/tensorflow.cc)
-add_executable(zero example/zeromq.cc)
+# add_executable(tf example/tensorflow.cc)
+# add_executable(zero example/zeromq.cc)
 add_executable(client example/client.cc)
 
 
@@ -98,8 +106,8 @@ target_link_libraries(server PRIVATE prizm-cxx)
 target_link_libraries(client PRIVATE ssl)
 target_link_libraries(client PRIVATE crypto)
 
-target_link_libraries(zero PRIVATE zmq)
-target_link_libraries(tf PRIVATE tensorflow)
+# target_link_libraries(zero PRIVATE zmq)
+# target_link_libraries(tf PRIVATE tensorflow)
 
 target_link_libraries(server PRIVATE Threads::Threads)
 

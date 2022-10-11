@@ -1,8 +1,10 @@
-#include "api/router.h"
+#include "router/router.h"
 #include "server/server.h"
 #include "server/request.h"
 #include "server/fetch.h"
 #include "celerity/celerity.h"
+#include "message/message_buffer.h"
+#include "message/message_broker.h"
 
 using namespace Jericho;
 
@@ -225,6 +227,30 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
         Client* client = *clients;
 
         while (client) {
+
+			// BYEL("promised queue: %i\n", (int)router->promised().size());
+			// for (auto p : router->promised()) {
+			// 	printf("Client id: %i, promised id: %i\n", client->id, p.first->id);
+			// }
+			// for (auto m : router->messages()) {
+			// 	BYEL("messages for client: %i\n", (int)m.second.size());
+			// }
+			MessageBroker* broker = router->cluster()->boss()->poll(client);
+			if (broker != NULL) {
+				BGRE("FIRING ASYNC CALL\n");
+				std::string response = broker->callback()(router, client, broker->response(client));
+				BRED("YABBA DABBA DOO\n");
+				// GRE("Message: %s\n", response.c_str());
+				if (broker->epoch() == 0) {
+					if (isHTTP(response)) {
+						resource::serve_raw(client, clients, response.c_str());
+					} else {
+						resource::serve_http(client, clients, response.c_str());
+					}
+					client->promised = false;
+					drop_client(client, clients);
+				}
+			}
             
 			// iterate through clients
             Client* next = client->next;
@@ -246,7 +272,7 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
                 if (r > 0) { // bytes received
 
                     PLOG(LSERVER, "Request received from client: <client-address>");
-                    // MAG("REQUEST: %s\n", client->request);
+                    MAG("REQUEST: %s\n", client->request);
 
                     client->received += r; // increment bytes received
                     client->request[client->received] = 0; 
@@ -279,37 +305,51 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
                         case SOCKST_ALIVE:
                             // parser2::parse(client, clients);
 							if (!is_valid_request(client)) {
-								printf("Invalid request received!\n");
+								BRED("GET or POST not present!\n");
 								break;
 							}
 
 							if (parse_request(client, &request) < 0) {
-								printf("Invalid request received!");
+								BRED("Invalid request received!");
 								break;
 							}
 
-
-							router->parse_path(request.path, &route);
+							// router->parse_path(request.path, &route);
 
 							// request.args = route.kvs;
-							request.path = route.path;
+							// request.path = route.path;
+
+							// check for distributed signature
+							// if (is_distributed(request.path)) {
+								
+							// }
 
 							print_request(&request);
 
 							switch (router->protocol(request.path)) {
+								case ROUTE_RAW:
+									result = router->exec(ROUTE_RAW, request.path, request.args, router, client);
+									resource::serve_http(client, clients, result.c_str());	
+									break;									
 								case ROUTE_SYSTEM:
 									BYEL("System...\n");
-									result = router->exec(request.path, request.args, router);
-									resource::serve_http(client, clients, result.c_str());
+									result = router->exec(ROUTE_SYSTEM, request.path, request.args, router, client);
+									if (result == "TICKET") {
+										BBLU("TICKET RECEIVED");
+									} else {
+										resource::serve_http(client, clients, result.c_str());										
+									}
 									break;
 								case ROUTE_API:
-									BYEL("Disting...\n");
-									result = router->exec(request.path, request.args, router);
-									resource::serve_raw(client, clients, result.c_str());
+									BYEL("API CALL...\n");
+									result = router->exec(ROUTE_API, request.path, request.args, router, client);
+									resource::serve_http(client, clients, result.c_str());
 									break;
 								case ROUTE_CLUSTER:
-									result2 = router->execNode(request.path, {});
-									resource::serve_raw(client, clients, result2.c_str());
+									BYEL("DISTRIBUTED CALL...\n");
+									result2 = router->execNode(ROUTE_SYSTEM, request.path, {}, router, client);
+									memset(client->request, 0, strlen(client->request));
+									// resource::serve_http(client, clients, result2.c_str());
 									t_write(8080, "./cluster/log/8080.boss", result2.c_str());
 									break;
 								case ROUTE_NULL:
@@ -321,13 +361,13 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 										BRED("ROUTE IS SENSITIVE\n");
 										if (authenticate(request.path, request.content)) {
 											BRED("ROUTE IS AUTHENTICATED\n");
-											result = router->exec(request.path, request.args);
+											result = router->exec(ROUTE_HTTP, request.path, request.args, router, client);
 											resource::serve_cxx(client, clients, request.path.c_str());
 										} else {
 											resource::error(client, "305");
 										}
 									} else {
-										result = router->exec(request.path, request.args);
+										result = router->exec(ROUTE_HTTP, request.path, request.args, router, client);
 										resource::serve_cxx(client, clients, request.path.c_str());
 									}
 									break;
@@ -337,7 +377,6 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 							printf("Route executed. Result 2 is: %s\n", result2.c_str());
 
 
-                            // memset(client->request, 0, strlen(client->request));
                             // drop_client(client, clients);
                             break;
                         case SOCKST_CLOSING:

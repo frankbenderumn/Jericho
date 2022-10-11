@@ -1,4 +1,6 @@
 #include "server/fetch.h"
+#include "server/defs.h"
+#include "message/message_buffer.h"
 
 void parse_url(char *url, char **hostname, char **port, char** path) {
     printf("URL: %s\n", url);
@@ -65,13 +67,13 @@ int send_request(SSL *s, const char *hostname, const char *port, const char *pat
         ERR_print_errors_fp(stderr);
         result = 0;
     }
-    printf("Sent Headers:\n%s", buffer);
+    // printf("Sent Headers:\n%s", buffer);
     return result;
 }
 
 
 SOCKET connect_to_host(const char *hostname, const char *port) {
-    printf("Configuring remote address...\n");
+    // printf("Configuring remote address...\n");
     struct addrinfo hints;
     memset(&hints, 0, sizeof(hints));
     hints.ai_socktype = SOCK_STREAM;
@@ -81,7 +83,7 @@ SOCKET connect_to_host(const char *hostname, const char *port) {
         exit(1);
     }
 
-    printf("Remote address is: ");
+    // printf("Remote address is: ");
     char address_buffer[100];
     char service_buffer[100];
     getnameinfo(peer_address->ai_addr, peer_address->ai_addrlen,
@@ -90,7 +92,7 @@ SOCKET connect_to_host(const char *hostname, const char *port) {
             NI_NUMERICHOST);
     printf("%s %s\n", address_buffer, service_buffer);
 
-    printf("Creating socket...\n");
+    // printf("Creating socket...\n");
     SOCKET server;
     server = socket(peer_address->ai_family,
             peer_address->ai_socktype, peer_address->ai_protocol);
@@ -135,27 +137,29 @@ SOCKET connect_to_host(const char *hostname, const char *port) {
     fd_set fdset;
     FD_ZERO(&fdset);
     FD_SET(server, &fdset);
-    tv.tv_sec = 2;             /* 10 second timeout */
+    tv.tv_sec = 5;             /* 10 second timeout */
     tv.tv_usec = 0;
 
-    printf("Connecting...\n");
+    // BMAG("Thread connecting...\n");
     if (connect(server,
-                peer_address->ai_addr, peer_address->ai_addrlen)) {
+                peer_address->ai_addr, peer_address->ai_addrlen) >= 0) {
         fprintf(stderr, "connect() failed. (%d)\n", GETSOCKETERRNO());
-        // exit(1);
+        BMAG("Thread connect to %s:%s failed!\n", hostname, port);
+        // pthread_exit(NULL);
     }
     freeaddrinfo(peer_address);
 
 
     if (select(server + 1, NULL, &fdset, NULL, &tv) == 1)
     {
+        // BMAG("Thread selecting...\n");
         int so_error;
         socklen_t len = sizeof(so_error);
 
         getsockopt(server, SOL_SOCKET, SO_ERROR, &so_error, &len);
 
         if (so_error == 0) {
-            printf("%s:%d is open\n", hostname, port);
+            printf("%s:%s is open\n", hostname, port);
             flags = fcntl(server, F_GETFL, 0);
             flags &= ~O_NONBLOCK;           // set blocking
             // flags |= O_NONBLOCK;            // set non-blocking
@@ -163,10 +167,12 @@ SOCKET connect_to_host(const char *hostname, const char *port) {
             return server;
         } else {
             printf("socket is closed\n");
+            BRED("Thread socket is closed\n");
+            return -1;
         }
     } 
 
-    printf("Connected.\n\n");
+    BMAG("Thread connected to %s:%s.\n\n",hostname, port);
 
     return server;
 }
@@ -175,68 +181,66 @@ void fetch(Any args) {
     MessageBuffer* buf = (MessageBuffer*)args;
     std::string hostname = buf->hostname;
     std::string port = buf->port;
+    std::string dir = buf->dir;
     std::string path = buf->path;
-    MessageQueue* queue = buf->mq;
+    // MessageQueue* queue = buf->mq;
     std::string message = buf->sent;
 
     int iport = std::stoi(buf->port);
 
-    std::string tpath = "./cluster/log/" + buf->port + ".node";  
+    BMAG("FETCHING...\n");
+
+    buf->publish();
+
+    // if (port == "8082") {
+    // sleep(5);
+    // }
+
+    std::string tpath = "./log/" + buf->port + ".node";  
+    // BMAG("DIR IS: %s\n", dir.c_str());
+    // BMAG("TPATH IS: %s\n", tpath.c_str());
     t_write(iport, tpath.c_str(), "Prepping exchange with ingress");
 
 #if defined(_WIN32)
     WSADATA d;
     if (WSAStartup(MAKEWORD(2, 2), &d)) {
         fprintf(stderr, "Failed to initialize.\n");
-        pthread_exit(NULL);
+        // pthread_exit(NULL);
     }
 #endif
 
     SSL_library_init();
     OpenSSL_add_all_algorithms();
     SSL_load_error_strings();
-
+    SSL *ssl;
+    std::string result = "UNDEFINED";
     SSL_CTX *ctx = SSL_CTX_new(TLS_client_method());
+    
     if (!ctx) {
         fprintf(stderr, "SSL_CTX_new() failed.\n");
-        pthread_exit(NULL);
     }
-
-    // if (argc < 2) {
-    //     fprintf(stderr, "usage: web_get url\n");
-    //     return 1;
-    // }
-    // char *url = argv[1];
-
-    // char *path;
-    // parse_url(url, &hostname, &port, &path);
 
     SOCKET server = connect_to_host(hostname.c_str(), port.c_str());
 
+    if (server != -1) {
 
-    SSL *ssl = SSL_new(ctx);
+    ssl = SSL_new(ctx);
     if (!ssl) {
-        fprintf(stderr, "SSL_new() failed.\n");
-        // return 1;
-        pthread_exit(NULL);
+        printf("SSL_new() failed.\n");
     }
 
     if (!SSL_set_tlsext_host_name(ssl, hostname.c_str())) {
         fprintf(stderr, "SSL_set_tlsext_host_name() failed.\n");
         ERR_print_errors_fp(stderr);
-        // return 1;
-        pthread_exit(NULL);
     }
 
     SSL_set_fd(ssl, server);
     if (SSL_connect(ssl) == -1) {
         fprintf(stderr, "SSL_connect() failed.\n");
         ERR_print_errors_fp(stderr);
-        // return 1;
-        pthread_exit(NULL);
     }
 
-    printf ("SSL/TLS using %s\n", SSL_get_cipher(ssl));
+    // printf ("SSL/TLS using %s\n", SSL_get_cipher(ssl));
 
 
     X509 *cert = SSL_get_peer_certificate(ssl);
@@ -247,18 +251,16 @@ void fetch(Any args) {
 
     char *tmp;
     if ((tmp = X509_NAME_oneline(X509_get_subject_name(cert), 0, 0))) {
-        printf("subject: %s\n", tmp);
+        // printf("subject: %s\n", tmp);
         OPENSSL_free(tmp);
     }
 
     if ((tmp = X509_NAME_oneline(X509_get_issuer_name(cert), 0, 0))) {
-        printf("issuer: %s\n", tmp);
+        // printf("issuer: %s\n", tmp);
         OPENSSL_free(tmp);
     }
 
     X509_free(cert);
-
-    std::string result = "UNDEFINED";
 
     t_write(iport, tpath.c_str(), "Sending message to node!");
 
@@ -268,7 +270,7 @@ void fetch(Any args) {
 
     const clock_t start_time = clock();
 
-#define RESPONSE_SIZE 32768
+    #define RESPONSE_SIZE 32768
     char response[RESPONSE_SIZE+1];
     char *p = response, *q;
     char *end = response + RESPONSE_SIZE;
@@ -285,7 +287,7 @@ void fetch(Any args) {
             fprintf(stderr, "timeout after %.2f seconds\n", TIMEOUT);
             pthread_exit(NULL);
         } else {
-            printf("%f\n", (clock() - start_time) / CLOCKS_PER_SEC);
+            // printf("%f\n", (clock() - start_time) / CLOCKS_PER_SEC);
         }
 
         if (p == end) {
@@ -310,15 +312,15 @@ void fetch(Any args) {
             int bytes_received = SSL_read(ssl, p, end - p);
             if (bytes_received < 1) {
                 if (encoding == connection && body) {
-                    printf("%.*s", (int)(end - body), body);
+                    // printf("%.*s", (int)(end - body), body);
                 }
 
                 printf("\nConnection closed by peer.\n");
                 break;
             }
 
-            printf("Received (%d bytes): '%.*s'",
-                    bytes_received, bytes_received, p);
+            // printf("Received (%d bytes): '%.*s'\n",
+            //         bytes_received, bytes_received, p);
 
             p += bytes_received;
             *p = 0;
@@ -327,9 +329,9 @@ void fetch(Any args) {
                 *body = 0;
                 body += 4;
 
-                printf("Received Headers:\n%s\n", response);
+                // printf("Received Headers:\n%s\n", response);
 
-                result += std::string(response) + "\r\n\r\n";
+                // result += std::string(response) + "\r\n\r\n";
 
                 q = strstr(response, "\nContent-Length: ");
                 if (q) {
@@ -347,13 +349,13 @@ void fetch(Any args) {
                         encoding = connection;
                     }
                 }
-                printf("\nReceived Body:\n");
+                // printf("\nReceived Body:\n");
             }
 
             if (body) {
                 if (encoding == length) {
                     if (p - body >= remaining) {
-                        printf("%.*s", remaining, body);
+                        // printf("%.*s", remaining, body);
                         result += std::string(body);
                         break;
                     }
@@ -369,7 +371,7 @@ void fetch(Any args) {
                             }
                         }
                         if (remaining && p - body >= remaining) {
-                            printf("%.*s", remaining, body);
+                            // printf("%.*s", remaining, body);
                             result += std::string(body);
                             body += remaining + 2;
                             remaining = 0;
@@ -382,32 +384,47 @@ void fetch(Any args) {
 
     }
 
-finish:
-
-    BRED("RESPONSE IS: %s\n", result.c_str());
-
-    if (result == "UNDEFINED") {
-        t_write(iport, tpath.c_str(), "Message from Node is UNDEFINED!");
-    } else if (result == "") {
-        t_write(iport, tpath.c_str(), "Message from Node is empty. Read failure!");
     } else {
-        std::string reply = "Bytes sent to ingress: " + result.size();
-        t_write(iport, tpath.c_str(), reply.c_str());
+        result = "Failed to connect to " + std::string(hostname) + ":" +
+        std::string(port);
     }
 
-    buf->mq->publish(result);
+finish:
+
+    // BMAG("RESPONSE IS: %s\n", result.c_str());
+    // t_write(iport, tpath.c_str(), result.c_str());
+
+    if (result == "UNDEFINED") {
+        // t_write(iport, tpath.c_str(), "Message from Node is UNDEFINED!");
+        // BMAG("Message from Node is UNDEFINED!");
+    } else if (result == "") {
+        // t_write(iport, tpath.c_str(), "Message from Node is empty. Read failure!");
+        // BMAG("Message from Node is empty. Read failure!");
+    } else {
+        // std::string reply = "Bytes sent to ingress: " + result.size();
+        // t_write(iport, tpath.c_str(), reply.c_str());
+        // BMAG("%s\n", reply.c_str());
+    }
+
+    // buf->mq->publish(result);
     buf->received = result;
-    result = "";
+    // BGRE("MARKING\n");
+    buf->mark();
+    // result = "";
 
-    printf("\nClosing socket...\n");
-    SSL_shutdown(ssl);
-    CLOSESOCKET(server);
-    SSL_free(ssl);
-    SSL_CTX_free(ctx);
+    if (server != -1) {
 
-#if defined(_WIN32)
-    WSACleanup();
-#endif
+        // printf("\nClosing socket...\n");
+        SSL_shutdown(ssl);
+        CLOSESOCKET(server);
+        SSL_free(ssl);
+        SSL_CTX_free(ctx);
 
-    printf("Finished.\n");
+    #if defined(_WIN32)
+        WSACleanup();
+    #endif
+
+    }
+
+    BMAG("Finished.\n");
 }

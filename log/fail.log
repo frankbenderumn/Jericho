@@ -54,3 +54,10 @@ FAIL-[[0;33m2022-07-26 23:24:35[0m]-/mnt/d/jericho2/src/server/response.cc-voi
 
 FAIL-[2022-09-30 18:12:31]-/mnt/d/jericho2/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
 FAIL-[2022-09-30 18:13:02]-/mnt/d/jericho2/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-10-07 17:00:52]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-10-07 17:01:20]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-10-07 18:13:36]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-10-07 18:38:00]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-10-07 18:39:52]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-10-07 20:34:48]-/mnt/d/jericho-devel/core/src/server/client.cc-fd_set wait_on_clients(int, Client**)-127-select() failed
+FAIL-[2022-10-11 00:48:15]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.

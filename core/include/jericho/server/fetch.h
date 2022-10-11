@@ -38,15 +38,13 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include <string>
+
 #include <openssl/crypto.h>
 #include <openssl/x509.h>
 #include <openssl/pem.h>
 #include <openssl/ssl.h>
 #include <openssl/err.h>
-
-#include "server/server.h"
-#include "server/defs.h"
-#include "api/router.h"
 
 #define TIMEOUT 1.0
 
@@ -54,6 +52,6 @@ void parse_url(char *url, char **hostname, char **port, char** path);
 
 int send_request(SSL *s, char *hostname, char *port, char *path);
 
-SOCKET connect_to_host(char *hostname, char *port, char* path, MessageQueue* mq, std::string message);
+SOCKET connect_to_host(char *hostname, char *port, char* path, std::string message);
 
 void fetch(void* arg);

@@ -22,4 +22,4 @@ ext/*
 db/*
 cmake-build/*
 build/*
-nebulaui/*
+public/frontend/assets

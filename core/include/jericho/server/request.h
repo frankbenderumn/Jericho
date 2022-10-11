@@ -6,10 +6,11 @@
 #include <unordered_map>
 #include <map>
 
+#include "util/string_utils.h"
+
 #include "prizm/prizm.h"
 #include "server/resource.h"
 #include "server/client.h"
-#include "api/string_utils.h"
 
 struct Request {
     std::string content;
@@ -26,5 +27,7 @@ bool is_valid_request(Client* client);
 int parse_request(Client* client, Request* request);
 
 void print_request(Request* request);
+
+bool isHTTP(std::string request);
 
 #endif
