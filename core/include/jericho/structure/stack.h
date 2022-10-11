@@ -94,14 +94,18 @@ int stack_construct(Stack* stack, int data) {
     stack->root->next = NULL;
 }
     
-    ~Stack() { printf("Destroying Stack...\n"); }
+void stack_destroy(Stack* stack) {
+    free(stack);
+}
 
-    struct StackNode* newNode(int data) {
-        struct StackNode* stackNode = (struct StackNode*)malloc(sizeof(struct StackNode));
-        stackNode->data = data;
-        stackNode->next = NULL;
-        return stackNode;
-    }
+// ~Stack() { printf("Destroying Stack...\n"); }
+
+struct StackNode* newNode(int data) {
+    struct StackNode* stackNode = (struct StackNode*)malloc(sizeof(struct StackNode));
+    stackNode->data = data;
+    stackNode->next = NULL;
+    return stackNode;
+}
 
 #endif
 

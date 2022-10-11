@@ -2400,3 +2400,9 @@ ERROR-[2022-09-30 20:13:21]-/mnt/d/jericho2/src/server/server.cc-int run(int*, C
 
 ERROR-[2022-09-30 20:19:33]-/mnt/d/jericho2/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*, Router*)-299-AN UNEXPECTED STATE WAS ENCOUNTERED!
 
+DATABASE-[[0;32m2022-10-10[0m [0;33m18:36:01[0m]-/mnt/d/jericho-devel/ext/celerity/ext/prizm-cxx/src/file_system.cc-void t_write(int, const char*, const char*)-76:[0;31mERROR[0m-Unable to create file! Check that log directory exists!
+
+DATABASE-[[0;32m2022-10-10[0m [0;33m18:37:45[0m]-/mnt/d/jericho-devel/ext/celerity/ext/prizm-cxx/src/file_system.cc-void t_write(int, const char*, const char*)-76:[0;31mERROR[0m-Unable to create file! Check that log directory exists!
+
+DATABASE-[[0;32m2022-10-10[0m [0;33m18:40:14[0m]-/mnt/d/jericho-devel/ext/celerity/ext/prizm-cxx/src/file_system.cc-void t_write(int, const char*, const char*)-76:[0;31mERROR[0m-Unable to create file! Check that log directory exists!
+

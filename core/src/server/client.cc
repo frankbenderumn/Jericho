@@ -36,6 +36,8 @@ void client_set_state(Client* client, SocketState state) {
     pthread_mutex_unlock(&(client->state_mutex));
 }
 
+static int CLIENT_ID = -1;
+
 // finds exisiting client or creates new one if does not exist
 Client* get_client(SOCKET s, Client** clients) {
     Client* ci = *clients; // pointer to linked list
@@ -49,6 +51,7 @@ Client* get_client(SOCKET s, Client** clients) {
 
     // allocate 1 new client with block size of Client (calloc actually initializes to 0 unlike malloc)
     Client* n = (Client*) calloc(1, sizeof(Client)); 
+    n->id = ++CLIENT_ID;
 
     if (!n) { PFAIL(ENEM, "Out of memory!"); } // not enough memory
 
@@ -76,25 +79,29 @@ Client* get_client(SOCKET s, Client** clients) {
 }
 
 void drop_client(Client* client, Client** clients) {
-    SSL_shutdown(client->ssl);
-    CLOSESOCKET(client->socket); // kill connection
-    SSL_free(client->ssl);
+    if (!client->promised) {
+        SSL_shutdown(client->ssl);
+        CLOSESOCKET(client->socket); // kill connection
+        SSL_free(client->ssl);
 
-    Client*** p = &clients; // pointer-to-pointer
-    
-    // double pointer helps with case of dropped client at head of list
-    while (**p) { 
-        if (**p == client) { // if client
-            **p = client->next; // set pointer to client
-            free(client); // free memory, was allocated on heap
-            PLOG(LSERVER, "Dropping client: <client-address>");
-            BGRE("Client dropped!");
-            return;
+        Client*** p = &clients; // pointer-to-pointer
+        
+        // double pointer helps with case of dropped client at head of list
+        while (**p) { 
+            if (**p == client) { // if client
+                **p = client->next; // set pointer to client
+                free(client); // free memory, was allocated on heap
+                PLOG(LSERVER, "Dropping client: <client-address>");
+                BYEL("Client dropped!\n");
+                return;
+            }
+            *p = &(**p)->next; // iterate
         }
-        *p = &(**p)->next; // iterate
-    }
 
-    PFAIL(ESERVER, "Error dropping client -- client not found!");
+        PFAIL(ESERVER, "Error dropping client -- client not found!");
+    } else {
+        BYEL("Client promised can not drop!\n");
+    }
 }
 
 // blocking wait until new client or all packets from client received

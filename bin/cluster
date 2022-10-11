@@ -1,0 +1,11 @@
+#!/bin/bash 
+./bin/launch -p 8081 -t 5 -d cluster/8081 &
+./bin/launch -p 8082 -t 5 -d cluster/8082 &
+./bin/launch -p 8083 -t 5 -d cluster/8083 &
+./bin/launch -p 8084 -t 5 -d cluster/8084 &
+./bin/launch -p 8085 -t 5 -d cluster/8085 &
+./bin/launch -p 8086 -t 5 -d cluster/8086 &
+./bin/launch -p 8087 -t 5 -d cluster/8087 &
+./bin/launch -p 8088 -t 5 -d cluster/8088 &
+./bin/launch -p 8089 -t 5 -d cluster/8089 &
+./bin/launch -p 8090 -t 5 -d cluster/8090

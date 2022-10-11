@@ -2,10 +2,11 @@
 ROOTDIR=`git rev-parse --show-toplevel`
 source config/tokens
 if [[ "$1" == "install" ]]; then
-    if [[ -d "${ROOTDIR}/frontend" ]]; then
+    if [[ -d "${ROOTDIR}/nebula/frontend" ]]; then
         echo -e "\033[0mNebulaUI already installed.\033[0m"
     else
         git clone https://frankbenderumn:${GITHUB_TOKEN}@github.com/frankbenderumn/nebulaui.git
+        git checkout v2
         cd nebulaui
         # mv frontend ${ROOTDIR}/frontend
         # cd ..

@@ -23,11 +23,10 @@
 #include "server/shutdown.h"
 #include "server/client.h"
 #include "server/router.h"
-#include "api/router.h"
+
+class Router; 
 
 extern EventManager event_manager;
-
-class Router;
 
 void connect(void* targ);
 static void* service(void* targ);

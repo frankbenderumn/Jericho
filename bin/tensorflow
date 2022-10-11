@@ -12,10 +12,10 @@ tar -xzf ${FILENAME}.tar.gz
 sudo rm -rf ${FILENAME}.tar.gz
 
 # for macs
-cd ..
-git clone https://github.com/tensorflow/tensorflow.git
-cd tensorflow
-mv tensorflow tensorflow-source
-mkdir tensorflow
-bazel build --config opt --cpu=darwin_arm64 --host_cpu=darwin_arm64 //tensorflow/tools/lib_package:libtensorflow
-tar -C ../tensorflow -xzf bazel-bin/tensorflow/tools/lib_package/libtensorflow.tar.gz
+# cd ..
+# git clone https://github.com/tensorflow/tensorflow.git
+# cd tensorflow
+# mv tensorflow tensorflow-source
+# mkdir tensorflow
+# bazel build --config opt --cpu=darwin_arm64 --host_cpu=darwin_arm64 //tensorflow/tools/lib_package:libtensorflow
+# tar -C ../tensorflow -xzf bazel-bin/tensorflow/tools/lib_package/libtensorflow.tar.gz

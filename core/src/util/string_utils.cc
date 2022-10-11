@@ -1,4 +1,36 @@
-#include "api/string_utils.h"
+#include "util/string_utils.h"
+
+std::string join(std::vector<std::string> vec, std::string delim, int start, int end) {
+    if (start == -1 && end == -1) {
+        start = 0;
+        end = vec.size() - 1;
+    } else if (start == -1 && end != -1) {
+        start = 0;
+    } else if (start != -1 && end == -1) {
+        end = vec.size() - 1;
+    }
+
+    if (start < 0 || start > vec.size() - 1) {
+        BRED("Invalid start index for join");
+        return "";
+    }
+
+    if (end < 0 || end > vec.size() - 1) {
+        BRED("Invalid end index for join");
+        return "";
+    }
+
+    std::string result = "";
+    for (int i = start; i <= end; i++) {
+        // if (typeid(T) == typeid(std::string)) {
+        result += vec[i];
+        // } else {
+        //     result += std::to_string(i);
+        // }
+    }
+
+    return result;
+}
 
 std::string serialize(const std::string& name, const std::vector<std::string>& vec) {
     std::string response = "{\"" + name + "\": ["; 

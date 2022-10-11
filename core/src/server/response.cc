@@ -3,6 +3,8 @@
 #include <sys/wait.h>
 #include "server/iris.h"
 #include "server/defs.h"
+#include "server/socket.h"
+#include "server/client.h"
 
 using namespace Jericho;
 
@@ -161,7 +163,10 @@ void socket_write(SSL* ssl, const void *buf, unsigned size) {
 }
 
 void resource::serve_http(Client* conn, Client** clients, const char* content) {
-    char buffer[8192];
+    if (strlen(content) > 65000) {
+        BRED("CONTENT TO SEND IS TO LARGE! NEED TO FRAGMENT BUFFER!\n");
+    }
+    char buffer[65536];
     sprintf(buffer, "HTTP/1.1 200 OK\r\n");
     SSL_write(conn->ssl, buffer, strlen(buffer));
     sprintf(buffer, "Connection: close\r\n");
@@ -185,7 +190,7 @@ void resource::serve_cxx(Client* conn, Client** clients, const char* path) {
     client_get_address(conn, addr_buffer);
     DEBUGC(4, "serve_resource %s %s\n", addr_buffer, path);
     std::string p = std::string(path);
-    std::string dir = DIR;
+    std::string dir = PUBLIC_DIRECTORY;
     if (p == "") p = "/index.html";
     if (p == "/") p = "/index.html";
 
