@@ -1,8 +1,24 @@
-# Python/CPP Interoperability
+Jericho
 
-## Startup
+## Distributed System Framework
 
-Utilizing a bash shell and linux environment run the script
+This project consists of 4 libraries:
+
+nebulaui
+prizm
+celerity
+jericho
+
+Nebulaui is a frontend framework utilizing webgl and jquery
+Prizm is a testing framework and benchmarking library
+Celerity is a universal database orm that currently supports postgres and mongo
+Jericho is a distributed server architecture
+
+Jericho is near completion of supporting federated learning through execution of tensorflow python scripts
+
+The main mechanisms are as follows:
+
+
 ```
 ./script/py.sh
 ```
