@@ -125,7 +125,6 @@ int main(int argc, char* argv[]) {
     Router* router = new Router(tpool, fetch, cluster, celerity);
 
     router->bind(ROUTE_API, "/rsi", apiRsi);
-    // router->bind(ROUTE_API, "/ohlc", apiOhlc);
     router->bindSystem("/spawn", apiSpawn);
     router->bindSystem("/python", apiPython);
     router->bindSystem("/mongo-databases", apiMongoDatabases);

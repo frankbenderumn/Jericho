@@ -29,8 +29,15 @@ class Router;
 extern EventManager event_manager;
 
 void connect(void* targ);
+
 static void* service(void* targ);
+
 void recv_websocket(Any args);
-int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Router* router);
+
+int run(SOCKET* server,
+        Client** clients,
+        SSL_CTX* ctx,
+        ThreadPool* tpool,
+        Router* router);
 
 #endif

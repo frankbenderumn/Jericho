@@ -21,12 +21,19 @@ enum BrokerType {
 // class MessageBuffer;
 
 class MessageBroker {
+
 	std::deque<MessageBuffer*> _messages;
+	
 	std::unordered_map<int, int> _tickets;
+	
 	std::unordered_map<int, MessageBuffer*> _promised;
+	
 	BrokerType _type = BROKER_NULL;
+	
 	MessageCallback _callback;
+	
 	int _epoch = 1;
+	
 	std::deque<MessageBuffer*> _stash;
 
   public:

@@ -16,7 +16,7 @@ namespace Jericho {
 
       static std::string read(const char* path);
 
-      static std::string getDir(std::string name);
+      static std::vector<std::string> getDir(std::string name);
 
       bool static sanitize(std::string s, std::regex r);
   };

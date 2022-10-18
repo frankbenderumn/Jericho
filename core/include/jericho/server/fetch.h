@@ -52,6 +52,9 @@ void parse_url(char *url, char **hostname, char **port, char** path);
 
 int send_request(SSL *s, char *hostname, char *port, char *path);
 
-SOCKET connect_to_host(char *hostname, char *port, char* path, std::string message);
+SOCKET connect_to_host(char *hostname,
+                        char *port,
+                        char* path,
+                        std::string message);
 
 void fetch(void* arg);

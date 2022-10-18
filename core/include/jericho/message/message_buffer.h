@@ -10,20 +10,32 @@ class MessageBroker;
 class Router;
 class Client;
 
-class MessageBuffer {
-  public:
+struct MessageBuffer {
+  
     MessageBuffer() {}
+  
     std::string sent = "undefined";
+  
     std::string hostname = "undefined";
+  
     std::string port = "undefined";
+  
     std::string path = "undefined";
+  
     std::string received = "undefined";
+  
     std::string dir = "undefined";
+  
     int ticket = -1;
+  
     MessageBroker* broker = nullptr;
+  
     Client* client;
+  
     void publish();
+  
     void mark();
+  
     void dump();
 };
 

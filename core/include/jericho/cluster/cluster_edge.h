@@ -11,11 +11,15 @@ enum ClusterEdgeType {
 };
 
 class ClusterEdge {
+    
     std::vector<ClusterEdge*> _edges;
+
     std::vector<ClusterNode*> _nodes;
+    
     ClusterEdgeType _type = CLUSTER_EDGE_STRICT;
     
   public:
+    
     ClusterEdge(ClusterEdgeType type, std::vector<ClusterNode*> nodes);
 
     ClusterEdge(ClusterEdgeType type, ClusterNode* node);

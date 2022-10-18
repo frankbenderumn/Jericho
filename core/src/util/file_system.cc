@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include "util/file_system.hpp"
+#include <dirent.h>
 
 void Jericho::FileSystem::write(const char* path, std::string toWrite) {
     std::ofstream myfile;
@@ -19,25 +20,26 @@ std::string Jericho::FileSystem::read(const char* path) {
     return buffer.str();
 }
 
-std::string Jericho::FileSystem::getDir(std::string name) {
-    std::string fileBuffer = "";
-    // if (sanitize(name, std::regex("([A-Za-z0-9_-]/?)+[A-Za-z0-9_-]+\\.([A-Za-z]+|[A-Za-z]+\\.[A-Za-z]+){1}"))) {
-    if (sanitize(name, std::regex("*"))) {
-        FILE* stream;
-        const int max_buffer = 256;
-        char buffer[max_buffer];
-        std::string cmd = "ls " + name;
-        cmd.append(" 2>&1");
+std::vector<std::string> Jericho::FileSystem::getDir(std::string dir) {
+    std::vector<std::string> fileBuffer;
+    DIR* dr;
+    struct dirent* en;
+    dr = opendir(dir.c_str()); //open all or present directory
 
-        stream = popen(cmd.c_str(), "r");
+    if ( !dr ) {
+        printf("\033[1;31mINVALID DIRECTORY PROVIDED FOR CLUSTER NODE: %s\033[0m\n", dir.c_str());
+        // exit(1);
+    }
 
-        if (stream) {
-            while (!feof(stream))
-                if (fgets(buffer, max_buffer, stream) != NULL) fileBuffer.append(buffer);
-            pclose(stream);
+    if (dr) {
+        while ((en = readdir(dr)) != NULL) {
+            printf("%s\n", en->d_name); //print all directory name
+            std::string path = std::string(en->d_name);
+            if (path != "." && path != "..") {
+                fileBuffer.push_back(path);
+            }
         }
-    } else {
-        // PFAIL(EINVARG, "Invalid directory access\n");
+        closedir(dr); //close all directory
     }
 
     return fileBuffer;
