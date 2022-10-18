@@ -14,7 +14,9 @@
 *   Atomic Accessors (should not be void) TODO: deperecate
 ************************************************************/
 void socket_create(int port, int reuse);
-SOCKET socket_create(const char* host, int port, int reuse, int family, int socktype);
+
+SOCKET socket_create(const char* host,
+                    int port, int reuse, int family, int socktype);
 
 /***********************************************************
 *   Atomic Accessors

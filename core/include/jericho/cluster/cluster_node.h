@@ -34,20 +34,29 @@ enum ClusterNodeType {
 };
 
 class ClusterNode {
-  private:
+
     std::string _host = "undefined";
+
     std::string _port = "undefined";
+
 	std::string _dir = "undefined";
+
     bool _status = false;
-    // std::string _strType = "default";
+
 	ClusterNodeType _type = CLUSTER_NODE_NULL;
+
 	ClusterEdge* _edge;
+
 	ClusterIndex* _index;
+
 	std::vector<std::string> _files;
+
 	std::unordered_map<Client*, std::deque<MessageBroker*>> _brokers;
+
 	int _id = -1;
 
   public:
+
     ClusterNode(std::string host, std::string port, std::string dir, ClusterIndex* index);
 
 	~ClusterNode();

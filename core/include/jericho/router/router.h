@@ -86,20 +86,8 @@ class Router {
         if (client == NULL) {
             return JsonResponse::error(500, "No client to serve!");
         }
-        
-        // if (!hasNode(path)) {
-        //     return JsonResponse::error(500, "Node not bound to path");
-        // } else {
-            // ClusterNode* node = _cluster->index()->getCluster(path);
-            // node->buf;
-            // buf->ticket = std::to_string(++MESSAGE_ID);
-            // client->promised = true;
-            // buf->client = client;
-            // thread_pool_add(_tpool, _worker, (void*)buf);
-            // BBLU("BUFF RECEIVED IS: %s\n", buf->received.c_str());
-            // return buf->received;
-            return JsonResponse::error(500, "Exec node deprecated");
-        // }
+
+        return JsonResponse::error(500, "Exec node deprecated");
     }
 
     RouteRegistry* registry() { return _registry; }

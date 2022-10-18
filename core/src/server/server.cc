@@ -228,19 +228,11 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 
         while (client) {
 
-			// BYEL("promised queue: %i\n", (int)router->promised().size());
-			// for (auto p : router->promised()) {
-			// 	printf("Client id: %i, promised id: %i\n", client->id, p.first->id);
-			// }
-			// for (auto m : router->messages()) {
-			// 	BYEL("messages for client: %i\n", (int)m.second.size());
-			// }
 			MessageBroker* broker = router->cluster()->boss()->poll(client);
 			if (broker != NULL) {
 				BGRE("FIRING ASYNC CALL\n");
 				std::string response = broker->callback()(router, client, broker->response(client));
 				BRED("YABBA DABBA DOO\n");
-				// GRE("Message: %s\n", response.c_str());
 				if (broker->epoch() == 0) {
 					if (isHTTP(response)) {
 						resource::serve_raw(client, clients, response.c_str());
@@ -314,16 +306,6 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 								break;
 							}
 
-							// router->parse_path(request.path, &route);
-
-							// request.args = route.kvs;
-							// request.path = route.path;
-
-							// check for distributed signature
-							// if (is_distributed(request.path)) {
-								
-							// }
-
 							print_request(&request);
 
 							switch (router->protocol(request.path)) {
@@ -375,8 +357,6 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 
 							printf("Route executed. Result is: %s\n", result.c_str());
 							printf("Route executed. Result 2 is: %s\n", result2.c_str());
-
-
                             // drop_client(client, clients);
                             break;
                         case SOCKST_CLOSING:

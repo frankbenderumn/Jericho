@@ -9,74 +9,12 @@
 
 #include <picojson.h>
 #include "api/url.h"
+#include "api/api.h"
 #include "server/response.h"
 #include "router/router.h"
 #include "util/iters.h"
 
-#define OPT std::pair<std::string, std::string>
-typedef std::unordered_map<std::string, std::string> Args;
-
-bool apiValidate(std::string substr, std::regex rgx) {
-    std::regex_iterator<std::string::iterator> it(substr.begin(), substr.end(), rgx);
-    std::regex_iterator<std::string::iterator> end;
-    if (std::distance(it, end) != 0) {
-        return true;
-    }
-    return false;
-}
-
-std::string pipe(std::string command) {
-    std::string result;
-    FILE* fp;
-    int status = -1;
-
-    fp = popen(command.c_str(), "r");
-    if (fp == NULL) { return "PIPE ERROR"; }
-
-    int someLen = 0;
-    int lineLen = 10000;
-    char *line;
-    line = (char *)malloc(sizeof(char) * lineLen);
-    if (line == NULL) {
-        return "PIPE ERROR";
-    }
-    while (fgets(line, lineLen, fp)) {
-        BMAG("LINE: %s\n", line);
-        result += std::string(line);
-        someLen += lineLen;
-        if (someLen != lineLen) {
-            line = (char *)realloc(line, sizeof(char) * someLen);
-        }
-        if (line == NULL) {
-            return "PIPE ERROR";
-        }
-    }
-
-    printf("Size of line is: %i\n", (int)result.size());
-    BGRE("LINE: %s\n", result.c_str());
-    free(line);
-
-    status = pclose(fp);
-    if (status == -1) {
-        return "PIPE ERROR";
-    }
-
-    return result;
-}
-
-const std::unordered_map<std::string, int> TOKEN_LIST = {
-    {"kalmoru", 0},
-    {"assinine", 0},
-    {"ass", 0},
-    {"titties", 0},
-    {"kobutcha", 0}
-};
-
-template <typename K, typename V>
-bool contains(std::unordered_map<K, V> map, K key) {
-    if (map.find(key) != map.end()) return true;
-    return false;
-}
+typedef std::vector<std::pair<std::string, std::string>> Opts;
 
 class PolygonClient {
   public:
@@ -84,7 +22,7 @@ class PolygonClient {
         std::string _protocol = "https";
         std::string _token = "ST5s4i1XvOCXb9wiQvmE9EuBnu34LnJ7";
         std::string _url = "api.polygon.io/";
-        std::vector<std::pair<std::string, std::string>> _options = {OPT{"apiKey", _token}};
+        Opts _options = {OPT{"apiKey", _token}};
         for (auto opt : opts) {
             _options.push_back(opt);
         }
@@ -94,13 +32,17 @@ class PolygonClient {
 
     // https://api.polygon.io/v1/open-close/AAPL/2020-10-14?adjusted=true&apiKey=ST5s4i1XvOCXb9wiQvmE9EuBnu34LnJ7
     static std::string ohlc(std::string ticker, std::string date) {
-        std::string result = PolygonClient::send("v1/open-close/" + ticker + "/" + date, {OPT{"adjusted", "false"}});
+        std::string path = "v1/open-close/" + ticker + "/" + date;
+        std::string result = PolygonClient::send(path, 
+                                                {OPT{"adjusted", "false"}});
         return result;
     }
 
     // v2/aggs/grouped/locale/us/market/stocks/2020-10-14?adjusted=true&apiKey=*
     static std::string grouped(std::string date) { 
-        std::string result = PolygonClient::send("v2/aggs/grouped/locale/us/market/stocks/" + date, {OPT{"adjusted", "false"}});
+        std::string path = "v2/aggs/grouped/locale/us/market/stocks/" + date;
+        std::string result = PolygonClient::send(path, 
+                                                {OPT{"adjusted", "false"}});
         return result;
     }
 
@@ -113,8 +55,13 @@ class PolygonClient {
                             std::string adjusted = "true", 
                             std::string sort = "asc", 
                             std::string limit = "120") {
-        std::string result = PolygonClient::send("v2/aggs/ticker/"+ticker+"/range/"+multiplier+"/"+span+"/"+to+"/"+from, 
-                                {OPT{"adjusted", adjusted}, OPT{"sort", sort}, OPT{"limit", limit}});
+        std::string path = "v2/aggs/ticker/"+
+                            ticker+"/range/"+
+                            multiplier+"/"+span+"/"+to+"/"+from;
+        std::string result = PolygonClient::send(path, 
+                                                {OPT{"adjusted", adjusted}, 
+                                                OPT{"sort", sort}, 
+                                                OPT{"limit", limit}});
         return result;
     }
 
@@ -204,7 +151,14 @@ std::string apiAggregate(std::vector<std::string> args) {
     if (args.size() != 8) {
         return "{\"status\": \"500\", \"error\": \"8 arguments required\"}";
     } else {
-        return PolygonClient::aggregate(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]);
+        return PolygonClient::aggregate(args[0], 
+                                        args[1], 
+                                        args[2], 
+                                        args[3], 
+                                        args[4], 
+                                        args[5], 
+                                        args[6], 
+                                        args[7]);
     }
         return "{\"status\": \"500\", \"error\": \"6 arguments required\"}";
 }
@@ -213,7 +167,14 @@ std::string apiMacd(std::vector<std::string> args) {
     if (args.size() != 6) {
         return "{\"status\": \"500\", \"error\": \"8 arguments required\"}";
     } else {
-        return PolygonClient::macd(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]);
+        return PolygonClient::macd(args[0],
+                                    args[1], 
+                                    args[2], 
+                                    args[3], 
+                                    args[4], 
+                                    args[5], 
+                                    args[6], 
+                                    args[7]);
     }
         return "{\"status\": \"500\", \"error\": \"6 arguments required\"}";
 }
@@ -222,7 +183,12 @@ std::string apiSma(std::vector<std::string> args) {
     if (args.size() != 6) {
         return "{\"status\": \"500\", \"error\": \"6 arguments required\"}";
     } else {
-        return PolygonClient::sma(args[0], args[1], args[2], args[3], args[4], args[5]);
+        return PolygonClient::sma(args[0], 
+                                    args[1], 
+                                    args[2], 
+                                    args[3], 
+                                    args[4], 
+                                    args[5]);
     }
         return "{\"status\": \"500\", \"error\": \"6 arguments required\"}";
 }
@@ -231,7 +197,12 @@ std::string apiEma(std::vector<std::string> args) {
     if (args.size() != 6) {
         return "{\"status\": \"500\", \"error\": \"6 arguments required\"}";
     } else {
-        return PolygonClient::ema(args[0], args[1], args[2], args[3], args[4], args[5]);
+        return PolygonClient::ema(args[0],
+                                    args[1], 
+                                    args[2], 
+                                    args[3], 
+                                    args[4], 
+                                    args[5]);
     }
         return "{\"status\": \"500\", \"error\": \"6 arguments required\"}";
 }
@@ -240,7 +211,12 @@ std::string apiRsi(std::vector<std::string> args) {
     if (args.size() != 6) {
         return "{\"status\": \"500\", \"error\": \"6 arguments required\"}";
     } else {
-        return PolygonClient::rsi(args[0], args[1], args[2], args[3], args[4], args[5]);
+        return PolygonClient::rsi(args[0],
+                                    args[1],
+                                    args[2],
+                                    args[3],
+                                    args[4],
+                                    args[5]);
     }
         return "{\"status\": \"500\", \"error\": \"6 arguments required\"}";
 }
@@ -256,12 +232,26 @@ std::string apiRsi(std::unordered_map<std::string, std::string> args) {
         {"ticker", "AAPL"},
         {"token", "undefined"}
     }; 
-    if (subset(keys(args), std::set<std::string>{"timespan", "adjusted", "window", "series_type", "order", "ticker", "token"})) {
+    std::set<std::string> rsiSet = std::set<std::string>{
+        "timespan",
+        "adjusted",
+        "window",
+        "series_type",
+        "order",
+        "ticker",
+        "token"
+    }
+    if (subset(keys(args), rsiSet)) {
         if (contains(TOKEN_LIST, args["token"])) {
             for (auto arg : args) {
                 v[arg.first] = arg.second;
             }
-            return PolygonClient::rsi(v["ticker"], v["timespan"], v["adjusted"], v["window"], v["series_type"], "desc");
+            return PolygonClient::rsi(v["ticker"],
+                                        v["timespan"],
+                                        v["adjusted"],
+                                        v["window"],
+                                        v["series_type"],
+                                        "desc");
         } else {
             return JsonResponse::error(404, "Invalid token provided");
         }
@@ -271,7 +261,9 @@ std::string apiRsi(std::unordered_map<std::string, std::string> args) {
     }
 }
 
-std::string apiMongoDatabases(std::unordered_map<std::string, std::string> args, Router* router, Client* client = NULL) {
+std::string apiMongoDatabases(Args args,
+                            Router* router, 
+                            Client* client = NULL) {
     if (!contains(TOKEN_LIST, args["token"])) {
         return JsonResponse::error(404, "Invalid token provided");
     }
@@ -282,7 +274,7 @@ std::string apiMongoDatabases(std::unordered_map<std::string, std::string> args,
 
 }
 
-std::string apiMongoInsert(std::unordered_map<std::string, std::string> args, Router* router, Client* client = NULL) {
+std::string apiMongoInsert(Args args, Router* router, Client* client = NULL) {
     if (!contains(TOKEN_LIST, args["token"])) {
         return JsonResponse::error(404, "Invalid token provided");
     }
@@ -293,7 +285,7 @@ std::string apiMongoInsert(std::unordered_map<std::string, std::string> args, Ro
 
 }
 
-std::string apiMongoCollection(std::unordered_map<std::string, std::string> args, Router* router, Client* client = NULL) {
+std::string apiMongoCollection(Args args, Router* router, Client* client = NULL) {
     std::unordered_map<std::string, std::string> v = {
         {"timespan", "day"},
         {"adjusted", "true"},
@@ -517,20 +509,6 @@ std::string concatBuf(Router* router, Client* client, std::deque<MessageBuffer*>
     }
     BCYA("Result: %s\n", result.c_str());
     return result;
-}
-
-std::string apiFederate(Args args, Router* router = NULL, Client* client = NULL) {
-    if (!contains(TOKEN_LIST, args["token"])) {
-        return JsonResponse::error(404, "Invalid token provided");
-    }
-
-    if (router == NULL || client == NULL) {
-        return JsonResponse::error(500, "Client or router is NULL");
-    }
-    
-    router->cluster()->boss()->federate(router, client, "/federate-local", 5, 5);
-
-    return "TICKET";
 }
 
 std::string apiFederateLocal(Args args, Router* router = NULL, Client* client = NULL) {

@@ -9,10 +9,13 @@
 class ClusterNode;
 
 class ClusterIndex {
+
     std::unordered_map<int, ClusterNode*> _nodes;
+  
     std::unordered_map<std::string, int> _files;
 
   public:
+  
     ClusterIndex() {}
     
     void addNode(ClusterNode* node);

@@ -43,11 +43,6 @@ class Cluster {
 
     void pingAll(Router* router, Client* client) {
         BBLU("CLUSTER CHILDREN SIZE: %i\n", (int)_boss->edges()->nodes().size());
-        // if ((int)_boss->edges()->nodes().size() > 0) {
-        //     _boss->pingOne(router, client, _boss->edges()->nodes()[0]);
-        // }
-        // for (auto n : _boss->edges()->nodes()) {
-        // }
         _boss->pingAll(router, client);
     }
 

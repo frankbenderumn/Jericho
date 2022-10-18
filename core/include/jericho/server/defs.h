@@ -174,6 +174,6 @@ struct Frame {
 
 typedef struct Client Client;
 
-static pthread_mutex_t MESSAGE_MUTEX = PTHREAD_MUTEX_INITIALIZER; 
+static pthread_mutex_t MESSAGE_MUTEX = PTHREAD_MUTEX_INITIALIZER;
 
 #endif

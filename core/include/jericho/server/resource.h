@@ -15,7 +15,6 @@ namespace resource {
     void serve_raw(Client* conn, Client** clients, const char* message);
 
     void serve_http(Client* conn, Client** clients, const char* message);
-
 }
 
 #endif
