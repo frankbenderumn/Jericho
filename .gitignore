@@ -12,12 +12,13 @@ config/settings
 ext/openssl
 ext/openssl-source
 ext/prizm-cxx
+ext/celerity
 cmake/*
 export/*
 comet/*
 build/*
 build/obj/*
-log/
+*.log
 ext/*
 db/*
 cmake-build/*
