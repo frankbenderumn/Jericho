@@ -1,0 +1,15 @@
+{
+    "_meta": {"name": "stock"},
+    "!id": {"type": "auto-increment"},
+    "ticker": {"type": "string"},
+    "cik": {"type": "bigint"},
+    "composite_figi": {"type": "string"},
+    "last_updated_at": {"type": "string"},
+    "locale": {"type": "string"},
+    "market": {"type": "string"},
+    "name": {"type": "string"},
+    "primary_exchange": {"type": "string"},
+    "share_class_figi": {"type": "string"},
+    "type": {"type": "string"},
+    "_attrs": ["@timestamps"]
+}

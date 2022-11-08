@@ -9180,3 +9180,63 @@ Sec-WebSocket-Key: Pykpc0KShPEcq5ykdWIByA==
 Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
 
 
+13 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: juLfcU9b4NYYKTPhfU6jPA==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+
+14 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: 0UQE8HReAYcZJK3XfjTQBA==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+
+15 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: 2bjXW9P5zSdAQOl0wUCEWw==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+
+13 - Client request is: GET / HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36
+Upgrade: websocket
+Origin: https://localhost:8080
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Sec-WebSocket-Key: rv5Bo9IFsM6IaGtwnTi7FQ==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+

@@ -20,7 +20,6 @@ build/*
 build/obj/*
 *.log
 ext/*
-db/*
 cmake-build/*
 build/*
 public/frontend/assets

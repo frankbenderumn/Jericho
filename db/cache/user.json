@@ -1,0 +1,13 @@
+{
+    "_meta": {"name": "user"},
+    "!id": {"name": "user_id", "type": "auto-increment"},
+    "fname": {"type": "string", "max-length": 50, "regex": "alpha"},
+    "lname": {"type": "string", "max-length": 50, "regex": "alpha"},
+    "email": {"type": "string", "max-length": 50, "regex": "email"},
+    "username": {"type": "string", "max-length": "15"},
+    "salt": {"type": "string", "max-length": "50"},
+    "password": {"type": "digest", "encrypt": "sha-2"},
+    "activated_at": {"type": "timestamp", "default": 0},
+    "activated": {"type": "bool", "default": "false"},
+    "_attrs": ["@timestamps"]
+}

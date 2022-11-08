@@ -1,0 +1,12 @@
+{
+    "_meta": {"name": "ema"},
+    "!id": {"type": "auto-increment"},
+    "timestamp": {"type": "timestamp"},
+    "value": {"type": "decimal"},
+    "#ticker": {
+        "modality": "1",
+        "cardinality": "N:1",
+        "references": "ticker",
+        "type": "string"    
+    }
+}
