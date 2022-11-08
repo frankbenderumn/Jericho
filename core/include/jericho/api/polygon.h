@@ -13,6 +13,7 @@
 #include "server/response.h"
 #include "router/router.h"
 #include "util/iters.h"
+#include "prizm/prizm.h"
 
 typedef std::vector<std::pair<std::string, std::string>> Opts;
 
@@ -138,27 +139,27 @@ class PolygonClient {
     }
 };
 
-std::string apiOhlc(std::vector<std::string> args) {
+std::string apiOhlc(Args args) {
     if (args.size() != 2) {
         return "{\"status\": \"500\", \"error\": \"2 arguments required\"}";
     } else {
-        return PolygonClient::ohlc(args[0], args[1]);
+        return PolygonClient::ohlc(args["ticker"], args["date"]);
     }    
         return "{\"status\": \"500\", \"error\": \"6 arguments required\"}";
 }
 
-std::string apiAggregate(std::vector<std::string> args) {
+std::string apiAggregate(Args args) {
     if (args.size() != 8) {
         return "{\"status\": \"500\", \"error\": \"8 arguments required\"}";
     } else {
-        return PolygonClient::aggregate(args[0], 
-                                        args[1], 
-                                        args[2], 
-                                        args[3], 
-                                        args[4], 
-                                        args[5], 
-                                        args[6], 
-                                        args[7]);
+        return PolygonClient::aggregate(args["ticker"], 
+                                        args["multiplier"], 
+                                        args["span"], 
+                                        args["to"], 
+                                        args["from"], 
+                                        args["true"], 
+                                        args["asc"], 
+                                        args["120"]);
     }
         return "{\"status\": \"500\", \"error\": \"6 arguments required\"}";
 }
@@ -179,50 +180,36 @@ std::string apiMacd(std::vector<std::string> args) {
         return "{\"status\": \"500\", \"error\": \"6 arguments required\"}";
 }
 
-std::string apiSma(std::vector<std::string> args) {
+std::string apiSma(Args args) {
     if (args.size() != 6) {
         return "{\"status\": \"500\", \"error\": \"6 arguments required\"}";
     } else {
-        return PolygonClient::sma(args[0], 
-                                    args[1], 
-                                    args[2], 
-                                    args[3], 
-                                    args[4], 
-                                    args[5]);
+        return PolygonClient::sma(args["ticker"], 
+                                    args["span"], 
+                                    args["adjusted"], 
+                                    args["window"], 
+                                    args["seriesType"], 
+                                    args["order"]);
     }
         return "{\"status\": \"500\", \"error\": \"6 arguments required\"}";
 }
 
-std::string apiEma(std::vector<std::string> args) {
+std::string apiEma(Args args) {
     if (args.size() != 6) {
         return "{\"status\": \"500\", \"error\": \"6 arguments required\"}";
     } else {
-        return PolygonClient::ema(args[0],
-                                    args[1], 
-                                    args[2], 
-                                    args[3], 
-                                    args[4], 
-                                    args[5]);
-    }
-        return "{\"status\": \"500\", \"error\": \"6 arguments required\"}";
-}
-
-std::string apiRsi(std::vector<std::string> args) {
-    if (args.size() != 6) {
-        return "{\"status\": \"500\", \"error\": \"6 arguments required\"}";
-    } else {
-        return PolygonClient::rsi(args[0],
-                                    args[1],
-                                    args[2],
-                                    args[3],
-                                    args[4],
-                                    args[5]);
+        return PolygonClient::ema(args["ticker"],
+                                    args["span"], 
+                                    args["adjusted"], 
+                                    args["window"], 
+                                    args["seriesType"], 
+                                    args["order"]);
     }
         return "{\"status\": \"500\", \"error\": \"6 arguments required\"}";
 }
 
 // https://api.polygon.io/v1/indicators/rsi/AAPL?timespan=day&adjusted=true&window=14&series_type=close&order=desc&apiKey=*
-std::string apiRsi(std::unordered_map<std::string, std::string> args) {
+std::string apiRsi(Args args) {
     std::unordered_map<std::string, std::string> v = {
         {"timespan", "day"},
         {"adjusted", "true"},
@@ -237,21 +224,20 @@ std::string apiRsi(std::unordered_map<std::string, std::string> args) {
         "adjusted",
         "window",
         "series_type",
-        "order",
-        "ticker",
-        "token"
-    }
-    if (subset(keys(args), rsiSet)) {
+        "ticker"
+    };
+    if (subset(rsiSet, keys(args))) {
         if (contains(TOKEN_LIST, args["token"])) {
             for (auto arg : args) {
                 v[arg.first] = arg.second;
             }
-            return PolygonClient::rsi(v["ticker"],
+            std::string result = PolygonClient::rsi(v["ticker"],
                                         v["timespan"],
                                         v["adjusted"],
                                         v["window"],
                                         v["series_type"],
                                         "desc");
+            return JsonResponse::success(200, result);
         } else {
             return JsonResponse::error(404, "Invalid token provided");
         }
@@ -259,6 +245,7 @@ std::string apiRsi(std::unordered_map<std::string, std::string> args) {
         print(keys(args));
         return JsonResponse::error(500, "invalid arguments provided");
     }
+    return JsonResponse::error(500, "Internal Error");
 }
 
 std::string apiMongoDatabases(Args args,
@@ -524,6 +511,13 @@ std::string apiFederateLocal(Args args, Router* router = NULL, Client* client = 
     } else {
         return "Federating from " + host + ":" + port + ". No message sent.";
     }
+}
+
+std::string apiPostgres(Args args, Router* router = NULL, Client* client = NULL) {
+    if (subset(keys(args), std::set<std::string>{"table"})) {
+        BRED("KEYS ARE NOT SUBSET FOR API POSTGRES\n");
+    }
+    return JsonResponse::success(200, "Let's go");
 }
 
 #endif

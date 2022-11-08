@@ -1,7 +1,0 @@
-{
-    "_meta": {"name": "food"},
-    "!id": {"type": "auto-increment"},
-    "name": {"type": "string", "max-length": 16, "regex": "^[A-Za-z][A-Za-z]+[A-Za-z]$"},
-    "calories": {"type": "number", "max-length": 6},
-    "_attrs": ["@timestamps"]
-}

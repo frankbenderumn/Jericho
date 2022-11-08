@@ -1,0 +1,19 @@
+{
+    "_meta": {"name": "ohlc_bar"},
+    "!id": {"type": "auto-increment"},
+    "c": {"type": "decimal"},
+    "h": {"type": "decimal"},
+    "l": {"type": "decimal"},
+    "n": {"type": "number"},
+    "o": {"type": "decimal"},
+    "t": {"type": "timestamp"},
+    "v": {"type": "bigint"},
+    "vw": {"type": "decimal"},
+    "#ticker": {
+        "modality": "1", 
+        "cardinality": "N:1",
+        "references": "ticker",
+        "type": "string"
+    },
+    "_attrs": ["@timestamps"]
+}

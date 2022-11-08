@@ -24,7 +24,7 @@ else()
     set(SHARED_FLAG STATIC)
 endif (BUILD_SHARED_LIBS)
 
-add_library(jericho ${SHARED_FLAG} 
+add_library(jericho STATIC
     core/src/crypt/base64.cc
     core/src/crypt/sha1.cc
     core/src/crypt/utf8.cc

@@ -100,6 +100,7 @@ ClusterNode::ClusterNode(std::string host, std::string port, std::string dir, Cl
         }
         closedir(dr); //close all directory
     }
+    BGRE("Added cluster node\n");
 }
 
 ClusterNode::~ClusterNode() {
@@ -223,8 +224,10 @@ const std::vector<ClusterNode*>& ClusterNode::nodes() {
 void ClusterNode::addNode(ClusterNode* node) { 
     if (_edge == NULL) {
         _edge = new ClusterEdge(CLUSTER_EDGE_STRICT, node);
+        BBLU("Creating edge\n");
     } else {
         _edge->addNode(node);
+        BBLU("Adding node to edge\n");
     }
 }
 

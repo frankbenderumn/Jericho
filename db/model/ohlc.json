@@ -1,0 +1,13 @@
+{
+    "_meta": {"name": "ohlc"},
+    "!id": {"type": "auto-increment"},
+    "close": {"type": "decimal"},
+    "from": {"type": "string"},
+    "high": {"type": "decimal"},
+    "low": {"type": "decimal"},
+    "open": {"type": "decimal"},
+    "preMarket": {"type": "decimal"},
+    "symbol": {"type": "string"},
+    "volume": {"type": "bigint"},
+    "_attrs": ["@timestamps"]
+}

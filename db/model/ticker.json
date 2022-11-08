@@ -1,0 +1,6 @@
+{
+    "_meta": {"name": "ticker"},
+    "!ticker": {"type": "string", "embed": "true"},
+    "name": {"type": "string"},
+    "_attrs": ["@timestamps"]
+}

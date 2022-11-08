@@ -1,7 +1,0 @@
-{
-    "_meta": {"name": "transaction"},
-    "!id": {"type": "auto-increment"},
-    "name": {"type": "string", "max-length": 16, "regex": "^[A-Za-z][A-Za-z]+[A-Za-z]$"},
-    "#user": {"type": "strict"},
-    "_attrs": ["@timestamps"]
-}
