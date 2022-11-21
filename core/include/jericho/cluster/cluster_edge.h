@@ -2,6 +2,8 @@
 #define JERICHO_CLUSTER_CLUSTER_EDGE_H_
 
 #include <vector>
+#include <string>
+#include "prizm/prizm.h"
 
 class ClusterNode;
 
@@ -11,15 +13,17 @@ enum ClusterEdgeType {
 };
 
 class ClusterEdge {
-    
+  
     std::vector<ClusterEdge*> _edges;
 
     std::vector<ClusterNode*> _nodes;
-    
+
     ClusterEdgeType _type = CLUSTER_EDGE_STRICT;
     
   public:
     
+    ClusterEdge();
+
     ClusterEdge(ClusterEdgeType type, std::vector<ClusterNode*> nodes);
 
     ClusterEdge(ClusterEdgeType type, ClusterNode* node);

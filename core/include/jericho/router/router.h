@@ -17,17 +17,22 @@
 #include "cluster/cluster.h"
 #include "util/iters.h"
 #include "router/route_registry.h"
+#include "federate/federator.h"
 
 using namespace Jericho;
 
 typedef void (*WorkerThread)(void*);
 
+/** TODO: Rename to System or Server or Jericho */
 class Router {
     RouteRegistry* _registry = nullptr;
     ThreadPool* _tpool;
     WorkerThread _worker;
     Celerity* _celerity;
     Cluster* _cluster;
+    Federator* _federator = nullptr;
+    bool _needsTrain = false;
+    int _fedCounter = 0;
 
   public:
     Router(ThreadPool* tpool, WorkerThread worker, Cluster* cluster, Celerity* celerity) {
@@ -40,6 +45,39 @@ class Router {
 
     ~Router() {
         delete _registry;
+    }
+
+    const bool needsTrain() const {
+        return _needsTrain;
+    }
+
+    const bool needsAggregate() const {
+        if (_federator == nullptr || _federator == NULL) {
+            return false;
+        }
+        return _federator->active();
+    }
+
+    void train(bool train) {
+        _needsTrain = train;
+    }
+
+    void federate(int numClients, int numRounds, int timeout) {
+        _federator = new Federator(numClients, numRounds, timeout, _fedCounter++);
+        _federator->start();
+    }
+
+    Federator* federator() const {
+        return _federator;
+    }
+
+    void shutdownFederator() {
+        // delete _federator;
+        _federator->stop();
+        Federator* f = _federator;
+        _federator = nullptr;
+        BBLU("SHUTTING DOWN FEDERATOR\n");
+        delete f;
     }
 
     void bind(RouteProtocol protocol, std::string path, RouteFunction function) {
@@ -79,6 +117,7 @@ class Router {
     Cluster* cluster() const { return _cluster; }
 
     std::string exec(RouteProtocol protocol, std::string path, std::unordered_map<std::string, std::string> args, Router* router = NULL, Client* client = NULL) {
+        BRED("DOES THIS PRINT\n");
         return _registry->exec(path, args, router, client);
     }
 

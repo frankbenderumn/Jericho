@@ -53,10 +53,37 @@ class Cluster {
         }
     }
 
+    void pingSet(Router* router, Client* client, std::vector<std::pair<std::string, std::string>> set) {
+        BBLU("CLUSTER SET SIZE: %i\n", (int)set.size());
+        _boss->pingAll(router, client, set);
+    }
+
     void federate(Router* router, Client* client) {
         // for (auto n : _boss->edges()) {
             // n->federate(router, client);
         // }
+    }
+
+    bool join(std::string host, std::string port) {
+        std::string dir = "./public/cluster/" + port;
+        if (!contains(_index->hosts(), host + ":" + port)) {
+            ClusterNode* node = new ClusterNode(host, port, dir, _index);
+            ClusterQuorum* quor = new ClusterQuorum(host, port, node->timestamp()); 
+            _index->quorum(host, port, quor);
+            BYEL("SIZE OF QUORUM IS NOW: %li\n", _index->quorum().size());
+            BYEL("JOINING client to cluster...\n");
+            if (_boss == nullptr) {
+                BRED("BOSS IS NULL! SHOULD NOT BE POSSIBLE!\n");
+            }
+            _boss->addNode(node);
+            BBLU("JOINED client to cluster\n");
+            for (auto child : _boss->nodes()) {
+                child->print();
+            }
+            if (node != nullptr) return true;
+        }
+        return false;
+        BGRE("COMPLETED JOIN\n");
     }
 
     void addNode(ClusterNode* node) { _boss->addNode(node); }
@@ -68,6 +95,8 @@ class Cluster {
     const ClusterType type() const { return _type; }
 
     void type(ClusterType type) { _type = type; }
+
+    MessageBuffer* buffer(Client* client, std::string path) { return _boss->buffer(client, path); }
 };
 
 #endif

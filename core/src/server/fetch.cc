@@ -1,6 +1,11 @@
 #include "server/fetch.h"
 #include "server/defs.h"
 #include "message/message_buffer.h"
+#include "util/file_system.hpp"
+
+#include <vector>
+
+#define TIMEOUT2 300.0
 
 void parse_url(char *url, char **hostname, char **port, char** path) {
     printf("URL: %s\n", url);
@@ -51,21 +56,87 @@ void parse_url(char *url, char **hostname, char **port, char** path) {
 }
 
 
-int send_request(SSL *s, const char *hostname, const char *port, const char *path, std::string message) {
+int send_request(SSL *s, const char *hostname, const char *port, const char *path, std::string type, std::string message) {
     int result = 1;
-    char buffer[2048];
+    char buffer[490000];
+
+    unsigned char char_arr[message.size()]{};
+    std::copy(message.cbegin(), message.cend(), char_arr);
+    std::vector<unsigned char> v(message.begin(), message.end());
+    // BYEL("CHAR VEC SIZE: %li\n", v.size());
+    for (const unsigned char& c : v) {
+        std::cout << c;
+    }
+
+    unsigned char arr[message.size()];
+    char carr[message.size() + 1];
+
+    for (int i = 0; i < message.size(); i++) {
+        // if (v[i] == '\0') { BRED("NULL TERMINATOR DETECTED\n"); }
+        // printf("%u -- %c\n", v[i], (char)v[i]);
+        arr[i] = v[i];
+        // if (v[i] == '\0') {
+        //     carr[i] = 'a';
+        // } else {
+            carr[i] = (char)v[i];
+        // }
+    }
+    
+    // carr[message.size()];
+    // free(buf);
+    BCYA("%s\n", carr);
+
+    for (int i = 0; i < message.size(); i++) {
+        if (v[i] != (unsigned char)carr[i]) { BRED("WRONG\n"); }
+    }
+
+    BYEL("CHAR ARRAY SZ.... %li\n", sizeof(arr));
+    // BYEL("CHAR ARRAY LEN.... %li\n", strlen(arr));
+
+    BMAG("WHY OH WHY SIZE: %li\n", sizeof(char_arr));
+    BMAG("WHY OH WHY LEN: %li\n", strlen((char*)char_arr));
+    BCYA("%s\n", message.data());
+
+    // std::cout << message;
 
     sprintf(buffer, "GET %s HTTP/1.1\r\n", path);
+    BYEL("len: %li\n", strlen(buffer));
     sprintf(buffer + strlen(buffer), "Host: %s:%s\r\n", hostname, port);
+    BYEL("len: %li\n", strlen(buffer));
     sprintf(buffer + strlen(buffer), "Connection: keep-alive\r\n");
+    BYEL("len: %li\n", strlen(buffer));
     sprintf(buffer + strlen(buffer), "User-Agent: honpwc https_get 1.0\r\n");
+    // sprintf(buffer + strlen(buffer), "Access-Control-Allow-Origin: %s\r\n", "*");
+    sprintf(buffer + strlen(buffer), "Jericho: %s\r\n", "true");
+    BYEL("len: %li\n", strlen(buffer));
+    if (type != "" || type != "undefined") {
+        sprintf(buffer + strlen(buffer), "Content-Type: %s\r\n", type.c_str());
+        sprintf(buffer + strlen(buffer), "Content-Length: %li\r\n", message.size());
+    }
     sprintf(buffer + strlen(buffer), "\r\n");
-    sprintf(buffer + strlen(buffer), message.c_str());
 
-    if (SSL_write(s, buffer, strlen(buffer)) <= 0) {
-        printf("Server closed connection\n");
-        ERR_print_errors_fp(stderr);
-        result = 0;
+    memcpy(buffer + strlen(buffer), v.data(), v.size());
+
+    BMAG("CONTENT SIZE: %li\n", message.size());
+    BMAG("BUFFER LEN: %li\n", strlen(buffer));
+    BMAG("BUFFER SIZE: %li\n", sizeof(buffer));
+
+    if (type == "binary") {
+        int a;
+        if ((a = SSL_write(s, buffer, sizeof(buffer))) <= 0) {
+            printf("Server closed connection\n");
+            ERR_print_errors_fp(stderr);
+            result = 0;
+        }
+        BWHI("SENT %i bytes\n", a);
+    } else {
+        int a;
+        if (a = SSL_write(s, buffer, strlen(buffer)) <= 0) {
+            printf("Server closed connection\n");
+            ERR_print_errors_fp(stderr);
+            result = 0;
+        }
+        BWHI("SENT %i bytes\n", a);
     }
     // printf("Sent Headers:\n%s", buffer);
     return result;
@@ -128,16 +199,16 @@ SOCKET connect_to_host(const char *hostname, const char *port) {
     //         printf("%s:%d is open\n", addr, port);
     //     }
 
-    int timeout_in_seconds = 1;
+    int timeout_in_seconds = 20;
     struct timeval tv;
-    tv.tv_sec = timeout_in_seconds;
+    tv.tv_sec = TIMEOUT2;
     tv.tv_usec = 0;
     setsockopt(server, SOL_SOCKET, SO_RCVTIMEO, (char *)&tv, sizeof(tv));
 
     fd_set fdset;
     FD_ZERO(&fdset);
     FD_SET(server, &fdset);
-    tv.tv_sec = 5;             /* 10 second timeout */
+    tv.tv_sec = TIMEOUT2;             /* 10 second timeout */
     tv.tv_usec = 0;
 
     // BMAG("Thread connecting...\n");
@@ -181,16 +252,27 @@ void fetch(Any args) {
     MessageBuffer* buf = (MessageBuffer*)args;
     std::string hostname = buf->hostname;
     std::string port = buf->port;
+    std::string fromPort = buf->fromPort;
     std::string dir = buf->dir;
     std::string path = buf->path;
+    std::string type = buf->type;
     // MessageQueue* queue = buf->mq;
     std::string message = buf->sent;
+    std::string flag = buf->flag;
 
+    BMAG("FECTH SEND SIZE: %li\n", message.size());
+
+    BBLU("BUF PORT: %s\n", buf->port.c_str());
     int iport = std::stoi(buf->port);
 
     BMAG("FETCHING...\n");
 
     buf->publish();
+
+    if (flag != "undefined") {
+        int t = std::stoi(flag);
+        sleep(t);
+    }
 
     // if (port == "8082") {
     // sleep(5);
@@ -222,6 +304,8 @@ void fetch(Any args) {
 
     SOCKET server = connect_to_host(hostname.c_str(), port.c_str());
 
+    int err_status = 0;
+
     if (server != -1) {
 
     ssl = SSL_new(ctx);
@@ -246,7 +330,7 @@ void fetch(Any args) {
     X509 *cert = SSL_get_peer_certificate(ssl);
     if (!cert) {
         fprintf(stderr, "SSL_get_peer_certificate() failed.\n");
-        pthread_exit(NULL);
+        // pthread_exit(NULL);
     }
 
     char *tmp;
@@ -264,7 +348,7 @@ void fetch(Any args) {
 
     t_write(iport, tpath.c_str(), "Sending message to node!");
 
-    if (send_request(ssl, hostname.c_str(), port.c_str(), path.c_str(), message)) {
+    if (send_request(ssl, hostname.c_str(), fromPort.c_str(), path.c_str(), type, message)) {
 
      t_write(iport, tpath.c_str(), "Message successfully sent!");
 
@@ -283,16 +367,17 @@ void fetch(Any args) {
 
     while(1) {
 
-        if ((clock() - start_time) / CLOCKS_PER_SEC > TIMEOUT) {
-            fprintf(stderr, "timeout after %.2f seconds\n", TIMEOUT);
-            pthread_exit(NULL);
+        if ((clock() - start_time) / CLOCKS_PER_SEC > TIMEOUT2) {
+            fprintf(stderr, "timeout after %.2f seconds\n", TIMEOUT2);
+            // pthread_exit(NULL);
+            break;
         } else {
             // printf("%f\n", (clock() - start_time) / CLOCKS_PER_SEC);
         }
 
         if (p == end) {
             fprintf(stderr, "out of buffer space\n");
-            pthread_exit(NULL);
+            // pthread_exit(NULL);
         }
 
         fd_set reads;
@@ -300,7 +385,7 @@ void fetch(Any args) {
         FD_SET(server, &reads);
 
         struct timeval timeout;
-        timeout.tv_sec = 0;
+        timeout.tv_sec = TIMEOUT2;
         timeout.tv_usec = 200;
 
         if (select(server+1, &reads, 0, 0, &timeout) < 0) {
@@ -316,6 +401,8 @@ void fetch(Any args) {
                 }
 
                 printf("\nConnection closed by peer.\n");
+                // pthread_exit(NULL);
+                err_status = 1;
                 break;
             }
 
@@ -384,9 +471,14 @@ void fetch(Any args) {
 
     }
 
+    /**
+     * TODO: Create a systematic way to switch protocal format: json, json-lines, xml, custom jericho, http, yaml 
+     * 
+     */
     } else {
-        result = "Failed to connect to " + std::string(hostname) + ":" +
+        std::string msg = "Failed to connect to " + std::string(hostname) + ":" +
         std::string(port);
+        result = "{\"live\": false, \"response\": \""+msg+"\"}";
     }
 
 finish:
@@ -412,13 +504,13 @@ finish:
     buf->mark();
     // result = "";
 
-    if (server != -1) {
+    if (server != -1 && err_status != 1) {
 
-        // printf("\nClosing socket...\n");
-        SSL_shutdown(ssl);
-        CLOSESOCKET(server);
-        SSL_free(ssl);
-        SSL_CTX_free(ctx);
+        printf("\nClosing socket...\n");
+        // SSL_shutdown(ssl);
+        // CLOSESOCKET(server);
+        // SSL_free(ssl);
+        // SSL_CTX_free(ctx);
 
     #if defined(_WIN32)
         WSACleanup();

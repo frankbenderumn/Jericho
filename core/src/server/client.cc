@@ -1,9 +1,23 @@
+#include <arpa/inet.h>
+
 #include "server/client.h"
 
 // re-entrant safe
 void client_get_address(struct Client* ci, char* dest) {
     char address_buffer[16]; // char array to store IP address, static so erased after function termination
     getnameinfo((struct sockaddr*)&ci->address, ci->address_length, address_buffer, sizeof(address_buffer), 0, 0, NI_NUMERICHOST);
+    strncpy(dest, address_buffer, INET_ADDRSTRLEN);
+}
+
+void client_get_full_address(struct Client* ci, char* dest, uint16_t* port) {
+    struct sockaddr_in* sin = (struct sockaddr_in*)&ci->address;
+    *port = sin->sin_port;
+    char address_buffer[16]; // char array to store IP address, static so erased after function termination
+    char port_buffer[7];
+    getnameinfo((struct sockaddr*)&ci->address, ci->address_length, address_buffer, sizeof(address_buffer), 0, 0, NI_NUMERICHOST);
+    getnameinfo((struct sockaddr*)&ci->address, ci->address_length, port_buffer, sizeof(port_buffer), 0, 0, NI_NUMERICSERV);
+    // getnameinfo((struct sockaddr_in*)&ci->address, ci->address_length + 10, address_buffer, sizeof(address_buffer), 0, 0, NI_NUMERICHOST);
+    BMAG("FULL ADDR IS: %s, PORT IS: %s\n", address_buffer, port_buffer);
     strncpy(dest, address_buffer, INET_ADDRSTRLEN);
 }
 

@@ -8,6 +8,7 @@
 
 #include <string>
 #include <regex>
+#include <vector>
 // #include "util/error.h"
 namespace Jericho {
   class FileSystem {
@@ -19,6 +20,14 @@ namespace Jericho {
       static std::vector<std::string> getDir(std::string name);
 
       bool static sanitize(std::string s, std::regex r);
+
+      static std::string readBinary(const char* path);
+
+      static void writeBinary(const char* path, std::string content);
+
+      static void readCBinary(const char* path, unsigned char* buffer);
+
+      static void writeCBinary(const char* path, unsigned char* buffer);
   };
 }
 

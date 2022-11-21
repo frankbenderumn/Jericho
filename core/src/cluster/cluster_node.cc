@@ -1,6 +1,9 @@
+#include <ctime>
+
 #include "cluster/cluster_node.h"
 #include "router/router.h"
 #include "message/message_broker.h"
+#include <sys/stat.h>
 
 std::string single_callback(Router* node, Client* client, std::deque<MessageBuffer*> mq) {
     std::string result = "undefined";
@@ -18,10 +21,14 @@ std::string single_callback(Router* node, Client* client, std::deque<MessageBuff
 }
 
 std::string group_callback(Router* node, Client* client, std::deque<MessageBuffer*> mq) {
-    std::string result;
+    std::string batch;
     for (auto m : mq) {
-        result += m->received;
+        std::string received = m->received;
+        std::string format = "\""+m->port+"\": " + received + ",";
+        batch += format;
     }
+    batch.pop_back();
+    std::string result = "{\"status\": 200, \"response\": {" + batch + "}}"; 
 
     if (mq.size() > 0) {
         BMAG("DELETING BROKER\n");
@@ -82,13 +89,23 @@ ClusterNode::ClusterNode(std::string host, std::string port, std::string dir, Cl
     _dir = dir;
     _index = index;
     _id = ++CLUSTER_ID;
+    _timestamp = std::time(0);
     DIR* dr;
     struct dirent* en;
     dr = opendir(dir.c_str()); //open all or present directory
 
     if ( !dr ) {
         BRED("INVALID DIRECTORY PROVIDED FOR CLUSTER NODE: %s\n", dir.c_str());
-        // exit(1);
+        const int dir_err = mkdir(dir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+        if (-1 == dir_err) {
+            printf("Error creating directory %s!\n", dir.c_str());
+        } else {
+            BGRE("Created directory: %s\n", dir.c_str());
+            dr = opendir(dir.c_str());
+            if ( !dr ) {
+                BRED("Cluster node constructor. Likely a permissions issue!\n");
+            }
+        }
     }
 
     if (dr) {
@@ -104,6 +121,7 @@ ClusterNode::ClusterNode(std::string host, std::string port, std::string dir, Cl
 }
 
 ClusterNode::~ClusterNode() {
+    BRED("DELETING CLUSTER NODE\n");
     if (_edge != NULL) {
         delete _edge;
     }
@@ -164,11 +182,46 @@ bool ClusterNode::hasEdge(std::string host, std::string port) {
     return false;
 }
 
-void ClusterNode::broadcast(Router* router, Client* client, std::string path, MessageCallback callback) {
+void ClusterNode::broadcastNaive(Router* router, Client* client, std::vector<std::pair<std::string, std::string>> pairs, std::string path, MessageCallback callback, std::string type, std::string content) {
+    BBLU("NAIVE BROADCAST...\n");
+    std::deque<MessageBuffer*> mq;
+    for (auto hp : pairs) {
+        MessageBuffer* buf = new MessageBuffer;
+        buf->hostname = hp.first;
+        buf->port = hp.second;
+        buf->sent = "Ping from " + hp.first + ":" + hp.second;
+        if (content != "") {
+            buf->sent = content;
+        }
+        buf->fromPort = _port;
+        buf->path = path;
+        if (type != "") {
+            buf->type = type;
+        }
+        buf->dir = "./public/cluster/" + hp.first;
+        buf->ticket = ++TICKET_ID;
+        client->promised = true;
+        buf->client = client;
+        buf->dump();
+        mq.push_back(buf);
+    }
+    brokerBroadcast(router, client, mq, callback);
+}
+
+void ClusterNode::broadcast(Router* router, Client* client, std::string path, MessageCallback callback, std::string type, std::string content) {
     BBLU("BROADCASTING...\n");
     std::deque<MessageBuffer*> mq;
     for (auto n : _edge->nodes()) {
         MessageBuffer* buf = n->buffer(client, path);
+        if (content != "") {
+            buf->sent = content;
+            BMAG("BROADCAST SIZE: %li\n", content.size());
+        }
+        if (type != "") {
+            buf->type = type;
+        } else {
+            buf->type = "http";
+        }
         buf->dump();
         mq.push_back(buf);
     }
@@ -185,13 +238,56 @@ void ClusterNode::pingOne(Router* router, Client* client, ClusterNode* dest) {
     send(router, client, "/ping-local", buf);
 }
 
-void ClusterNode::pingAll(Router* router, Client* client) {
-    broadcast(router, client, "/ping-local", group_callback);
+void ClusterNode::pingAll(Router* router, Client* client, std::vector<std::pair<std::string, std::string>> set) {
+    if (set.size() == 0) {
+        broadcast(router, client, "/ping-local", group_callback);
+    } else {
+        std::string response = "Ping from " + _port;
+        broadcastNaive(router, client, set, "/ping-local", group_callback, "http", response);
+    }
 }
 
 void ClusterNode::federate(Router* router, Client* client, std::string path, int epochs, int clients) {
     MessageBroker* broker = new MessageBroker(BROKER_RR, epoch_callback, epochs);
     pulse(router, client, path, broker);
+}
+
+void ClusterNode::brokerSend(Router* router, Client* client, std::string path, MessageBuffer* buf, std::string type, std::string content) {
+    MessageBroker* broker = new MessageBroker(BROKER_FIFO, single_callback);
+    buf->broker = broker;
+    
+    _brokers[client].push_back(broker);
+    send(router, client, path, buf);
+}
+
+void ClusterNode::send2(Router* router, Client* client, std::string path, std::string type, std::string content) {
+    std::string route = "undefined";
+    std::string port = "undefined";
+    std::string host = "undefined";
+    std::string name = "undefined";
+    std::string::size_type p;
+    if ((p = path.find("/")) != std::string::npos) {
+        name = path.substr(0, p);
+        route = path.substr(p, path.size());
+    } else {
+        BRED("PATH DOES NOT HAVE A /\n");
+    }
+    if ((p = name.find(":")) != std::string::npos) {
+        host = name.substr(0, p);
+        port = name.substr(p+1, name.size());
+    } else {
+        BRED("PATH DOES NOT HAVE A :\n");
+    }
+    MessageBuffer* buf = this->buffer(client, path);
+    buf->type = type;
+    buf->sent = content;
+    buf->path = route;
+    buf->port = port;
+    buf->hostname = host;
+    MessageBroker* broker = new MessageBroker(BROKER_FIFO, single_callback);
+    buf->broker = broker;
+    _brokers[client].push_back(broker);
+    send(router, client, path, buf);
 }
 
 const int ClusterNode::id() const { return _id; }
@@ -204,6 +300,7 @@ MessageBuffer* ClusterNode::buffer(Client* client, std::string path) {
     MessageBuffer* buf = new MessageBuffer;
     buf->hostname = _host;
     buf->port = _port;
+    buf->fromPort = _port;
     buf->sent = "Ping from " + _port;
     buf->path = path;
     buf->dir = _dir;
@@ -218,14 +315,19 @@ ClusterEdge* ClusterNode::edges() const {
 }
 
 const std::vector<ClusterNode*>& ClusterNode::nodes() {
+    if (_edge == nullptr) {
+        BYEL("EDGE IS NULL\n");
+        _edge = new ClusterEdge;
+    }
     return _edge->nodes();
 }
 
 void ClusterNode::addNode(ClusterNode* node) { 
-    if (_edge == NULL) {
+    if (_edge == nullptr) {
         _edge = new ClusterEdge(CLUSTER_EDGE_STRICT, node);
         BBLU("Creating edge\n");
     } else {
+        BYEL("Saruman is an istari!\n");
         _edge->addNode(node);
         BBLU("Adding node to edge\n");
     }
@@ -251,3 +353,9 @@ void ClusterNode::type(ClusterNodeType type) { _type = type; }
 const std::string ClusterNode::host() const { return _host; }
 
 const std::string ClusterNode::port() const { return _port; }
+
+const long ClusterNode::timestamp() const { return _timestamp; }
+
+void ClusterNode::print() {
+    BCYA("%-16lld %-16s %-16s %-16s\n", _timestamp, _host.c_str(), _port.c_str(), _dir.c_str());
+}

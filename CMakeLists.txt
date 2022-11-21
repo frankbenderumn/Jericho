@@ -59,6 +59,7 @@ add_library(jericho STATIC
     core/src/util/scan.cc
     core/src/util/string_utils.cc
     core/src/server/fetch.cc
+    core/src/api/api_helper.cc
 )
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
