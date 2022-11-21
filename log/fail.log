@@ -61,3 +61,23 @@ FAIL-[2022-10-07 18:38:00]-/mnt/d/jericho-devel/core/src/server/socket.cc-int so
 FAIL-[2022-10-07 18:39:52]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
 FAIL-[2022-10-07 20:34:48]-/mnt/d/jericho-devel/core/src/server/client.cc-fd_set wait_on_clients(int, Client**)-127-select() failed
 FAIL-[2022-10-11 00:48:15]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-11-20 02:11:11]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-11-20 02:54:58]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-11-20 02:55:05]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-11-20 02:55:27]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-11-20 03:03:44]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-11-20 03:04:22]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-11-20 03:04:24]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-11-20 03:13:00]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-11-20 03:15:54]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-11-20 03:48:19]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-11-20 05:24:31]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-11-20 06:49:30]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-11-21 11:12:33]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-11-21 12:28:15]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-11-21 13:37:40]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-11-21 13:37:40]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-11-21 13:37:40]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-11-21 13:37:40]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-11-21 13:37:40]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2022-11-21 13:37:40]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.

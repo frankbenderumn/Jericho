@@ -26,6 +26,7 @@ bool is_valid_request(Client* client) {
 
 int parse_request(Client* client, Request* request) {
     // CYA("request in parse: %s\n", client->request);
+    BGRE("........REQUEST LENGTH: %li\n", sizeof(client->request));
     int g = strncmp("GET /", client->request, 5);
     int p = strncmp("POST /", client->request, 6);
     std::string cxxreq = std::string(client->request);
@@ -42,6 +43,7 @@ int parse_request(Client* client, Request* request) {
         if (!g) {
             char* path = client->request + 4; // removes "GET "
             char* end_path = strstr(path, " "); // finds first occurence of " "
+            char* p = strstr(client->request, "\r\n\r\n");
             int idx = (int)(path - client->request);
             int idx2 = (int)(end_path - client->request);
             printf("IDX1: %i\n", idx);
@@ -63,18 +65,32 @@ int parse_request(Client* client, Request* request) {
                 printf("PATH IS: %s\n", cpath.c_str());
                 printf("ARGS ARE: %s\n", args.c_str());
                 request->path = cpath;
+                YEL("DEBUG\n");
                 std::string heading = std::string(headers + 2);
+                YEL("DEBUG\n");
                 std::vector<std::string> h = tokenize(heading, "\r\n\r\n");
+                YEL("DEBUG\n");
                 request->request = std::string(headers + 2);
+                YEL("DEBUG\n");
+                for (auto h_ : h) {
+                    BYEL("%s\n", h_.c_str());
+                }
+                YEL("DEBUG 2\n");
                 std::vector<std::string> headers = tokenize(h[0], "\r\n");
+                YEL("DEBUG 3\n");
                 for (auto h : headers) {
                     std::vector<std::string> kv = tokenize(h, ": ");
-                    request->headers[kv[0]] = kv[1]; 
+                    if (kv.size() > 1) {
+                        request->headers[kv[0]] = kv[1]; 
+                    }
                 }
+                YEL("DEBUG\n");
                 if (h.size() > 1) {
                     std::string content = h[1];
+                    BWHI("SIZE OF CONTENT: %li\n", h[1].size());
                     request->content = content;
                 }
+                YEL("DEBUG 2\n");
                 std::unordered_map<std::string, std::string> map = {};
                 if (args != "") {
                     std::vector<std::string> argu = tokenize(args, "&");
@@ -85,7 +101,52 @@ int parse_request(Client* client, Request* request) {
                         }
                     }
                 }
+                if (prizm::contains_key(request->headers, std::string("Content-Type")) && prizm::contains_key(request->headers, std::string("Content-Length"))) {
+                    std::string ctype = request->headers["Content-Type"];
+                    std::string clen = request->headers["Content-Length"];
+                    map["Content-Type"] = ctype;
+                    map["Content-Length"] = clen;
+                    if (ctype == "binary") {
+                        BBLU("BINARY CONTENT DETECTED\n");
+                        long sz = std::stol(clen);
+                        BYEL("SZ IS: %li\n", sz);
+                        BYEL("RECEIVED BYTES ARE: %i\n", client->received);
+                        char buf[sz];
+                        memcpy(buf, p + 4, sz);
+                        int i = 0;
+                        while (i < 490000) {
+                            // if (buf[i] != '\0') { printf("%c", (char)buf[i]);}
+                            printf("%c", (char)client->request[i]);
+                            i++;
+                        }
+                        Jericho::FileSystem::writeBinary("./request.txt", client->request);
+                        std::string bytes = Jericho::FileSystem::readBinary("./py/scripts/torch.pt");
+                        Jericho::FileSystem::writeBinary("./binary.txt", bytes.data());
+                        int err_ct = 0;
+                        BYEL("COMPARE SIZES: %li == %li\n", sz, bytes.size());
+                        // for (int i = 0; i < bytes.size(); i++) {
+                        //     if (bytes[i] != buf[i]) {
+                        //         err_ct++;
+                        //     }
+                        // }
+                        BRED("ERROR CT IS: %i\n", err_ct);
+                        printf("\n");
+                        std::vector<char> vec;
+                        vec.insert(vec.end(), buf, buf + sizeof(buf));
+                        BBLU("===================\n\n\n");
+                        std::string s(vec.begin(), vec.end());
+                        std::cout << s << std::endl;
+                        BBLU("CONTENT SIZE IS: %li\n", s.size());
+                        BBLU("CONTENT VEC SIZE IS: %li\n", vec.size());
+                        BBLU("CONTENT VEC SIZE IS: %li\n", sizeof(buf));
+                        BBLU("===================\n\n\n");
+                        request->content = s;
+                    }
+                }
                 map["content"] = request->content;
+                if (prizm::contains_key(request->headers, std::string("Host"))) {
+                    map["Host"] = request->headers["Host"];
+                }
                 request->args = map;
                 for (auto m : map) {
                     BGRE("%s: %s\n",m.first.c_str(), m.second.c_str());

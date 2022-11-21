@@ -6,14 +6,18 @@
 #include <unordered_map>
 #include <regex>
 #include <deque>
+#include <sys/wait.h>
 
 #include <picojson.h>
 #include "api/url.h"
 #include "api/api.h"
 #include "server/response.h"
+#include "server/client.h"
 #include "router/router.h"
 #include "util/iters.h"
 #include "prizm/prizm.h"
+#include "util/file_system.hpp"
+#include "message/callback.h"
 
 typedef std::vector<std::pair<std::string, std::string>> Opts;
 
@@ -469,16 +473,34 @@ std::string apiPingOne(Args args, Router* router = NULL, Client* client = NULL) 
 }
 
 std::string apiPingAll(Args args, Router* router = NULL, Client* client = NULL) {
-    if (!contains(TOKEN_LIST, args["token"])) {
-        return JsonResponse::error(404, "Invalid token provided");
-    }
+    // if (!contains(TOKEN_LIST, args["token"])) {
+    //     return JsonResponse::error(404, "Invalid token provided");
+    // }
 
     if (router == NULL || client == NULL) {
         return JsonResponse::error(500, "Cluster not in scope of api call");
     }
 
+    // for naive approach testing (no predefined topology)
+    std::vector<std::pair<std::string, std::string>> set = {
+        {"127.0.0.1", "8081"},
+        {"127.0.0.1", "8082"},
+        {"127.0.0.1", "8083"},
+        {"127.0.0.1", "8084"},
+        {"127.0.0.1", "8085"},
+        {"127.0.0.1", "8086"},
+        {"127.0.0.1", "8087"},
+        {"127.0.0.1", "8088"},
+        {"127.0.0.1", "8089"},
+        {"127.0.0.1", "8090"}
+    };
 
-    router->cluster()->pingAll(router, client);
+    BCYA("PINGING ALL...\n");
+    // for predefined topology
+    // router->cluster()->pingAll(router, client);
+
+    // for naive topology testing (clients come and go)
+    router->cluster()->pingSet(router, client, set);
 
     return "TICKET";
 }
@@ -486,7 +508,8 @@ std::string apiPingAll(Args args, Router* router = NULL, Client* client = NULL) 
 std::string apiPingLocal(Args, Router* router = NULL, Client* client = NULL) {
     std::string host = router->cluster()->boss()->host();
     std::string port = router->cluster()->boss()->port();
-    return "Hello from " + host + ":" + port;
+    std::string msg = "Hello from " + host + ":" + port;
+    return "{\"live\": true, \"response\": \""+msg+"\"}";
 }
 
 std::string concatBuf(Router* router, Client* client, std::deque<MessageBuffer*> mq) {
@@ -519,5 +542,323 @@ std::string apiPostgres(Args args, Router* router = NULL, Client* client = NULL)
     }
     return JsonResponse::success(200, "Let's go");
 }
+
+std::string apiServeModelJson(Args args) {
+    // if (router == NULL) {
+    //     return JsonResponse::error(500, "Cluster not in scope of api call");
+    // }
+    BYEL("Reading Model... torch.pt\n");
+    std::string bytes = Jericho::FileSystem::readBinary("./public/cluster/8081/torch.pt");
+    BYEL("BYTES: %s\n", bytes.c_str());
+    return JsonResponse::success(200, bytes);
+}
+
+std::string apiServeModel(Args args, Router* router = NULL, Client* client = NULL) {
+    if (router == NULL) {
+        return JsonResponse::error(500, "Cluster not in scope of api call");
+    }
+
+    std::string bytes = Jericho::FileSystem::readBinary("./py/scripts/torch.pt");
+    return bytes;
+}
+
+#define SYS_CALL(x) std::string x(Args args, Router* router = NULL, Client* client = NULL)
+#define API_ARG(args, name) (containsKey(args, name)) ? args[name] : "undefined";
+
+SYS_CALL(apiRequestJoin) {
+    BMAG("REQUESTION JOIN...\n");
+    if (client == NULL) {
+        BRED("CLIENT IS NULL SOMEHOW :: apiJoin\n");
+    }
+    std::string resource = API_ARG(args, std::string("resource"));
+    MessageBuffer* buf = router->cluster()->buffer(client, "/join");
+    if (resource != "undefined") {
+        buf->flag = resource;    
+    }
+    buf->port = "8080";
+    router->cluster()->boss()->brokerSend(router, client, "/join", buf);
+    return "TICKET";
+    // }
+    // return JsonResponse::error(500, "Failed to join federation");
+}
+
+SYS_CALL(apiJoin) {
+    BMAG("JOINING...\n");
+    if (client == NULL) {
+        BRED("CLIENT IS NULL SOMEHOW :: apiJoin\n");
+    }
+    // char address_buffer[16];
+    // uint16_t p;
+	// client_get_full_address(client, address_buffer, &p);
+    // std::string port = std::to_string(p);
+    // std::string host(address_buffer);
+    std::string host;
+    std::string port;
+    std::string h = API_ARG(args, std::string("Host"));
+    if (h != "undefined") {
+        std::vector<std::string> vec = tokenize(h, ':');
+        host = vec[0];
+        port = vec[1];
+    }
+    // std::string port = API_ARG(args, port);
+    // BBLU("Client address is %s, port is %s\n", host.c_str(), port.c_str());
+    if (router->needsAggregate()) {
+        ClusterQuorum* q = router->cluster()->index()->get(host, port);
+        if (q == nullptr) {
+            if (router->cluster()->join(host, port)) {
+                BGRE("JOINING NEW QUORUM\n");
+                for (auto a : router->cluster()->index()->quorum()) {
+                    if (a.second == nullptr) {
+                        BRED("NULL QUORUM FOUND\n");
+                        continue;
+                    }
+                    BBLU("%s :: %s", a.first.c_str(), a.second->serialize().c_str());
+                }
+                q = router->cluster()->index()->get(host, port);
+            } else {
+                BRED("FAILED TO JOIN -- SHOULD NEVER HAPPEN!\n");
+                return "{\"status\": 500, \"response\": {\""+port+"\": {\"status\": \"failed\", \"message\": \"Failed to join federation - CRITICAL\"}}}";
+            }
+        }
+        if (q == nullptr) {
+            BRED("QUORUM STILL NULL\n");
+        }
+        q->status = FL_JOINED;
+        router->cluster()->index()->quorumTrain(std::vector<ClusterQuorum*>{q});
+        BYEL("SIZE OF QUORUM IS: %li\n", router->cluster()->index()->quorum().size());
+        for (auto a : router->cluster()->index()->quorum()) {
+            if (a.second == nullptr) {
+                BRED("NULL QUORUM FOUND\n");
+                continue;
+            }
+            BBLU("%s", a.second->port.c_str());
+        }
+        router->cluster()->boss()->send2(router, client, "127.0.0.1:"+port+"/get-fed-model");
+        return "{\"status\": 200, \"response\": {\""+port+"\": {\"status\": \"joined\", \"message\": \"Requesting model\"}}}";
+    } else {
+        // if (router->cluster()->join(host, port)) {
+        //     return "{\"status\": 200, \"response\": {\""+port+"\": {\"status\": \"joined\", \"message\": \"Successfully joined federation\"}}}";
+        // }
+        // return "{\"status\": 500, \"response\": {\""+port+"\": {\"status\": \"failed\", \"message\": \"Failed to join federation\"}}}";
+    }
+    return "{\"status\": 500, \"response\": {\""+port+"\": {\"status\": \"failed\", \"message\": \"Failed to join federation\"}}}";
+}
+
+API(FederationStatus, {}) 
+    BYEL("GETTING FEDERATION STATUS...\n");
+}
+
+API(GetFedModel, {})
+    BMAG("GETTING FED MODEL...\n");
+    std::string h = API_ARG(args, std::string("Host"));
+    std::string host;
+    std::string port;
+    if (h != "undefined") {
+        std::vector<std::string> vec = tokenize(h, ':');
+        host = vec[0];
+        port = vec[1];
+    }
+    // std::string type = "binary";
+    router->cluster()->boss()->send2(router, client, "127.0.0.1:"+port+"/serve-fed-model");
+    return "TICKET";
+}
+
+API(ServeFedModel, {})
+    BMAG("SERVING FED MODEL...\n");
+    if (router->needsAggregate()) {
+        std::string bytes;
+        if (router->federator()->round() == 0) { 
+            bytes = Jericho::FileSystem::readBinary("./py/scripts/torch.pt");
+        } else {
+            bytes = router->federator()->bytes();
+        }
+        BYEL("HOST BYTES SIZE...? %li\n", bytes.size());
+        std::string h = API_ARG(args, std::string("Host"));
+        std::string host;
+        std::string port;
+        if (h != "undefined") {
+            std::vector<std::string> vec = tokenize(h, ':');
+            host = vec[0];
+            port = vec[1];
+        }
+        std::string type = "binary";
+        router->cluster()->boss()->send2(router, client, "127.0.0.1:"+port+"/train", "binary", bytes);
+        return "TICKET";
+    } else {
+        return JsonResponse::error(500, "Federator not active!\n");
+    }
+}
+
+API(Federation, {})
+    BYEL("FEDERATING...\n");
+
+    std::string numClients_ = API_ARG(args, std::string("num-clients"));
+    std::string numRounds_ = API_ARG(args, std::string("num-rounds"));
+    std::string timeout_ = API_ARG(args, std::string("timeout"));
+    if (numClients_ == "undefined") numClients_ = "1";
+    if (numRounds_ == "undefined") numRounds_ = "2";
+    if (timeout_ == "undefined") timeout_ = "60";
+    int timeout = std::stoi(timeout_);
+    int numRounds = std::stoi(numRounds_);
+    int numClients = std::stoi(numClients_);
+
+    bool has_clients = false;
+    if (router->needsAggregate()) {
+        BGRE("Clients in cluster detected!\n");
+        std::string bytes = Jericho::FileSystem::readBinary("./py/scripts/torch.pt");
+        BYEL("HOST BYTES SIZE...? %li\n", bytes.size());
+        std::string type = "binary";
+        std::vector<ClusterQuorum*> newClients = router->cluster()->index()->selectType(FL_JOINED);
+        std::vector<std::pair<std::string, std::string>> set;
+        for (auto p : newClients) {
+            set.push_back({p->host, p->port});
+        }
+        if (set.size() > 0) {
+            has_clients = true;
+            router->cluster()->index()->quorumTrain(newClients);
+            router->cluster()->boss()->broadcastNaive(router, client, set, "/train", group_callback, type, bytes);
+        }
+    } else {
+        BRED("No clients in cluster detected!\n");
+    }
+
+    router->federate(numClients, numRounds, timeout);
+    if (has_clients) {
+        return "TICKET";
+    }
+    return JsonResponse::success(200, "No clients in network");
+}
+
+API(ResetQuorum, {})
+    router->cluster()->index()->resetQuorum();
+    return JsonResponse::success(200, "Reset quorum");
+}
+
+API(Train, {}) 
+    BYEL("TRAINING...\n");
+    std::string content = args["content"];
+    std::string path = router->cluster()->boss()->dir();
+    if (router->cluster()->boss()->port() == "8090") {
+        sleep(20);
+    }
+    if (router->cluster()->boss()->port() == "8089") {
+        sleep(10);
+    } 
+    BWHI("PATH: %s\n", path.c_str());
+    BWHI("CONTENT SIZE: %li\n", content.size());
+    std::string dir = "./public/cluster/" + router->cluster()->boss()->port();
+    path = "./public/cluster/" + router->cluster()->boss()->port() + "/torch.pt";
+    BWHI("PATH 2: %s\n", path.data());
+    Jericho::FileSystem::writeBinary(path.c_str(), content);
+    std::string bytes = Jericho::FileSystem::readBinary(path.c_str());
+    std::string bytes2 = Jericho::FileSystem::readBinary("./py/scripts/torch.pt");
+    BBLU("BYTES TRANSFER...? %li\n", bytes.size());
+    BBLU("BYTES ORIGINAL...? %li\n", bytes2.size());
+    BGRE("ARE THEY EQUAL? %i\n", (int)(bytes == bytes2));
+    router->train(true);
+    return JsonResponse::success(200, "Model received");
+}
+
+API(JoinWeights, {})
+    BYEL("JOINING WEIGHTS...\n");
+    std::string content = args["content"];
+    std::string h = API_ARG(args, std::string("Host"));
+    std::string host;
+    std::string port;
+    if (h != "undefined") {
+        std::vector<std::string> vec = tokenize(h, ':');
+        host = vec[0];
+        port = vec[1];
+    }
+    std::string path = router->cluster()->boss()->dir();
+    BWHI("PATH: %s\n", path.c_str());
+    BWHI("CONTENT SIZE: %li\n", content.size());
+    std::string dir = "./public/cluster/aggregator/";
+    path = dir + port + ".wt";
+    BWHI("PATH 2: %s\n", path.data());
+    Jericho::FileSystem::writeBinary(path.c_str(), content);
+    std::string bytes = Jericho::FileSystem::readBinary(path.c_str());
+    std::string verify = "./public/cluster/" + port + "/mnist_train.wt";
+    std::string bytes2 = Jericho::FileSystem::readBinary(verify.c_str());
+    BBLU("BYTES TRANSFER...? %li\n", bytes.size());
+    BBLU("BYTES ORIGINAL...? %li\n", bytes2.size());
+    BGRE("ARE THEY EQUAL? %i\n", (int)(bytes == bytes2));
+    if (router->cluster()->index()->activateClient(host, port) < 0) {
+        BRED("Failed to activate client: %s:%s\n", host.c_str(), port.c_str());
+        BYEL("SIZE OF QUORUM IS: %li\n", router->cluster()->index()->quorum().size());
+    }
+    return JsonResponse::success(200, "Aggregator received weights\n");
+}
+
+    // method 4
+    // ============================================================
+    // int i = system(command_path.c_str());
+
+    // sleep(10);
+
+    // GRE("resource: %s\n", resource);
+    // char* vals = strstr(resource, "\r\n\r\n");
+    // if (vals == NULL) {
+    //     BRED("SUBSTRING NOT FOUND!\n");
+    //     exit(1);
+    // }
+    // printf("vals: %s\n", vals + 4);
+    // int position = vals - resource;
+    // printf("idx: %d\n", position);
+    // char* valcopy = vals;
+    // char* token;
+    
+
+    // method 2
+    // =========================================================
+    // int number, statval;
+    // int child_pid;
+    // printf("%d: I'm the parent !\n", getpid());
+    // child_pid = fork();
+    // if(child_pid == -1) { 
+    //     printf("could not fork! \n");
+    //     // exit( 1 );
+    // } else if(child_pid == 0) {
+    //     execl(command_path.c_str(), dir.c_str());
+    // } else {
+    //     printf("PID %d: waiting for child\n", getpid());
+    //     waitpid( child_pid, &statval, WUNTRACED
+    //                 #ifdef WCONTINUED       /* Not all implementations support this */
+    //                         | WCONTINUED
+    //                 #endif
+    //                 );
+    //     if(WIFEXITED(statval))
+    //         printf("Child's exit code %d\n", WEXITSTATUS(statval));
+    //     else
+    //         printf("Child did not terminate with exit\n");
+    // }
+
+    // method 3
+    // =========================================================
+    // char* arg1 = &command_path[0];
+    // char* arg2 = &dir[0];
+
+    // printf("%s\n", arg1);
+    // printf("%s\n", arg2);
+
+    // int status;
+    // char* paramsList[] = {
+    //     "python3 ./py/server.py",
+    //     "./public/cluster/8081",
+    //     NULL
+    // };
+
+    // if ( fork() == 0 ){
+    //     printf("I am the child\n");
+    //     execv(paramsList[0],paramsList); 
+    // } else {
+    //     printf("I am the parent\n");
+    //     wait( &status ); 
+    // }
+
+    // return 0;
+
+
+    // return JsonResponse::success(200, result);
 
 #endif

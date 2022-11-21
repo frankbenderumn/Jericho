@@ -19,12 +19,20 @@ struct MessageBuffer {
     std::string hostname = "undefined";
   
     std::string port = "undefined";
+
+    std::string fromPort = "undefined";
   
     std::string path = "undefined";
   
     std::string received = "undefined";
   
     std::string dir = "undefined";
+
+    std::string type = "undefined";
+
+    std::string flag = "undefined";
+
+    std::string flag2 = "undefined";
   
     int ticket = -1;
   

@@ -1,22 +1,32 @@
 #include "cluster/cluster_edge.h"
 #include "server/defs.h"
+#include "cluster/cluster_node.h"
 
 ClusterEdge::ClusterEdge(ClusterEdgeType type, std::vector<ClusterNode*> nodes) {
+    BYEL("CREATING CLUSTER EDGE 1\n");
     _type = type;
     _nodes = nodes;
 }
 
 ClusterEdge::ClusterEdge(ClusterEdgeType type, ClusterNode* node) {
+    BYEL("CREATING CLUSTER EDGE 2\n");
     _type = type;
     _nodes = std::vector<ClusterNode*>{ node };
 }
 
 ClusterEdge::ClusterEdge(std::vector<ClusterEdge*> edges) {
+    BYEL("CREATING CLUSTER EDGE 3\n");
     _type = CLUSTER_EDGE_LAX;
     _edges = edges;
 }
 
+ClusterEdge::ClusterEdge() {
+    _type = CLUSTER_EDGE_STRICT;
+    _edges = {};
+}
+
 ClusterEdge::~ClusterEdge() {
+    BYEL("DELETING CLUSTER EDGE!\n");
     for (auto edge : _edges) {
         delete edge;
     }
@@ -34,7 +44,7 @@ void ClusterEdge::addEdge(ClusterEdge* edge) {
 }
 
 void ClusterEdge::addNode(ClusterNode* node) {
-    _nodes.push_back(node);
+    this->_nodes.push_back(node);
 }
 
 const std::vector<ClusterNode*>& ClusterEdge::nodes() {

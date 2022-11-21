@@ -162,7 +162,7 @@ void socket_write(SSL* ssl, const void *buf, unsigned size) {
     }
 }
 
-void resource::serve_http(Client* conn, Client** clients, const char* content) {
+void resource::serve_http(Client* conn, Client** clients, const char* content, std::string type) {
     if (strlen(content) > 65000) {
         BRED("CONTENT TO SEND IS TO LARGE! NEED TO FRAGMENT BUFFER!\n");
     }
@@ -173,7 +173,17 @@ void resource::serve_http(Client* conn, Client** clients, const char* content) {
     SSL_write(conn->ssl, buffer, strlen(buffer));
     sprintf(buffer, "Content-Length: %lu\r\n", strlen(content));
     SSL_write(conn->ssl, buffer, strlen(buffer));
-    sprintf(buffer, "Content-Type: %s\r\n", content);
+    sprintf(buffer, "Content-Type: %s\r\n", type.c_str());
+    SSL_write(conn->ssl, buffer, strlen(buffer));
+    sprintf(buffer, "Access-Control-Allow-Origin: %s\r\n", "*");
+    SSL_write(conn->ssl, buffer, strlen(buffer));
+    sprintf(buffer, "Access-Control-Allow-Methods: %s\r\n", "GET, POST, OPTIONS");
+    SSL_write(conn->ssl, buffer, strlen(buffer));
+    sprintf(buffer, "Access-Control-Allow-Headers: %s\r\n", "Content-Type");
+    SSL_write(conn->ssl, buffer, strlen(buffer));
+    sprintf(buffer, "Access-Control-Max-Age: %s\r\n", "86400");
+    SSL_write(conn->ssl, buffer, strlen(buffer));
+    sprintf(buffer, "Jericho: %s\r\n", "true");
     SSL_write(conn->ssl, buffer, strlen(buffer));
     sprintf(buffer, "\r\n");
     SSL_write(conn->ssl, buffer, strlen(buffer));
@@ -224,6 +234,8 @@ void resource::serve_cxx(Client* conn, Client** clients, const char* path) {
     sprintf(buffer, "Content-Length: %lu\r\n", sz);
     SSL_write(conn->ssl, buffer, strlen(buffer));
     sprintf(buffer, "Content-Type: %s\r\n", content);
+    SSL_write(conn->ssl, buffer, strlen(buffer));
+    sprintf(buffer, "Access-Control-Allow-Origin: %s\r\n", "https://localhost");
     SSL_write(conn->ssl, buffer, strlen(buffer));
     sprintf(buffer, "\r\n");
     SSL_write(conn->ssl, buffer, strlen(buffer));

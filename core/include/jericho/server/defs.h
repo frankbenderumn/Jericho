@@ -72,7 +72,7 @@ typedef struct sockaddr_storage AddrStorage;
 typedef socklen_t SockLen;
 
 // -1 to avoid buffer overflow
-#define MAX_REQUEST_SIZE 4095
+#define MAX_REQUEST_SIZE 490000
 #define THREAD_POOL 1
 #define MAX_CONNECTIONS 10
 

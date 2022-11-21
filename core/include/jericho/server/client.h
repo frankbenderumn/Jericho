@@ -18,6 +18,8 @@
 ************************************************************/
 void client_get_address(struct Client* ci, char* dest);
 
+void client_get_full_address(struct Client* ci, char* dest, uint16_t* port);
+
 /***********************************************************
 *   Atomic Accessors
 ************************************************************/

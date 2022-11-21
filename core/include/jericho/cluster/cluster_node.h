@@ -45,7 +45,7 @@ class ClusterNode {
 
 	ClusterNodeType _type = CLUSTER_NODE_NULL;
 
-	ClusterEdge* _edge;
+	ClusterEdge* _edge = nullptr;
 
 	ClusterIndex* _index;
 
@@ -55,6 +55,8 @@ class ClusterNode {
 
 	int _id = -1;
 
+	long long _timestamp = 0;
+
   public:
 
     ClusterNode(std::string host, std::string port, std::string dir, ClusterIndex* index);
@@ -63,15 +65,21 @@ class ClusterNode {
 
 	void brokerBroadcast(Router* router, Client* client, std::deque<MessageBuffer*> mq, MessageCallback callback);
 
+	void brokerSend(Router* router, Client* client, std::string path, MessageBuffer* buf, std::string type = "", std::string content = "");
+
+	void send2(Router* router, Client* client, std::string path, std::string type = "", std::string content = "");
+
 	MessageBroker* poll(Client* client);
 
-	void broadcast(Router* router, Client* client, std::string path, MessageCallback callback);
+	void broadcastNaive(Router* router, Client* client, std::vector<std::pair<std::string, std::string>> pairs, std::string path, MessageCallback callback, std::string type = "", std::string content = "");
+
+	void broadcast(Router* router, Client* client, std::string path, MessageCallback callback, std::string type = "", std::string content = "");
 
 	void pulse(Router* router, Client* client, std::string path, MessageBroker* broker);
 	
     void pingOne(Router* router, Client* client, ClusterNode* dest);
 
-	void pingAll(Router* router, Client* client);
+	void pingAll(Router* router, Client* client, std::vector<std::pair<std::string, std::string>> set = {});
 
 	const int id() const;
 
@@ -95,11 +103,17 @@ class ClusterNode {
 
 	const std::string port() const;
 
+	const std::string dir() const { return _dir; }
+
+	const long timestamp() const;
+
 	bool hasEdge(std::string host, std::string port);
 
 	ClusterNode* getEdge(std::string host, std::string port);
 
 	void federate(Router* router, Client* client, std::string path, int epochs, int clients);
+
+	void print();
 
 };
 

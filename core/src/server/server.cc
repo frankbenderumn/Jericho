@@ -5,6 +5,8 @@
 #include "celerity/celerity.h"
 #include "message/message_buffer.h"
 #include "message/message_broker.h"
+#include "api/api_helper.h"
+#include "message/callback.h"
 
 using namespace Jericho;
 
@@ -19,7 +21,7 @@ int link(Frame* frame, Client* client) {
 	// 	return -1;
     // } 
 
-    char tbuffer[5000];
+    char tbuffer[500000];
     sprintf(tbuffer, "Client request is: %s\n", frame->request);
     write_thread(frame->client->socket, tbuffer);
 
@@ -206,6 +208,11 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 			CYA("New connection from %s.\n", address_buffer);
 			PLOG(LSERVER, "New connection from %s.", address_buffer);
 
+			char address_buffer2[16];
+			uint16_t p2;
+			client_get_full_address(client, address_buffer2, &p2);
+			BYEL("New connection from %s:%i.\n", address_buffer, p2);
+
 			client->ssl = SSL_new(ctx);
 			if (!client->ssl) {
 				PFAIL(ECONN, "SSL_new(ctx) failed.");
@@ -226,6 +233,84 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 
         Client* client = *clients;
 
+		// for server (both server and client are fully autonomous P2P)
+		if (router->needsAggregate()) {
+			// long long t = std::time(NULL) - router->federator()->startTime() - router->federator()->waitTime();
+			// BWHI("TIME TILL TIMEOUT: %lld\n", t * -1);
+			if (std::time(NULL) - router->federator()->startTime() >= router->federator()->waitTime()) {
+				BRED("FEDERATOR TIME LIMIT REACHED FOR AGGREGATION\n");
+				router->cluster()->index()->quorumDrop();
+				router->shutdownFederator();
+			}
+
+			if (router->federator() != nullptr) {
+				std::vector<ClusterQuorum*> newClients = router->cluster()->index()->selectType(FL_JOINED);
+				std::vector<ClusterQuorum*> joinedClients = router->cluster()->index()->selectType(FL_DELIVERED);
+				std::vector<ClusterQuorum*> dormantClients = router->cluster()->index()->selectType(FL_DORMANT);
+				std::vector<ClusterQuorum*> droppedClients = router->cluster()->index()->selectType(FL_DROPPED);
+				std::vector<ClusterQuorum*> trainingClients = router->cluster()->index()->selectType(FL_TRAINING);
+				BYEL("NEEDED: %i, JOINED: %li, TRAINING: %li, DELIVERED: %li, DORMANT: %li, DROPPED: %li\n", router->federator()->clients(), newClients.size(), trainingClients.size(), joinedClients.size(), dormantClients.size(), droppedClients.size());
+				std::vector<std::pair<std::string, std::string>> set;
+				for (auto p : newClients) {
+					set.push_back({p->host, p->port});
+				}
+
+				if (set.size() > 0) {
+					if (router->federator()->bytes() != "undefined") {
+						router->cluster()->boss()->broadcastNaive(router, client, set, "/train", group_callback, "binary", router->federator()->bytes());
+					}
+				}
+
+				if (router->cluster()->index()->quorumMet(router->federator()->clients())) {
+					BGRE("QUORUM MET, START AGGREGATION\n");
+					std::vector<std::string> selection = router->cluster()->index()->quorumSelect(router->federator()->clients());
+					if (selection.size() != 0) {
+						std::string ports = "[";
+						for (auto s : selection) {
+							ports += s + ",";
+						}
+						ports.pop_back(); ports += "]";
+						BBLU(" PORTS: %s\n", ports.c_str());
+						std::string command = "python3 ./py/fusion.py " + ports + " " + std::to_string(router->federator()->round()) + " " + std::to_string(router->federator()->id());
+						std::string results = pipe(command);
+						BWHI("AND?\n");
+						router->cluster()->index()->quorumUpdate(selection);
+						router->federator()->finishRound();
+						if (router->federator()->active()) {
+							std::string path = "./public/aggregator/aggregate-" + std::to_string(router->federator()->round() - 1) + ".pt"; 
+							std::string bytes = Jericho::FileSystem::readBinary(path.c_str());
+							std::vector<std::string> nextSelection = router->cluster()->index()->quorumSelect(router->federator()->clients());
+							std::vector<std::pair<std::string, std::string>> set;
+							for (auto p : nextSelection) {
+								set.push_back({"127.0.0.1", p});
+							}
+							router->federator()->bytes(bytes);
+						}
+					} else {
+						BYEL("STOPPING FEDERATION DUE TO ERROR\n");
+						router->shutdownFederator();
+					}
+				}
+			}
+		}
+
+		// for client (both server and client are fully autonomous P2P)
+		while (router->needsTrain()) {
+			if (router->needsTrain()) {
+				BMAG("NEED TRAINING\n");
+				std::string dir = "./public/cluster/" + router->cluster()->boss()->port();
+				std::string command_path = "python3 ./py/torch_load.py " + dir;
+				std::string results = pipe(command_path);
+				router->train(false);
+				if (client == NULL || client == nullptr) {
+					BYEL("NEED TO GENERATE A CLIENT\n");
+				}
+				std::string wts = dir + "/mnist_train.wt";
+				std::string bytes = Jericho::FileSystem::readBinary(wts.c_str());
+				router->cluster()->boss()->send2(router, client, "127.0.0.1:8080/join-weights", "binary", bytes);
+			}
+		}
+
         while (client) {
 
 			MessageBroker* broker = router->cluster()->boss()->poll(client);
@@ -240,7 +325,9 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 						resource::serve_http(client, clients, response.c_str());
 					}
 					client->promised = false;
-					drop_client(client, clients);
+					BBLU("I DONT UNDERSTAND\n");
+					drop_client(client, clients); // this segfaults buffer size of 500000 but not 4095 (fixed)
+					break;
 				}
 			}
             
@@ -257,16 +344,70 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
                 }
 
                 /** STUB: do send before receive for fault tolerance? */
-
+				int bytes_received = 0;
+				long bytes_needed = 0;
+				bool all_read = false;
+				bool headers_found = false;
+				int r;
                 // receives bytes from client and asserts against request limit
-                int r = SSL_read(client->ssl, client->request + client->received, MAX_REQUEST_SIZE - client->received); 
+				while (!all_read) { 
+                	r = SSL_read(client->ssl, client->request + client->received, MAX_REQUEST_SIZE - client->received); 
+					bytes_received += r;
+					client->received += r; // increment bytes received
+					if (r < 5000) {
+						all_read = true;
+					} else {
+						if (!headers_found) {
+							char* p = strstr(client->request, "\r\n\r\n");
+							if (p != NULL) {
+								size_t len = p - &client->request[0];
+								BYEL("HEADERS LEN IS: %li\n", len + 4);
+								char buf[len + 5];
+								strncpy(buf, client->request, len + 4);
+								buf[len + 5] = 0;
+								char view[200];
+								strncpy(view, client->request, 199);
+								view[200] = 0;
+								BMAG("BUF IS: %s\n", buf);
+								BMAG("VIEW IS: %s\n", view);
+								char* p2 = strstr(buf, "Content-Length: ");
+								if (p2 != NULL) {
+									p2 = p2 + strlen("Content-Length: ");
+									char* lenEnd = strstr(p2, "\r\n");
+									if (lenEnd == NULL) { BRED("\\r\\n not found\n"); }
+									size_t sz = lenEnd - p2;
+									BBLU("Content length has %li digits\n", sz);
+									char clen[sz + 1];
+									BBLU("5\n");
+									strncpy(clen, p2, sz);
+									clen[sz + 1] = 0;
+									BBLU("LEN IS: %s\n", clen);
+									char* pEnd;
+									long length = strtol(clen, &pEnd, 10);
+									BBLU("LEN IS: %li\n", length);
+									long total = length + len;
+									BBLU("BYTE TOTAL SHOULD BE: %li\n", total);
+									headers_found = true;
+									bytes_needed = total;
+								} else {
+									BRED("Content-Length not specified\n");
+								}						
+							} else {
+								BRED("Not an HTTP Protocol (\\r\\n\\r\\n not found)\n");
+							}
+						}
+						if ((long)bytes_received >= bytes_needed) {
+							all_read = true;
+						}
+						BMAG("Bytes received: %li\n", (long)bytes_received);
+					}
+				}
 
                 if (r > 0) { // bytes received
 
                     PLOG(LSERVER, "Request received from client: <client-address>");
                     MAG("REQUEST: %s\n", client->request);
 
-                    client->received += r; // increment bytes received
                     client->request[client->received] = 0; 
                     char* q = strstr(client->request, "\r\n\r\n");
 
@@ -298,6 +439,10 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
                             // parser2::parse(client, clients);
 							if (!is_valid_request(client)) {
 								BRED("GET or POST not present!\n");
+								char temp[200];
+								strncpy(temp, client->request, 199);
+								temp[200] = 0;
+								BRED("%s\n", temp);
 								break;
 							}
 
@@ -325,7 +470,7 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 								case ROUTE_API:
 									BYEL("API CALL...\n");
 									result = router->exec(ROUTE_API, request.path, request.args, router, client);
-									resource::serve_http(client, clients, result.c_str());
+									resource::serve_http(client, clients, result.c_str(), std::string("application/json"));
 									break;
 								case ROUTE_CLUSTER:
 									BYEL("DISTRIBUTED CALL...\n");
@@ -381,5 +526,6 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
             }
             client = next;
         }
+		// BRED("SERVER LOOP ENDING\n");
     }
 }

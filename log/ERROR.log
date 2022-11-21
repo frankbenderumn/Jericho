@@ -2406,3 +2406,11 @@ DATABASE-[[0;32m2022-10-10[0m [0;33m18:37:45[0m]-/mnt/d/jericho-devel/ext/ce
 
 DATABASE-[[0;32m2022-10-10[0m [0;33m18:40:14[0m]-/mnt/d/jericho-devel/ext/celerity/ext/prizm-cxx/src/file_system.cc-void t_write(int, const char*, const char*)-76:[0;31mERROR[0m-Unable to create file! Check that log directory exists!
 
+ERROR-[2022-11-19 21:24:49]-/mnt/d/jericho-devel/core/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*, Router*)-382-AN UNEXPECTED STATE WAS ENCOUNTERED!
+
+ERROR-[2022-11-20 01:08:08]-/mnt/d/jericho-devel/core/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*, Router*)-440-AN UNEXPECTED STATE WAS ENCOUNTERED!
+
+ERROR-[2022-11-20 01:08:08]-/mnt/d/jericho-devel/core/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*, Router*)-440-AN UNEXPECTED STATE WAS ENCOUNTERED!
+
+ERROR-[2022-11-20 01:08:08]-/mnt/d/jericho-devel/core/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*, Router*)-440-AN UNEXPECTED STATE WAS ENCOUNTERED!
+
