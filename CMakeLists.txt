@@ -60,6 +60,10 @@ add_library(jericho STATIC
     core/src/util/string_utils.cc
     core/src/server/fetch.cc
     core/src/api/api_helper.cc
+    core/src/federate/federator.cc
+    core/src/federate/fed_node.cc
+    core/src/message/bifrost.cc
+    core/src/util/encoding.cc
 )
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
@@ -94,8 +98,6 @@ add_executable(server core/src/main.cc)
 # add_executable(tf example/tensorflow.cc)
 # add_executable(zero example/zeromq.cc)
 add_executable(client example/client.cc)
-
-
 
 target_link_libraries(server PRIVATE jericho)
 target_link_libraries(server PRIVATE celerity)
