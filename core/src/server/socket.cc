@@ -74,7 +74,7 @@ SOCKET socket_create(const char* host, int port, int reuse, int family, int sock
 
     // set to listen for a conn
     printf("Listening...\n");
-    if (listen(sock, 10) < 0) {
+    if (listen(sock, 50) < 0) {
         PFAIL(ESERVER, "listen() failed with thread_pool 5000");
     }
     clearcolor();

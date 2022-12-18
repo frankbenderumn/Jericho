@@ -1,0 +1,7 @@
+#!/bin/bash
+
+./bin/psql/create db1
+./bin/psql/create db2
+./bin/psql/create db3
+./bin/psql/create db4
+./bin/psql/create db5

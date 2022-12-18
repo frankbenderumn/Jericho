@@ -2414,3 +2414,9 @@ ERROR-[2022-11-20 01:08:08]-/mnt/d/jericho-devel/core/src/server/server.cc-int r
 
 ERROR-[2022-11-20 01:08:08]-/mnt/d/jericho-devel/core/src/server/server.cc-int run(int*, Client**, SSL_CTX*, ThreadPool*, Router*)-440-AN UNEXPECTED STATE WAS ENCOUNTERED!
 
+ERROR-[2022-12-04 23:36:34]-/mnt/d/jericho-devel/core/src/server/thread_pool.cc-bool thread_pool_add(ThreadPool*, __ThreadFn, Any)-163-Thread Pool is null!
+ERROR-[2022-12-04 23:36:34]-/mnt/d/jericho-devel/core/src/server/thread_pool.cc-bool thread_pool_add(ThreadPool*, __ThreadFn, Any)-163-Thread Pool is null!
+ERROR-[2022-12-04 23:36:34]-/mnt/d/jericho-devel/core/src/server/thread_pool.cc-bool thread_pool_add(ThreadPool*, __ThreadFn, Any)-163-Thread Pool is null!
+ERROR-[2022-12-04 23:36:34]-/mnt/d/jericho-devel/core/src/server/thread_pool.cc-bool thread_pool_add(ThreadPool*, __ThreadFn, Any)-163-Thread Pool is null!
+DATABASE-[[0;32m2022-12-13[0m [0;33m00:40:32[0m]-/mnt/d/jericho-devel/ext/celerity/ext/prizm-cxx/src/file_system.cc-void t_write(int, const char*, const char*)-76:[0;31mERROR[0m-Unable to create file! Check that log directory exists!
+

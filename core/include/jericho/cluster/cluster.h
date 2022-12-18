@@ -41,24 +41,24 @@ class Cluster {
         delete _index;
     }
 
-    void pingAll(Router* router, Client* client) {
+    void pingAll(Router* router, std::string url) {
         BBLU("CLUSTER CHILDREN SIZE: %i\n", (int)_boss->edges()->nodes().size());
-        _boss->pingAll(router, client);
+        _boss->pingAll(router, url);
     }
 
-    void pingOne(Router* router, Client* client, ClusterNode* node) {
+    void pingOne(Router* router, std::string url, ClusterNode* node) {
         BBLU("CLUSTER CHILDREN SIZE: %i\n", (int)_boss->edges()->nodes().size());
         if (node != nullptr) {
-            _boss->pingOne(router, client, node);
+            _boss->pingOne(router, url, node);
         }
     }
 
-    void pingSet(Router* router, Client* client, std::vector<std::pair<std::string, std::string>> set) {
+    void pingSet(Router* router, std::string url, std::vector<std::pair<std::string, std::string>> set) {
         BBLU("CLUSTER SET SIZE: %i\n", (int)set.size());
-        _boss->pingAll(router, client, set);
+        _boss->pingAll(router, url, set);
     }
 
-    void federate(Router* router, Client* client) {
+    void federate(Router* router, std::string url) {
         // for (auto n : _boss->edges()) {
             // n->federate(router, client);
         // }
@@ -96,7 +96,7 @@ class Cluster {
 
     void type(ClusterType type) { _type = type; }
 
-    MessageBuffer* buffer(Client* client, std::string path) { return _boss->buffer(client, path); }
+    MessageBuffer* buffer(std::string url, std::string path) { return _boss->buffer(url, path); }
 };
 
 #endif

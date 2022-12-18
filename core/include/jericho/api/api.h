@@ -8,11 +8,4 @@
 #include "server/defs.h"
 #include "api/api_helper.h"
 
-API(Federate, ARGS{})
-    ClusterNode* boss = router->cluster()->boss();
-    boss->federate(router, client, "/federate-local", 5, 5);
-    return "TICKET";
-}
-
-
 #endif

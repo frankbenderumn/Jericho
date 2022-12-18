@@ -1,0 +1,12 @@
+{
+    "train": "py/torch_load.py",
+    "fusion": "py/fusion.py",
+    "partition": ,
+    "data": {
+        "path": "py/data",
+        "type": "MNIST",
+        "partition": "py/partition.py",
+        "partitions": 10,
+        "iid": true
+    }
+}

@@ -1,0 +1,95 @@
+{
+    "type": "tree",
+    "nodes": {
+        "0": {
+            "url": "127.0.0.1:8080",
+            "role": "main",
+            "options": {
+                "federation": "config/federated/central.json"
+            }        
+        },
+        "1": {
+            "url": "127.0.0.1:8081",
+            "role": "agg",
+            "options": {
+                "federation": "config/aggregator.json"
+            }
+        },
+        "2": {
+            "url": "127.0.0.1:8082",
+            "role": "agg",
+            "options": {
+                "federation": "config/aggregator.json"
+            }
+        },
+        "3": {
+            "url": "127.0.0.1:8083",
+            "role": "agg",
+            "options": {
+                "federation": "config/aggregator.json"
+            }
+        },
+        "4": {
+            "url": "127.0.0.1:8084",
+            "role": "cli",
+            "options": {
+                "federation": "config/client.json"
+            }
+        }, 
+        "5": {
+            "url": "127.0.0.1:8085",
+            "role": "cli",
+            "options": {
+                "federation": "config/client.json"
+            }
+        }, 
+        "6": {
+            "url": "127.0.0.1:8086",
+            "role": "cli",
+            "options": {
+                "federation": "config/client.json"
+            }
+        }, 
+        "7": {
+            "url": "127.0.0.1:8087",
+            "role": "cli",
+            "options": {
+                "federation": "config/client.json"
+            }
+        }, 
+        "8": {
+            "url": "127.0.0.1:8088",
+            "role": "cli",
+            "options": {
+                "federation": "config/client.json"
+            }
+        }, 
+        "9": {
+            "url": "127.0.0.1:8089",
+            "role": "cli",
+            "options": {
+                "federation": "config/client.json"
+            }
+        }, 
+        "10": {
+            "url": "127.0.0.1:8090",
+            "role": "cli",
+            "options": {
+                "federation": "config/client.json"
+            }
+        }   
+    },
+    "edges": {
+        "0": [],
+        "1": ["0"],
+        "2": ["0"],
+        "3": ["0"],
+        "4": ["1"],
+        "5": ["1"],
+        "6": ["2"],
+        "7": ["2"],
+        "8": ["3"],
+        "9": ["3"],
+        "10": ["3"]
+    }
+}

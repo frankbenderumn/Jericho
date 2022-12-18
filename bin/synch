@@ -1,0 +1,2 @@
+#!/bin/bash
+./bin/launch -p 8080 -d frontend -t 10 -s config/orchestrator.json -f synch

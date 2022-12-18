@@ -1,0 +1,14 @@
+{
+    "development": {
+        "something": "for-later"    
+    },
+    "testing": {
+        "something": "for-later"    
+    },
+    "staging": {
+        "something": "for-later"    
+    },
+    "production": {
+        "something": "for-later"    
+    }
+}

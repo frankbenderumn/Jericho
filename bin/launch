@@ -1,31 +1,11 @@
 #!/bin/bash
 
-# PORT=8080
-# THREADS=10
-# DIRECTORY=./nebula/frontend
-
-# if [[ -n "$1" ]]; then
-#     PORT=$1
-# else
-#     echo -e "\033[1;31mNo port specified. Default is 8080"
-# fi
-
-# if [[ -n "$2" ]]; then
-#     THREADS=$2
-# else
-#     echo -e "\033[1;31mNumber of threads not specified. Default is 10."
-# fi
-
-# if [[ -n "$3" ]]; then
-#     DIRECTORY=$3
-# else
-#     echo -e "\033[1;31mNo directory specified. Default is ./nebulaui/frontend"
-# fi
-
 PORT=8080
-THREADS=10
+THREADS=20
 DIRECTORY=frontend
-MAIN="false"
+DATABASE=demodb
+SCRIPT=undefined
+FLAG=undefined
 
 POSITIONAL_ARGS=()
 
@@ -36,21 +16,37 @@ while [[ $# -gt 0 ]]; do
   case $1 in
     -p|--port)
       PORT="$2"
-      shift # past argument
-      shift # past value
+      shift
+      shift
       ;;
     -t|--threads)
       THREADS="$2"
-      shift # past argument
-      shift # past value
+      shift
+      shift
       ;;
     -d|--directory)
       DIRECTORY="$2"
-      shift # past argument
+      shift
       shift
       ;;
-    -m|--main)
-      MAIN="true"
+    -s|--script)
+      SCRIPT="$2"
+      shift
+      shift
+      ;;
+    -f|--file)
+      SCRIPT="$2"
+      shift
+      shift
+      ;;
+    -db|--database)
+      DATABASE="$2"
+      shift
+      shift
+      ;;
+    -m|--mode)
+      FLAG="$2"
+      shift
       shift
       ;;
     -*|--*)
@@ -59,7 +55,7 @@ while [[ $# -gt 0 ]]; do
       ;;
     *)
       POSITIONAL_ARGS+=("$1") # save positional arg
-      shift # past argument
+      shift
       ;;
   esac
 done
@@ -69,6 +65,8 @@ set -- "${POSITIONAL_ARGS[@]}" # restore positional parameters
 echo -e "PORT      : ${PORT}"
 echo -e "THREADS   : ${THREADS}"
 echo -e "DIRECTORY : ${DIRECTORY}"
-echo -e "MAIN      : ${MAIN}"
+echo -e "DATABASE  : ${DATABASE}"
+echo -e "FLAG      : ${FLAG}"
+echo -e "SCRIPT    : ${SCRIPT}"
 
-./cmake-build/server ${PORT} ${THREADS} ${DIRECTORY} ${MAIN}
+./cmake-build/server ${PORT} ${THREADS} ${DIRECTORY} ${DATABASE} ${FLAG} ${SCRIPT}

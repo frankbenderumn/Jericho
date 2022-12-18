@@ -11,17 +11,21 @@ v= sys.argv[1][1:n-1]
 a = v.split(',')
 round = args[2]
 id = args[3]
+dir = args[4]
+mode = args[5]
+model_script = args[6]
 
 print("CLIENTS FUSING ARE")
 print(a)
 
 models = []
 
-model_name = "./py/scripts/torch.pt"
+model_name = model_script
 
 for i in a:
     model = torch.jit.load(model_name)
-    path = "./public/cluster/aggregator/"+i+".wt"
+    path = dir + i + ".wt"
+    print(path)
     if not os.path.exists(path):
         print("Path does not exist for ",i,". Has model been sent?", sep='')
         exit()
@@ -96,10 +100,13 @@ valid = torch.tensor(valid, dtype=torch.float32)
 
 test(fused, valid)
 
-fused_script = torch.jit.script(fused) # Export to TorchScript
-fused_script.save("./public/cluster/aggregator/aggegate-"+str(round)+".pt") # Save
+if (mode == "main"): 
+    fused_script = torch.jit.script(fused) # Export to TorchScript
+    fused_script.save(dir + "model-"+str(round)+".pt") # Save
+else:
+    torch.save(fused.state_dict(), dir + "agg-"+str(round)+".wt")
 
-fp = open("./public/cluster/aggregator/log.txt", "a")
+fp = open(dir + "/log.txt", "a")
 fp.write("Fed Id: "+str(id)+", Round - " + str(round) + ", Clients Trained: ["+str(v)+"], Accuracy: " + str(accuracy) + "\n")
 fp.close()
 

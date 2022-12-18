@@ -8,9 +8,13 @@
 #include <sys/stat.h>
 #include "prizm/prizm.h"
 
-void Jericho::FileSystem::write(const char* path, std::string toWrite) {
+void Jericho::FileSystem::write(const char* path, std::string toWrite, bool overwrite) {
     std::ofstream myfile;
-    myfile.open(path, std::ios_base::app | std::ios_base::in);
+    if (overwrite) {
+        myfile.open(path, std::ios_base::in | std::ofstream::trunc);
+    } else {
+        myfile.open(path, std::ios_base::app | std::ios_base::in);
+    }
     myfile << toWrite << "\n";
     myfile.close();
 }
@@ -27,9 +31,9 @@ std::string Jericho::FileSystem::readBinary(const char* path) {
     size_t size = -1;
     if (stat(path, &results) == 0 ) {
         size = results.st_size;
-        BMAG("FILE SIZE IS: %i\n", (int)size);
+        BCYA("JFS::readBinary: FILE SIZE IS: %i\n", (int)size);
     } else {
-        BRED("READ BINARY FILE ERROR ON PATH: %s\n", path);
+        BRED("JFS::readBinary: READ BINARY FILE ERROR ON PATH: %s\n", path);
     }
 
     if (size > 0) {
@@ -37,7 +41,7 @@ std::string Jericho::FileSystem::readBinary(const char* path) {
         char buffer[(int)size];
         std::ifstream t(path, std::ios::in | std::ios::binary);
         if (!t) {
-            BRED("ERROR READING BINARY FILE\n");
+            BRED("JFS::readBinary: ERROR READING BINARY FILE\n");
         }
         while (!(t.eof() || t.fail())) {
             t.read(buffer, size);
@@ -46,15 +50,15 @@ std::string Jericho::FileSystem::readBinary(const char* path) {
         t.close();
 
         // std::string s = std::string(buffer);
-        BCYA("BUFFER SIZE IS: %i\n", (int)sizeof(buffer));
-        BCYA("BUFFER LEN IS: %i\n", (int)strlen(buffer));
-        BCYA("VEC SIZE: %i\n", (int)vec.size());
+        BCYA("JFS::readBinary: BUFFER SIZE IS: %i\n", (int)sizeof(buffer));
+        BCYA("JFS::readBinary: BUFFER LEN IS: %i\n", (int)strlen(buffer));
+        BCYA("JFS::readBinary: VEC SIZE: %i\n", (int)vec.size());
         std::string s(vec.begin(), vec.end());
         // std::cout << s;
-        BCYA("STRINGIFIED SIZE IS: %i\n", (int)s.size());
+        BCYA("JFS::readBinary: STRINGIFIED SIZE IS: %i\n", (int)s.size());
         return s;
     } else {
-        BRED("FILE SIZE IS 0 or ERROR\n");
+        BRED("JFS::readBinary: FILE SIZE IS 0 or ERROR\n");
     }
     return "";
 }
@@ -95,17 +99,17 @@ void Jericho::FileSystem::readCBinary(const char* path, unsigned char* buffer) {
     free(contents);
 }
 
-void Jericho::FileSystem::writeBinary(const char* path, std::string content) {
-    BBLU("WRITING BINARY FILE...\n");
-    BMAG("CONTENT SIZE %li\n", content.size());
+void Jericho::FileSystem::writeBinary(const char* path, std::string content, bool overwrite) {
+    BBLU("JFS::writeBinary: WRITING BINARY FILE...\n");
+    BMAG("JFS::writeBinary: CONTENT SIZE %li\n", content.size());
     std::vector<char> v(content.begin(), content.end());
-    BMAG("SIZE OF CHAR ARR: %li\n", v.size());
+    BMAG("JFS::writeBinary: SIZE OF CHAR ARR: %li\n", v.size());
     std::ofstream t(path, std::ios::out | std::ios::binary);
     if (!t) {
-        BRED("SOMETHING WENT WRONG WITH WRITING BINARY FILE\n");
+        BRED("JFS::writeBinary: SOMETHING WENT WRONG WITH WRITING BINARY FILE\n");
     }
     t.write(v.data(), v.size() * sizeof(char));
-    BMAG("BINARY FILE WROTE\n");
+    BMAG("JFS::writeBinary: BINARY FILE WROTE\n");
 }
 
 std::vector<std::string> Jericho::FileSystem::getDir(std::string dir) {
@@ -139,6 +143,29 @@ std::vector<std::string> publicDir() {
 
 bool Jericho::FileSystem::sanitize(std::string s, std::regex r) {
     return true;
+}
+
+int Jericho::FileSystem::readJson(picojson::value& data, const char* path) {
+    std::ifstream nodes(path);
+    std::stringstream buf;
+    buf << nodes.rdbuf();
+    std::string json = buf.str();
+    // BCYA("Json is: %s\n", json.c_str());
+    std::string err = picojson::parse(data, json);
+    if (!err.empty()) {
+        std::cerr << err << std::endl;
+        BRED("Failed to parse json file: %s\n", path);
+        return -1;
+    } else {
+        BGRE("Json data parsed for: %s\n", path);
+    }
+
+    if (!data.is<picojson::object>()) {
+        BRED("Json file %s not an object!\n", path);
+        return -1;
+    }
+
+    return 0;
 }
 
 

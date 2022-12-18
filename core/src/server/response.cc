@@ -191,7 +191,7 @@ void resource::serve_http(Client* conn, Client** clients, const char* content, s
     SSL_write(conn->ssl, content, strlen(content)); // send bytes
     printf("DONE WRITING\n");
 
-    drop_client(conn, clients);
+    // drop_client(conn, clients);
 }
 
 void resource::serve_cxx(Client* conn, Client** clients, const char* path) {
@@ -262,7 +262,7 @@ void resource::serve_cxx(Client* conn, Client** clients, const char* path) {
     }
 
     fclose(fp); // close file
-    drop_client(conn, clients);
+    // drop_client(conn, clients);
 }
 
 void resource::serve_raw(Client* conn, Client** clients, const char* message) {

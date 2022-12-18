@@ -11,17 +11,12 @@ void MessageBroker::publishMessage(MessageBuffer* mbuf) {
     _promised[mbuf->ticket] = mbuf;
 }
 
-int MessageBroker::epoch() { return _epoch; }
-
-void MessageBroker::epoch(int epoch) { _epoch = epoch; }
-
 void MessageBroker::markMessage(MessageBuffer* mbuf) {
     _messages.push_back(mbuf);
     _tickets[mbuf->ticket] = 1;
-    // BBLU("MESSSSSSAGGEGEGEG MARKEDDDDDDDD\n");
 }
 
-void MessageBroker::broadcast(Client* client, std::deque<MessageBuffer*> mq, std::vector<ClusterNode*> nodes) {
+void MessageBroker::broadcast(std::string url, std::deque<MessageBuffer*> mq, std::vector<ClusterNode*> nodes) {
     if (mq.size() != nodes.size()) {
         BRED("Message Queue and Nodes to broadcast aren't same size!");
         return;
@@ -43,16 +38,9 @@ bool MessageBroker::hasTickets() {
     return (_tickets.size() > 0);
 }
 
-// std::unordered_map<Client*, std::deque<MessageBuffer*>> messages() const {
-//     return _messages;
-// }
-
-// std::unordered_map<Client*, MessageBuffer*> promised() const {
-//     return _promised;
-// }
-
-bool MessageBroker::ready(Client* client) {
+bool MessageBroker::ready(std::string url) {
     // BYEL("MESSAGES SIZE: %i\n", (int)_messages.size());
+    // BYEL("PROMISED SIZE: %i\n", (int)_promised.size());
     if (_type == BROKER_BARRIER || _type == BROKER_RR) {
         if (_messages.size() == _promised.size() && _messages.size() != 0) return true;
     } else {
@@ -61,27 +49,32 @@ bool MessageBroker::ready(Client* client) {
     return false;
 }
 
-// bool promised(Client* client) {
-//     if (_promised.find(client) != _promised.end()) {
-//         return true;
-//     }
-//     return false;
-// }
-
 void MessageBroker::refresh() {
     _tickets.clear();
     _promised.clear();
     _messages.clear();
 }
 
-std::deque<MessageBuffer*> MessageBroker::response(Client* client) {
-    BGRE("BROKER RESPONDING\n");
+std::string MessageBroker::reduce() {
+    std::string reduction = std::get<2>(_chain[_epoch]);
+    BRED("START REDUCTION MF: %s\n", reduction.c_str());
+    if (reduction == "avg_latency") {
+        _epoch++;
+        BGRE("IN REDUCTION MF\n");
+        return "0.2";
+    }
+    _epoch++;
+    return "undefined";
+}
+
+std::deque<MessageBuffer*> MessageBroker::response(std::string url) {
+    BGRE("MessageBroker::response: BROKER RESPONDING\n");
     std::deque<MessageBuffer*> result;
     if (_type == BROKER_BARRIER || _type == BROKER_RR) {
         result = _messages;
-        BYEL("Returning messages of size: %i\n", (int)_messages.size());
+        BYEL("MessageBroker::response: Returning messages of size: %i\n", (int)_messages.size());
         for (int i = 0; i < _messages.size(); i++) {
-            BYEL("BATCH MSG: ");
+            BYEL("MessageBroker::response: BATCH MSG: ");
             BWHI("%s\n", _messages.at(i)->received.c_str());
         }
         _messages.clear();
@@ -90,24 +83,22 @@ std::deque<MessageBuffer*> MessageBroker::response(Client* client) {
     } else {
         if (_messages.size() > 0) {
             MessageBuffer* el = _messages.front();
-            BCYA("SINGLE MSG: ");
+            BCYA("MessageBroker::response: SINGLE MSG: ");
             BWHI("%s\n", el->received.c_str());
             _messages.pop_front();
             _tickets.erase(el->ticket);
             _promised.erase(el->ticket);
-            // if (_messages[client].size() == 0) {
-            //     _messages.erase(client);
-            // }
             result.push_back(el);
         } else {
-            BRED("BROKER IS EMPTY! This shouldn't happen unless a ticket collision.\n")
+            BRED("MessageBroker::response: BROKER IS EMPTY! This shouldn't happen unless a ticket collision.\n")
         }
     }
+    BBLU("MessageBroker::response: %li\n", result.size());
     return result;
 }
 
 void MessageBroker::stash(std::deque<MessageBuffer*> buf) {
-    BBLU("STASHING\n-\n-\n-\n");
+    BBLU("MessageBroker::stash: stashing...\n");
     for (auto m : buf) {
         _stash.push_back(m);
     }

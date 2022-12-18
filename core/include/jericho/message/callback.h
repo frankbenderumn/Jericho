@@ -7,10 +7,14 @@
 #include "server/defs.h"
 #include "message/message_buffer.h"
 
-std::string single_callback(Router* node, Client* client, std::deque<MessageBuffer*> mq);
+std::string single_callback(Router* node, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args);
 
-std::string group_callback(Router* node, Client* client, std::deque<MessageBuffer*> mq);
+std::string group_callback(Router* node, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args);
 
-std::string epoch_callback(Router* router, Client* client, std::deque<MessageBuffer*> mq);
+std::string epoch_callback(Router* router, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args);
+
+std::string bm_callback(Router* router, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args);
+
+std::string chain_callback(Router* router, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args);
 
 #endif

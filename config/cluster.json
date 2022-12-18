@@ -1,0 +1,9 @@
+{
+    "cluster": {
+        "local": {"store": "postgres", "name": "demodb", "migration": "./db/"},
+        "db1": {"url": "127.0.0.1:8081", "store": "postgres"},
+        "db2": {"url": "127.0.0.1:8082", "store": "postgres"},
+        "db3": {"url": "127.0.0.1:8083", "store": "postgres"},
+        "db4": {"url": "127.0.0.1:8084", "store": "postgres"}
+    }
+}

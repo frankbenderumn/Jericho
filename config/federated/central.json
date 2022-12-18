@@ -1,0 +1,9 @@
+{
+    "train": "py/torch_load.py",
+    "partition": "1",
+    "rounds": 10,
+    "data": "MNIST",
+    "quorum": 1,
+    "lr": 0.001,
+    "optimizer": "adam"
+}

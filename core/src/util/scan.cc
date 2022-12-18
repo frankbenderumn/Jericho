@@ -19,23 +19,23 @@ bool Jericho::jscan(const char* regex_val, char* request) {
 
     char tbuffer[1024];
 
-    yellow(); 
-    printf("Regex: %s\n", regex_val);
-    printf("Matches: \n");
+    // yellow(); 
+    // printf("Regex: %s\n", regex_val);
+    // printf("Matches: \n");
     for (int i = 0; ; i++) {
         if (regexec(&regex, s, ARRAY_SIZE(match), match, 0))
             break;
         ws_protocol = TRUE;
         off = match[0].rm_so + (s - str);
         len = match[0].rm_eo - match[0].rm_so;
-        printf("#%d:\n", i);
-        printf("offset = %jd; length = %jd\n", (intmax_t) off,
-                (intmax_t) len);
-        printf("substring = \"%.*s\"\n", len, s + match[0].rm_so);
+        // printf("#%d:\n", i);
+        // printf("offset = %jd; length = %jd\n", (intmax_t) off,
+        //         (intmax_t) len);
+        // printf("substring = \"%.*s\"\n", len, s + match[0].rm_so);
 
         s += match[0].rm_eo;
     }
-    clearcolor();
+    // clearcolor();
     // SEGH
     // regfree(&regex);
 

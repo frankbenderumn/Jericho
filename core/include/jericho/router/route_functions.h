@@ -7,7 +7,7 @@
 
 class Router;
 
-typedef std::string (*SystemFunction)(std::unordered_map<std::string, std::string>, Router*, Client*);
+typedef std::string (*SystemFunction)(std::unordered_map<std::string, std::string>, Router*, Client*, MessageBroker*);
 typedef std::string (*RouteFunction)(std::unordered_map<std::string, std::string>);
 typedef std::string (*ClusterFunction)(ThreadPool* tpool, void* (*worker)(void*), std::string message);
 
