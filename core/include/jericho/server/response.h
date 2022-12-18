@@ -5,6 +5,8 @@
 
 #include "server/defs.h"
 #include "server/response_defs.h"
+#include "message/message_broker.h"
+#include "picojson.h"
 
 struct JsonResponse {
     static std::string error(int code, std::string message) {
@@ -15,6 +17,18 @@ struct JsonResponse {
     }
     static std::string message(std::string message) {
         return "{\"message\": \""+message+"\"}";
+    }
+
+    static std::string ws(int status, std::string response, std::string command, picojson::object* obj = NULL) {
+        picojson::object res; 
+        res["status"] = picojson::value(std::to_string(status));
+        res["message"] = picojson::value(response);
+        res["command"] = picojson::value(command);
+        if (obj != NULL) {
+            res["obj"] = picojson::value(*obj);
+        }
+        picojson::value v(res);
+        return v.serialize();
     }
 };
 

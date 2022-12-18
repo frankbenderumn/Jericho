@@ -124,9 +124,9 @@ class RouteRegistry {
         } else if (_routeProtocols[path] == ROUTE_HTTP) {
             return _httpFunctions[path](args);
         } else if (_routeProtocols[path] == ROUTE_SYSTEM) {
-            return _systemFunctions[path](args, router, client);
+            return _systemFunctions[path](args, router, client, NULL);
         } else if (_routeProtocols[path] == ROUTE_RAW) {
-            return _systemFunctions[path](args, router, client);
+            return _systemFunctions[path](args, router, client, NULL);
         }
 
         return JsonResponse::error(500, "Invalid protocol provided");

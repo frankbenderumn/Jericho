@@ -6,6 +6,8 @@
 #include <vector>
 #include <unordered_map>
 #include <dirent.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 #include "server/defs.h"
 #include "server/thread_pool.h"
@@ -17,7 +19,6 @@
 #include "cluster/cluster_index.h"
 
 static int CLUSTER_ID = -1;
-static int TICKET_ID = -1;
 
 class Router;
 
@@ -33,13 +34,18 @@ enum ClusterNodeType {
 	CLUSTER_NODE_DB_HYPERGRAPH
 };
 
+struct BifrostBurst {
+	std::string url = "undefined";
+	Client* client = nullptr;
+	MessageBroker* broker = nullptr;
+	BifrostBurst(std::string url, Client* client, MessageBroker* broker) {
+		this->url = url;
+		this->client = client;
+		this->broker = broker;
+	}
+};
+
 class ClusterNode {
-
-    std::string _host = "undefined";
-
-    std::string _port = "undefined";
-
-	std::string _dir = "undefined";
 
     bool _status = false;
 
@@ -47,45 +53,69 @@ class ClusterNode {
 
 	ClusterEdge* _edge = nullptr;
 
-	ClusterIndex* _index;
-
 	std::vector<std::string> _files;
 
-	std::unordered_map<Client*, std::deque<MessageBroker*>> _brokers;
+	std::unordered_map<int, std::deque<MessageBroker*>> _fetchBrokers;
 
 	int _id = -1;
 
 	long long _timestamp = 0;
 
+	std::unordered_map<std::string, std::deque<MessageBroker*>> _brokers;
+
+	std::vector<BifrostBurst*> _bursts = {};
+
+  protected:
+
+	std::string _host = "undefined";
+
+	std::string _port = "undefined";
+
+	std::string _dir = "undefined";
+
+	ClusterIndex* _index;
+
   public:
+
+  	void send(Router* router, std::string url, std::string path, MessageBuffer* buf);
+
+	MessageBuffer* buffer(std::string url, std::string path);
+
+	MessageBuffer* buffer2(std::string url, std::string path, std::string content);
+
+	ClusterNode() {}
 
     ClusterNode(std::string host, std::string port, std::string dir, ClusterIndex* index);
 
 	~ClusterNode();
 
-	void brokerBroadcast(Router* router, Client* client, std::deque<MessageBuffer*> mq, MessageCallback callback);
+	std::vector<BifrostBurst*> bursts();
 
-	void brokerSend(Router* router, Client* client, std::string path, MessageBuffer* buf, std::string type = "", std::string content = "");
+	void addBurst(BifrostBurst* burst);
 
-	void send2(Router* router, Client* client, std::string path, std::string type = "", std::string content = "");
+	std::unordered_map<std::string, std::deque<MessageBroker*>>& brokers() { return _brokers; }
 
-	MessageBroker* poll(Client* client);
+	void brokerBroadcast(Router* router, std::string url, std::deque<MessageBuffer*> mq, MessageCallback callback);
 
-	void broadcastNaive(Router* router, Client* client, std::vector<std::pair<std::string, std::string>> pairs, std::string path, MessageCallback callback, std::string type = "", std::string content = "");
+	void brokerSend(Router* router, std::string url, std::string path, MessageBuffer* buf, std::string type = "", std::string content = "");
 
-	void broadcast(Router* router, Client* client, std::string path, MessageCallback callback, std::string type = "", std::string content = "");
+	void serveBroker(std::string client, MessageBroker* broker);
 
-	void pulse(Router* router, Client* client, std::string path, MessageBroker* broker);
+	void send2(Router* router, std::string url, std::string path, std::string type = "", std::string content = "");
+
+	MessageBroker* poll(std::string url);
+
+	void broadcastNaive(Router* router, std::string url, std::vector<std::pair<std::string, std::string>> pairs, std::string path, MessageCallback callback, std::string type = "", std::string content = "");
+
+	void broadcast(Router* router, std::string url, std::string path, MessageCallback callback, std::string type = "", std::string content = "");
+
+	void pulse(Router* router, std::string url, std::string path, MessageBroker* broker);
 	
-    void pingOne(Router* router, Client* client, ClusterNode* dest);
+    void pingOne(Router* router, std::string url, ClusterNode* dest);
 
-	void pingAll(Router* router, Client* client, std::vector<std::pair<std::string, std::string>> set = {});
+	void pingAll(Router* router, std::string url, std::vector<std::pair<std::string, std::string>> set = {});
 
 	const int id() const;
-
-	void send(Router* router, Client* client, std::string path, MessageBuffer* buf);
-
-	MessageBuffer* buffer(Client* client, std::string path);
 
 	ClusterEdge* edges() const;
 
@@ -111,9 +141,42 @@ class ClusterNode {
 
 	ClusterNode* getEdge(std::string host, std::string port);
 
-	void federate(Router* router, Client* client, std::string path, int epochs, int clients);
+	void federate(Router* router, std::string url, std::string path, int epochs, int clients);
 
 	void print();
+
+	const std::string url() const { return _host + ":" + _port; }
+
+	const std::string name() const { return _host + ":" + _port; }
+
+	int exists(std::string pathname) {
+		struct stat info;
+		if( stat( pathname.c_str(), &info ) != 0 ) {
+			printf( "cannot access %s\n", pathname.c_str() );
+			return 0;
+		} else if( info.st_mode & S_IFDIR ) {// S_ISDIR() doesn't exist on my windows 
+			printf( "%s is a directory\n", pathname.c_str() );
+			return 1;
+		} else {
+			printf( "%s is no directory\n", pathname.c_str() );
+			return 2;
+		}
+	}
+
+
+	void configDir(std::string role) {
+		std::string cldir = "./public/cluster/" + _port;
+		if (this->exists(cldir) == 1) {
+			if (role == "agg" || role == "main") {
+				cldir += "/aggregator";
+				if (this->exists(cldir) == 0) {
+					mkdir(cldir.c_str(), 0777);
+				}
+			}
+		} else {
+			mkdir(cldir.c_str(), 0777);
+		}
+	}
 
 };
 

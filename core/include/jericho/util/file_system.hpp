@@ -9,11 +9,14 @@
 #include <string>
 #include <regex>
 #include <vector>
+
+#include "picojson.h"
+
 // #include "util/error.h"
 namespace Jericho {
   class FileSystem {
     public:
-      static void write(const char* path, std::string toWrite);
+      static void write(const char* path, std::string toWrite, bool overwrite = false);
 
       static std::string read(const char* path);
 
@@ -23,12 +26,17 @@ namespace Jericho {
 
       static std::string readBinary(const char* path);
 
-      static void writeBinary(const char* path, std::string content);
+      static void writeBinary(const char* path, std::string content, bool overwrite = false);
 
       static void readCBinary(const char* path, unsigned char* buffer);
 
       static void writeCBinary(const char* path, unsigned char* buffer);
+
+      static int readJson(picojson::value& val, const char* path);
+
   };
 }
+
+typedef Jericho::FileSystem JFS;
 
 #endif

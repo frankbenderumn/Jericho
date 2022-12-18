@@ -1,0 +1,27 @@
+{
+    "case": "camel",
+    "routes": {
+        "rsi": {"type": "rpc"},
+        "sma": {"type": "rpc"},
+        "spawn": {},
+        "python": {},
+        "denathrius": {"type": "sec", "dir": "jericho", "ext": "html"},
+        "mongo-database": {"type": "sys"},
+        "mongo-insert": {"type": "sys"},
+        "federate": {"type": "sys"},
+        "federate-local": {"type": "sys"},
+        "ping-one": {"type": "sys"},
+        "ping-all": {"type": "sys"},
+        "ping-local": {"type": "sys"},
+        "postgres": {"type": "sys"},
+        "model-json": {"type": "sys"},
+        "model": {"type": "sys"},
+        "request-join": {"type": "sys"},
+        "join": {"type": "sys"},
+        "train": {"type": "sys"},
+        "join-weights": {"type": "sys"},
+        "get-fed-model": {"type": "sys"},
+        "serve-fed-model": {"type": "sys"},
+        "reset-quorum": {"type": "sys"}
+    }
+}

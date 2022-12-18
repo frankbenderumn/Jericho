@@ -1,8 +1,10 @@
 #!/bin/bash
+./bin/kill-cluster
 # ./ext/celerity/bin/compile
 # mkdir cmake-build
 cd cmake-build
-# cmake ..
+cmake --build .. --target clean
+# make clean
 make -j`nproc`
 # cd ..
 

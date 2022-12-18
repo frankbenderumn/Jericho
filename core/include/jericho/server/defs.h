@@ -78,6 +78,7 @@ typedef socklen_t SockLen;
 
 // may be a poor implentation
 static pthread_mutex_t global_mutex = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t ws_mutex = PTHREAD_MUTEX_INITIALIZER;
 typedef void* Any;
 typedef enum SocketState {
     SOCKST_NULL,
@@ -158,6 +159,7 @@ struct Client {
     SSL* ssl;
     bool promised = false;
     int id = -1;
+    std::string url = "undefined";
 };
 
 struct Frame {

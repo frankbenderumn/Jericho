@@ -4,36 +4,71 @@
 #include "router/router.h"
 #include "message/message_broker.h"
 #include <sys/stat.h>
+#include "router/gui.h"
 
-std::string single_callback(Router* node, Client* client, std::deque<MessageBuffer*> mq) {
+std::string single_callback(Router* router, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args) {
+    std::string url = client->url;
     std::string result = "undefined";
     if (mq.size() > 0) {
-        BMAG("DELETING BROKER\n");
+        BMAG("single_callback: ACCUMULATING SINGLE CALLBACK\n");
         result = mq.at(0)->received;
         // delete mq.at(0)->broker;
+        long size = mq.at(0)->received.size();
+        double latency = mq.at(0)->latency;
         int epoch = mq[0]->broker->epoch();
-        mq[0]->broker->epoch(--epoch);
+        long out = mq.at(0)->sent.size();
+        mq[0]->broker->epoch(++epoch);
+        GUI::latency(router, client, std::to_string(latency)); 
+        GUI::bandwidth(router, client, std::to_string(size), "in");
+        GUI::bandwidth(router, client, std::to_string(out), "out");
+        router->federator()->local()->accumLatency(latency);
         return mq.at(0)->received;
+        
     } else {
-        BRED("SIZE OF SINGLE MQ SHOULD NOT BE 0\n");
+        BRED("single_callback: SIZE OF SINGLE MQ SHOULD NOT BE 0\n");
     }
     return result;
 }
 
-std::string group_callback(Router* node, Client* client, std::deque<MessageBuffer*> mq) {
+std::string group_callback(Router* router, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args) {
+    std::string url = client->url;
     std::string batch;
+    long size = -1;
+    double latency = -1;
+    long out = -1;
+    int i = 0;
     for (auto m : mq) {
         std::string received = m->received;
         std::string format = "\""+m->port+"\": " + received + ",";
         batch += format;
+        long size2 = mq.at(i)->received.size();
+        long out2 = mq.at(i)->sent.size();
+        double latency2 = mq.at(i)->latency;
+        if (size2 > size) size = size2;
+        if (latency2 > latency) latency = latency2;
+        if (out2 > out) out = out2;
+        i++;
+        if (received.find("false") == std::string::npos) {
+            BMAG("BOCA RATON\n");
+            BMAG("%s\n", m->flag.c_str());
+            // GUI::tolerantState(router, client, "127.0.0.1:" + m->port, "online");
+        } else {
+            BMAG("%s\n", m->flag.c_str());
+            // GUI::tolerantState(router, client, "127.0.0.1:" + m->port, "offline");
+        }
+
     }
+    GUI::latency(router, client, std::to_string(latency)); 
+    GUI::bandwidth(router, client, std::to_string(size), "in");
+    GUI::bandwidth(router, client, std::to_string(out), "out");
+    router->federator()->local()->accumLatency(latency);
     batch.pop_back();
     std::string result = "{\"status\": 200, \"response\": {" + batch + "}}"; 
 
     if (mq.size() > 0) {
-        BMAG("DELETING BROKER\n");
+        BMAG("ACCUMULATING GROUP CALLBACK\n");
         int epoch = mq[0]->broker->epoch();
-        mq[0]->broker->epoch(--epoch);
+        mq[0]->broker->epoch(++epoch);
         // delete mq.at(0)->broker;
     } else {
         BRED("SIZE OF GROUP MQ SHOULD NOT BE 0\n");
@@ -42,7 +77,8 @@ std::string group_callback(Router* node, Client* client, std::deque<MessageBuffe
     return result;
 }
 
-std::string epoch_callback(Router* router, Client* client, std::deque<MessageBuffer*> mq) {
+std::string epoch_callback(Router* router, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args) {
+    std::string url = client->url;
     std::string result;
     MessageBroker* broker;
     for (auto m : mq) {
@@ -51,11 +87,12 @@ std::string epoch_callback(Router* router, Client* client, std::deque<MessageBuf
 
     if (mq.size() > 0) {
         // BMAG("DELETING BROKER\n");
+        BMAG("ACCUMULATING EPOCH CALLBACK\n");
         // delete mq.at(0)->broker;
         std::string path = mq[0]->path;
         broker = mq[0]->broker;
         int epoch = mq[0]->broker->epoch();
-        mq[0]->broker->epoch(--epoch);
+        mq[0]->broker->epoch(++epoch);
         mq[0]->broker->stash(mq);
         BYEL("THIS IS THE BIG ONE\n\n\n\n\n");
         std::deque<MessageBuffer*> bufs = broker->stashed();
@@ -66,7 +103,7 @@ std::string epoch_callback(Router* router, Client* client, std::deque<MessageBuf
         BYEL("Epoch is %i\n==============\n",epoch);
         if (epoch != 0) {
             mq[0]->broker->refresh();
-            router->cluster()->boss()->pulse(router, client, path, broker);
+            router->cluster()->boss()->pulse(router, url, path, broker);
         }
     } else {
         BRED("SIZE OF GROUP MQ SHOULD NOT BE 0\n");
@@ -81,6 +118,127 @@ std::string epoch_callback(Router* router, Client* client, std::deque<MessageBuf
         return result;
     }
     return "epoch callback - FEDERATION FAILED";
+}
+
+std::string bm_callback(Router* router, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args) {
+    std::string url = client->url;
+    std::string result = "undefined";
+    if (mq.size() > 0) {
+        BMAG("BMCallback: ACCUMULATING BM CALLBACK\n");
+        result = mq.at(0)->received;
+        // delete mq.at(0)->broker;
+        int epoch = mq[0]->broker->epoch();
+        mq[0]->broker->epoch(++epoch);
+        result = mq.at(0)->received;
+    } else {
+        BRED("BMCallback: SIZE OF SINGLE MQ SHOULD NOT BE 0\n");
+    }
+
+    if (type == "fed-dispatch") {
+        // Benchmark* bm = (Benchmark*)args;
+        double d = 1.0;
+        // double t = (double)(bm->end.tv_nsec - bm->start.tv_nsec);
+        // printf("Raw timespec.time_t: %f\n", t / 1000000000);
+        // std::string s = std::to_string(t / 1000000000);
+        // write_file("log/timestamp.log", s.c_str());
+        // std::string c = "dispatching " + mq.at(0)->hostname + "...";
+        // write_file("log/timestamp.log", c.c_str());
+
+        MessageBroker* brok = mq[0]->broker;
+        int e = brok->epoch();
+        BBLU("BMCallback: CURRENT EPOCH: %i\n", e);
+        // brok->epoch(--e);
+        if (brok->epoch() == 1) {
+            std::string agg = router->federator()->dispatch(mq.at(0)->hostname, d);
+            result = agg;
+            brok->refresh();
+            MessageBuffer* buf = new MessageBuffer;
+            BWHI("BMCallback: CLIENT URL IS: %s\n", url.c_str());
+            if (url.find(":") != std::string::npos) {
+                std::vector<std::string> toks = prizm::tokenize(url, ':');
+                buf->hostname = toks[0];
+                buf->port = toks[1];
+                buf->dir = "./public/cluster/" + toks[0];
+            }
+            buf->broker = brok;
+            buf->sent = agg;
+            buf->fromPort = "8080";
+            buf->path = "/fed-node";
+            buf->ticket = ++TICKET_ID;
+            buf->client = url;
+            BBLU("BMCallback: Phase 1 result: %s\n", result.c_str());
+            router->cluster()->boss()->send(router, url, "/fed-node", buf);
+        } else {
+            BBLU("BMCallback: Phase 2 result: %s\n", result.c_str());
+        }
+    
+    } else {
+        BWHI("BMCallback: CALLBACK TYPE: %s\n", type.c_str());
+    }
+
+    BGRE("BMCallback: END BM CALLBACK\n");
+    BBLU("BMCallback: Result: %s\n", result.c_str());
+
+    return result;
+}
+
+std::string chain_callback(Router* router, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args) {
+    std::string url = client->url;
+    std::string result = "undefined";
+    if (mq.size() > 0) {
+        BMAG("ChainCallback: ACCUMULATING BM CALLBACK\n");
+        result = mq.at(0)->received;
+        long size = mq.at(0)->received.size();
+        double latency = mq.at(0)->latency;
+        long out = mq.at(0)->sent.size();
+        GUI::latency(router, client, std::to_string(latency)); 
+        GUI::bandwidth(router, client, std::to_string(size), "in");
+        GUI::bandwidth(router, client, std::to_string(out), "out");
+        router->federator()->local()->accumLatency(latency);
+        // delete mq.at(0)->broker;
+        int epoch = mq[0]->broker->epoch();
+        mq[0]->broker->epoch(++epoch);
+        result = mq.at(0)->received;
+    } else {
+        BRED("ChainCallback: SIZE OF SINGLE MQ SHOULD NOT BE 0\n");
+    }
+
+    double d = 1.0;
+
+    MessageBroker* brok = mq[0]->broker;
+    int e = brok->epoch();
+    BBLU("ChainCallback: CURRENT EPOCH: %i\n", e - 1);
+    if (brok->epoch() - 1 != brok->epochs()) {
+        BBLU("ChainCallback: What is this bullshit\n");
+        Args arglist;
+        BBLU("ChainCallback: Declared arglist\n");
+        arglist["content"] = result;
+        BBLU("ChainCallback: Set content\n");
+        arglist["Host"] = client->url;
+        BBLU("ChainCallback: Set url\n");
+        if (brok->isRPC()) {
+            BBLU("ChainCallback: Chaining\n");
+            brok->chain()(arglist, router, client, brok);
+        } else {
+            BBLU("ChainCallback: Reducing\n");
+            std::string reduction = brok->reduce();
+            // std::string reduction = "DUMB SHIT";
+            BBLU("ChainCallback: Reduction is: %s\n", reduction.c_str());
+            arglist["content"] = reduction;
+            BBLU("ChainCallback: Reduction assigned\n");
+            brok->chain()(arglist, router, client, brok);
+            BBLU("ChainCallback: Chain continued\n");
+        }
+    } else {
+        BBLU("ChainCallback: Phase End result: %s\n", result.c_str());
+    }
+
+    BGRE("ChainCallback: END BM CALLBACK\n");
+    BBLU("ChainCallback: Result: %s\n", result.c_str());
+    for (auto m : mq) {
+        delete m;    
+    }
+    return result;
 }
 
 ClusterNode::ClusterNode(std::string host, std::string port, std::string dir, ClusterIndex* index) {
@@ -127,49 +285,94 @@ ClusterNode::~ClusterNode() {
     }
 }
 
-void ClusterNode::brokerBroadcast(Router* router, Client* client, std::deque<MessageBuffer*> mq, MessageCallback callback) {
+void ClusterNode::brokerBroadcast(Router* router, std::string url, std::deque<MessageBuffer*> mq, MessageCallback callback) {
     MessageBroker* broker = new MessageBroker(BROKER_BARRIER, callback);
     for (int i = 0; i < mq.size(); i++) {
         mq.at(i)->broker = broker;
+        mq.at(i)->ticket = ++TICKET_ID;
+        if (url == "/ping-local") {
+            mq.at(i)->flag = "gui-status";
+        }
     }
-    // broker->broadcast(client, mq, _edge->nodes());
-    _brokers[client].push_back(broker);
+    // broker->broadcast(url, mq, _edge->nodes());
+    // if (url == NULL) {
+    //     _fetchBrokers[1].push_back(broker);
+    // } else {
+        _brokers[url].push_back(broker);
+    // }
+
+    BBLU("MQ SIZE IS: %li\n", mq.size());
     for (auto m : mq) {
         thread_pool_add(router->tpool(), router->worker(), (void*)m);
     }
 }
 
-void ClusterNode::pulse(Router* router, Client* client, std::string path, MessageBroker* broker) {
+void ClusterNode::pulse(Router* router, std::string url, std::string path, MessageBroker* broker) {
     std::deque<MessageBuffer*> mq;
     for (auto n : _edge->nodes()) {
-        MessageBuffer* buf = n->buffer(client, path);
+        MessageBuffer* buf = n->buffer(url, path);
         buf->dump();
         mq.push_back(buf);
     }
     for (int i = 0; i < mq.size(); i++) {
         mq.at(i)->broker = broker;
     }
-    // broker->broadcast(client, mq, _edge->nodes());
-    if (!containsKey(_brokers, client)) {
-        _brokers[client].push_back(broker);
+    // broker->broadcast(url, mq, _edge->nodes());
+    if (!containsKey(_brokers, url)) {
+        _brokers[url].push_back(broker);
     }
     for (auto m : mq) {
         thread_pool_add(router->tpool(), router->worker(), (void*)m);
     }
 }
 
+std::vector<BifrostBurst*> ClusterNode::bursts() { return _bursts; }
 
-MessageBroker* ClusterNode::poll(Client* client) {
-    if (containsKey(_brokers, client)) {
-        // BYEL("PENDING BROKER...\n");
-        for (int i = 0; i < _brokers[client].size(); i++) {
-            MessageBroker* broker = _brokers[client].at(i);
-            if (broker->ready(client)) {
-                return broker;
+void ClusterNode::addBurst(BifrostBurst* burst) { _bursts.push_back(burst); }
+
+
+MessageBroker* ClusterNode::poll(std::string url) {
+    // BBLU("Brokers size: %li\n", _brokers.size());
+    if (url != "undefined") {
+        if (containsKey(_brokers, url)) {
+            // BYEL("PENDING BROKER...\n");
+            // std::vector<int> timed = {};
+            for (int i = 0; i < _brokers[url].size(); i++) {
+                MessageBroker* broker = _brokers[url].at(i);
+                // if (!broker->timeout()) {
+                    if (broker->ready(url)) {
+                        return broker;
+                    }
+                // } else {
+                //     timed.push_back(i);
+                // }
             }
         }
-    }
+    } 
     return nullptr;
+}
+
+void ClusterNode::serveBroker(std::string client, MessageBroker* broker) {
+    std::string idx = client;
+    int toErase = -1;
+    for (auto url : _brokers) {
+        int i = 0;
+        BYEL("ClusterNode::serverBroker: Client brokers: %li\n", url.second.size());
+        for (auto b : url.second) {
+            if (broker == b) {
+                PLOG(LSERVER, "Broker match found");
+                if (broker->completed()) {
+                    toErase = i;
+                    break;
+                }
+            }
+            i++;
+        }
+    }
+    
+    if (toErase != -1) {
+        _brokers[idx].erase(_brokers[idx].begin() + toErase);
+    }
 }
 
 bool ClusterNode::hasEdge(std::string host, std::string port) {
@@ -182,7 +385,7 @@ bool ClusterNode::hasEdge(std::string host, std::string port) {
     return false;
 }
 
-void ClusterNode::broadcastNaive(Router* router, Client* client, std::vector<std::pair<std::string, std::string>> pairs, std::string path, MessageCallback callback, std::string type, std::string content) {
+void ClusterNode::broadcastNaive(Router* router, std::string url, std::vector<std::pair<std::string, std::string>> pairs, std::string path, MessageCallback callback, std::string type, std::string content) {
     BBLU("NAIVE BROADCAST...\n");
     std::deque<MessageBuffer*> mq;
     for (auto hp : pairs) {
@@ -200,19 +403,18 @@ void ClusterNode::broadcastNaive(Router* router, Client* client, std::vector<std
         }
         buf->dir = "./public/cluster/" + hp.first;
         buf->ticket = ++TICKET_ID;
-        client->promised = true;
-        buf->client = client;
+        buf->client = url;
         buf->dump();
         mq.push_back(buf);
     }
-    brokerBroadcast(router, client, mq, callback);
+    brokerBroadcast(router, url, mq, callback);
 }
 
-void ClusterNode::broadcast(Router* router, Client* client, std::string path, MessageCallback callback, std::string type, std::string content) {
+void ClusterNode::broadcast(Router* router, std::string url, std::string path, MessageCallback callback, std::string type, std::string content) {
     BBLU("BROADCASTING...\n");
     std::deque<MessageBuffer*> mq;
     for (auto n : _edge->nodes()) {
-        MessageBuffer* buf = n->buffer(client, path);
+        MessageBuffer* buf = n->buffer(url, path);
         if (content != "") {
             buf->sent = content;
             BMAG("BROADCAST SIZE: %li\n", content.size());
@@ -225,42 +427,42 @@ void ClusterNode::broadcast(Router* router, Client* client, std::string path, Me
         buf->dump();
         mq.push_back(buf);
     }
-    brokerBroadcast(router, client, mq, callback);
+    brokerBroadcast(router, url, mq, callback);
 }
 
-void ClusterNode::pingOne(Router* router, Client* client, ClusterNode* dest) {
-    MessageBuffer* buf = dest->buffer(client, "/ping-local");
+void ClusterNode::pingOne(Router* router, std::string url, ClusterNode* dest) {
+    MessageBuffer* buf = dest->buffer(url, "/ping-local");
     MessageBroker* broker = new MessageBroker(BROKER_FIFO, single_callback);
     buf->dump();
     buf->broker = broker;
     
-    _brokers[client].push_back(broker);
-    send(router, client, "/ping-local", buf);
+    _brokers[url].push_back(broker);
+    send(router, url, "/ping-local", buf);
 }
 
-void ClusterNode::pingAll(Router* router, Client* client, std::vector<std::pair<std::string, std::string>> set) {
+void ClusterNode::pingAll(Router* router, std::string url, std::vector<std::pair<std::string, std::string>> set) {
     if (set.size() == 0) {
-        broadcast(router, client, "/ping-local", group_callback);
+        broadcast(router, url, "/ping-local", group_callback);
     } else {
         std::string response = "Ping from " + _port;
-        broadcastNaive(router, client, set, "/ping-local", group_callback, "http", response);
+        broadcastNaive(router, url, set, "/ping-local", group_callback, "http", response);
     }
 }
 
-void ClusterNode::federate(Router* router, Client* client, std::string path, int epochs, int clients) {
+void ClusterNode::federate(Router* router, std::string url, std::string path, int epochs, int clients) {
     MessageBroker* broker = new MessageBroker(BROKER_RR, epoch_callback, epochs);
-    pulse(router, client, path, broker);
+    pulse(router, url, path, broker);
 }
 
-void ClusterNode::brokerSend(Router* router, Client* client, std::string path, MessageBuffer* buf, std::string type, std::string content) {
+void ClusterNode::brokerSend(Router* router, std::string url, std::string path, MessageBuffer* buf, std::string type, std::string content) {
     MessageBroker* broker = new MessageBroker(BROKER_FIFO, single_callback);
     buf->broker = broker;
     
-    _brokers[client].push_back(broker);
-    send(router, client, path, buf);
+    _brokers[url].push_back(broker);
+    send(router, url, path, buf);
 }
 
-void ClusterNode::send2(Router* router, Client* client, std::string path, std::string type, std::string content) {
+void ClusterNode::send2(Router* router, std::string url, std::string path, std::string type, std::string content) {
     std::string route = "undefined";
     std::string port = "undefined";
     std::string host = "undefined";
@@ -278,7 +480,7 @@ void ClusterNode::send2(Router* router, Client* client, std::string path, std::s
     } else {
         BRED("PATH DOES NOT HAVE A :\n");
     }
-    MessageBuffer* buf = this->buffer(client, path);
+    MessageBuffer* buf = this->buffer(url, path);
     buf->type = type;
     buf->sent = content;
     buf->path = route;
@@ -286,17 +488,17 @@ void ClusterNode::send2(Router* router, Client* client, std::string path, std::s
     buf->hostname = host;
     MessageBroker* broker = new MessageBroker(BROKER_FIFO, single_callback);
     buf->broker = broker;
-    _brokers[client].push_back(broker);
-    send(router, client, path, buf);
+    _brokers[url].push_back(broker);
+    send(router, url, path, buf);
 }
 
 const int ClusterNode::id() const { return _id; }
 
-void ClusterNode::send(Router* router, Client* client, std::string path, MessageBuffer* buf) {
+void ClusterNode::send(Router* router, std::string url, std::string path, MessageBuffer* buf) {
     thread_pool_add(router->tpool(), router->worker(), (void*)buf);
 }
 
-MessageBuffer* ClusterNode::buffer(Client* client, std::string path) {
+MessageBuffer* ClusterNode::buffer(std::string url, std::string path) {
     MessageBuffer* buf = new MessageBuffer;
     buf->hostname = _host;
     buf->port = _port;
@@ -305,8 +507,22 @@ MessageBuffer* ClusterNode::buffer(Client* client, std::string path) {
     buf->path = path;
     buf->dir = _dir;
     buf->ticket = ++TICKET_ID;
-    client->promised = true;
-    buf->client = client;
+    // client->promised = true;
+    buf->client = url;
+    return buf;
+}
+
+MessageBuffer* ClusterNode::buffer2(std::string url, std::string path, std::string content) {
+    MessageBuffer* buf = new MessageBuffer;
+    buf->hostname = _host;
+    buf->port = _port;
+    buf->fromPort = _port;
+    buf->sent = content;
+    buf->path = path;
+    buf->dir = _dir;
+    buf->ticket = ++TICKET_ID;
+    // client->promised = true;
+    buf->client = url;
     return buf;
 }
 

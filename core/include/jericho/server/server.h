@@ -40,4 +40,6 @@ int run(SOCKET* server,
         ThreadPool* tpool,
         Router* router);
 
+void ws_to_client(Any targ);
+
 #endif

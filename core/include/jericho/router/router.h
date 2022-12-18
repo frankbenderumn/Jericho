@@ -13,15 +13,19 @@
 #include "server/defs.h"
 #include "server/fetch.h"
 #include "server/response.h"
+#include "server/server.h"
 #include "celerity/celerity.h"
 #include "cluster/cluster.h"
 #include "util/iters.h"
 #include "router/route_registry.h"
 #include "federate/federator.h"
+#include "message/bifrost.h"
 
 using namespace Jericho;
 
 typedef void (*WorkerThread)(void*);
+
+typedef Client* Websocket;
 
 /** TODO: Rename to System or Server or Jericho */
 class Router {
@@ -31,8 +35,13 @@ class Router {
     Celerity* _celerity;
     Cluster* _cluster;
     Federator* _federator = nullptr;
+    Bifrost* _bifrost = nullptr;
+    Websocket _ws = nullptr;
     bool _needsTrain = false;
     int _fedCounter = 0;
+    bool _flash = false;
+    bool _fnf = false;
+    std::deque<MessageBuffer*> _bufs;
 
   public:
     Router(ThreadPool* tpool, WorkerThread worker, Cluster* cluster, Celerity* celerity) {
@@ -43,8 +52,46 @@ class Router {
         _celerity = celerity;
     }
 
+    void ws(Websocket sock) {
+        _ws = sock;
+    }
+
+    void ws_send(const char* message) {
+        if (_ws == nullptr) return;
+        if (strlen(message) >= 2048) {
+            // BRED("Router::ws_send: Websocket message too long: %li\n", strlen(message));
+        }
+        // BGRE("Router::ws_send: SENDING WEBSOCKET...");
+        // BGRE("Router::ws_send: %s\n", message);
+        memset(_ws->request, 0, sizeof(_ws->request));
+        memcpy(_ws->request, (unsigned char*)message, strlen(message));
+        _ws->request[2048] = (unsigned char)'\0';
+        thread_pool_add(_tpool, ws_to_client, (void*)_ws); // spawn thread for web socket
+    }
+
+    Websocket ws() const { return _ws; }
+
     ~Router() {
+        BYEL("DELETING ROUTER...\n");
         delete _registry;
+        _bifrost->dump();
+        delete _bifrost;
+    }
+
+    void flash(bool val) {
+        _flash = val;
+    }
+
+    const bool flash() const {
+        return _flash;
+    }
+
+    void flashBuffer(std::deque<MessageBuffer*> buf) {
+        _bufs = buf;
+    }
+
+    const std::deque<MessageBuffer*> flashBuffer() const {
+        return _bufs;
     }
 
     const bool needsTrain() const {
@@ -52,10 +99,11 @@ class Router {
     }
 
     const bool needsAggregate() const {
-        if (_federator == nullptr || _federator == NULL) {
-            return false;
-        }
-        return _federator->active();
+        // if (_federator == nullptr || _federator == NULL) {
+        //     return false;
+        // }
+        // return _federator->active();
+        return false;
     }
 
     void train(bool train) {
@@ -63,21 +111,31 @@ class Router {
     }
 
     void federate(int numClients, int numRounds, int timeout) {
-        _federator = new Federator(numClients, numRounds, timeout, _fedCounter++);
-        _federator->start();
+        // _federator = new Federator(numClients, numRounds, timeout, _fedCounter++);
+        // _federator->start();
+    }
+
+    void federator(Federator* fed) {
+        _federator = fed;
     }
 
     Federator* federator() const {
         return _federator;
     }
 
+    void bifrost(Bifrost* bifrost) {
+        _bifrost = bifrost;
+    }
+
+    Bifrost* bifrost() const { return _bifrost; }
+
     void shutdownFederator() {
         // delete _federator;
-        _federator->stop();
-        Federator* f = _federator;
-        _federator = nullptr;
-        BBLU("SHUTTING DOWN FEDERATOR\n");
-        delete f;
+        // _federator->stop();
+        // Federator* f = _federator;
+        // _federator = nullptr;
+        // BBLU("SHUTTING DOWN FEDERATOR\n");
+        // delete f;
     }
 
     void bind(RouteProtocol protocol, std::string path, RouteFunction function) {
@@ -117,7 +175,7 @@ class Router {
     Cluster* cluster() const { return _cluster; }
 
     std::string exec(RouteProtocol protocol, std::string path, std::unordered_map<std::string, std::string> args, Router* router = NULL, Client* client = NULL) {
-        BRED("DOES THIS PRINT\n");
+        YEL("Router::exec: Executing route...\n");
         return _registry->exec(path, args, router, client);
     }
 

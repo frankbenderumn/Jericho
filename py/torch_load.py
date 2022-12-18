@@ -12,20 +12,20 @@ args = sys.argv[1:]
 print("WE MADE IT! READING FROM FILE:",args[0])
 client_dir = args[0]
 
-# class MNet(nn.Module):
-#     def __init__(self, input_size, hidden_size, output_size):
-#         super(MNet, self).__init__()
-#         self.linear = nn.Sequential(
-#             nn.Linear(input_size, hidden_size[0]),
-#             nn.ReLU(),
-#             nn.Linear(hidden_size[0], hidden_size[1]),
-#             nn.ReLU(),
-#             nn.Linear(hidden_size[1], output_size),
-#             nn.LogSoftmax(dim=1)
-#         )
+train_dataset=torchvision.datasets.MNIST('./py/data/MNIST/raw',train=True,
+                transform=torchvision.transforms.ToTensor(),download=False)
 
-#     def forward(self, x):
-#         return self.linear(x)
+test_dataset=torchvision.datasets.MNIST('./py/data/MNIST/raw',train=False,     
+                transform=torchvision.transforms.ToTensor(),download=False)
+
+train_subset = torch.utils.data.Subset(train_dataset, torch.arange(20000))
+test_subset = torch.utils.data.Subset(test_dataset, torch.arange(1000))
+
+train_dataloader=torch.utils.data.DataLoader(dataset=train_subset, 
+                                batch_size=32,shuffle=True)
+
+train_dataloader=torch.utils.data.DataLoader(dataset=test_subset, 
+                                batch_size=32,shuffle=True)
 
 def features(txt_file):
     all_data = np.loadtxt(txt_file, delimiter=",",
@@ -40,12 +40,12 @@ def train(model, features, epochs, batch_size):
     losses = []
     for e in range(epochs):
         running_loss = 0
-        for i in range(0, features.shape[0], batch_size):
+        for i, (data, label) in enumerate(train_dataloader):
             # print(i, "to", i+batch_size)
-            data = torch.tensor(features[i:i+100])
-            img = data[:,1:]
-            label = data[:,0]
-            label = torch.tensor(label, dtype=torch.long)
+            # data = torch.tensor(features[i:i+100])
+            img = data.view(data.size(0), -1)
+            # label = data[:,0]
+            # label = torch.tensor(label, dtype=torch.long)
 
             optimizer.zero_grad()
 
@@ -117,6 +117,7 @@ model = torch.jit.load(client_dir + "/torch.pt")
 
 # mnist = features("./py/data/MNIST/train.txt")
 # valid = features("./py/data/MNIST/test.txt")
+
 mnist = features(client_dir + "/train.txt")
 valid = features(client_dir + "/test.txt")
 mnist = np.stack(mnist, axis=0)
@@ -124,5 +125,5 @@ valid = np.stack(valid, axis=0)
 mnist = torch.tensor(mnist, dtype=torch.float32)
 valid = torch.tensor(valid, dtype=torch.float32)
 
-train(model, mnist, 15, 100)
-# test(model, valid)
+train(model, mnist, 5, 100)
+test(model, valid)

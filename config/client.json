@@ -1,0 +1,5 @@
+{
+    "train": "py/torch_load.py",
+    "partition": "1",
+    "data": "MNIST"
+}

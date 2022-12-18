@@ -1,0 +1,9 @@
+{
+    "version": "v0.1",
+    "router": "config/routes.json",
+    "database": "config/cluster.json",
+    "federator": "./config/demo.json",
+    "directory": "public",
+    "api": "core/include/api",
+    "environment": "developemnt"
+}

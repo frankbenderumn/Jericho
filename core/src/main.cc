@@ -2,7 +2,7 @@
 #include <sys/ioctl.h>
 
 #include "router/router.h"
-#include "api/polygon.h"
+#include "api/apis.h"
 #include "server/thread_pool.h"
 #include "server/server.h"
 #include "server/client.h"
@@ -10,6 +10,9 @@
 #include "server/fetch.h"
 #include "celerity/celerity.h"
 #include "celerity/entity/internal/query_ir.h"
+#include "router/routes.h"
+#include "migrator/migrator.h"
+#include "message/bifrost.h"
 
 typedef struct {
   int             num_active;
@@ -85,69 +88,154 @@ void message(Client* conn, const unsigned char* message, uint64_t size, int type
 }
 
 int main(int argc, char* argv[]) {
-    std::string s = "shit";
-    Celerity* celerity = new Celerity(s);
-    server_create(argc, argv);
-
-    User user;
-    Users users = user.find_by("username", "tankinfranklin").commit(celerity->primary()).as<Users>(); 
-    BBLU("Users size: %i\n", (int)users.size());
-
-    int primary = false;
-    if (argc == 5) {
-        (std::string(argv[4]) == "true") ? primary = true : primary = false;
-    }
-
     if (std::string(argv[3]).find("..") != std::string::npos) {
         BRED("Invalid directory name!");
         return 1;
     }
 
+    std::string dbname(argv[4]);
+    std::string flag(argv[5]);
+    std::string script(argv[6]);
+    std::string portStr(argv[1]);
+    std::string host = "127.0.0.1";
+
+    bool topology = false;
+    bool dbCluster = false;
+    bool federator = false;
+
+    Orchestrator* orch = nullptr;
+    BWHI("SIZE OF ORCHESTRATOR: %li\n", sizeof(orch));
+    Celerity* celerity = nullptr;
+    Bifrost* bifrost = new Bifrost;
+
+    if (flag != "synch") {
+        // celerity = new Celerity(dbname);
+
+        // std::string schema = celerity->serialize();
+        // BMAG("SCHEMA: %s\n", schema.c_str());
+
+        // User user;
+        // Users users = user.find_by("username", "tankinfranklin").commit(celerity->primary()).as<Users>(); 
+        // BBLU("Users size: %i\n", (int)users.size());
+
+        // Artist artist(name_("Jerry Jones"));
+        // artist->persist(celerity->primary());
+    }
+
+    if (flag == "migrate") {
+        celerity = new Celerity(dbname);
+        std::string celerity_path = "./ext/celerity/core/include/celerity/entity/";
+        // std::string model = "./db/";
+        celerity->migrate(script.c_str(), celerity_path.c_str());
+    }
+
+    server_create(argc, argv);
+
     PUBLIC_DIRECTORY = "./public/"+std::string(argv[3]);
     int port = atoi(argv[1]);
 
     SSL_CTX* ctx = ssl_init();
-    if (ctx == NULL) { return 1; }
+    if (ctx == NULL) { 
+        BRED("FAILED TO INITALIZE SSL CTX\n");
+        return 1; 
+    }
 
     ClusterIndex* index = new ClusterIndex;
-
     ClusterNode* boss = new ClusterNode("127.0.0.1", std::string(argv[1]), "./public/"+std::string(argv[3]), index);
-
     Cluster* cluster = new Cluster(CLUSTER_MAIN, boss, index);
-    SOCKET server = socket_create(0, port, 1, AF_INET, SOCK_STREAM); // creates initial socket
+
+    SOCKET server = socket_create(0, port, 1, AF_INET, SOCK_STREAM);
 
     Router* router = new Router(tpool, fetch, cluster, celerity);
+    router->bifrost(bifrost);
+    
+    if (script != "orch") {
+        orch = new Orchestrator;
+        if (migrate(host+":"+portStr, orch, script) < 0) {
+            BRED("Main.cc: Failed to migrate!\n");
+            return 1;
+        }
+        // SEGH
+        printf("What the fuck\n");
+        if (orch->federator == nullptr) {
+            BMAG("Orch federator is null somehow\n");
+            exit(1);
+        }
+        printf("What the fuck\n");
+        orch->federator->dump();
+        printf("I want to cry\n");
+        FedRole role = orch->federator->local()->role();
+        printf("It does not make sense\n");
+        if (role == FED_ROLE_CENTRAL || role == FED_ROLE_AGGREGATOR) {
+            router->cluster()->boss()->configDir("agg");
+        }
+        router->federator(orch->federator);
+        write_file("./log/debug.log", "Hello friend");
+    }
 
-    router->bind(ROUTE_API, "/rsi", apiRsi);
-    router->bind(ROUTE_API, "/sma", apiSma);
-    router->bindSystem("/spawn", apiSpawn);
-    router->bindSystem("/python", apiPython);
-    router->bindSystem("/mongo-databases", apiMongoDatabases);
-    router->bindSystem("/mongo-insert", apiMongoInsert);
-    router->bindSystem("/federate", apiFederation);
-    router->bindSystem("/federate-local", apiFederateLocal, ROUTE_RAW);
-    router->bindSystem("/ping-one", apiPingOne);
-    router->bindSystem("/ping-all", apiPingAll);
-    router->bindSystem("/ping-local", apiPingLocal, ROUTE_RAW);
-    router->bindSystem("/postgres", apiPostgres);
-    router->bind(ROUTE_API, "/model-json", apiServeModelJson);
-    router->bindSystem("/model", apiServeModel, ROUTE_RAW);
-    router->bindSystem("/request-join", apiRequestJoin);
-    router->bindSystem("/join", apiJoin);
-    router->secure("/jericho/denathrius.html");
-    router->bindSystem("/train", apiTrain);
-    router->bindSystem("/join-weights", apiJoinWeights);
-    router->bindSystem("/get-fed-model", apiGetFedModel);
-    router->bindSystem("/serve-fed-model", apiServeFedModel);
-    router->bindSystem("/reset-quorum", apiResetQuorum);
+    if (flag == "synch") {
+        BYEL("SYNCHING...\n");
+        router->flash(true);
+        std::deque<MessageBuffer*> bufs;
+        for (auto db : orch->dbs) {
+            BMAG("name: %s, url: %s\n", db.second.c_str(), db.first.c_str());
+            std::vector<std::string> toks = prizm::tokenize(db.first, ":");
+            MessageBuffer* buf = new MessageBuffer;
+            buf->hostname = toks[0];
+            buf->port = toks[1];
+            buf->fromPort = std::string(argv[1]);
+            buf->dir = PUBLIC_DIRECTORY;
+            buf->path = "/db-info";
+            buf->sent = "Requesting db info!";
+            bufs.push_back(buf);
+        }
+        router->flashBuffer(bufs);
+    }
 
-    run(&server, &clients, ctx, tpool, router);
+    compile_routes(router);
+
+    BBLU("RUNNING...\n");
+
+    if (flag != "synch" && flag != "migrate") {
+        run(&server, &clients, ctx, tpool, router);
+    } else {
+		if (router->flash()) {
+			BYEL("FLASHING...\n");
+			router->cluster()->boss()->brokerBroadcast(router, NULL, router->flashBuffer(), group_callback);
+		}
+
+        while (1) {
+        	MessageBroker* broker = router->cluster()->boss()->poll(NULL);
+			if (broker != NULL) {
+				BGRE("FIRING ASYNC CALL\n");
+				std::string response = broker->callback()(router, NULL, broker->response(NULL), broker->callbackType(), NULL);
+				if (broker->epoch() == 0) {
+					// if (isHTTP(response)) {
+					// 	resource::serve_raw(client, clients, response.c_str());
+					// } else {
+					// 	resource::serve_http(client, clients, response.c_str());
+					// }
+					// client->promised = false;
+					// BBLU("I DONT UNDERSTAND: %s\n", response.c_str());
+					// drop_client(client, clients); // this segfaults buffer size of 500000 but not 4095 (fixed)
+					break;
+				}
+			}
+        }
+    }
 
     BYEL("SHUTTING DOWN ---\n");
 
-    delete celerity;
+    if (celerity != nullptr) {
+        delete celerity;
+    }
+
     delete cluster;
     delete router;
+
+    if (orch != nullptr) {
+        delete orch;
+    }
     
     return 0;
 }
