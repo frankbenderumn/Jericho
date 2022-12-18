@@ -1,0 +1,8 @@
+{
+    "_meta": {"name": "song"},
+    "!id": {"type": "auto-increment"},
+    "name": {"type": "string", "max-length": "50"},
+    "#genre": {"modality": "1", "cardinality": "N:N"},
+    "#artist": {"modality": "1", "cardinality": "N:N"},
+    "_attrs": ["@timestamps"]
+}

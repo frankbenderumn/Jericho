@@ -1,0 +1,262 @@
+<html>
+    <head>
+        <title>Jericho</title>
+        <link rel="preload" src="../assets/images/matrix-binary.jpg" as="image" crossorigin> 
+        <link rel="preload" src="../assets/images/jericho-white.png" as="image" crossorigin>
+        <link rel="preload" href="../assets/fonts/woff/mbf-space.woff" as="font" type="font/woff2" crossorigin>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="../css/nebula.css" type="text/css" />
+        <link rel="stylesheet" href="../css/final.css" type="text/css" />
+        <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+        <script src="../../jericho/loader.js" type="text/javascript"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.145.0/three.min.js" integrity="sha512-mElAVmOZp/n8OKao194p++kIARCbLKnf/pdVTVI+ZkxL0Rmyw6p5C4kcLd67l2WdvfyBqFe6dI4lR3m++xhdnA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://unpkg.com/three@0.145.0/examples/js/controls/OrbitControls.js"></script>
+    </head>
+    <style>
+            .jericho-gradient {
+                background: linear-gradient(to bottom,  #000a3b 0%,#2368ae 100%); /* W3C, IE10+, FF16+, */
+            }
+            .bttn {
+                background-color:#111111;
+                color:white;
+            }
+            .bttn:hover {
+                background-color:#96b4d1 !important;
+            }
+    </style>
+    <body style="background-image:url('../assets/images/matrix-binary.jpg');background-size: contain;">
+    <section id="loader" class="jericho-gradient" style="position:absolute;z-index:999999;height:100%;width:100%;">
+        <div style="font-size:100px;margin: 20% auto;max-width:600px;font-weight:bold;color:white;" class="font-mbf">
+            <image src="../assets/images/jericho-white.png" style="float:left;width:110px;height:110px;margin-right:20px;"  /> Jericho
+            <div style="position:relative;">
+            <div class="socket">
+                <div class="gel center-gel">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c1 r1">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c2 r1">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c3 r1">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c4 r1">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c5 r1">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c6 r1">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                
+                <div class="gel c7 r2">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                
+                <div class="gel c8 r2">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c9 r2">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c10 r2">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c11 r2">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c12 r2">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c13 r2">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c14 r2">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c15 r2">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c16 r2">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c17 r2">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c18 r2">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c19 r3">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c20 r3">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c21 r3">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c22 r3">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c23 r3">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c24 r3">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c25 r3">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c26 r3">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c28 r3">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c29 r3">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c30 r3">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c31 r3">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c32 r3">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c33 r3">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c34 r3">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c35 r3">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c36 r3">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                <div class="gel c37 r3">
+                    <div class="hex-brick h1"></div>
+                    <div class="hex-brick h2"></div>
+                    <div class="hex-brick h3"></div>
+                </div>
+                
+            </div>
+            </div>
+        </div>
+    </section>
+    <section id="document">
+    <header style="background-color:#00000000;box-shadow:none;padding:20px;">
+        <div class="stage">
+            <nav id="navbar" class="nav-header">
+                <span class="left">
+                    <b class="brand" style="color:white;padding:0px 10px;">
+                        <image src="../assets/images/jericho-white.png" style="width:32px;height:32px;" />
+                    </b>
+                    <ul class="right white command-menu">
+                        <li class="pl-5 pr-5" style="line-height:40px;"><a class="modal-button" href="#new-scene">Products</a></li> 
+                        <li class="pl-5 pr-5" style="line-height:40px;" data-role="command" data-type="debug">Alpha</li> 
+                        <li class="pl-5 pr-5" style="line-height:40px;" data-role="command" data-type="save">Documentation</li> 
+                        <li class="pl-5 pr-5" style="line-height:40px;"><a class="modal-button" href="#scene-modal">Contact</a></li> 
+                        <li class="pl-5 pr-5" style="line-height:40px;" data-role="command" data-type="run">Support</li> 
+                    </ul>
+                </span>
+                <span><img id="starzoku-logo starzoku-logo-mobile" class="logo" src="https://starzoku.s3.amazonaws.com/favicon-32x32.png"/></span>
+                <ul id="navbar" class="header-navbar right white">
+                    <li id="fullscreen-menu-trigger" data-role="toggle" href="#fullscreen-menu" class="trigger"><i class="fas fa-globe"></i> Sign Up</li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+        <div style="width:100%;height:100%;"> 
+            <section style="width:300px;margin:0px auto;margin-top:400px;background-color:#c2d3fdcc;padding:20px;border-radius:5px;">
+                <form action="denathrius.html" method="post">
+                    <input type="textfield" name="username" placeholder="signup" style="width:100%;padding:6px 10px;border-radius:5px;outline:none;margin:3px 0px;font-size:20px;border:hidden;background-color:#111111;color:#fff;">
+                    <input type="password" name="password" placeholder="password" style="width:100%;padding:6px 10px;border-radius:5px;outline:none;margin:3px 0px;font-size:20px;border:hidden;background-color:#111111;color:#fff;">
+                    <input class="bttn" type="submit" value="login" style="width:100%;box-shadow:none;max-width:300px;">
+                </form>
+            </section>
+        </div>
+    </section>
+    <footer>
+
+    </footer>
+    </body>
+</html>
