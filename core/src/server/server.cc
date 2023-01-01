@@ -55,10 +55,10 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 			CYA("New connection from %s.\n", address_buffer);
 			PLOG(LSERVER, "New connection from %s.", address_buffer);
 
-			char address_buffer2[16];
-			uint16_t p2;
-			client_get_full_address(client, address_buffer2, &p2);
-			BYEL("New connection from %s:%i.\n", address_buffer, p2);
+			// char address_buffer2[16];
+			// uint16_t p2;
+			// client_get_full_address(client, address_buffer2, &p2);
+			// BYEL("New connection from %s:%i.\n", address_buffer, p2);
 
 			client->ssl = SSL_new(ctx);
 			if (!client->ssl) {
@@ -73,7 +73,7 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 			if (SSL_accept(client->ssl) != 1) {
 				//SSL_get_error(client->ssl, SSL_accept(...));
 				ERR_print_errors_fp(stderr);
-				drop_client(client, clients); // this will cause bugs on mac localhost test
+				// drop_client(client, clients); // this will cause bugs on mac localhost test
 			} else {
 				printf("SSL connection using %s\n", SSL_get_cipher(client->ssl));
 			}
@@ -97,9 +97,9 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 
         while (client) {
 
-			if (router->bifrost()->poll(router, client->url, client, clients)) {
-				break;
-			}
+			// if (router->bifrost()->poll(router, client->url, client, clients)) {
+			// 	break;
+			// }
             
 			// iterate through clients
             Client* next = client->next;
@@ -268,6 +268,7 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 									result = router->exec(ROUTE_RAW, request.path, request.args, router, client);
 									bm_stop(bm);
 									resource::serve_http(client, clients, result.c_str());	
+									memset(client->request, 0, sizeof(client->request));
 									break;									
 								case ROUTE_SYSTEM:
 									BYEL("System...\n");
@@ -289,6 +290,7 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 									GRE("Server: API call sending http result: %.100s\n", result.c_str());
 									bm_stop(bm);
 									resource::serve_http(client, clients, result.c_str(), std::string("application/json"));
+									memset(client->request, 0, sizeof(client->request));
 									client->received = 0;
 									break;
 								case ROUTE_CLUSTER:
@@ -299,6 +301,7 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 									bm_stop(bm);
 									// resource::serve_http(client, clients, result2.c_str());
 									t_write(8080, "./cluster/log/8080.boss", result2.c_str());
+									memset(client->request, 0, sizeof(client->request));
 									client->received = 0;
 									break;
 								case ROUTE_NULL:
@@ -312,6 +315,8 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 											BRED("ROUTE IS AUTHENTICATED\n");
 											result = router->exec(ROUTE_HTTP, request.path, request.args, router, client);
 											resource::serve_cxx(client, clients, request.path.c_str());
+											memset(client->request, 0, sizeof(client->request));
+
 										} else {
 											resource::error(client, "305");
 										}
@@ -319,11 +324,15 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 										result = router->exec(ROUTE_HTTP, request.path, request.args, router, client);
 										BMAG("ROUTE HTTP RESULT IS: %s\n", result.c_str());
 										resource::serve_cxx(client, clients, request.path.c_str());
+										memset(client->request, 0, sizeof(client->request));
+
 									}
 									break;
 								default:
 									BRED("UNREGISTERED ROUTE\n");
 									resource::serve_http(client, clients, "Route does not exist", std::string("application/json"));
+									memset(client->request, 0, sizeof(client->request));
+
 									break;
 							}
 
