@@ -128,3 +128,6 @@ FAIL-[2023-01-01 13:40:04]-/Users/josephbender/Desktop/jericho-devel/Jericho/cor
 FAIL-[2023-01-01 13:42:37]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed
 FAIL-[2023-01-01 13:53:06]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed
 FAIL-[2023-01-01 14:16:33]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed
+FAIL-[2023-01-01 14:22:57]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed
+FAIL-[2023-01-01 14:26:11]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed
+FAIL-[2023-01-01 14:27:57]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed
