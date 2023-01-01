@@ -129,7 +129,6 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 				// while (!all_read) { 
                 	r = SSL_read(client->ssl, client->request + client->received, MAX_REQUEST_SIZE - client->received); 
 				// 	bytes_received += r;
-					client->received += r; // increment bytes received
 
 				// 	if (r > 0) {
 				// 	BWHI("REWQQQQQQ\n");
@@ -213,6 +212,7 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
                     PLOG(LSERVER, "Request received from client: <client-address>");
                     BMAG("REQUEST: %s\n", client->request);
 
+					client->received += r; // increment bytes received
                     client->request[client->received] = 0; 
                     char* q = strstr(client->request, "\r\n\r\n");
 
