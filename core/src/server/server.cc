@@ -67,15 +67,19 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 				return 1;
 			}
 
+			BBLU("WTF\n");
 
 			SSL_set_fd(client->ssl, client->socket);
 			if (SSL_accept(client->ssl) != 1) {
 				//SSL_get_error(client->ssl, SSL_accept(...));
 				ERR_print_errors_fp(stderr);
-				// drop_client(client, clients); // this will cause bugs on mac localhost test
+				drop_client(client, clients); // this will cause bugs on mac localhost test
 			} else {
 				printf("SSL connection using %s\n", SSL_get_cipher(client->ssl));
 			}
+
+			BBLU("WTF 2\n");
+
         }
 
         Client* client = *clients;
@@ -115,94 +119,94 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
                 }
 
                 /** STUB: do send before receive for fault tolerance? */
-				int bytes_received = 0;
-				int content_bytes = 0;
-				long bytes_needed = 0;
-				bool all_read = false;
-				bool headers_found = false;
+				// int bytes_received = 0;
+				// int content_bytes = 0;
+				// long bytes_needed = 0;
+				// bool all_read = false;
+				// bool headers_found = false;
 				int r;
                 // receives bytes from client and asserts against request limit
-				while (!all_read) { 
+				// while (!all_read) { 
                 	r = SSL_read(client->ssl, client->request + client->received, MAX_REQUEST_SIZE - client->received); 
-					bytes_received += r;
+				// 	bytes_received += r;
 					client->received += r; // increment bytes received
 
-					if (r > 0) {
-					BWHI("REWQQQQQQ\n");
-					BWHI("Request: %s\n", client->request);
+				// 	if (r > 0) {
+				// 	BWHI("REWQQQQQQ\n");
+				// 	BWHI("Request: %s\n", client->request);
 
-					if (!headers_found) {
-						char* p = strstr(client->request, "\r\n\r\n");
-						if (p != NULL) {
-							size_t len = p - &client->request[0];
-							YEL("HEADERS LEN IS: %li\n", len + 4);
-							size_t orig = len + 4;
-							size_t beast = client->received;
-							YEL("CLIENT RECEIVED: %li\n", (long)client->received);
-							char buf[len + 5];
-							strncpy(buf, client->request, len + 4);
-							buf[len + 5] = 0;
-							char view[200];
-							strncpy(view, client->request, 199);
-							view[200] = '\0';
-							// YEL("BUF IS: %s\n", buf);
-							// YEL("VIEW IS: %s\n", view);
-							char* p2 = strstr(buf, "Content-Length: ");
-							if (p2 != NULL) {
-								p2 = p2 + strlen("Content-Length: ");
-								char* lenEnd = strstr(p2, "\r\n");
-								if (lenEnd == NULL) { BRED("\\r\\n not found\n"); }
-								size_t sz = lenEnd - p2;
-								YEL("Content length has %li digits\n", sz);
-								char clen[sz + 1];
-								std::string k(p2);
-								std::string n;
-								int i = 0;
-								while (i < sz) {
-									n += k[i];
-									i++;
-								}
-								YEL("5\n");
-								strncpy(clen, p2, sz);
-								clen[sz + 1] = '\0';
-								YEL("LEN IS: %s\n", clen);
-								char* pEnd;
-								long length = strtol(clen, &pEnd, 10);
-								long length2 = std::stol(n);
-								YEL("LEN IS: %li\n", length);
-								long total = length + len;
-								YEL("BYTE TOTAL SHOULD BE: %li\n", total);
-								headers_found = true;
-								bytes_needed = length2;
-								content_bytes = beast - orig;
-								BLU("server.cc: Bytes received: %li, Bytes needed: %li\n", (long)content_bytes, bytes_needed);
-							} else {
-								BRED("Content-Length not specified\n");
-								headers_found = true;
-								break;
-							}						
-						} else {
-							// BRED("Not an HTTP Protocol (\\r\\n\\r\\n not found)\n");
-							// BRED("%200.s\n", client->request);
-							// r = 0;
-							// break;
-						}
-					} else {
-						content_bytes += r;
-					}
+				// 	if (!headers_found) {
+				// 		char* p = strstr(client->request, "\r\n\r\n");
+				// 		if (p != NULL) {
+				// 			size_t len = p - &client->request[0];
+				// 			YEL("HEADERS LEN IS: %li\n", len + 4);
+				// 			size_t orig = len + 4;
+				// 			size_t beast = client->received;
+				// 			YEL("CLIENT RECEIVED: %li\n", (long)client->received);
+				// 			char buf[len + 5];
+				// 			strncpy(buf, client->request, len + 4);
+				// 			buf[len + 5] = 0;
+				// 			char view[200];
+				// 			strncpy(view, client->request, 199);
+				// 			view[200] = '\0';
+				// 			// YEL("BUF IS: %s\n", buf);
+				// 			// YEL("VIEW IS: %s\n", view);
+				// 			char* p2 = strstr(buf, "Content-Length: ");
+				// 			if (p2 != NULL) {
+				// 				p2 = p2 + strlen("Content-Length: ");
+				// 				char* lenEnd = strstr(p2, "\r\n");
+				// 				if (lenEnd == NULL) { BRED("\\r\\n not found\n"); }
+				// 				size_t sz = lenEnd - p2;
+				// 				YEL("Content length has %li digits\n", sz);
+				// 				char clen[sz + 1];
+				// 				std::string k(p2);
+				// 				std::string n;
+				// 				int i = 0;
+				// 				while (i < sz) {
+				// 					n += k[i];
+				// 					i++;
+				// 				}
+				// 				YEL("5\n");
+				// 				strncpy(clen, p2, sz);
+				// 				clen[sz + 1] = '\0';
+				// 				YEL("LEN IS: %s\n", clen);
+				// 				char* pEnd;
+				// 				long length = strtol(clen, &pEnd, 10);
+				// 				long length2 = std::stol(n);
+				// 				YEL("LEN IS: %li\n", length);
+				// 				long total = length + len;
+				// 				YEL("BYTE TOTAL SHOULD BE: %li\n", total);
+				// 				headers_found = true;
+				// 				bytes_needed = length2;
+				// 				content_bytes = beast - orig;
+				// 				BLU("server.cc: Bytes received: %li, Bytes needed: %li\n", (long)content_bytes, bytes_needed);
+				// 			} else {
+				// 				BRED("Content-Length not specified\n");
+				// 				headers_found = true;
+				// 				break;
+				// 			}						
+				// 		} else {
+				// 			// BRED("Not an HTTP Protocol (\\r\\n\\r\\n not found)\n");
+				// 			// BRED("%200.s\n", client->request);
+				// 			// r = 0;
+				// 			// break;
+				// 		}
+				// 	} else {
+				// 		content_bytes += r;
+				// 	}
 
-					}
+				// 	}
 					
-					if ((long)content_bytes >= bytes_needed) {
-						all_read = true;
-					}
-					if (bytes_needed == 0) {
-						r = 0;
-						break;
-					}
+				// 	if ((long)content_bytes >= bytes_needed) {
+				// 		all_read = true;
+				// 	}
+				// 	if (bytes_needed == 0) {
+				// 		r = 0;
+				// 		break;
+				// 	}
 					
-					// BMAG("Bytes received: %li\n", (long)bytes_received);
-				}
+				// 	// BMAG("Bytes received: %li\n", (long)bytes_received);
+				// }
 
                 if (r > 0) { // bytes received
 
@@ -217,18 +221,23 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
                     if (q) {
                         if (Jericho::jscan("Connection: keep-alive", client->request)) {
                             client_set_state(client, SOCKST_ALIVE);
-                            printf("Setting state\n");
+                            printf("Setting state to alive\n");
                         } else if (Jericho::jscan("Connection: closed", client->request)) {
                             client_set_state(client, SOCKST_CLOSING);
-                            printf("Setting state\n");
+                            printf("Setting state to closed\n");
                         } else if (Jericho::jscan("Connection: Upgrade", client->request)) {
                             client_set_state(client, SOCKST_UPGRADING);
-                            printf("Setting state\n");
+                            printf("Setting state to upgrade\n");
                         } else {
+							printf("Fuck\n");
                             BRED("INVALID HTTP REQUEST DETECTED\n");
                         }
-                    }
+                    } else {
+						BRED("Q is a fail\n");
+						RED("%s\n", client->request);
+					}
 
+					BYEL("AND\n");
                     SocketState state;
 					Request request;
 					Route route;
