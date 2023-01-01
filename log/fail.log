@@ -119,3 +119,10 @@ FAIL-[2022-12-17 00:28:03]-/mnt/d/jericho-devel/core/src/server/socket.cc-int so
 FAIL-[2022-12-17 00:29:29]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
 FAIL-[2022-12-17 00:29:33]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
 FAIL-[2022-12-17 09:10:25]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2023-01-01 13:22:06]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed
+FAIL-[2023-01-01 13:23:20]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/socket.cc-int socket_create(const char *, int, int, int, int)-70-bind() failed.
+FAIL-[2023-01-01 13:29:43]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed
+FAIL-[2023-01-01 13:31:04]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed
+FAIL-[2023-01-01 13:32:11]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed
+FAIL-[2023-01-01 13:40:04]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed
+FAIL-[2023-01-01 13:42:37]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed

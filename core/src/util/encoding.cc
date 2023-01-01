@@ -72,16 +72,17 @@ int UTF8_to_ascii(unsigned char* out, int *outlen,
 #include <codecvt>
 
 std::string to_utf8(const std::string& str, const std::locale& loc = std::locale{}) {
-  using wcvt = std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t>;
-  std::u32string wstr(str.size(), U'\0');
-  std::use_facet<std::ctype<char32_t>>(loc).widen(str.data(), str.data() + str.size(), &wstr[0]);
-  return wcvt{}.to_bytes(wstr.data(),wstr.data() + wstr.size());
+//   using wcvt = std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t>;
+//   std::u32string wstr(str.size(), U'\0');
+//   std::use_facet<std::ctype<char32_t>>(loc).widen(str.data(), str.data() + str.size(), &wstr[0]);
+//   return wcvt{}.to_bytes(wstr.data(),wstr.data() + wstr.size());
+	return "does not work on mac";
 }
 
 std::string from_utf8(const std::string& str, const std::locale& loc) {
-  using wcvt = std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t>;
-  auto wstr = wcvt{}.from_bytes(str);
-  std::string result(wstr.size(), '0');
-  std::use_facet<std::ctype<char32_t>>(loc).narrow(wstr.data(), wstr.data() + wstr.size(), '?', &result[0]);
-  return result;
+//   using wcvt = std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t>;
+//   auto wstr = wcvt{}.from_bytes(str);
+//   std::string result(wstr.size(), '0');
+//   std::use_facet<std::ctype<char32_t>>(loc).narrow(wstr.data(), wstr.data() + wstr.size(), '?', &result[0]);
+	return "does not work on mac";
 }

@@ -126,6 +126,11 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
                 	r = SSL_read(client->ssl, client->request + client->received, MAX_REQUEST_SIZE - client->received); 
 					bytes_received += r;
 					client->received += r; // increment bytes received
+
+					if (r > 0) {
+					BWHI("REWQQQQQQ\n");
+					BWHI("Request: %s\n", client->request);
+
 					if (!headers_found) {
 						char* p = strstr(client->request, "\r\n\r\n");
 						if (p != NULL) {
@@ -185,6 +190,9 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 					} else {
 						content_bytes += r;
 					}
+
+					}
+					
 					if ((long)content_bytes >= bytes_needed) {
 						all_read = true;
 					}
@@ -192,6 +200,7 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 						r = 0;
 						break;
 					}
+					
 					// BMAG("Bytes received: %li\n", (long)bytes_received);
 				}
 

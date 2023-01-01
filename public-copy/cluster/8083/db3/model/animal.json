@@ -1,8 +1,0 @@
-{
-    "_meta": {"name": "animal"},
-    "!id": {"type": "auto-increment"},
-    "species_major": {"type": "string", "max-length": "32"},
-    "species_minor": {"type": "string", "max-length": "32"},
-    "#diet": {"modality": "1", "cardinality": "1:N"},
-    "_attrs": ["@timestamps"]
-}

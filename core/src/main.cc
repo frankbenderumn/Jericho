@@ -152,7 +152,7 @@ int main(int argc, char* argv[]) {
     if (script != "orch") {
         orch = new Orchestrator;
         if (migrate(host+":"+portStr, orch, script) < 0) {
-            BRED("Main.cc: Failed to migrate!\n");
+            BRED("Main.cc: Failed to migrate!: %s\n", script.c_str());
             return 1;
         }
         // SEGH

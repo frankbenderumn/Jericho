@@ -1,9 +1,0 @@
-{
-    "_meta": {"name": "employee"},
-    "!id": {"type": "auto-increment"},
-    "first_name": {"type": "string", "max-length": "32"},
-    "last_name": {"type": "string", "max-length": "32"},
-    "salary": {"type": "bigint"},
-    "#department": {"modality": "1", "cardinality": "N:1"},
-    "_attrs": ["@timestamps"]
-}
