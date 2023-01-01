@@ -324,8 +324,8 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 										result = router->exec(ROUTE_HTTP, request.path, request.args, router, client);
 										BMAG("ROUTE HTTP RESULT IS: %s\n", result.c_str());
 										resource::serve_cxx(client, clients, request.path.c_str());
-										memset(client->request, 0, sizeof(client->request));
-
+										// memset(client->request, 0, sizeof(client->request));
+										client->received = 0;									
 									}
 									break;
 								default:
