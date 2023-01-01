@@ -268,7 +268,7 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 									result = router->exec(ROUTE_RAW, request.path, request.args, router, client);
 									bm_stop(bm);
 									resource::serve_http(client, clients, result.c_str());	
-									memset(client->request, 0, sizeof(client->request));
+									// memset(client->request, 0, sizeof(client->request));
 									break;									
 								case ROUTE_SYSTEM:
 									BYEL("System...\n");
@@ -276,7 +276,7 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 									result = router->exec(ROUTE_SYSTEM, request.path, request.args, router, client);
 									if (result == "TICKET") {
 										GRE("Server: Ticket Recevied -- will not drop client for now\n");
-										memset(client->request, 0, sizeof(client->request));
+										// memset(client->request, 0, sizeof(client->request));
 										client->received = 0;
 									} else {
 										GRE("Server: System call sending http result: %.100s\n", result.c_str());
@@ -290,7 +290,7 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 									GRE("Server: API call sending http result: %.100s\n", result.c_str());
 									bm_stop(bm);
 									resource::serve_http(client, clients, result.c_str(), std::string("application/json"));
-									memset(client->request, 0, sizeof(client->request));
+									// memset(client->request, 0, sizeof(client->request));
 									client->received = 0;
 									break;
 								case ROUTE_CLUSTER:
@@ -301,7 +301,7 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 									bm_stop(bm);
 									// resource::serve_http(client, clients, result2.c_str());
 									t_write(8080, "./cluster/log/8080.boss", result2.c_str());
-									memset(client->request, 0, sizeof(client->request));
+									// memset(client->request, 0, sizeof(client->request));
 									client->received = 0;
 									break;
 								case ROUTE_NULL:
@@ -315,7 +315,7 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 											BRED("ROUTE IS AUTHENTICATED\n");
 											result = router->exec(ROUTE_HTTP, request.path, request.args, router, client);
 											resource::serve_cxx(client, clients, request.path.c_str());
-											memset(client->request, 0, sizeof(client->request));
+											// memset(client->request, 0, sizeof(client->request));
 
 										} else {
 											resource::error(client, "305");
@@ -331,7 +331,7 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 								default:
 									BRED("UNREGISTERED ROUTE\n");
 									resource::serve_http(client, clients, "Route does not exist", std::string("application/json"));
-									memset(client->request, 0, sizeof(client->request));
+									// memset(client->request, 0, sizeof(client->request));
 
 									break;
 							}
