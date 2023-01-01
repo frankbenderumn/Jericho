@@ -60,7 +60,8 @@ int send_request(SSL *s, const char *hostname, const char *port, const char *pat
     int result = 1;
     char buffer[490000];
 
-    unsigned char char_arr[message.size()]{};
+    size_t sz = message.size();
+    unsigned char char_arr[sz];
     std::copy(message.cbegin(), message.cend(), char_arr);
     std::vector<unsigned char> v(message.begin(), message.end());
     // BYEL("CHAR VEC SIZE: %li\n", v.size());

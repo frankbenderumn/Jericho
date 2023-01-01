@@ -1,8 +1,0 @@
-{
-    "_meta": {"name": "hotel"},
-    "!id": {"type": "auto-increment"},
-    "name": {"type": "string", "max-length": "32"},
-    "address": {"type": "string"},
-    "rate": {"type": "float"},
-    "_attrs": ["@timestamps"]
-}

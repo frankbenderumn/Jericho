@@ -4,7 +4,7 @@ PORT=8080
 THREADS=20
 DIRECTORY=frontend
 DATABASE=demodb
-SCRIPT=undefined
+SCRIPT=config/orchestrator.json
 FLAG=undefined
 
 POSITIONAL_ARGS=()
