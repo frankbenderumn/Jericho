@@ -194,7 +194,7 @@ void resource::serve_http(Client* conn, Client** clients, const char* content, s
     drop_client(conn, clients);
 }
 
-void resource::serve_cxx(Client* conn, Client** clients, const char* path) {
+void resource::serve_cxx(Router* router, Client* conn, Client** clients, const char* path) {
     char addr_buffer[16];
     printf("Path to serve is: %s\n", path);
     client_get_address(conn, addr_buffer);
@@ -209,22 +209,35 @@ void resource::serve_cxx(Client* conn, Client** clients, const char* path) {
         FILE* fp = fopen(full_path.c_str(), "rb"); // open file, set fds to read in bytes
 
     if (!fp) { 
-        resource::error(conn, "404"); 
+        resource::error(router, conn, "404"); 
         return; 
     }
 
     if (strstr(path, "..")) {
-        resource::error(conn, "404");
+        resource::error(router, conn, "404");
         return;
     }
 
     if (strlen(path) > 100) { 
-        resource::error(conn, "404");
+        resource::error(router, conn, "404");
         return;
     }
 
     size_t sz = file_size(fp);
-    const char* content = get_content_type(full_path.c_str()); 
+    const char* content = get_content_type(full_path.c_str());
+
+    std::string file_contents = JFS::read(full_path.c_str());
+    if (file_contents.find("$[idoc]$") != std::string::npos) {
+        BYEL("Interpretting...\n");
+        file_contents = iris::interpret(router, full_path.c_str());
+    }
+    // BBLU("DONE INTERPRETING\n");
+    std::string ext = std::string(content);
+    sz = file_contents.size();
+    // BBLU("CONTNEN: %s\n", ext.c_str());
+    // BMAG("SZ IS: %i\n", (int)strlen(file_contents.c_str()));
+    // BWHI("Directory is: %s\n", dir.c_str());
+    // BWHI("Sending: %s\n", file_contents.c_str());
 
     char buffer[8192];
     sprintf(buffer, "HTTP/1.1 200 OK\r\n");
@@ -239,15 +252,6 @@ void resource::serve_cxx(Client* conn, Client** clients, const char* path) {
     SSL_write(conn->ssl, buffer, strlen(buffer));
     sprintf(buffer, "\r\n");
     SSL_write(conn->ssl, buffer, strlen(buffer));
-
-    std::string file_contents = FileSystem::read(full_path.c_str());
-    iris::interpret(file_contents);
-    // BBLU("DONE INTERPRETING\n");
-    std::string ext = std::string(content);
-    // BBLU("CONTNEN: %s\n", ext.c_str());
-    // BMAG("SZ IS: %i\n", (int)strlen(file_contents.c_str()));
-    // BWHI("Directory is: %s\n", dir.c_str());
-    // BWHI("Sending: %s\n", file_contents.c_str());
     
     if (ext == "text/html") {
         SSL_write(conn->ssl, file_contents.c_str(), strlen(file_contents.c_str())); // send bytes
@@ -263,7 +267,7 @@ void resource::serve_cxx(Client* conn, Client** clients, const char* path) {
 
     BBLU("IS THE SEG HERE\n");
     fclose(fp); // close file
-    drop_client(conn, clients);
+    // drop_client(conn, clients);
     BBLU("IS THE SEG HERE 2\n");
 }
 

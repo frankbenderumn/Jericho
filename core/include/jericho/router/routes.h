@@ -7,6 +7,9 @@
 void compile_routes(Router* router) {
     router->bind(ROUTE_API, "/rsi", apiRsi);
     router->bind(ROUTE_API, "/sma", apiSma);
+    router->ipath("/jericho/app", "/jericho/app.iris");
+    router->ipath("/jericho/user", "/jericho/user.iris");
+    router->ipath("/celerity", "/celerity/index.html");
     router->bindSystem("/spawn", apiSpawn);
     router->bindSystem("/python", apiPython);
     router->bindSystem("/mongo-databases", apiMongoDatabases);
