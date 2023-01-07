@@ -115,6 +115,14 @@ class Router {
         // _federator->start();
     }
 
+    void ipath(std::string path, std::string ipath) {
+        _registry->ipath(path, ipath);
+    }
+
+    std::string ipath(std::string path) {
+        return _registry->ipath(path);
+    }
+
     void federator(Federator* fed) {
         _federator = fed;
     }
@@ -188,6 +196,8 @@ class Router {
     }
 
     RouteRegistry* registry() { return _registry; }
+
+    RouteRegistry* router() { return _registry; }
 
     void parse(std::string url, Route* route) {
         route->url = url;

@@ -1,0 +1,6 @@
+#!/bin/bash
+cd cmake-build
+# make clean
+make test -j 16
+cd ..
+./cmake-build/test

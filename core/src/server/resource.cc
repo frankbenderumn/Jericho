@@ -3,18 +3,18 @@
 
 using namespace Jericho;
 
-void resource::error(Client* client, const std::string& path) {
+void resource::error(Router* router, Client* client, const std::string& path) {
     std::string s;
     if (path == "404") {
-        s = FileSystem::read("resource/error/404.html");
+        s = JFS::read("resource/error/404.html");
     } else if (path == "305") {
-        s = FileSystem::read("resource/error/report.html");
+        s = JFS::read("resource/error/report.html");
     } else if (path == "500") {
-        s = FileSystem::read("resource/error/500.html");            
+        s = JFS::read("resource/error/500.html");            
     } else {
-        s = FileSystem::read("resource/error/404.html");
+        s = JFS::read("resource/error/404.html");
     }
-    iris::interpret(s);
+    iris::interpret(router, s);
     std::string header = std::string("HTTP/1.1 404 Not Found\r\n"
                     "Connection: close\r\n"
                     "Content-length: ") + std::to_string(s.size()) + "\r\n\r\n";

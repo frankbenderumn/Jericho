@@ -20,7 +20,15 @@ namespace Jericho {
 
       static std::string read(const char* path);
 
+      static int exists(std::string pathname);
+
       static std::vector<std::string> getDir(std::string name);
+
+      static void mkDir(std::string name);
+
+      static bool dirExists(std::string pathname);
+
+      static bool fileExists(std::string pathname);
 
       bool static sanitize(std::string s, std::regex r);
 
@@ -33,6 +41,8 @@ namespace Jericho {
       static void writeCBinary(const char* path, unsigned char* buffer);
 
       static int readJson(picojson::value& val, const char* path);
+
+      static long modifiedAt(const char* path);
 
   };
 }

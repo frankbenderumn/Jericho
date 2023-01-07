@@ -36,7 +36,8 @@ enum RouteProtocol {
     ROUTE_JSON,
     ROUTE_XML,
     ROUTE_YAML,
-    ROUTE_CSV
+    ROUTE_CSV,
+    ROUTE_IRIS
 };
 
 static int MESSAGE_ID = -1;
@@ -49,6 +50,7 @@ class RouteRegistry {
     std::unordered_map<std::string, RouteFunction> _httpFunctions;
     std::unordered_map<std::string, SystemFunction> _systemFunctions;
     std::unordered_map<std::string, MessageBuffer*> _nodes;
+    std::unordered_map<std::string, std::string> _ipaths;
     std::vector<std::string> _securePaths;
 
   public:
@@ -101,8 +103,24 @@ class RouteRegistry {
             _routeFunctions[path] = function;
         } else if (protocol == ROUTE_HTTP) {
             _httpFunctions[path] = function;
+        } else if (protocol == ROUTE_IRIS) {
+            _httpFunctions[path] = function;
         }
     }
+
+    void ipath(std::string path, std::string ipath) {
+        _ipaths[path] = ipath;
+        _routeProtocols[path] = ROUTE_IRIS;
+    }
+
+    std::string ipath(std::string path) {
+        return _ipaths[path];
+    }
+
+    bool contains(std::string path) {
+        return prizm::contains_key(_ipaths, path);
+    }
+    // std::unordered_map<std::string, std::string>& ipaths() { return _ipaths; }
 
     void bindSystem(std::string path, SystemFunction function, RouteProtocol protocol = ROUTE_SYSTEM) {
         _routeProtocols[path] = protocol;

@@ -150,27 +150,27 @@ int main(int argc, char* argv[]) {
     router->bifrost(bifrost);
     
     if (script != "orch") {
-        orch = new Orchestrator;
-        if (migrate(host+":"+portStr, orch, script) < 0) {
-            BRED("Main.cc: Failed to migrate!: %s\n", script.c_str());
-            return 1;
-        }
-        // SEGH
-        printf("What the fuck\n");
-        if (orch->federator == nullptr) {
-            BMAG("Orch federator is null somehow\n");
-            exit(1);
-        }
-        printf("What the fuck\n");
-        orch->federator->dump();
-        printf("I want to cry\n");
-        FedRole role = orch->federator->local()->role();
-        printf("It does not make sense\n");
-        if (role == FED_ROLE_CENTRAL || role == FED_ROLE_AGGREGATOR) {
-            router->cluster()->boss()->configDir("agg");
-        }
-        router->federator(orch->federator);
-        write_file("./log/debug.log", "Hello friend");
+        // orch = new Orchestrator;
+        // if (migrate(host+":"+portStr, orch, script) < 0) {
+        //     BRED("Main.cc: Failed to migrate!: %s\n", script.c_str());
+        //     return 1;
+        // }
+        // // SEGH
+        // printf("What the fuck\n");
+        // if (orch->federator == nullptr) {
+        //     BMAG("Orch federator is null somehow\n");
+        //     exit(1);
+        // }
+        // printf("What the fuck\n");
+        // orch->federator->dump();
+        // printf("I want to cry\n");
+        // FedRole role = orch->federator->local()->role();
+        // printf("It does not make sense\n");
+        // if (role == FED_ROLE_CENTRAL || role == FED_ROLE_AGGREGATOR) {
+        //     router->cluster()->boss()->configDir("agg");
+        // }
+        // router->federator(orch->federator);
+        // write_file("./log/debug.log", "Hello friend");
     }
 
     if (flag == "synch") {

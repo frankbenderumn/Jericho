@@ -99,12 +99,18 @@ add_executable(server core/src/main.cc)
 # add_executable(zero example/zeromq.cc)
 add_executable(client example/client.cc)
 
+add_executable(test core/test/interpret.cc)
+
 target_link_libraries(server PRIVATE jericho)
 target_link_libraries(server PRIVATE celerity)
 target_link_libraries(server PRIVATE crypto)
 target_link_libraries(server PRIVATE ssl)
 target_link_libraries(server PRIVATE curl)
 target_link_libraries(server PRIVATE prizm-cxx)
+
+target_link_libraries(test PRIVATE jericho)
+target_link_libraries(test PRIVATE celerity)
+target_link_libraries(test PRIVATE prizm-cxx)
 
 target_link_libraries(client PRIVATE ssl)
 target_link_libraries(client PRIVATE crypto)

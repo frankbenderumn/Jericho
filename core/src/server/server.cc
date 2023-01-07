@@ -33,6 +33,76 @@ bool authenticate(std::string path, std::string content) {
 }
 
 int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Router* router) {
+
+// while (1) {
+//         fd_set reads;
+//         reads = wait_on_clients(*server, clients);
+
+        // if (FD_ISSET(*server, &reads)) {
+        //     Client* client = get_client(-1, clients);
+
+		// 	client->socket = accept(*server, (struct sockaddr*) &(client->address), &(client->address_length));
+
+		// 	if (!ISVALIDSOCKET(client->socket)) {
+		// 		PFAIL(ECONN, "accept() failed. (%d)\n", SOCKERR());
+		// 	}
+
+		// 	char address_buffer[16];
+		// 	client_get_address(client, address_buffer);
+		// 	CYA("New connection from %s.\n", address_buffer);
+		// 	PLOG(LSERVER, "New connection from %s.", address_buffer);
+
+		// 	client->ssl = SSL_new(ctx);
+		// 	if (!client->ssl) {
+		// 		PFAIL(ECONN, "SSL_new(ctx) failed.");
+		// 		fprintf(stderr, "SSL_new() failed.\n");
+		// 		return 1;
+		// 	}
+
+
+		// 	SSL_set_fd(client->ssl, client->socket);
+		// 	if (SSL_accept(client->ssl) != 1) {
+		// 		//SSL_get_error(client->ssl, SSL_accept(...));
+		// 		ERR_print_errors_fp(stderr);
+		// 		// drop_client(client, clients); // this will cause bugs on mac localhost test
+		// 	} else {
+		// 		printf("SSL connection using %s\n", SSL_get_cipher(client->ssl));
+		// 	}
+        // }
+
+//         Client* client = *clients;
+
+//         while (client) {
+
+// 			MessageBroker* broker = router->cluster()->boss()->poll(client);
+// 			if (broker != NULL) {
+// 				BGRE("FIRING ASYNC CALL\n");
+// 				std::string response = broker->callback()(router, client, broker->response(client));
+// 				BRED("YABBA DABBA DOO\n");
+// 				if (broker->epoch() == 0) {
+// 					if (isHTTP(response)) {
+// 						resource::serve_raw(client, clients, response.c_str());
+// 					} else {
+// 						resource::serve_http(client, clients, response.c_str());
+// 					}
+// 					client->promised = false;
+// 					drop_client(client, clients);
+// 				}
+// 			}
+            
+// 			// iterate through clients
+//             Client* next = client->next;
+
+//             if (FD_ISSET(client->socket, &reads)) {
+
+//                 // max request
+//                 if (MAX_REQUEST_SIZE == client->received) {
+//                     send_400(client);
+//                     client = next;
+//                     continue;
+//                 }
+
+
     while (1) {
         fd_set reads;
 		// BRED("Waiting on new client...\n");
@@ -85,9 +155,9 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
         Client* client = *clients;
 
 		// for server (both server and client are fully autonomous P2P)
-		if (router->federator() != nullptr) {
-			router->federator()->poll("unused", router, client->url, group_callback, NULL);
-		}
+		// if (router->federator() != nullptr) {
+		// 	router->federator()->poll("unused", router, client->url, group_callback, NULL);
+		// }
 
 		// for client (both server and client are fully autonomous P2P)
 		// if (router->federator() != nullptr) {
@@ -106,10 +176,10 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 
             if (FD_ISSET(client->socket, &reads)) {
 
-				Benchmark* bm = bm_start("serve");
-				if (router->federator()->local()->resource() > 0) {
-					sleep(router->federator()->local()->resource());
-				}
+				// Benchmark* bm = bm_start("serve");
+				// if (router->federator()->local()->resource() > 0) {
+				// 	sleep(router->federator()->local()->resource());
+				// }
 
                 // max request
                 if (MAX_REQUEST_SIZE == client->received) {
@@ -243,6 +313,7 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 					Route route;
 					std::string result;
 					std::string result2;
+					std::string ipath;
 
                     switch(state = client_get_state(client)) {
                         case SOCKST_ALIVE:
@@ -266,17 +337,17 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 							switch (router->protocol(request.path)) {
 								case ROUTE_RAW:
 									result = router->exec(ROUTE_RAW, request.path, request.args, router, client);
-									bm_stop(bm);
+									// bm_stop(bm);
 									resource::serve_http(client, clients, result.c_str());	
-									// memset(client->request, 0, sizeof(client->request));
+									memset(client->request, 0, sizeof(client->request));
 									break;									
 								case ROUTE_SYSTEM:
 									BYEL("System...\n");
-									bm_stop(bm);
+									// bm_stop(bm);
 									result = router->exec(ROUTE_SYSTEM, request.path, request.args, router, client);
 									if (result == "TICKET") {
 										GRE("Server: Ticket Recevied -- will not drop client for now\n");
-										// memset(client->request, 0, sizeof(client->request));
+										memset(client->request, 0, sizeof(client->request));
 										client->received = 0;
 									} else {
 										GRE("Server: System call sending http result: %.100s\n", result.c_str());
@@ -288,9 +359,9 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 									BYEL("API CALL...\n");
 									result = router->exec(ROUTE_API, request.path, request.args, router, client);
 									GRE("Server: API call sending http result: %.100s\n", result.c_str());
-									bm_stop(bm);
+									// bm_stop(bm);
 									resource::serve_http(client, clients, result.c_str(), std::string("application/json"));
-									// memset(client->request, 0, sizeof(client->request));
+									memset(client->request, 0, sizeof(client->request));
 									client->received = 0;
 									break;
 								case ROUTE_CLUSTER:
@@ -298,11 +369,16 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 									result2 = router->execNode(ROUTE_SYSTEM, request.path, {}, router, client);
 									memset(client->request, 0, strlen(client->request));
 									GRE("(DEPRECATED - should not ever happen) Server: Distributed call sending http result: %.16s\n", result.c_str());
-									bm_stop(bm);
+									// bm_stop(bm);
 									// resource::serve_http(client, clients, result2.c_str());
 									t_write(8080, "./cluster/log/8080.boss", result2.c_str());
-									// memset(client->request, 0, sizeof(client->request));
+									memset(client->request, 0, sizeof(client->request));
 									client->received = 0;
+									break;
+								case ROUTE_IRIS:
+									BYEL("IRIS CALL...\n");
+									ipath = router->ipath(request.path);
+									resource::serve_cxx(router, client, clients, ipath.c_str());
 									break;
 								case ROUTE_NULL:
 								case ROUTE_HTTP:
@@ -314,16 +390,17 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Route
 										if (authenticate(request.path, request.content)) {
 											BRED("ROUTE IS AUTHENTICATED\n");
 											result = router->exec(ROUTE_HTTP, request.path, request.args, router, client);
-											resource::serve_cxx(client, clients, request.path.c_str());
-											// memset(client->request, 0, sizeof(client->request));
+											resource::serve_cxx(router, client, clients, request.path.c_str());
+											memset(client->request, 0, sizeof(client->request));
 
 										} else {
-											resource::error(client, "305");
+											resource::error(router, client, "305");
 										}
 									} else {
 										result = router->exec(ROUTE_HTTP, request.path, request.args, router, client);
 										BMAG("ROUTE HTTP RESULT IS: %s\n", result.c_str());
-										resource::serve_cxx(client, clients, request.path.c_str());
+										resource::serve_cxx(router, client, clients, request.path.c_str());
+										BYEL("WTF\n");
 										// memset(client->request, 0, sizeof(client->request));
 										// client->received = 0;									
 									}
@@ -507,7 +584,7 @@ void connect(void* targ) {
 	printf("Frame client fd: %i\n", frame.client->socket);
 	
 
-	DEBUG("Connecting client...\n");
+	printf("Connecting client...\n");
 	if (link(&frame, client) < 0) {
 		PERR(ECONN, "Failed to establish connection!");
 		// goto closed;
@@ -516,9 +593,9 @@ void connect(void* targ) {
 
     // TODO: Implement message passing over socket
 	ws_sendframe_txt(frame.client, "Web sockets enabled!");
-	memset(frame.client->request, 0, sizeof(client->request));
 	frame.client->received = 0;
-	BMAG("STARTING WEBSOCKET!\n");
+	memset(frame.client->request, 0, sizeof(client->request));
+	BGRE("STARTING WEBSOCKET!\n");
 
 	/*
 	 * on_close events always occur, whether for client closure
