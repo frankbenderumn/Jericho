@@ -1,0 +1,138 @@
+{
+  "edges": {
+    "35518c57-cd32-4dd6-bcd3-381fda0443a4": [
+      "5eab3de5-c162-4d72-818e-3ab6ebd621b2"
+    ],
+    "477924c0-0bdc-4300-af4e-dbf8636e24ca": [
+      "b77d0dff-e32a-4475-ad6c-84bd7eecc7f7"
+    ],
+    "59c80f7d-d26b-48fb-8f16-03a13f510bc5": [
+      "c60b56ed-e4f9-4640-ab02-88dbc6c090f8"
+    ],
+    "5eab3de5-c162-4d72-818e-3ab6ebd621b2": [
+      "d7e137c0-24b9-4088-b262-24510c9fd45f"
+    ],
+    "9597e9ce-0bd3-48fa-9542-803e560d556f": [
+      "c60b56ed-e4f9-4640-ab02-88dbc6c090f8"
+    ],
+    "aeed41ab-a2fd-454d-b06e-17fe33f35d2a": [
+      "5eab3de5-c162-4d72-818e-3ab6ebd621b2"
+    ],
+    "b77d0dff-e32a-4475-ad6c-84bd7eecc7f7": [
+      "d7e137c0-24b9-4088-b262-24510c9fd45f"
+    ],
+    "bc296fec-c3d0-4a47-8201-d22a15137fe6": [
+      "b77d0dff-e32a-4475-ad6c-84bd7eecc7f7"
+    ],
+    "bf078b64-9149-4108-8eea-334be9d4fe37": [
+      "5eab3de5-c162-4d72-818e-3ab6ebd621b2"
+    ],
+    "c60b56ed-e4f9-4640-ab02-88dbc6c090f8": [
+      "d7e137c0-24b9-4088-b262-24510c9fd45f"
+    ],
+    "d7e137c0-24b9-4088-b262-24510c9fd45f": []
+  },
+  "name": "demo2-gui",
+  "nodes": {
+    "35518c57-cd32-4dd6-bcd3-381fda0443a4": {
+      "options": {
+        "federation": "config\/client.json"
+      },
+      "role": "cli",
+      "url": "127.0.0.1:8088",
+      "x": 50,
+      "y": 50
+    },
+    "477924c0-0bdc-4300-af4e-dbf8636e24ca": {
+      "options": {
+        "federation": "config\/client.json"
+      },
+      "role": "cli",
+      "url": "127.0.0.1:8086",
+      "x": 431.53125,
+      "y": 484.89582824707031
+    },
+    "59c80f7d-d26b-48fb-8f16-03a13f510bc5": {
+      "options": {
+        "federation": "config\/client.json"
+      },
+      "role": "cli",
+      "url": "127.0.0.1:8085",
+      "x": 205.53125,
+      "y": 460.89582824707031
+    },
+    "5eab3de5-c162-4d72-818e-3ab6ebd621b2": {
+      "options": {
+        "federation": "config\/aggregator.json"
+      },
+      "role": "agg",
+      "url": "127.0.0.1:8083",
+      "x": 539.65625,
+      "y": 33.958328247070312
+    },
+    "9597e9ce-0bd3-48fa-9542-803e560d556f": {
+      "options": {
+        "federation": "config\/client.json"
+      },
+      "role": "cli",
+      "url": "127.0.0.1:8084",
+      "x": 32.65625,
+      "y": 412.95832824707031
+    },
+    "aeed41ab-a2fd-454d-b06e-17fe33f35d2a": {
+      "options": {
+        "federation": "config\/client.json"
+      },
+      "role": "cli",
+      "url": "127.0.0.1:8090",
+      "x": 187.53125,
+      "y": 137.89582824707031
+    },
+    "b77d0dff-e32a-4475-ad6c-84bd7eecc7f7": {
+      "options": {
+        "federation": "config\/aggregator.json"
+      },
+      "role": "agg",
+      "url": "127.0.0.1:8082",
+      "x": 710.53125,
+      "y": 394.89582824707031
+    },
+    "bc296fec-c3d0-4a47-8201-d22a15137fe6": {
+      "options": {
+        "federation": "config\/client.json"
+      },
+      "role": "cli",
+      "url": "127.0.0.1:8087",
+      "x": 501.53125,
+      "y": 354.89582824707031
+    },
+    "bf078b64-9149-4108-8eea-334be9d4fe37": {
+      "options": {
+        "federation": "config\/client.json"
+      },
+      "role": "cli",
+      "url": "127.0.0.1:8089",
+      "x": 323.53125,
+      "y": 223.89582824707031
+    },
+    "c60b56ed-e4f9-4640-ab02-88dbc6c090f8": {
+      "options": {
+        "federation": "config\/aggregator.json"
+      },
+      "role": "agg",
+      "url": "127.0.0.1:8081",
+      "x": 567.53125,
+      "y": 213.89582824707031
+    },
+    "d7e137c0-24b9-4088-b262-24510c9fd45f": {
+      "options": {
+        "federation": "config\/federated\/central.json"
+      },
+      "role": "main",
+      "url": "127.0.0.1:8080",
+      "x": 817.65625,
+      "y": 75.958328247070312
+    }
+  }
+}
+
