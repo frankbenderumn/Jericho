@@ -1,8 +1,8 @@
 #include "federate/federator.h"    
-#include "router/router.h"
+#include "system/system.h"
 #include "api/api_helper.h"
     
-void Federator::poll(std::string hostname, Router* router, std::string url, MessageCallback callback, Benchmark* bm) {
+void Federator::poll(std::string hostname, System* router, std::string url, MessageCallback callback, Benchmark* bm) {
     // if (router->needsAggregate()) {
     //     // long long t = std::time(NULL) - router->federator()->startTime() - router->federator()->waitTime();
     //     // BWHI("TIME TILL TIMEOUT: %lld\n", t * -1);
@@ -64,7 +64,7 @@ void Federator::poll(std::string hostname, Router* router, std::string url, Mess
     // }
 }
 
-void Federator::train(std::string hostname, Router* router, std::string url, MessageCallback callback, Benchmark* bm) {
+void Federator::train(std::string hostname, System* router, std::string url, MessageCallback callback, Benchmark* bm) {
     while (router->needsTrain()) {
         if (router->needsTrain()) {
             BMAG("NEED TRAINING\n");

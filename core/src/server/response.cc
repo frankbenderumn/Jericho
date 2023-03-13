@@ -1,7 +1,7 @@
 #include "server/response.h"
 #include "server/resource.h"
 #include <sys/wait.h>
-#include "server/iris.h"
+#include "iris/iris.h"
 #include "server/defs.h"
 #include "server/socket.h"
 #include "server/client.h"
@@ -189,14 +189,12 @@ void resource::serve_http(Client* conn, Client** clients, const char* content, s
     SSL_write(conn->ssl, buffer, strlen(buffer));
     
     SSL_write(conn->ssl, content, strlen(content)); // send bytes
-    printf("DONE WRITING\n");
-
-    // drop_client(conn, clients);
 }
 
-void resource::serve_cxx(Client* conn, Client** clients, const char* path) {
+void resource::serve_cxx(System* sys, Client* conn, Client** clients, const char* path) {
+    Router* router = sys->router();
     char addr_buffer[16];
-    printf("Path to serve is: %s\n", path);
+    // printf("Path to serve is: %s\n", path);
     client_get_address(conn, addr_buffer);
     DEBUGC(4, "serve_resource %s %s\n", addr_buffer, path);
     std::string p = std::string(path);
@@ -205,31 +203,44 @@ void resource::serve_cxx(Client* conn, Client** clients, const char* path) {
     if (p == "/") p = "/index.html";
 
     std::string full_path = dir + p;
-    BWHI("FULL PATH: %s\n", full_path.c_str());
-        FILE* fp = fopen(full_path.c_str(), "rb"); // open file, set fds to read in bytes
+    // BWHI("FULL PATH: %s\n", full_path.c_str());
+    FILE* fp = fopen(full_path.c_str(), "rb"); // open file, set fds to read in bytes
 
     if (!fp) { 
-        resource::error(conn, "404"); 
+        resource::error(router, conn, "404"); 
         return; 
     }
 
     if (strstr(path, "..")) {
-        resource::error(conn, "404");
+        resource::error(router, conn, "404");
         return;
     }
 
     if (strlen(path) > 100) { 
-        resource::error(conn, "404");
+        resource::error(router, conn, "404");
         return;
     }
 
     size_t sz = file_size(fp);
-    const char* content = get_content_type(full_path.c_str()); 
+    const char* content = get_content_type(full_path.c_str());
+
+    std::string file_contents = JFS::read(full_path.c_str());
+    if (file_contents.find("$[idoc]$") != std::string::npos) {
+        BYEL("Interpretting...\n");
+        file_contents = iris::interpret(router, full_path.c_str());
+    }
+    // BBLU("DONE INTERPRETING\n");
+    std::string ext = std::string(content);
+    sz = file_contents.size();
+    // BBLU("CONTNEN: %s\n", ext.c_str());
+    // BMAG("SZ IS: %i\n", (int)strlen(file_contents.c_str()));
+    // BWHI("Directory is: %s\n", dir.c_str());
+    // BWHI("Sending: %s\n", file_contents.c_str());
 
     char buffer[8192];
     sprintf(buffer, "HTTP/1.1 200 OK\r\n");
     SSL_write(conn->ssl, buffer, strlen(buffer));
-    sprintf(buffer, "Connection: close\r\n");
+    sprintf(buffer, "Connection: keep-alive\r\n");
     SSL_write(conn->ssl, buffer, strlen(buffer));
     sprintf(buffer, "Content-Length: %lu\r\n", sz);
     SSL_write(conn->ssl, buffer, strlen(buffer));
@@ -239,19 +250,9 @@ void resource::serve_cxx(Client* conn, Client** clients, const char* path) {
     SSL_write(conn->ssl, buffer, strlen(buffer));
     sprintf(buffer, "\r\n");
     SSL_write(conn->ssl, buffer, strlen(buffer));
-
-    std::string file_contents = FileSystem::read(full_path.c_str());
-    iris::interpret(file_contents);
-    // BBLU("DONE INTERPRETING\n");
-    std::string ext = std::string(content);
-    // BBLU("CONTNEN: %s\n", ext.c_str());
-    // BMAG("SZ IS: %i\n", (int)strlen(file_contents.c_str()));
-    // BWHI("Directory is: %s\n", dir.c_str());
-    // BWHI("Sending: %s\n", file_contents.c_str());
     
     if (ext == "text/html") {
         SSL_write(conn->ssl, file_contents.c_str(), strlen(file_contents.c_str())); // send bytes
-        printf("DONE WRITING\n");
     } else {
         // read file contents into multiple 1024 packets
         int r = fread(buffer, 1, 1024, fp);
@@ -262,7 +263,6 @@ void resource::serve_cxx(Client* conn, Client** clients, const char* path) {
     }
 
     fclose(fp); // close file
-    // drop_client(conn, clients);
 }
 
 void resource::serve_raw(Client* conn, Client** clients, const char* message) {
@@ -334,6 +334,119 @@ void serve_resource(Client* conn, const char* path) {
     fclose(fp); // close file
     // drop_client(conn, &clients); // close conn connection
     // close thread
+}
+
+Response::Response(System* sys, Request* req) {
+    PCREATE;
+    this->sys = sys;
+    this->client = req->client;
+    this->request = req;
+    this->headers = req->headers;
+}
+
+
+std::string Response::generate() {
+    char addr_buffer[16];
+    // printf("Path to serve is: %s\n", path);
+    client_get_address(request->client, addr_buffer);
+    DEBUGC(4, "serve_resource %s %s\n", addr_buffer, req->path.c_str());
+    std::string p = request->path;
+    std::string dir = PUBLIC_DIRECTORY;
+
+    if (p == "") p = "/index.html";
+    if (p == "/") p = "/index.html";
+
+    std::string full_path = dir + p;
+    // BWHI("FULL PATH: %s\n", full_path.c_str());
+    FILE* fp = fopen(full_path.c_str(), "rb"); // open file, set fds to read in bytes
+
+    if (!fp) { 
+        resource::error(sys->router(), request->client, "404"); 
+        return "ERROR";
+    }
+
+    if (strstr(request->path.c_str(), "..")) {
+        resource::error(sys->router(), request->client, "404");
+        return "ERROR";
+    }
+
+    if (strlen(request->path.c_str()) > 100) { 
+        resource::error(sys->router(), request->client, "404");
+        return "ERROR";
+    }
+
+    size_t sz = file_size(fp);
+    const char* content = get_content_type(full_path.c_str());
+
+    std::string file_contents = JFS::read(full_path.c_str());
+    if (file_contents.find("$[idoc]$") != std::string::npos) {
+        BYEL("Interpretting...\n");
+        file_contents = iris::interpret(sys->router(), full_path.c_str());
+    }
+    // BBLU("DONE INTERPRETING\n");
+    std::string ext = std::string(content);
+    sz = file_contents.size();
+    // BBLU("CONTNEN: %s\n", ext.c_str());
+    // BMAG("SZ IS: %i\n", (int)strlen(file_contents.c_str()));
+    // BWHI("Directory is: %s\n", dir.c_str());
+    // BWHI("Sending: %s\n", file_contents.c_str());
+    std::string buffer;
+
+    buffer += "HTTP/1.1 200 OK\r\n";
+    buffer += "Connection: keep-alive\r\n";
+    buffer += "Content-Length: " + std::to_string(sz) + "\r\n";
+    buffer += "Content-Type: " + std::string(content) + "\r\n";
+    // buffer += "Access-Control-Allow-Origin: https://localhost\r\n"; 
+    for (auto cookie : cookies) {
+        std::string cook = cookie->generate();
+        cook.pop_back();
+        buffer += "Set-Cookie: " + cook + "\r\n";
+    }
+    buffer += "\r\n";
+    buffer += file_contents;
+    // char buffer[8192];
+    // sprintf(buffer, "HTTP/1.1 200 OK\r\n");
+    // SSL_write(conn->ssl, buffer, strlen(buffer));
+    // sprintf(buffer, "Connection: keep-alive\r\n");
+    // SSL_write(conn->ssl, buffer, strlen(buffer));
+    // sprintf(buffer, "Content-Length: %lu\r\n", sz);
+    // SSL_write(conn->ssl, buffer, strlen(buffer));
+    // sprintf(buffer, "Content-Type: %s\r\n", content);
+    // SSL_write(conn->ssl, buffer, strlen(buffer));
+    // sprintf(buffer, "Access-Control-Allow-Origin: %s\r\n", "https://localhost");
+    // SSL_write(conn->ssl, buffer, strlen(buffer));
+    // sprintf(buffer, "\r\n");
+    // SSL_write(conn->ssl, buffer, strlen(buffer));
+    char buf[buffer.size()];
+    strncpy(buf, buffer.c_str(), buffer.size());
+
+    // BBLU("Response is: \n%s\n", buf);
+    
+    // if (ext == "text/html") {
+    //     SSL_write(request->client->ssl, file_contents.c_str(), strlen(file_contents.c_str())); // send bytes
+    // } else {
+    //     // read file contents into multiple 1024 packets
+    //     int r = fread(buf, 1, 1024, fp);
+    //     while (r) {
+    //         SSL_write(request->client->ssl, buffer.c_str(), r); // send bytes
+    //         r = fread(buf, 1, 1024, fp); // read another 1024
+    //     }
+    // }
+
+    fclose(fp); // close file
+
+    std::string s(buf);
+    return s;
+}
+
+void Response::serve() {
+    std::string res = this->generate();
+    BBLU("Response\n=========================================\n%s\n", res.c_str());
+    // for (unsigned i = 0; i < res.length(); i += 1024) {
+    //     std::string chunk = res.substr(i, 1024);
+    //     BYEL("Chunk:\n%s\n", chunk.c_str());
+        SSL_write(this->request->client->ssl, res.c_str(), res.size());
+    // }
 }
 
 void contains_header() {

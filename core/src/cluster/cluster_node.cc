@@ -1,12 +1,12 @@
 #include <ctime>
 
 #include "cluster/cluster_node.h"
-#include "router/router.h"
+#include "system/system.h"
 #include "message/message_broker.h"
 #include <sys/stat.h>
-#include "router/gui.h"
+#include "system/gui.h"
 
-std::string single_callback(Router* router, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args) {
+std::string single_callback(System* router, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args) {
     std::string url = client->url;
     std::string result = "undefined";
     if (mq.size() > 0) {
@@ -30,7 +30,7 @@ std::string single_callback(Router* router, Client* client, std::deque<MessageBu
     return result;
 }
 
-std::string group_callback(Router* router, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args) {
+std::string group_callback(System* router, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args) {
     std::string url = client->url;
     std::string batch;
     long size = -1;
@@ -77,7 +77,7 @@ std::string group_callback(Router* router, Client* client, std::deque<MessageBuf
     return result;
 }
 
-std::string epoch_callback(Router* router, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args) {
+std::string epoch_callback(System* router, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args) {
     std::string url = client->url;
     std::string result;
     MessageBroker* broker;
@@ -120,7 +120,7 @@ std::string epoch_callback(Router* router, Client* client, std::deque<MessageBuf
     return "epoch callback - FEDERATION FAILED";
 }
 
-std::string bm_callback(Router* router, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args) {
+std::string bm_callback(System* router, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args) {
     std::string url = client->url;
     std::string result = "undefined";
     if (mq.size() > 0) {
@@ -182,7 +182,7 @@ std::string bm_callback(Router* router, Client* client, std::deque<MessageBuffer
     return result;
 }
 
-std::string chain_callback(Router* router, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args) {
+std::string chain_callback(System* router, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args) {
     std::string url = client->url;
     std::string result = "undefined";
     if (mq.size() > 0) {
@@ -285,7 +285,7 @@ ClusterNode::~ClusterNode() {
     }
 }
 
-void ClusterNode::brokerBroadcast(Router* router, std::string url, std::deque<MessageBuffer*> mq, MessageCallback callback) {
+void ClusterNode::brokerBroadcast(System* router, std::string url, std::deque<MessageBuffer*> mq, MessageCallback callback) {
     MessageBroker* broker = new MessageBroker(BROKER_BARRIER, callback);
     for (int i = 0; i < mq.size(); i++) {
         mq.at(i)->broker = broker;
@@ -307,7 +307,7 @@ void ClusterNode::brokerBroadcast(Router* router, std::string url, std::deque<Me
     }
 }
 
-void ClusterNode::pulse(Router* router, std::string url, std::string path, MessageBroker* broker) {
+void ClusterNode::pulse(System* router, std::string url, std::string path, MessageBroker* broker) {
     std::deque<MessageBuffer*> mq;
     for (auto n : _edge->nodes()) {
         MessageBuffer* buf = n->buffer(url, path);
@@ -385,7 +385,7 @@ bool ClusterNode::hasEdge(std::string host, std::string port) {
     return false;
 }
 
-void ClusterNode::broadcastNaive(Router* router, std::string url, std::vector<std::pair<std::string, std::string>> pairs, std::string path, MessageCallback callback, std::string type, std::string content) {
+void ClusterNode::broadcastNaive(System* router, std::string url, std::vector<std::pair<std::string, std::string>> pairs, std::string path, MessageCallback callback, std::string type, std::string content) {
     BBLU("NAIVE BROADCAST...\n");
     std::deque<MessageBuffer*> mq;
     for (auto hp : pairs) {
@@ -410,7 +410,7 @@ void ClusterNode::broadcastNaive(Router* router, std::string url, std::vector<st
     brokerBroadcast(router, url, mq, callback);
 }
 
-void ClusterNode::broadcast(Router* router, std::string url, std::string path, MessageCallback callback, std::string type, std::string content) {
+void ClusterNode::broadcast(System* router, std::string url, std::string path, MessageCallback callback, std::string type, std::string content) {
     BBLU("BROADCASTING...\n");
     std::deque<MessageBuffer*> mq;
     for (auto n : _edge->nodes()) {
@@ -430,7 +430,7 @@ void ClusterNode::broadcast(Router* router, std::string url, std::string path, M
     brokerBroadcast(router, url, mq, callback);
 }
 
-void ClusterNode::pingOne(Router* router, std::string url, ClusterNode* dest) {
+void ClusterNode::pingOne(System* router, std::string url, ClusterNode* dest) {
     MessageBuffer* buf = dest->buffer(url, "/ping-local");
     MessageBroker* broker = new MessageBroker(BROKER_FIFO, single_callback);
     buf->dump();
@@ -440,7 +440,7 @@ void ClusterNode::pingOne(Router* router, std::string url, ClusterNode* dest) {
     send(router, url, "/ping-local", buf);
 }
 
-void ClusterNode::pingAll(Router* router, std::string url, std::vector<std::pair<std::string, std::string>> set) {
+void ClusterNode::pingAll(System* router, std::string url, std::vector<std::pair<std::string, std::string>> set) {
     if (set.size() == 0) {
         broadcast(router, url, "/ping-local", group_callback);
     } else {
@@ -449,12 +449,12 @@ void ClusterNode::pingAll(Router* router, std::string url, std::vector<std::pair
     }
 }
 
-void ClusterNode::federate(Router* router, std::string url, std::string path, int epochs, int clients) {
+void ClusterNode::federate(System* router, std::string url, std::string path, int epochs, int clients) {
     MessageBroker* broker = new MessageBroker(BROKER_RR, epoch_callback, epochs);
     pulse(router, url, path, broker);
 }
 
-void ClusterNode::brokerSend(Router* router, std::string url, std::string path, MessageBuffer* buf, std::string type, std::string content) {
+void ClusterNode::brokerSend(System* router, std::string url, std::string path, MessageBuffer* buf, std::string type, std::string content) {
     MessageBroker* broker = new MessageBroker(BROKER_FIFO, single_callback);
     buf->broker = broker;
     
@@ -462,7 +462,7 @@ void ClusterNode::brokerSend(Router* router, std::string url, std::string path, 
     send(router, url, path, buf);
 }
 
-void ClusterNode::send2(Router* router, std::string url, std::string path, std::string type, std::string content) {
+void ClusterNode::send2(System* router, std::string url, std::string path, std::string type, std::string content) {
     std::string route = "undefined";
     std::string port = "undefined";
     std::string host = "undefined";
@@ -494,7 +494,7 @@ void ClusterNode::send2(Router* router, std::string url, std::string path, std::
 
 const int ClusterNode::id() const { return _id; }
 
-void ClusterNode::send(Router* router, std::string url, std::string path, MessageBuffer* buf) {
+void ClusterNode::send(System* router, std::string url, std::string path, MessageBuffer* buf) {
     thread_pool_add(router->tpool(), router->worker(), (void*)buf);
 }
 

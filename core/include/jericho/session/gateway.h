@@ -1,0 +1,4 @@
+#ifndef JERICHO_SESSION_GATEWAY_H_
+#define JERICHO_SESSION_GATEWAY_H_
+
+#endif

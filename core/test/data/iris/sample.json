@@ -1,0 +1,5 @@
+{
+    "textfield": {"name": "something", "placeholder": "Username"},
+    "password": {"name": "a-password", "placeholder": "password"},
+    "submit": {"action": "/submit.iris"}
+}

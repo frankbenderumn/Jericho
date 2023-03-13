@@ -20,7 +20,7 @@
 
 static int CLUSTER_ID = -1;
 
-class Router;
+class System;
 
 enum ClusterNodeType {
 	CLUSTER_NODE_NULL,
@@ -77,7 +77,7 @@ class ClusterNode {
 
   public:
 
-  	void send(Router* router, std::string url, std::string path, MessageBuffer* buf);
+  	void send(System* router, std::string url, std::string path, MessageBuffer* buf);
 
 	MessageBuffer* buffer(std::string url, std::string path);
 
@@ -95,25 +95,25 @@ class ClusterNode {
 
 	std::unordered_map<std::string, std::deque<MessageBroker*>>& brokers() { return _brokers; }
 
-	void brokerBroadcast(Router* router, std::string url, std::deque<MessageBuffer*> mq, MessageCallback callback);
+	void brokerBroadcast(System* router, std::string url, std::deque<MessageBuffer*> mq, MessageCallback callback);
 
-	void brokerSend(Router* router, std::string url, std::string path, MessageBuffer* buf, std::string type = "", std::string content = "");
+	void brokerSend(System* router, std::string url, std::string path, MessageBuffer* buf, std::string type = "", std::string content = "");
 
 	void serveBroker(std::string client, MessageBroker* broker);
 
-	void send2(Router* router, std::string url, std::string path, std::string type = "", std::string content = "");
+	void send2(System* router, std::string url, std::string path, std::string type = "", std::string content = "");
 
 	MessageBroker* poll(std::string url);
 
-	void broadcastNaive(Router* router, std::string url, std::vector<std::pair<std::string, std::string>> pairs, std::string path, MessageCallback callback, std::string type = "", std::string content = "");
+	void broadcastNaive(System* router, std::string url, std::vector<std::pair<std::string, std::string>> pairs, std::string path, MessageCallback callback, std::string type = "", std::string content = "");
 
-	void broadcast(Router* router, std::string url, std::string path, MessageCallback callback, std::string type = "", std::string content = "");
+	void broadcast(System* router, std::string url, std::string path, MessageCallback callback, std::string type = "", std::string content = "");
 
-	void pulse(Router* router, std::string url, std::string path, MessageBroker* broker);
+	void pulse(System* router, std::string url, std::string path, MessageBroker* broker);
 	
-    void pingOne(Router* router, std::string url, ClusterNode* dest);
+    void pingOne(System* router, std::string url, ClusterNode* dest);
 
-	void pingAll(Router* router, std::string url, std::vector<std::pair<std::string, std::string>> set = {});
+	void pingAll(System* router, std::string url, std::vector<std::pair<std::string, std::string>> set = {});
 
 	const int id() const;
 
@@ -141,7 +141,7 @@ class ClusterNode {
 
 	ClusterNode* getEdge(std::string host, std::string port);
 
-	void federate(Router* router, std::string url, std::string path, int epochs, int clients);
+	void federate(System* router, std::string url, std::string path, int epochs, int clients);
 
 	void print();
 

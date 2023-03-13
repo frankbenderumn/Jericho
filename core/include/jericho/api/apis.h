@@ -8,5 +8,6 @@
 #include "api/other.h"
 #include "api/ws.h"
 #include "api/sys.h"
+#include "api/binary_test.h"
 
 #endif

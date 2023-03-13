@@ -13,7 +13,7 @@
 #define OPT std::pair<std::string, std::string>
 typedef std::unordered_map<std::string, std::string> Args;
 typedef std::regex_iterator<std::string::iterator> RegexIter;
-#define SYS_CALL(x) std::string x(Args args, Router* router = NULL, Client* client = NULL)
+#define SYS_CALL(x) std::string x(Args args, System* router = NULL, Client* client = NULL)
 #define API_ARG(args, name) (containsKey(args, name)) ? args[name] : "undefined";
 
 #define REQUEST_INFO std::string hostname = (containsKey(args, std::string("Host"))) ? args["Host"] : "undefined"; \
@@ -42,12 +42,12 @@ bool contains(std::unordered_map<K, V> map, K key) {
 #define ARGS std::set<std::string>
 
 #define API(x, y) std::string api##x(Args args, \
-                                    Router* router = NULL, \
+                                    System* router = NULL, \
                                     Client* client = NULL, MessageBroker* broker = NULL) { \
     if (router == NULL) \
         return JsonResponse::error(404, "Client does not exist!"); \
     if (client == NULL) \
-        return JsonResponse::error(404, "Router does not exist!");
+        return JsonResponse::error(404, "System does not exist!");
     // if (!containsKey(TOKEN_LIST, args["token"])) \
     //     return JsonResponse::error(404, "Invalid token provided!"); \
     // if (!subset(y, keys(args))) \

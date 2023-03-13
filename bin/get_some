@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo -e "Welcome to the shit show!"
+
+./bin/test crypt_playground

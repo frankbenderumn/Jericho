@@ -6,7 +6,7 @@
 // #define LOG_FAIL Console::Log(FAILURE,
 #define OPTS std::vector<std::pair<std::string, std::string>>
 
-class Url {
+class Curl {
   public:
 
     static size_t writeCallback(char *contents, size_t size, size_t nmemb, void *userp) {

@@ -85,8 +85,11 @@ class Topology {
 
   public:
     Topology(ClusterNode* root) {
+        PCREATE;
         _root = root;
     }
+
+    ~Topology() { PDESTROY; }
 
     TopologyType parseType(std::string s) {
         if (s == "ring") {

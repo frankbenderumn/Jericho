@@ -5,12 +5,17 @@
 
 #include <string>
 #include "util/file_system.hpp"
-#include "server/response.h"
+#include "server/defs.h"
+// #include "server/response.h"
+// #include "system/router.h"
+
+class Router;
+class System;
 
 namespace resource {
-    void error(Client* client, const std::string& path);
+    void error(Router* router, Client* client, const std::string& path);
 
-    void serve_cxx(Client* conn, Client** clients, const char* path);
+    void serve_cxx(System* router, Client* conn, Client** clients, const char* path);
 
     void serve_raw(Client* conn, Client** clients, const char* message);
 

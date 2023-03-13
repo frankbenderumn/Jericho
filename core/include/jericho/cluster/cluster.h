@@ -5,9 +5,9 @@
 
 #include "cluster/cluster_node.h"
 #include "cluster/cluster_index.h"
-#include "router/router.h"
+#include "system/system.h"
 
-class Router;
+class System;
 
 enum ClusterType {
     CLUSTER_NULL,
@@ -41,24 +41,24 @@ class Cluster {
         delete _index;
     }
 
-    void pingAll(Router* router, std::string url) {
+    void pingAll(System* router, std::string url) {
         BBLU("CLUSTER CHILDREN SIZE: %i\n", (int)_boss->edges()->nodes().size());
         _boss->pingAll(router, url);
     }
 
-    void pingOne(Router* router, std::string url, ClusterNode* node) {
+    void pingOne(System* router, std::string url, ClusterNode* node) {
         BBLU("CLUSTER CHILDREN SIZE: %i\n", (int)_boss->edges()->nodes().size());
         if (node != nullptr) {
             _boss->pingOne(router, url, node);
         }
     }
 
-    void pingSet(Router* router, std::string url, std::vector<std::pair<std::string, std::string>> set) {
+    void pingSet(System* router, std::string url, std::vector<std::pair<std::string, std::string>> set) {
         BBLU("CLUSTER SET SIZE: %i\n", (int)set.size());
         _boss->pingAll(router, url, set);
     }
 
-    void federate(Router* router, std::string url) {
+    void federate(System* router, std::string url) {
         // for (auto n : _boss->edges()) {
             // n->federate(router, client);
         // }

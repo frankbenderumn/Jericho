@@ -119,3 +119,58 @@ FAIL-[2022-12-17 00:28:03]-/mnt/d/jericho-devel/core/src/server/socket.cc-int so
 FAIL-[2022-12-17 00:29:29]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
 FAIL-[2022-12-17 00:29:33]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
 FAIL-[2022-12-17 09:10:25]-/mnt/d/jericho-devel/core/src/server/socket.cc-int socket_create(const char*, int, int, int, int)-70-bind() failed.
+FAIL-[2023-01-01 13:22:06]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed
+FAIL-[2023-01-01 13:23:20]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/socket.cc-int socket_create(const char *, int, int, int, int)-70-bind() failed.
+FAIL-[2023-01-01 13:29:43]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed
+FAIL-[2023-01-01 13:31:04]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed
+FAIL-[2023-01-01 13:32:11]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed
+FAIL-[2023-01-01 13:40:04]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed
+FAIL-[2023-01-01 13:42:37]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed
+FAIL-[2023-01-01 13:53:06]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed
+FAIL-[2023-01-01 14:16:33]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed
+FAIL-[2023-01-01 14:22:57]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed
+FAIL-[2023-01-01 14:26:11]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed
+FAIL-[2023-01-01 14:27:57]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed
+FAIL-[2023-01-04 10:54:22]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed
+FAIL-[2023-01-04 12:28:51]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed
+FAIL-[2023-01-04 12:50:10]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed
+FAIL-[2023-01-04 13:31:50]-/Users/josephbender/Desktop/jericho-devel/Jericho/core/src/server/client.cc-fd_set wait_on_clients(int, Client **)-143-select() failed
+FAIL-[2023-01-19 09:56:37]-/mnt/d/jericho-devel/core/src/server/client.cc-fd_set wait_on_clients(int, Client**)-153-Dropping client: <client-address>
+FAIL-[2023-01-19 09:56:37]-/mnt/d/jericho-devel/core/src/server/client.cc-void drop_client(Client*, Client**, size_t*)-113-Dropping client: <client-address>
+FAIL-[2023-01-19 11:57:18]-/mnt/d/jericho-devel/core/src/server/client.cc-void drop_client(Client*, Client**, size_t*)-113-Dropping client: <client-address>
+FAIL-[2023-01-19 11:57:18]-/mnt/d/jericho-devel/core/src/server/client.cc-fd_set wait_on_clients(int, Client**)-153-Dropping client: <client-address>
+FAIL-[2023-01-19 21:47:57]-/mnt/d/jericho-devel/core/src/server/client.cc-void drop_client(Client*, Client**, size_t*)-113-Dropping client: <client-address>
+FAIL-[2023-01-19 21:47:57]-/mnt/d/jericho-devel/core/src/server/client.cc-fd_set wait_on_clients(int, Client**)-153-Dropping client: <client-address>
+FAIL-[2023-01-19 22:20:54]-/mnt/d/jericho-devel/core/src/server/client.cc-void drop_client(Client*, Client**, size_t*)-113-Dropping client: <client-address>
+FAIL-[2023-01-19 22:20:54]-/mnt/d/jericho-devel/core/src/server/client.cc-fd_set wait_on_clients(int, Client**)-153-Dropping client: <client-address>
+FAIL-[2023-01-19 22:22:58]-/mnt/d/jericho-devel/core/src/server/client.cc-fd_set wait_on_clients(int, Client**)-153-Dropping client: <client-address>
+FAIL-[2023-01-19 22:22:58]-/mnt/d/jericho-devel/core/src/server/client.cc-void drop_client(Client*, Client**, size_t*)-113-Dropping client: <client-address>
+FAIL-[2023-01-20 17:28:55]-/mnt/d/jericho-devel/core/src/server/client.cc-fd_set wait_on_clients(int, Client**)-153-Dropping client: <client-address>
+FAIL-[2023-01-20 17:28:55]-/mnt/d/jericho-devel/core/src/server/client.cc-void drop_client(Client*, Client**, size_t*)-113-Dropping client: <client-address>
+FAIL-[2023-01-20 17:39:17]-/mnt/d/jericho-devel/core/src/server/client.cc-fd_set wait_on_clients(int, Client**)-153-Dropping client: <client-address>
+FAIL-[2023-01-20 17:39:17]-/mnt/d/jericho-devel/core/src/server/client.cc-void drop_client(Client*, Client**, size_t*)-113-Dropping client: <client-address>
+FAIL-[2023-01-20 19:38:31]-/mnt/d/jericho-devel/core/src/server/client.cc-fd_set wait_on_clients(int, Client**)-153-Dropping client: <client-address>
+FAIL-[2023-01-20 19:38:31]-/mnt/d/jericho-devel/core/src/server/client.cc-void drop_client(Client*, Client**, size_t*)-113-Dropping client: <client-address>
+FAIL-[2023-01-20 19:40:16]-/mnt/d/jericho-devel/core/src/server/client.cc-fd_set wait_on_clients(int, Client**)-153-Dropping client: <client-address>
+FAIL-[2023-01-20 19:40:16]-/mnt/d/jericho-devel/core/src/server/client.cc-void drop_client(Client*, Client**, size_t*)-113-Dropping client: <client-address>
+FAIL-[2023-01-20 19:59:30]-/mnt/d/jericho-devel/core/src/server/client.cc-void drop_client(Client*, Client**, size_t*)-113-Dropping client: <client-address>
+FAIL-[2023-01-20 19:59:30]-/mnt/d/jericho-devel/core/src/server/client.cc-fd_set wait_on_clients(int, Client**)-153-Dropping client: <client-address>
+FAIL-[2023-01-20 20:00:26]-/mnt/d/jericho-devel/core/src/server/client.cc-fd_set wait_on_clients(int, Client**)-153-Dropping client: <client-address>
+FAIL-[2023-01-20 20:00:26]-/mnt/d/jericho-devel/core/src/server/client.cc-void drop_client(Client*, Client**, size_t*)-113-Dropping client: <client-address>
+FAIL-[2023-01-21 09:15:26]-/mnt/d/jericho-devel/core/src/server/client.cc-void drop_client(Client*, Client**, size_t*)-113-Dropping client: <client-address>
+FAIL-[2023-01-21 09:15:26]-/mnt/d/jericho-devel/core/src/server/client.cc-fd_set wait_on_clients(int, Client**)-153-Dropping client: <client-address>
+FAIL-[2023-01-21 09:17:40]-/mnt/d/jericho-devel/core/src/server/client.cc-void drop_client(Client*, Client**, size_t*)-113-Dropping client: <client-address>
+FAIL-[2023-01-21 09:17:40]-/mnt/d/jericho-devel/core/src/server/client.cc-fd_set wait_on_clients(int, Client**)-153-Dropping client: <client-address>
+FAIL-[2023-01-28 15:00:16]-/mnt/d/jericho-devel/core/src/server/client.cc-fd_set wait_on_clients(int, Client**)-151-select() failed
+FAIL-[2023-01-28 15:00:16]-/mnt/d/jericho-devel/core/src/server/client.cc-void drop_client(Client*, Client**, size_t*)-111-select() failed
+[1;36mFAIL[0m-[[0;32m2023-03-08[0m [0;33m11:47:15[0m]-/mnt/d/jericho-devel/core/src/server/server.cc:40:  [1;37mSSL_new(ctx) failed.[0m (0ms)
+[1;36mFAIL[0m-[[0;32m2023-03-08[0m [0;33m11:50:20[0m]-/mnt/d/jericho-devel/core/src/server/server.cc:40:  [1;37mSSL_new(ctx) failed.[0m (0ms)
+[1;36mFAIL[0m-[[0;32m2023-03-08[0m [0;33m11:52:33[0m]-/mnt/d/jericho-devel/core/src/server/server.cc:40:  [1;37mSSL_new(ctx) failed.[0m (0ms)
+[1;36mFAIL[0m-[[0;32m2023-03-08[0m [0;33m11:54:20[0m]-/mnt/d/jericho-devel/core/src/server/server.cc:40:  [1;37mSSL_new(ctx) failed.[0m (0ms)
+[1;36mFAIL[0m-[[0;32m2023-03-11[0m [0;33m11:30:15[0m]-/mnt/d/jericho-devel/core/src/server/server.cc:40:  [1;37mSSL_new(ctx) failed.[0m (0ms)
+[1;36mFAIL[0m-[[0;32m2023-03-11[0m [0;33m11:40:23[0m]-/mnt/d/jericho-devel/core/src/server/server.cc:40:  [1;37mSSL_new(ctx) failed.[0m (0ms)
+[1;36mFAIL[0m-[[0;32m2023-03-11[0m [0;33m11:46:58[0m]-/mnt/d/jericho-devel/core/src/server/server.cc:40:  [1;37mSSL_new(ctx) failed.[0m (0ms)
+[1;36mFAIL[0m-[[0;32m2023-03-11[0m [0;33m11:51:18[0m]-/mnt/d/jericho-devel/core/src/server/server.cc:40:  [1;37mSSL_new(ctx) failed.[0m (0ms)
+[1;36mFAIL[0m-[[0;32m2023-03-11[0m [0;33m11:52:57[0m]-/mnt/d/jericho-devel/core/src/server/server.cc:40:  [1;37mSSL_new(ctx) failed.[0m (0ms)
+[1;36mFAIL[0m-[[0;32m2023-03-11[0m [0;33m11:59:59[0m]-/mnt/d/jericho-devel/core/src/server/server.cc:49:  [1;37mSSL_new(ctx) failed.[0m (0ms)
+[1;36mFAIL[0m-[[0;32m2023-03-11[0m [0;33m12:03:25[0m]-/mnt/d/jericho-devel/core/src/server/server.cc:49:  [1;37mSSL_new(ctx) failed.[0m (0ms)

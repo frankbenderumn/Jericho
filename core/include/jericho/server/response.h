@@ -5,6 +5,8 @@
 
 #include "server/defs.h"
 #include "server/response_defs.h"
+// #include "server/request.h"
+#include "session/cookie.h"
 #include "message/message_broker.h"
 #include "picojson.h"
 
@@ -30,6 +32,21 @@ struct JsonResponse {
         picojson::value v(res);
         return v.serialize();
     }
+};
+
+struct Request;
+// http response
+struct Response {
+    Client* client;
+    Request* request;
+    System* sys;
+    bool redirect = false;
+    std::vector<Cookie*> cookies;
+    std::unordered_map<std::string, std::string> headers;
+    Response(System* sys, Request* req);
+    ~Response() { PDESTROY; }
+    void serve();
+    std::string generate();
 };
 
 // intuitive

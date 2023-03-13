@@ -28,7 +28,7 @@ class MessageBroker;
 
 typedef std::unordered_map<std::string, std::string> Args;
 
-typedef std::string (*__RPC)(Args, Router*, Client*, MessageBroker*);
+typedef std::string (*__RPC)(Args, System*, Client*, MessageBroker*);
 
 enum BifrostInsType {
 	BIN_NULL,
@@ -64,12 +64,13 @@ class MessageBroker {
 	bool _finished = false;
 
 	std::unordered_map<int, Bins> _chain;
-	// std::unordered_map<int, std::tuple<Args, Router*, Client*>> _chainArgs;
+	// std::unordered_map<int, std::tuple<Args, System*, Client*>> _chainArgs;
 
   public:
 	MessageBroker(BrokerType type, MessageCallback callback, int epoch = 1);
 
 	~MessageBroker() {
+		PDESTROY;
 		for (auto m : _messages) {
 			delete m;
 		}

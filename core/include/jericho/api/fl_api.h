@@ -3,7 +3,7 @@
 
 #include "api/api.h"
 #include "api/ping.h"
-#include "router/gui.h"
+#include "system/gui.h"
 
 API(Federate, {})
     ClusterNode* boss = router->cluster()->boss();

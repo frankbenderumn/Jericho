@@ -1,6 +1,0 @@
-{
-    "_meta": {"name": "diet"},
-    "!id": {"type": "auto-increment"},
-    "name": {"type": "string"},
-    "_attrs": ["@timestamps"]
-}

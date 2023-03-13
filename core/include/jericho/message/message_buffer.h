@@ -10,14 +10,15 @@
 static int TICKET_ID = -1;
 
 class MessageBroker;
-class Router;
+class System;
 class Client;
 
 struct MessageBuffer {
   
-    MessageBuffer() { ticket = ++TICKET_ID; }
+    MessageBuffer() { PCREATE; ticket = ++TICKET_ID; }
 
     MessageBuffer(std::string src, std::string dest, std::string dir, std::string content) {
+        PCREATE;
         std::vector<std::string> toks = prizm::tokenize(src, ':');
         std::vector<std::string> toks2 = prizm::tokenize(dest, ':');
         std::vector<std::string> toks3 = prizm::tokenize(toks2[1], '/');
@@ -31,7 +32,7 @@ struct MessageBuffer {
         this->client = src;
     }
 
-    ~MessageBuffer() {}
+    ~MessageBuffer() { PDESTROY; }
   
     std::string sent = "undefined";
   
@@ -70,6 +71,6 @@ struct MessageBuffer {
     void dump();
 };
 
-typedef std::string (*MessageCallback)(Router* router, Client* client, std::deque<MessageBuffer*>, std::string, void*);
+typedef std::string (*MessageCallback)(System* router, Client* client, std::deque<MessageBuffer*>, std::string, void*);
 
 #endif

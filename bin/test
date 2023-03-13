@@ -1,3 +1,8 @@
 #!/bin/bash
-
-./cmake-build/test
+# make clean
+if [ "$1" ]; then
+    cd cmake-build
+    make $1_test -j 16
+    cd ..
+    ./cmake-build/$1_test
+fi

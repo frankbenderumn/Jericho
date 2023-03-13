@@ -1,0 +1,37 @@
+#!/bin/bash
+KEY_DIR="./config/keys/"
+BITS=4096
+PUB_PATH="pub"
+PRIV_PATH="priv"
+USER_SESSION=""
+
+if [[ "$1" ]]; then
+    BITS="$1"
+fi
+
+# if [[ "$2" ]]; then
+#     PUBPATH="$2"
+# fi
+
+# if [[ "$3" ]]; then
+#     PRIVPATH="$3"
+# fi
+
+if [[ "$2" ]]; then
+    USER_SESSION="$2__"
+fi
+
+if [[ "$3" ]]; then
+    KEY_DIR="$3"
+fi
+
+PUBF="${KEY_DIR}${USER_SESSION}pub.pem"
+PRIVF="${KEY_DIR}${USER_SESSION}priv.pem"
+
+# echo -e "\033[1;34mBITS: ${BITS}\033[0m"
+# echo -e "\033[1;34mPUBLIC_PATH: ${PUBF}\033[0m"
+# echo -e "\033[1;34mPRIVATE_PATH: ${PRIVF}\033[0m"
+
+openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:$BITS -out $PRIVF > /dev/null 2>&1
+
+openssl pkey -in $PRIVF -pubout -out $PUBF > /dev/null 2>&1

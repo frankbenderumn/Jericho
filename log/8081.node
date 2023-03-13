@@ -25099,3 +25099,295 @@
 8081 - Fetch: Finished.
 
 
+8081 - Fetch: hostname: 127.0.0.1
+8081 - Fetch: port: 8081
+8081 - Fetch: fromPort: 8080
+8081 - Fetch: dir: ./public/cluster/127.0.0.1
+8081 - Fetch: path: /ping-local
+8081 - Fetch: type: http
+8081 - Fetch: message: Ping from 8080
+8081 - Fetch: flag: undefined
+8081 - Fetch: Message Size:  14
+8081 - Fetch: buffer published
+8081 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8081"}
+8081 - Fetch: Finished.
+
+
+8081 - Fetch: hostname: 127.0.0.1
+8081 - Fetch: port: 8081
+8081 - Fetch: fromPort: 8080
+8081 - Fetch: dir: ./public/cluster/127.0.0.1
+8081 - Fetch: path: /ping-local
+8081 - Fetch: type: http
+8081 - Fetch: message: Ping from 8080
+8081 - Fetch: flag: undefined
+8081 - Fetch: Message Size:  14
+8081 - Fetch: buffer published
+8081 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8081"}
+8081 - Fetch: Finished.
+
+
+8081 - Fetch: hostname: 127.0.0.1
+8081 - Fetch: port: 8081
+8081 - Fetch: fromPort: 8080
+8081 - Fetch: dir: ./public/cluster/127.0.0.1
+8081 - Fetch: path: /ping-local
+8081 - Fetch: type: http
+8081 - Fetch: message: Ping from 8080
+8081 - Fetch: flag: undefined
+8081 - Fetch: Message Size:  14
+8081 - Fetch: buffer published
+8081 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8081"}
+8081 - Fetch: Finished.
+
+
+8081 - Fetch: hostname: 127.0.0.1
+8081 - Fetch: port: 8081
+8081 - Fetch: fromPort: 8080
+8081 - Fetch: dir: ./public/cluster/127.0.0.1
+8081 - Fetch: path: /ping-local
+8081 - Fetch: type: http
+8081 - Fetch: message: Ping from 8080
+8081 - Fetch: flag: undefined
+8081 - Fetch: Message Size:  14
+8081 - Fetch: buffer published
+8081 - Fetch: Marking buffer with results: {"live": true, "response": "Hello from 127.0.0.1:8080"}
+8081 - Closing socket...
+8081 - Fetch: Finished.
+
+
+8081 - Fetch: hostname: 127.0.0.1
+8081 - Fetch: port: 8081
+8081 - Fetch: fromPort: 8080
+8081 - Fetch: dir: ./public/cluster/127.0.0.1
+8081 - Fetch: path: /ping-local
+8081 - Fetch: type: http
+8081 - Fetch: message: Ping from 8080
+8081 - Fetch: flag: undefined
+8081 - Fetch: Message Size:  14
+8081 - Fetch: buffer published
+8081 - Fetch: Marking buffer with results: {"live": true, "response": "Hello from 127.0.0.1:8080"}
+8081 - Closing socket...
+8081 - Fetch: Finished.
+
+
+8081 - Fetch: hostname: 127.0.0.1
+8081 - Fetch: port: 8081
+8081 - Fetch: fromPort: 8080
+8081 - Fetch: dir: ./public/cluster/127.0.0.1
+8081 - Fetch: path: /ping-local
+8081 - Fetch: type: http
+8081 - Fetch: message: Ping from 8080
+8081 - Fetch: flag: undefined
+8081 - Fetch: Message Size:  14
+8081 - Fetch: buffer published
+8081 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8081"}
+8081 - Fetch: Finished.
+
+
+8081 - Fetch: hostname: 127.0.0.1
+8081 - Fetch: port: 8081
+8081 - Fetch: fromPort: 8080
+8081 - Fetch: dir: ./public/cluster/127.0.0.1
+8081 - Fetch: path: /ping-local
+8081 - Fetch: type: http
+8081 - Fetch: message: Ping from 8080
+8081 - Fetch: flag: undefined
+8081 - Fetch: Message Size:  14
+8081 - Fetch: buffer published
+8081 - Fetch: Marking buffer with results: 
+8081 - Fetch: Finished.
+
+
+8081 - Fetch: hostname: 127.0.0.1
+8081 - Fetch: port: 8081
+8081 - Fetch: fromPort: 8080
+8081 - Fetch: dir: ./public/cluster/127.0.0.1
+8081 - Fetch: path: /ping-local
+8081 - Fetch: type: http
+8081 - Fetch: message: Ping from 8080
+8081 - Fetch: flag: undefined
+8081 - Fetch: Message Size:  14
+8081 - Fetch: buffer published
+8081 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8081"}
+8081 - Fetch: Finished.
+
+
+8081 - Fetch: hostname: 127.0.0.1
+8081 - Fetch: port: 8081
+8081 - Fetch: fromPort: 8080
+8081 - Fetch: dir: ./public/cluster/127.0.0.1
+8081 - Fetch: path: /ping-local
+8081 - Fetch: type: http
+8081 - Fetch: message: Ping from 8080
+8081 - Fetch: flag: undefined
+8081 - Fetch: Message Size:  14
+8081 - Fetch: buffer published
+8081 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8081"}
+8081 - Fetch: Finished.
+
+
+8081 - Fetch: hostname: 127.0.0.1
+8081 - Fetch: port: 8081
+8081 - Fetch: fromPort: 8080
+8081 - Fetch: dir: ./public/cluster/127.0.0.1
+8081 - Fetch: path: /ping-local
+8081 - Fetch: type: http
+8081 - Fetch: message: Ping from 8080
+8081 - Fetch: flag: undefined
+8081 - Fetch: Message Size:  14
+8081 - Fetch: buffer published
+8081 - Fetch: Marking buffer with results: 
+8081 - Fetch: Finished.
+
+
+8081 - Fetch: hostname: 127.0.0.1
+8081 - Fetch: port: 8081
+8081 - Fetch: fromPort: 8080
+8081 - Fetch: dir: ./public/cluster/127.0.0.1
+8081 - Fetch: path: /ping-local
+8081 - Fetch: type: http
+8081 - Fetch: message: Ping from 8080
+8081 - Fetch: flag: undefined
+8081 - Fetch: Message Size:  14
+8081 - Fetch: buffer published
+8081 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8081"}
+8081 - Fetch: Finished.
+
+
+8081 - Fetch: hostname: 127.0.0.1
+8081 - Fetch: port: 8081
+8081 - Fetch: fromPort: 8080
+8081 - Fetch: dir: ./public/cluster/127.0.0.1
+8081 - Fetch: path: /ping-local
+8081 - Fetch: type: http
+8081 - Fetch: message: Ping from 8080
+8081 - Fetch: flag: undefined
+8081 - Fetch: Message Size:  14
+8081 - Fetch: buffer published
+8081 - Fetch: Marking buffer with results: 
+8081 - Fetch: Finished.
+
+
+8081 - Fetch: hostname: 127.0.0.1
+8081 - Fetch: port: 8081
+8081 - Fetch: fromPort: 8080
+8081 - Fetch: dir: ./public/cluster/127.0.0.1
+8081 - Fetch: path: /ping-local
+8081 - Fetch: type: http
+8081 - Fetch: message: Ping from 8080
+8081 - Fetch: flag: undefined
+8081 - Fetch: Message Size:  14
+8081 - Fetch: buffer published
+8081 - Fetch: Marking buffer with results: 
+8081 - Fetch: Finished.
+
+
+8081 - Fetch: hostname: 127.0.0.1
+8081 - Fetch: port: 8081
+8081 - Fetch: fromPort: 8080
+8081 - Fetch: dir: ./public/cluster/127.0.0.1
+8081 - Fetch: path: /ping-local
+8081 - Fetch: type: http
+8081 - Fetch: message: Ping from 8080
+8081 - Fetch: flag: undefined
+8081 - Fetch: Message Size:  14
+8081 - Fetch: buffer published
+8081 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8081"}
+8081 - Fetch: Finished.
+
+
+8081 - Fetch: hostname: 127.0.0.1
+8081 - Fetch: port: 8081
+8081 - Fetch: fromPort: 8080
+8081 - Fetch: dir: ./public/cluster/127.0.0.1
+8081 - Fetch: path: /ping-local
+8081 - Fetch: type: http
+8081 - Fetch: message: Ping from 8080
+8081 - Fetch: flag: undefined
+8081 - Fetch: Message Size:  14
+8081 - Fetch: buffer published
+8081 - Fetch: Marking buffer with results: 
+8081 - Fetch: Finished.
+
+
+8081 - Fetch: hostname: 127.0.0.1
+8081 - Fetch: port: 8081
+8081 - Fetch: fromPort: 8080
+8081 - Fetch: dir: ./public/cluster/127.0.0.1
+8081 - Fetch: path: /ping-local
+8081 - Fetch: type: http
+8081 - Fetch: message: Ping from 8080
+8081 - Fetch: flag: undefined
+8081 - Fetch: Message Size:  14
+8081 - Fetch: buffer published
+8081 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8081"}
+8081 - Fetch: Finished.
+
+
+8081 - Fetch: hostname: 127.0.0.1
+8081 - Fetch: port: 8081
+8081 - Fetch: fromPort: 8080
+8081 - Fetch: dir: ./public/cluster/127.0.0.1
+8081 - Fetch: path: /ping-local
+8081 - Fetch: type: http
+8081 - Fetch: message: Ping from 8080
+8081 - Fetch: flag: undefined
+8081 - Fetch: Message Size:  14
+8081 - Fetch: buffer published
+8081 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8081"}
+8081 - Fetch: Finished.
+
+
+8081 - Fetch: hostname: 127.0.0.1
+8081 - Fetch: port: 8081
+8081 - Fetch: fromPort: 8080
+8081 - Fetch: dir: ./public/cluster/127.0.0.1
+8081 - Fetch: path: /ping-local
+8081 - Fetch: type: http
+8081 - Fetch: message: Ping from 8080
+8081 - Fetch: flag: undefined
+8081 - Fetch: Message Size:  14
+8081 - Fetch: buffer published
+8081 - Fetch: hostname: 127.0.0.1
+8081 - Fetch: port: 8081
+8081 - Fetch: fromPort: 8080
+8081 - Fetch: dir: ./public/cluster/127.0.0.1
+8081 - Fetch: path: /ping-local
+8081 - Fetch: type: http
+8081 - Fetch: message: Ping from 8080
+8081 - Fetch: flag: undefined
+8081 - Fetch: Message Size:  14
+8081 - Fetch: buffer published
+8081 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8081"}
+8081 - Fetch: Finished.
+
+
+8081 - Fetch: hostname: 127.0.0.1
+8081 - Fetch: port: 8081
+8081 - Fetch: fromPort: 8080
+8081 - Fetch: dir: ./public/cluster/127.0.0.1
+8081 - Fetch: path: /ping-local
+8081 - Fetch: type: http
+8081 - Fetch: message: Ping from 8080
+8081 - Fetch: flag: undefined
+8081 - Fetch: Message Size:  14
+8081 - Fetch: buffer published
+8081 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8081"}
+8081 - Fetch: Finished.
+
+
+8081 - Fetch: hostname: 127.0.0.1
+8081 - Fetch: port: 8081
+8081 - Fetch: fromPort: 8080
+8081 - Fetch: dir: ./public/cluster/127.0.0.1
+8081 - Fetch: path: /ping-local
+8081 - Fetch: type: http
+8081 - Fetch: message: Ping from 8080
+8081 - Fetch: flag: undefined
+8081 - Fetch: Message Size:  14
+8081 - Fetch: buffer published
+8081 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8081"}
+8081 - Fetch: Finished.
+
+

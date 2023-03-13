@@ -2,6 +2,7 @@
 #define STRUCTURES_STACK_H_
 
 #include "error.h"
+#include "server/defs.h"
 
 #ifdef CPP_VERSION
 
@@ -13,12 +14,13 @@ struct StackNode {
 class Stack {
   public:
     Stack(int data) {
+        PCREATE;
         _root = (struct StackNode*)malloc(sizeof(struct StackNode));
         _root->data = data;
         _root->next = NULL;
     }
     
-    ~Stack() { printf("Destroying Stack...\n"); }
+    ~Stack() { printf("Destroying Stack...\n"); PDESTROY; }
 
     struct StackNode* newNode(int data) {
         struct StackNode* stackNode = (struct StackNode*)malloc(sizeof(struct StackNode));

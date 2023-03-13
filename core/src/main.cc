@@ -1,7 +1,7 @@
 #include <signal.h>
 #include <sys/ioctl.h>
 
-#include "router/router.h"
+#include "system/system.h"
 #include "api/apis.h"
 #include "server/thread_pool.h"
 #include "server/server.h"
@@ -10,9 +10,10 @@
 #include "server/fetch.h"
 #include "celerity/celerity.h"
 #include "celerity/entity/internal/query_ir.h"
-#include "router/routes.h"
+#include "system/routes.h"
 #include "migrator/migrator.h"
 #include "message/bifrost.h"
+#include "util/trace.h"
 
 typedef struct {
   int             num_active;
@@ -39,6 +40,10 @@ int retVal = 0;
 int* exitVal = 0;
 
 volatile bool accepting = true;
+
+// some potentially unecessary global variables
+System* sys = nullptr;
+Orchestrator* orch = nullptr;
 
 void server_create(int argc, char* argv[]);
 Any server_destroy(void *arg);
@@ -87,7 +92,13 @@ void message(Client* conn, const unsigned char* message, uint64_t size, int type
     printf("Json data is: %s\n", data.serialize().c_str());
 }
 
+void atexit_fish() {
+    TRACESCAN;
+}
+
 int main(int argc, char* argv[]) {
+    const int result_1 = std::atexit(atexit_fish);
+
     if (std::string(argv[3]).find("..") != std::string::npos) {
         BRED("Invalid directory name!");
         return 1;
@@ -103,8 +114,6 @@ int main(int argc, char* argv[]) {
     bool dbCluster = false;
     bool federator = false;
 
-    Orchestrator* orch = nullptr;
-    BWHI("SIZE OF ORCHESTRATOR: %li\n", sizeof(orch));
     Celerity* celerity = nullptr;
     Bifrost* bifrost = new Bifrost;
 
@@ -120,13 +129,11 @@ int main(int argc, char* argv[]) {
 
         // Artist artist(name_("Jerry Jones"));
         // artist->persist(celerity->primary());
-    }
-
-    if (flag == "migrate") {
-        celerity = new Celerity(dbname);
-        std::string celerity_path = "./ext/celerity/core/include/celerity/entity/";
-        // std::string model = "./db/";
-        celerity->migrate(script.c_str(), celerity_path.c_str());
+    } else if (flag == "migrate") {
+        // celerity = new Celerity(dbname);
+        // std::string celerity_path = "./ext/celerity/core/include/celerity/entity/";
+        // // std::string model = "./db/";
+        // celerity->migrate(script.c_str(), celerity_path.c_str());
     }
 
     server_create(argc, argv);
@@ -140,102 +147,75 @@ int main(int argc, char* argv[]) {
         return 1; 
     }
 
-    ClusterIndex* index = new ClusterIndex;
-    ClusterNode* boss = new ClusterNode("127.0.0.1", std::string(argv[1]), "./public/"+std::string(argv[3]), index);
+    ClusterIndex* index = NULL;
+    ClusterNode* boss = NULL;
+    // ClusterIndex* index = new ClusterIndex;
+    // ClusterNode* boss = new ClusterNode("127.0.0.1", std::string(argv[1]), "./public/"+std::string(argv[3]), index);
     Cluster* cluster = new Cluster(CLUSTER_MAIN, boss, index);
 
     SOCKET server = socket_create(0, port, 1, AF_INET, SOCK_STREAM);
 
-    Router* router = new Router(tpool, fetch, cluster, celerity);
-    router->bifrost(bifrost);
+    sys = new System(tpool, fetch, cluster, celerity);
+    sys->bifrost(bifrost);
     
-    if (script != "orch") {
-        orch = new Orchestrator;
-        if (migrate(host+":"+portStr, orch, script) < 0) {
-            BRED("Main.cc: Failed to migrate!\n");
-            return 1;
-        }
-        // SEGH
-        printf("What the fuck\n");
-        if (orch->federator == nullptr) {
-            BMAG("Orch federator is null somehow\n");
-            exit(1);
-        }
-        printf("What the fuck\n");
-        orch->federator->dump();
-        printf("I want to cry\n");
-        FedRole role = orch->federator->local()->role();
-        printf("It does not make sense\n");
-        if (role == FED_ROLE_CENTRAL || role == FED_ROLE_AGGREGATOR) {
-            router->cluster()->boss()->configDir("agg");
-        }
-        router->federator(orch->federator);
-        write_file("./log/debug.log", "Hello friend");
-    }
+    // if (script != "orch") {
+    //     orch = new Orchestrator;
+    //     if (migrate(host+":"+portStr, orch, script) < 0) {
+    //         BRED("Main.cc: Failed to migrate!: %s\n", script.c_str());
+    //         return 1;
+    //     }
+    //     if (orch->federator == nullptr) {
+    //         BMAG("Orch federator is null somehow\n");
+    //         exit(1);
+    //     }
+    //     orch->federator->dump();
+    //     FedRole role = orch->federator->local()->role();
+    //     if (role == FED_ROLE_CENTRAL || role == FED_ROLE_AGGREGATOR) {
+    //         sys->cluster()->boss()->configDir("agg");
+    //     }
+    //     sys->federator(orch->federator);
+    //     write_file("./log/debug.log", "Hello friend");
+    // }
 
-    if (flag == "synch") {
-        BYEL("SYNCHING...\n");
-        router->flash(true);
-        std::deque<MessageBuffer*> bufs;
-        for (auto db : orch->dbs) {
-            BMAG("name: %s, url: %s\n", db.second.c_str(), db.first.c_str());
-            std::vector<std::string> toks = prizm::tokenize(db.first, ":");
-            MessageBuffer* buf = new MessageBuffer;
-            buf->hostname = toks[0];
-            buf->port = toks[1];
-            buf->fromPort = std::string(argv[1]);
-            buf->dir = PUBLIC_DIRECTORY;
-            buf->path = "/db-info";
-            buf->sent = "Requesting db info!";
-            bufs.push_back(buf);
-        }
-        router->flashBuffer(bufs);
-    }
+    // if (flag == "synch") {
+    //     BYEL("SYNCHING...\n");
+    //     sys->flash(true);
+    //     std::deque<MessageBuffer*> bufs;
+    //     for (auto db : orch->dbs) {
+    //         BMAG("name: %s, url: %s\n", db.second.c_str(), db.first.c_str());
+    //         std::vector<std::string> toks = prizm::tokenize(db.first, ":");
+    //         MessageBuffer* buf = new MessageBuffer;
+    //         buf->hostname = toks[0];
+    //         buf->port = toks[1];
+    //         buf->fromPort = std::string(argv[1]);
+    //         buf->dir = PUBLIC_DIRECTORY;
+    //         buf->path = "/db-info";
+    //         buf->sent = "Requesting db info!";
+    //         bufs.push_back(buf);
+    //     }
+    //     sys->flashBuffer(bufs);
+    // }
 
-    compile_routes(router);
+    compile_routes(sys->router());
 
-    BBLU("RUNNING...\n");
+    BBLU("==========================================\n");
+    BBLU("               SERVER START               \n");
+    BBLU("==========================================\n");
 
     if (flag != "synch" && flag != "migrate") {
-        run(&server, &clients, ctx, tpool, router);
-    } else {
-		if (router->flash()) {
-			BYEL("FLASHING...\n");
-			router->cluster()->boss()->brokerBroadcast(router, NULL, router->flashBuffer(), group_callback);
-		}
-
-        while (1) {
-        	MessageBroker* broker = router->cluster()->boss()->poll(NULL);
-			if (broker != NULL) {
-				BGRE("FIRING ASYNC CALL\n");
-				std::string response = broker->callback()(router, NULL, broker->response(NULL), broker->callbackType(), NULL);
-				if (broker->epoch() == 0) {
-					// if (isHTTP(response)) {
-					// 	resource::serve_raw(client, clients, response.c_str());
-					// } else {
-					// 	resource::serve_http(client, clients, response.c_str());
-					// }
-					// client->promised = false;
-					// BBLU("I DONT UNDERSTAND: %s\n", response.c_str());
-					// drop_client(client, clients); // this segfaults buffer size of 500000 but not 4095 (fixed)
-					break;
-				}
-			}
-        }
+        run(&server, &clients, ctx, tpool, sys);
     }
+
+    BMAG("Does this execute? Probably not.\n");
 
     BYEL("SHUTTING DOWN ---\n");
 
-    if (celerity != nullptr) {
-        delete celerity;
-    }
+    if (celerity != nullptr) delete celerity;
 
     delete cluster;
-    delete router;
+    delete sys;
 
-    if (orch != nullptr) {
-        delete orch;
-    }
+    if (orch != nullptr) delete orch;
     
     return 0;
 }
@@ -246,16 +226,49 @@ SSL_CTX* ssl_init() {
     SSL_load_error_strings();
     SSL_CTX* ctx = NULL;
 
+    // ask chatgpt for difference
     ctx = SSL_CTX_new(TLS_server_method());
+    // ctx = SSL_CTX_new(TLS_method());
     if (!ctx) {
         fprintf(stderr, "SSL_CTX_new() failed.\n");
         return NULL;
     }
 
-    if (!SSL_CTX_use_certificate_file(ctx, "cert.pem" , SSL_FILETYPE_PEM)
-    || !SSL_CTX_use_PrivateKey_file(ctx, "key.pem", SSL_FILETYPE_PEM)) {
-        fprintf(stderr, "SSL_CTX_use_certificate_file() failed.\n");
+    SSL_CTX_set_min_proto_version(ctx, TLS1_3_VERSION);
+    SSL_CTX_set_max_proto_version(ctx, TLS1_3_VERSION);
+
+    int max_proto_version = SSL_CTX_get_max_proto_version(ctx);
+    // Print the maximum protocol version
+    printf("Maximum protocol version: %d\n", max_proto_version);
+
+    int min_proto_version = SSL_CTX_get_min_proto_version(ctx);
+    // Print the maximum protocol version
+    printf("Minimum protocol version: %d\n", min_proto_version);
+
+
+    // load private key and certificate into SSL_CTX object
+    if (SSL_CTX_use_PrivateKey_file(ctx, "key.pem", SSL_FILETYPE_PEM) != 1) {
+        // print error messages to stderr
         ERR_print_errors_fp(stderr);
+        return NULL;
+    }
+    if (SSL_CTX_use_certificate_file(ctx, "cert.pem", SSL_FILETYPE_PEM) != 1) {
+        // print error messages to stderr
+        ERR_print_errors_fp(stderr);
+        return NULL;
+    }
+    
+    // check for SSL/TLS configuration errors
+    if (SSL_CTX_check_private_key(ctx) != 1) {
+        // print error messages to stderr
+        ERR_print_errors_fp(stderr);
+        return NULL;
+    }
+
+    BGRE("AND SERVER SAYS...\n");
+
+    if (ctx == NULL) {
+        BRED("SSL_CTX* is NULL\n");
         return NULL;
     }
 
@@ -327,6 +340,18 @@ Any server_destroy(void *arg) {
     thread_pool_wait(tpool);
     thread_pool_destroy(tpool);
     pthread_mutex_unlock(&thread_info.mutex);
+
+    Client* cli = clients;
+    size_t num_clis = 0;
+	while(cli != NULL) {
+		BMAG("Need to delete client here!\n");
+        drop_client(cli, &clients, &num_clis);
+		cli = cli->next;
+	}
+
+    BYEL("Deleting system...\n");
+    delete orch;
+    delete sys;
     
     // BGRE("Gracefully Terminated!\n");
     PLOG(LSERVER, "Gracefully terminated!");

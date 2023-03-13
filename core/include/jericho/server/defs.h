@@ -53,6 +53,7 @@
 #include "crypt/base64.h"
 #include "crypt/sha1.h"
 #include "crypt/utf8.h"
+#include "util/trace.h"
 
 #define BOOL int
 #define TRUE 1
@@ -158,6 +159,7 @@ struct Client {
     BOOL close_thread;
     SSL* ssl;
     bool promised = false;
+    bool websocket = false;
     int id = -1;
     std::string url = "undefined";
 };
@@ -177,5 +179,8 @@ struct Frame {
 typedef struct Client Client;
 
 static pthread_mutex_t MESSAGE_MUTEX = PTHREAD_MUTEX_INITIALIZER;
+
+typedef unsigned char BYTE;
+typedef std::vector<BYTE> bytes_t;
 
 #endif

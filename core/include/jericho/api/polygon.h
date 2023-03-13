@@ -13,7 +13,7 @@
 #include "api/api.h"
 #include "server/response.h"
 #include "server/client.h"
-#include "router/router.h"
+#include "system/system.h"
 #include "util/iters.h"
 #include "prizm/prizm.h"
 #include "util/file_system.hpp"
@@ -31,7 +31,7 @@ class PolygonClient {
         for (auto opt : opts) {
             _options.push_back(opt);
         }
-        std::string result = Url::get(_protocol, _url, route, _options);
+        std::string result = Curl::get(_protocol, _url, route, _options);
         return result;
     }
 

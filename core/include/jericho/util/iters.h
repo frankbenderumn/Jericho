@@ -6,7 +6,10 @@
 #include <map>
 #include <set>
 #include <iostream>
+
+#ifdef __unix__
 #include <bits/stdc++.h>
+#endif
 
 template<typename T>
 bool contains(std::vector<T> vec, T el) {

@@ -1,0 +1,15 @@
+
+<header>
+    This is a header
+</header>
+<body>
+<form action='/staging/dashboard.iris'>
+	<input type='password' name='a-password' placeholder='password' />
+	<input type='submit' action='/submit.iris' />
+	<input type='textfield' name='something' placeholder='Username' />
+	<input type='hidden' csrf-token='dfsdkfhj4jh3489sdyhksdf' />
+</form>
+</body>
+<footer>
+    This is a footer
+</footer>

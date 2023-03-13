@@ -7586,3 +7586,295 @@
 8083 - Fetch: Finished.
 
 
+8083 - Fetch: hostname: 127.0.0.1
+8083 - Fetch: port: 8083
+8083 - Fetch: fromPort: 8080
+8083 - Fetch: dir: ./public/cluster/127.0.0.1
+8083 - Fetch: path: /ping-local
+8083 - Fetch: type: http
+8083 - Fetch: message: Ping from 8080
+8083 - Fetch: flag: undefined
+8083 - Fetch: Message Size:  14
+8083 - Fetch: buffer published
+8083 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8083"}
+8083 - Fetch: Finished.
+
+
+8083 - Fetch: hostname: 127.0.0.1
+8083 - Fetch: port: 8083
+8083 - Fetch: fromPort: 8080
+8083 - Fetch: dir: ./public/cluster/127.0.0.1
+8083 - Fetch: path: /ping-local
+8083 - Fetch: type: http
+8083 - Fetch: message: Ping from 8080
+8083 - Fetch: flag: undefined
+8083 - Fetch: Message Size:  14
+8083 - Fetch: buffer published
+8083 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8083"}
+8083 - Fetch: Finished.
+
+
+8083 - Fetch: hostname: 127.0.0.1
+8083 - Fetch: port: 8083
+8083 - Fetch: fromPort: 8080
+8083 - Fetch: dir: ./public/cluster/127.0.0.1
+8083 - Fetch: path: /ping-local
+8083 - Fetch: type: http
+8083 - Fetch: message: Ping from 8080
+8083 - Fetch: flag: undefined
+8083 - Fetch: Message Size:  14
+8083 - Fetch: buffer published
+8083 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8083"}
+8083 - Fetch: Finished.
+
+
+8083 - Fetch: hostname: 127.0.0.1
+8083 - Fetch: port: 8083
+8083 - Fetch: fromPort: 8080
+8083 - Fetch: dir: ./public/cluster/127.0.0.1
+8083 - Fetch: path: /ping-local
+8083 - Fetch: type: http
+8083 - Fetch: message: Ping from 8080
+8083 - Fetch: flag: undefined
+8083 - Fetch: Message Size:  14
+8083 - Fetch: buffer published
+8083 - Fetch: Marking buffer with results: {"live": true, "response": "Hello from 127.0.0.1:8080"}
+8083 - Closing socket...
+8083 - Fetch: Finished.
+
+
+8083 - Fetch: hostname: 127.0.0.1
+8083 - Fetch: port: 8083
+8083 - Fetch: fromPort: 8080
+8083 - Fetch: dir: ./public/cluster/127.0.0.1
+8083 - Fetch: path: /ping-local
+8083 - Fetch: type: http
+8083 - Fetch: message: Ping from 8080
+8083 - Fetch: flag: undefined
+8083 - Fetch: Message Size:  14
+8083 - Fetch: buffer published
+8083 - Fetch: Marking buffer with results: {"live": true, "response": "Hello from 127.0.0.1:8080"}
+8083 - Closing socket...
+8083 - Fetch: Finished.
+
+
+8083 - Fetch: hostname: 127.0.0.1
+8083 - Fetch: port: 8083
+8083 - Fetch: fromPort: 8080
+8083 - Fetch: dir: ./public/cluster/127.0.0.1
+8083 - Fetch: path: /ping-local
+8083 - Fetch: type: http
+8083 - Fetch: message: Ping from 8080
+8083 - Fetch: flag: undefined
+8083 - Fetch: Message Size:  14
+8083 - Fetch: buffer published
+8083 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8083"}
+8083 - Fetch: Finished.
+
+
+8083 - Fetch: hostname: 127.0.0.1
+8083 - Fetch: port: 8083
+8083 - Fetch: fromPort: 8080
+8083 - Fetch: dir: ./public/cluster/127.0.0.1
+8083 - Fetch: path: /ping-local
+8083 - Fetch: type: http
+8083 - Fetch: message: Ping from 8080
+8083 - Fetch: flag: undefined
+8083 - Fetch: Message Size:  14
+8083 - Fetch: buffer published
+8083 - Fetch: Marking buffer with results: 
+8083 - Fetch: Finished.
+
+
+8083 - Fetch: hostname: 127.0.0.1
+8083 - Fetch: port: 8083
+8083 - Fetch: fromPort: 8080
+8083 - Fetch: dir: ./public/cluster/127.0.0.1
+8083 - Fetch: path: /ping-local
+8083 - Fetch: type: http
+8083 - Fetch: message: Ping from 8080
+8083 - Fetch: flag: undefined
+8083 - Fetch: Message Size:  14
+8083 - Fetch: buffer published
+8083 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8083"}
+8083 - Fetch: Finished.
+
+
+8083 - Fetch: hostname: 127.0.0.1
+8083 - Fetch: port: 8083
+8083 - Fetch: fromPort: 8080
+8083 - Fetch: dir: ./public/cluster/127.0.0.1
+8083 - Fetch: path: /ping-local
+8083 - Fetch: type: http
+8083 - Fetch: message: Ping from 8080
+8083 - Fetch: flag: undefined
+8083 - Fetch: Message Size:  14
+8083 - Fetch: buffer published
+8083 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8083"}
+8083 - Fetch: Finished.
+
+
+8083 - Fetch: hostname: 127.0.0.1
+8083 - Fetch: port: 8083
+8083 - Fetch: fromPort: 8080
+8083 - Fetch: dir: ./public/cluster/127.0.0.1
+8083 - Fetch: path: /ping-local
+8083 - Fetch: type: http
+8083 - Fetch: message: Ping from 8080
+8083 - Fetch: flag: undefined
+8083 - Fetch: Message Size:  14
+8083 - Fetch: buffer published
+8083 - Fetch: Marking buffer with results: 
+8083 - Fetch: Finished.
+
+
+8083 - Fetch: hostname: 127.0.0.1
+8083 - Fetch: port: 8083
+8083 - Fetch: fromPort: 8080
+8083 - Fetch: dir: ./public/cluster/127.0.0.1
+8083 - Fetch: path: /ping-local
+8083 - Fetch: type: http
+8083 - Fetch: message: Ping from 8080
+8083 - Fetch: flag: undefined
+8083 - Fetch: Message Size:  14
+8083 - Fetch: buffer published
+8083 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8083"}
+8083 - Fetch: Finished.
+
+
+8083 - Fetch: hostname: 127.0.0.1
+8083 - Fetch: port: 8083
+8083 - Fetch: fromPort: 8080
+8083 - Fetch: dir: ./public/cluster/127.0.0.1
+8083 - Fetch: path: /ping-local
+8083 - Fetch: type: http
+8083 - Fetch: message: Ping from 8080
+8083 - Fetch: flag: undefined
+8083 - Fetch: Message Size:  14
+8083 - Fetch: buffer published
+8083 - Fetch: Marking buffer with results: 
+8083 - Fetch: Finished.
+
+
+8083 - Fetch: hostname: 127.0.0.1
+8083 - Fetch: port: 8083
+8083 - Fetch: fromPort: 8080
+8083 - Fetch: dir: ./public/cluster/127.0.0.1
+8083 - Fetch: path: /ping-local
+8083 - Fetch: type: http
+8083 - Fetch: message: Ping from 8080
+8083 - Fetch: flag: undefined
+8083 - Fetch: Message Size:  14
+8083 - Fetch: buffer published
+8083 - Fetch: Marking buffer with results: 
+8083 - Fetch: Finished.
+
+
+8083 - Fetch: hostname: 127.0.0.1
+8083 - Fetch: port: 8083
+8083 - Fetch: fromPort: 8080
+8083 - Fetch: dir: ./public/cluster/127.0.0.1
+8083 - Fetch: path: /ping-local
+8083 - Fetch: type: http
+8083 - Fetch: message: Ping from 8080
+8083 - Fetch: flag: undefined
+8083 - Fetch: Message Size:  14
+8083 - Fetch: buffer published
+8083 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8083"}
+8083 - Fetch: Finished.
+
+
+8083 - Fetch: hostname: 127.0.0.1
+8083 - Fetch: port: 8083
+8083 - Fetch: fromPort: 8080
+8083 - Fetch: dir: ./public/cluster/127.0.0.1
+8083 - Fetch: path: /ping-local
+8083 - Fetch: type: http
+8083 - Fetch: message: Ping from 8080
+8083 - Fetch: flag: undefined
+8083 - Fetch: Message Size:  14
+8083 - Fetch: buffer published
+8083 - Fetch: Marking buffer with results: 
+8083 - Fetch: Finished.
+
+
+8083 - Fetch: hostname: 127.0.0.1
+8083 - Fetch: port: 8083
+8083 - Fetch: fromPort: 8080
+8083 - Fetch: dir: ./public/cluster/127.0.0.1
+8083 - Fetch: path: /ping-local
+8083 - Fetch: type: http
+8083 - Fetch: message: Ping from 8080
+8083 - Fetch: flag: undefined
+8083 - Fetch: Message Size:  14
+8083 - Fetch: buffer published
+8083 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8083"}
+8083 - Fetch: Finished.
+
+
+8083 - Fetch: hostname: 127.0.0.1
+8083 - Fetch: port: 8083
+8083 - Fetch: fromPort: 8080
+8083 - Fetch: dir: ./public/cluster/127.0.0.1
+8083 - Fetch: path: /ping-local
+8083 - Fetch: type: http
+8083 - Fetch: message: Ping from 8080
+8083 - Fetch: flag: undefined
+8083 - Fetch: Message Size:  14
+8083 - Fetch: buffer published
+8083 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8083"}
+8083 - Fetch: Finished.
+
+
+8083 - Fetch: hostname: 127.0.0.1
+8083 - Fetch: port: 8083
+8083 - Fetch: fromPort: 8080
+8083 - Fetch: dir: ./public/cluster/127.0.0.1
+8083 - Fetch: path: /ping-local
+8083 - Fetch: type: http
+8083 - Fetch: message: Ping from 8080
+8083 - Fetch: flag: undefined
+8083 - Fetch: Message Size:  14
+8083 - Fetch: buffer published
+8083 - Fetch: hostname: 127.0.0.1
+8083 - Fetch: port: 8083
+8083 - Fetch: fromPort: 8080
+8083 - Fetch: dir: ./public/cluster/127.0.0.1
+8083 - Fetch: path: /ping-local
+8083 - Fetch: type: http
+8083 - Fetch: message: Ping from 8080
+8083 - Fetch: flag: undefined
+8083 - Fetch: Message Size:  14
+8083 - Fetch: buffer published
+8083 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8083"}
+8083 - Fetch: Finished.
+
+
+8083 - Fetch: hostname: 127.0.0.1
+8083 - Fetch: port: 8083
+8083 - Fetch: fromPort: 8080
+8083 - Fetch: dir: ./public/cluster/127.0.0.1
+8083 - Fetch: path: /ping-local
+8083 - Fetch: type: http
+8083 - Fetch: message: Ping from 8080
+8083 - Fetch: flag: undefined
+8083 - Fetch: Message Size:  14
+8083 - Fetch: buffer published
+8083 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8083"}
+8083 - Fetch: Finished.
+
+
+8083 - Fetch: hostname: 127.0.0.1
+8083 - Fetch: port: 8083
+8083 - Fetch: fromPort: 8080
+8083 - Fetch: dir: ./public/cluster/127.0.0.1
+8083 - Fetch: path: /ping-local
+8083 - Fetch: type: http
+8083 - Fetch: message: Ping from 8080
+8083 - Fetch: flag: undefined
+8083 - Fetch: Message Size:  14
+8083 - Fetch: buffer published
+8083 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8083"}
+8083 - Fetch: Finished.
+
+

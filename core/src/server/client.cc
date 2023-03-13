@@ -1,5 +1,7 @@
 #include <arpa/inet.h>
 
+#include <string>
+
 #include "server/client.h"
 
 // re-entrant safe
@@ -7,6 +9,14 @@ void client_get_address(struct Client* ci, char* dest) {
     char address_buffer[16]; // char array to store IP address, static so erased after function termination
     getnameinfo((struct sockaddr*)&ci->address, ci->address_length, address_buffer, sizeof(address_buffer), 0, 0, NI_NUMERICHOST);
     strncpy(dest, address_buffer, INET_ADDRSTRLEN);
+}
+
+std::string client_get_address(struct Client* ci) {
+    char address_buffer[16]; // char array to store IP address, static so erased after function termination
+    getnameinfo((struct sockaddr*)&ci->address, ci->address_length, address_buffer, sizeof(address_buffer), 0, 0, NI_NUMERICHOST);
+    // strncpy(dest, address_buffer, INET_ADDRSTRLEN);
+    std::string s(address_buffer);
+    return s;
 }
 
 void client_get_full_address(struct Client* ci, char* dest, uint16_t* port) {
@@ -53,7 +63,7 @@ void client_set_state(Client* client, SocketState state) {
 static int CLIENT_ID = -1;
 
 // finds exisiting client or creates new one if does not exist
-Client* get_client(SOCKET s, Client** clients) {
+Client* get_client(SOCKET s, Client** clients, size_t* num_clients) {
     Client* ci = *clients; // pointer to linked list
 
     while (ci) {
@@ -64,8 +74,11 @@ Client* get_client(SOCKET s, Client** clients) {
     if (ci) return ci; // last client
 
     // allocate 1 new client with block size of Client (calloc actually initializes to 0 unlike malloc)
-    Client* n = (Client*) calloc(1, sizeof(Client)); 
+    Client* n = (Client*)calloc(1, sizeof(Client)); 
     n->id = ++CLIENT_ID;
+    (*num_clients)++;
+    
+    PCREATEC("Client");
 
     if (!n) { PFAIL(ENEM, "Out of memory!"); } // not enough memory
 
@@ -92,7 +105,7 @@ Client* get_client(SOCKET s, Client** clients) {
     return n; 
 }
 
-void drop_client(Client* client, Client** clients) {
+void drop_client(Client* client, Client** clients, size_t* num_clients) {
     if (!client->promised) {
         SSL_shutdown(client->ssl);
         CLOSESOCKET(client->socket); // kill connection
@@ -106,7 +119,9 @@ void drop_client(Client* client, Client** clients) {
                 **p = client->next; // set pointer to client
                 free(client); // free memory, was allocated on heap
                 PLOG(LSERVER, "Dropping client: <client-address>");
-                BYEL("Client dropped!\n");
+                PDESTROYC("Client");
+                // BYEL("Client dropped!\n");
+                (*num_clients)--;
                 return;
             }
             *p = &(**p)->next; // iterate
@@ -125,6 +140,11 @@ fd_set wait_on_clients(SOCKET server, Client** clients) {
     FD_SET(server, &reads); // server fd bit
     SOCKET max_socket = server; // current num of sockets
     Client* ci = *clients; // list of clients
+    
+    if (ci == NULL) {
+        // YEL("No clients yet. Waiting for new client...\n");
+        // PLOG(LSERVER, "No clients yet. Waiting for new client...");
+    }
 
     while (ci) {
         FD_SET(ci->socket, &reads); // set fd bit of socket
@@ -139,8 +159,8 @@ fd_set wait_on_clients(SOCKET server, Client** clients) {
     // use pselect with 6th param for sigmask to ignore certain signals on threads
     if (select(max_socket + 1, &reads, 0, 0, 0) < 0) {
         // fprintf(stderr, "select() failed. (%d)\n", GETSOCKETERRNO());
-        // exit(1);
         PFAIL(ESERVER, "select() failed");
+        exit(1);
     }
 
     return reads;
@@ -195,4 +215,51 @@ int ws_close_client(Client *client) {
 	 */
 	start_close_timeout(client);
 	return 0;
+}
+
+// test
+Client* create_client(Client** clients) {
+    Client* n = (Client*)calloc(1, sizeof(Client)); 
+    n->id = ++CLIENT_ID;
+    
+    PCREATEC("Client");
+
+    if (!n) { PFAIL(ENEM, "Out of memory!"); } // not enough memory
+
+    // set address length to size of sockaddr_storage
+    n->address_length = sizeof(n->address);
+    if (clients != NULL) {
+        n->next = *clients; // append to front of linked list
+        *clients = n; // set index to front of clients
+    } else {
+        clients = &n;
+    }
+
+    return n; 
+}
+
+void traverse_clients(Client** clients) {
+    Client* p = *clients;
+    while(p) {
+        // BYEL("Request:\n");
+        // printf("%s\n", p->request);
+        p = p->next;
+    }
+}
+
+void destroy_client(Client* client, Client** clients) {
+    Client*** p = &clients; // pointer-to-pointer
+    
+    // double pointer helps with case of dropped client at head of list
+    while (**p) { 
+        if (**p == client) { // if client
+            **p = client->next; // set pointer to client
+            free(client); // free memory, was allocated on heap
+            PDESTROYC("Client");
+            // BYEL("Client dropped!\n");
+            // add drop client PLOG statement instead
+            return;
+        }
+        *p = &(**p)->next; // iterate
+    }
 }

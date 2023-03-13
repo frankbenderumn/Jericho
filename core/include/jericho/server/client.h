@@ -8,6 +8,8 @@
 #ifndef SERVER_CLIENT_H_
 #define SERVER_CLIENT_H_
 
+#include <string>
+
 #include "server/defs.h"
 #include "server/shutdown.h"
 #include "server/socket.h"
@@ -17,6 +19,8 @@
 *   Accessors
 ************************************************************/
 void client_get_address(struct Client* ci, char* dest);
+
+std::string client_get_address(struct Client* ci);
 
 void client_get_full_address(struct Client* ci, char* dest, uint16_t* port);
 
@@ -43,12 +47,12 @@ bool client_get_grade(Client* client);
 /***********************************************************
 *   Collection Accessors
 ************************************************************/
-Client* get_client(SOCKET s, Client** clients);
+Client* get_client(SOCKET s, Client** clients, size_t* num_clients);
 
 /***********************************************************
 *   Atomic Accessors
 ************************************************************/
-void drop_client(Client* client, Client** clients);
+void drop_client(Client* client, Client** clients, size_t* num_clients);
 
 /***********************************************************
 *   Atomic Accessors
@@ -64,6 +68,11 @@ int ws_close_client(Client *client);
 *   Atomic Accessors
 ************************************************************/
 void close_client(Client* client, int lock);
+
+// testing
+Client* create_client(Client** clients);
+void traverse_clients(Client** clients);
+void destroy_client(Client* client, Client** clients);
 
 
 #endif

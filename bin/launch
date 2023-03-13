@@ -1,10 +1,10 @@
 #!/bin/bash
 
 PORT=8080
-THREADS=20
+THREADS=5
 DIRECTORY=frontend
 DATABASE=demodb
-SCRIPT=undefined
+SCRIPT=config/orchestrator.json
 FLAG=undefined
 
 POSITIONAL_ARGS=()

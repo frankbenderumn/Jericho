@@ -131,9 +131,9 @@ class Federator {
         return url;
     }
 
-    void poll(std::string hostname, Router* router, std::string url, MessageCallback callback, Benchmark* bm);
+    void poll(std::string hostname, System* router, std::string url, MessageCallback callback, Benchmark* bm);
 
-    void train(std::string hostname, Router* router, std::string url, MessageCallback callback, Benchmark* bm);
+    void train(std::string hostname, System* router, std::string url, MessageCallback callback, Benchmark* bm);
 
     int parseFederator(FedNode* fedNode, picojson::object fed, std::unordered_map<std::string, std::string>& args) {
         BYEL("Parsing federator...\n");

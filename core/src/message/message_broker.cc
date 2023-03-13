@@ -1,6 +1,7 @@
 #include "message/message_broker.h"
 
 MessageBroker::MessageBroker(BrokerType type, MessageCallback callback, int epoch) {
+    PCREATE;
     _type = type;
     _callback = callback;
     _epoch = epoch;

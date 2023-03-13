@@ -3,18 +3,18 @@
 
 #include <deque>
 
-#include "router/router.h"
+#include "system/system.h"
 #include "server/defs.h"
 #include "message/message_buffer.h"
 
-std::string single_callback(Router* node, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args);
+std::string single_callback(System* node, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args);
 
-std::string group_callback(Router* node, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args);
+std::string group_callback(System* node, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args);
 
-std::string epoch_callback(Router* router, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args);
+std::string epoch_callback(System* router, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args);
 
-std::string bm_callback(Router* router, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args);
+std::string bm_callback(System* router, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args);
 
-std::string chain_callback(Router* router, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args);
+std::string chain_callback(System* router, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args);
 
 #endif

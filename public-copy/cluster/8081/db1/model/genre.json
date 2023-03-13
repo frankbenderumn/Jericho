@@ -1,6 +1,0 @@
-{
-    "_meta": {"name": "genre"},
-    "!id": {"type": "auto-increment"},
-    "name": {"type": "string", "max-length": "32"},
-    "_attrs": ["@timestamps"]
-}

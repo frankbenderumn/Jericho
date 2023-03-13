@@ -137,12 +137,34 @@ std::vector<std::string> Jericho::FileSystem::getDir(std::string dir) {
     return fileBuffer;
 }
 
+void mkDir(std::string dir) {
+
+}
+
 std::vector<std::string> publicDir() {
     return {};
 }
 
 bool Jericho::FileSystem::sanitize(std::string s, std::regex r) {
     return true;
+}
+
+int Jericho::FileSystem::parseJson(picojson::value& data, const char* json) {
+    std::string err = picojson::parse(data, json);
+    if (!err.empty()) {
+        std::cerr << err << std::endl;
+        BRED("Failed to parse json file: %s\n", json);
+        return -1;
+    } else {
+        BGRE("Json data parsed for: %s\n", json);
+    }
+
+    if (!data.is<picojson::object>()) {
+        BRED("Json file %s not an object!\n", json);
+        return -1;
+    }
+
+    return 0;
 }
 
 int Jericho::FileSystem::readJson(picojson::value& data, const char* path) {
@@ -168,4 +190,47 @@ int Jericho::FileSystem::readJson(picojson::value& data, const char* path) {
     return 0;
 }
 
+int Jericho::FileSystem::exists(std::string pathname) {
+    struct stat info;
+    if( stat( pathname.c_str(), &info ) != 0 ) {
+        printf( "cannot access %s\n", pathname.c_str() );
+        return 0;
+    } else if( info.st_mode & S_IFDIR ) {// S_ISDIR() doesn't exist on my windows 
+        printf( "%s is a directory\n", pathname.c_str() );
+        return 1;
+    } else {
+        printf( "%s is no directory\n", pathname.c_str() );
+        return 2;
+    }
+}
+
+bool Jericho::FileSystem::fileExists(std::string pathname) {
+    return (2 == JFS::exists(pathname));
+}
+
+bool Jericho::FileSystem::dirExists(std::string pathname) {
+    return (1 == JFS::exists(pathname));
+}
+
+void Jericho::FileSystem::mkDir(std::string dir) {
+    if (JFS::exists(dir) == 0) {
+        mkdir(dir.c_str(), 0777);
+    } else {
+        BRED("Failed to create directory: %s\n", dir.c_str());
+    }
+}
+
+long Jericho::FileSystem::modifiedAt(const char* path) {
+    BCYA("Path for modified at is: %s\n", path);
+    struct stat attr;
+    stat(path, &attr);
+    struct timespec ts;
+    timespec_get(&ts, attr.st_mtime);
+    long t = ts.tv_sec;
+    long l = attr.st_mtime;
+    printf("Nano seconds: %ld\n", l);
+    printf("Current time: %ld\n", time(0));
+    printf("Last modified time: %s", ctime(&attr.st_mtime));
+    return l;
+}
 

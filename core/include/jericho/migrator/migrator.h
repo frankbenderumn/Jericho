@@ -22,9 +22,11 @@ typedef struct Orchestrator {
     std::vector<std::pair<std::string, std::string>> dbs;
     std::string dir;
     std::vector<std::tuple<std::string, Orchestrator*, std::string, int (*)(std::string, Orchestrator*, std::string)>> migrators;
+    Orchestrator() { PCREATE; }
+    ~Orchestrator() { PDESTROY; }
 } Orchestator;
 
-int migrateRouter(std::string nodeUrl, Orchestrator* orch, std::string path) {
+int migrateSystem(std::string nodeUrl, Orchestrator* orch, std::string path) {
     picojson::value data;
     if (Jericho::FileSystem::readJson(data, path.c_str()) < 0) return -1;
     BMAG("Migrating router %s...\n", path.c_str());
@@ -149,7 +151,7 @@ int migrate(std::string nodeUrl, Orchestrator* orch, std::string path) {
         } else if (it->first == "router") {
             char* p = strstr(str, ".json");
             if (p == NULL) { BRED("migrate: Not a json file: %s\n", s.c_str()); return -1; }
-            orch->migrators.push_back({nodeUrl, orch, it->second.get<std::string>(), &migrateRouter});
+            orch->migrators.push_back({nodeUrl, orch, it->second.get<std::string>(), &migrateSystem});
         } else if (it->first == "database") {
             char* p = strstr(str, ".json");
             if (p == NULL) { BRED("migrate: Not a json file: %s\n", s.c_str()); return -1; }

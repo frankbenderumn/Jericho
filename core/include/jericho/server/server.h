@@ -24,7 +24,7 @@
 #include "server/client.h"
 #include "server/router.h"
 
-class Router; 
+class System; 
 
 extern EventManager event_manager;
 
@@ -38,7 +38,7 @@ int run(SOCKET* server,
         Client** clients,
         SSL_CTX* ctx,
         ThreadPool* tpool,
-        Router* router);
+        System* router);
 
 void ws_to_client(Any targ);
 

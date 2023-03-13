@@ -1,0 +1,10 @@
+$[idoc]$
+$[ipart]{header.html}$
+<body>
+$[iform=/staging/dashboard.iris]{
+    "textfield": {"name": "something", "placeholder": "Username"},
+    "password": {"name": "a-password", "placeholder": "password"},
+    "submit": {"action": "/submit.iris"}
+}$
+</body>
+$[ipart]{footer.html}$
