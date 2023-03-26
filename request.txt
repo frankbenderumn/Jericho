@@ -1,9 +1,0 @@
-GET /join-weights HTTP/1.1
-Host: 127.0.0.1:8089
-Connection: keep-alive
-User-Agent: honpwc https_get 1.0
-Jericho: true
-Content-Type: binary
-Content-Length: 439799
-
-PK

@@ -20,7 +20,7 @@ build/*
 build/obj/*
 *.log
 ext/*
-cmake-build/*
+cmake-build/
 build/*
 public/frontend/assets
 py/data/*
