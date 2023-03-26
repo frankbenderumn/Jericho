@@ -22,14 +22,14 @@ endif (NOT DEFINED COMET_DIR)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/core/include/jericho)
 
-option(BUILD_SHARED_LIBS "Building shared library..." OFF)
-if (BUILD_SHARED_LIBS)
-    set(SHARED_FLAG SHARED)
-else()
+option(ENABLE_STATIC "Building static library..." OFF)
+if (ENABLE_STATIC)
     set(SHARED_FLAG STATIC)
-endif (BUILD_SHARED_LIBS)
+else()
+    set(SHARED_FLAG SHARED)
+endif (ENABLE_STATIC)
 
-add_library(jericho SHARED
+add_library(jericho SHARED_FLAG
     core/src/crypt/base64.cc
     core/src/crypt/sha1.cc
     core/src/crypt/utf8.cc
@@ -78,29 +78,11 @@ add_library(jericho SHARED
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
-# add_executable (curl-demo convert.cpp)
-# include_directories(${CURL_INCLUDE_DIR})
-# target_link_libraries(curl-demo ${CURL_LIBRARIES})
-
-#if (NOT TARGET prizm-cxx)
-#    add_subdirectory(${DEPS_DIR}/prizm-cxx)
-#    include_directories(${DEPS_DIR}/prizm-cxx/include)
-#endif()
-
-# add_subdirectory(${DEPS_DIR}/celerity)
-include_directories(${DEPS_DIR}/celerity/build/include)
 
 include_directories(${COMET_DIR}/include)
-# include_directories(${BUILD_DIR}/libzmq/include)
-# include_directories(${BUILD_DIR}/cppzmq/include)
-# include_directories(${DEPS_DIR}/tensorflow/include)
-
-link_directories(${COMET_DIR}/lib/openssl)
-# link_directories(${DEPS_DIR}/tensorflow/lib)
-# link_directories(${BUILD_DIR}/libzmq/lib)
-# link_directories(${BUILD_DIR}/cppzmq/lib)
-link_directories(${DEPS_DIR}/celerity/build/lib)
-link_directories(${DEPS_DIR}/celerity/db/mongo-c/lib)
+link_directories(${COMET_DIR}/lib)
+# link_directories(${DEPS_DIR}/celerity/build/lib)
+# link_directories(${DEPS_DIR}/celerity/db/mongo-c/lib)
 
 # MODULES
 # target_link_libraries(jericho ssl)
@@ -112,47 +94,76 @@ target_link_libraries(jericho Threads::Threads)
 add_executable(server core/src/main.cc)
 
 # <<<<< PRIZM TEST
-add_executable(trace_test core/test/trace.cc)
-add_executable(jericho_migrate_test core/test/migrate.cc)
-add_executable(url_test core/test/url.cc)
-add_executable(request_test core/test/request.cc)
-add_executable(clock_test core/test/clock.cc)
-add_executable(celerity_integration_test core/test/celerity_integration.cc)
-add_executable(session_test core/test/session.cc)
-add_executable(iris_interpret_test core/test/iris/iris_interpret.cc)
-add_executable(iris_form_test core/test/iris/iris_form.cc)
-add_executable(iris_doc_test core/test/iris/iris_doc.cc)
-add_executable(iris_part_test core/test/iris/iris_part.cc)
-add_executable(iris_temp_test core/test/iris/iris_temp.cc)
-add_executable(cookie_test core/test/cookie.cc)
-add_executable(response_test core/test/response.cc)
-add_executable(system_test core/test/system.cc)
-add_executable(router_test core/test/router.cc)
-add_executable(rsa_test core/test/rsa.cc)
-add_executable(crypt_playground_test core/test/crypt_playground.cc)
-add_executable(cgi_test core/test/cgi.cc)
-add_executable(jwt_test core/test/jwt.cc)
+# add_executable(trace_test core/test/trace.cc)
+# add_executable(jericho_migrate_test core/test/migrate.cc)
+# add_executable(url_test core/test/url.cc)
+# add_executable(request_test core/test/request.cc)
+# add_executable(clock_test core/test/clock.cc)
+# add_executable(celerity_integration_test core/test/celerity_integration.cc)
+# add_executable(session_test core/test/session.cc)
+# add_executable(iris_interpret_test core/test/iris/iris_interpret.cc)
+# add_executable(iris_form_test core/test/iris/iris_form.cc)
+# add_executable(iris_doc_test core/test/iris/iris_doc.cc)
+# add_executable(iris_part_test core/test/iris/iris_part.cc)
+# add_executable(iris_temp_test core/test/iris/iris_temp.cc)
+# add_executable(cookie_test core/test/cookie.cc)
+# add_executable(response_test core/test/response.cc)
+# add_executable(system_test core/test/system.cc)
+# add_executable(router_test core/test/router.cc)
+# add_executable(rsa_test core/test/rsa.cc)
+# add_executable(crypt_playground_test core/test/crypt_playground.cc)
+# add_executable(cgi_test core/test/cgi.cc)
+# add_executable(jwt_test core/test/jwt.cc)
 
-target_link_libraries(trace_test jericho prizm-cxx celerity)
-target_link_libraries(jericho_migrate_test jericho prizm-cxx celerity)
-target_link_libraries(url_test jericho prizm-cxx celerity)
-target_link_libraries(request_test jericho prizm-cxx celerity)
-target_link_libraries(clock_test jericho prizm-cxx celerity)
-target_link_libraries(celerity_integration_test jericho prizm-cxx celerity)
-target_link_libraries(session_test jericho prizm-cxx celerity)
-target_link_libraries(iris_interpret_test jericho prizm-cxx celerity)
-target_link_libraries(iris_doc_test jericho prizm-cxx celerity)
-target_link_libraries(iris_temp_test jericho prizm-cxx celerity)
-target_link_libraries(iris_form_test jericho prizm-cxx celerity)
-target_link_libraries(iris_part_test jericho prizm-cxx celerity)
-target_link_libraries(cookie_test jericho prizm-cxx celerity)
-target_link_libraries(response_test jericho prizm-cxx celerity)
-target_link_libraries(system_test jericho prizm-cxx celerity)
-target_link_libraries(router_test jericho prizm-cxx celerity)
-target_link_libraries(rsa_test jericho prizm-cxx celerity)
-target_link_libraries(crypt_playground_test jericho prizm-cxx celerity)
-target_link_libraries(cgi_test jericho prizm-cxx celerity)
-target_link_libraries(jwt_test jericho prizm-cxx celerity)
+# target_link_libraries(trace_test jericho prizm-cxx celerity)
+# target_link_libraries(jericho_migrate_test jericho prizm-cxx celerity)
+# target_link_libraries(url_test jericho prizm-cxx celerity)
+# target_link_libraries(request_test jericho prizm-cxx celerity)
+# target_link_libraries(clock_test jericho prizm-cxx celerity)
+# target_link_libraries(celerity_integration_test jericho prizm-cxx celerity)
+# target_link_libraries(session_test jericho prizm-cxx celerity)
+# target_link_libraries(iris_interpret_test jericho prizm-cxx celerity)
+# target_link_libraries(iris_doc_test jericho prizm-cxx celerity)
+# target_link_libraries(iris_temp_test jericho prizm-cxx celerity)
+# target_link_libraries(iris_form_test jericho prizm-cxx celerity)
+# target_link_libraries(iris_part_test jericho prizm-cxx celerity)
+# target_link_libraries(cookie_test jericho prizm-cxx celerity)
+# target_link_libraries(response_test jericho prizm-cxx celerity)
+# target_link_libraries(system_test jericho prizm-cxx celerity)
+# target_link_libraries(router_test jericho prizm-cxx celerity)
+# target_link_libraries(rsa_test jericho prizm-cxx celerity)
+# target_link_libraries(crypt_playground_test jericho prizm-cxx celerity)
+# target_link_libraries(cgi_test jericho prizm-cxx celerity)
+# target_link_libraries(jwt_test jericho prizm-cxx celerity)
+
+set(TESTS
+    trace
+    jericho_migrate
+    url
+    request
+    clock
+    celerity_integration
+    session
+    iris_interpret
+    iris_doc
+    iris_temp
+    iris_form
+    iris_part
+    cookie
+    response
+    system
+    router
+    rsa
+    crypt_playground
+    cgi
+    jwt
+)
+
+foreach(TEST ${TESTS})
+    add_executable(${TEST}_test core/test/${TEST}.cc)
+    target_link_libraries(${TEST}_test jericho prizm celerity)
+    install(TARGETS ${TEST}_test DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/test)
+endforeach()
 
 add_executable(auth_cgi core/cgi/auth.cc)
 target_link_libraries(auth_cgi jericho prizm-cxx celerity)
@@ -175,10 +186,6 @@ target_link_libraries(server prizm-cxx)
 # target_link_libraries(zero PRIVATE zmq)
 # target_link_libraries(tf PRIVATE tensorflow)
 
-INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/ext/prizm-cxx/include/prizm DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/export/include)
-INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/core/include/jericho DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/export/include)
-# INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/ext/openssl/include/openssl DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/export/include)
-
 # if (UNIX)
 # 	install(DIRECTORY ${DEPS_DIR}/openssl/lib64/ DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/export/lib
 #      	USE_SOURCE_PERMISSIONS FILES_MATCHING PATTERN "*.so*")
@@ -187,3 +194,8 @@ INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/core/include/jericho DESTINATION $
 # else (UNIX)
 # 	## Similarly for Windows.
 # endif (UNIX)
+
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/core/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+install(TARGETS jericho LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+install(TARGETS server DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+# INSTALL(TARGETS prizm-cxx DESTINATION bin)
