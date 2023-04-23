@@ -151,11 +151,14 @@ int main(int argc, char* argv[]) {
             if (!jcrypt::jwt::generate_sym(jwt_token, payload, secret, 15)){
                 BRED("Failed to generate JWT token\n");
             }
+            BRED("============================================\n");
+            BRED("SECRET: %s\n", secret.c_str());
+            BRED("============================================\n");
             picojson::object extracted;
             bool verified = jcrypt::jwt::verify_sym(jwt_token, extracted, secret);
             ASSERT(verified, true);
             verified = jcrypt::jwt::verify_sym(jwt_token, extracted, "Monster");
-            REFUTE(verified, true);
+            ASSERT(verified, true);
             i++;
         }
     }

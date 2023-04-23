@@ -128,6 +128,7 @@ typedef enum SocketState {
 #define PLAIN_LEN (KEY_LEN + MAGIC_STRING_LEN)
 #define MAGIC_STRING   "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
 #define WS_REQUEST      "Sec-WebSocket-Key"
+#define WS_PACKET 4096
 #define ACCEPT_LEN   130 	// Handshake accept message length.
 
 #define ISVALIDSOCKET(cli) ((cli) != 0)

@@ -1,4 +1,5 @@
 #include "server/socket.h"
+#include "crypt/base64.h"
 #include <sys/ioctl.h>
 
 
@@ -74,7 +75,7 @@ SOCKET socket_create(const char* host, int port, int reuse, int family, int sock
 
     // set to listen for a conn
     printf("Listening...\n");
-    if (listen(sock, 50) < 0) {
+    if (listen(sock, 5000) < 0) {
         PFAIL(ESERVER, "listen() failed with thread_pool 5000");
     }
     clearcolor();
@@ -159,7 +160,8 @@ char* socket_key(const char* subkey) {
 	SHA1Input(&ctx, (const uint8_t *)str, WS_KEYMS_LEN);
 	SHA1Result(&ctx, hash); // hash (key + magic string)
 
-	dest = base64_encode(hash, SHA1HashSize, NULL); // encode hash
+    std::string h(reinterpret_cast<const char*>(hash), SHA1HashSize);
+	dest = reinterpret_cast<unsigned char*>(const_cast<char*>(jcrypt::base64::encode(h).data())); // encode hash
 	// (dest + strlen((const char *)dest) - 1) = '\0';
 	free(str);
     

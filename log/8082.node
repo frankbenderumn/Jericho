@@ -69683,3 +69683,1727 @@
 8082 - Fetch: Finished.
 
 
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: 
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: 
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: 
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: 
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: 
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: 
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: 
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: 
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: 
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: 
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": true, "response": "Hello from :"}
+8082 - Closing socket...
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: Marking buffer with results: {"live": true, "response": "Hello from :"}
+8082 - Fetch: fromPort: 8082
+8082 - Closing socket...
+8082 - Fetch: dir: ./public/cluster/8082
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: path: undefined
+8082 - Fetch: type: undefined
+8082 - Fetch: message: Hello from :
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  12
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: 
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+88082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-sync-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: Hello from 127.0.0.1:8082
+8082 - Closing socket...
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-sync-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: Hello from 127.0.0.1:8082
+8082 - Closing socket...
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-sync-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: Hello from 127.0.0.1:8082
+8082 - Closing socket...
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-sync-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: Hello from 127.0.0.1:8082
+8082 - Closing socket...
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-async-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: 
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-async-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: 
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-async-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: 
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-async-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: 
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-async-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: 
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-async-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-sync-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8082
+8082 - Closing socket...
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-sync-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8082
+8082 - Closing socket...
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-sync-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8082
+8082 - Closing socket...
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-sync-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8082
+8082 - Closing socket...
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-sync-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8082
+8082 - Closing socket...
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-sync-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8082
+8082 - Closing socket...
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-sync-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8082
+8082 - Closing socket...
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-sync-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8082
+8082 - Closing socket...
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-sync-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8082
+8082 - Closing socket...
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-sync-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8082
+8082 - Closing socket...
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-sync-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8082
+8082 - Closing socket...
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-sync-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8082
+8082 - Closing socket...
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-sync-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8082
+8082 - Closing socket...
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-sync-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8082
+8082 - Closing socket...
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-sync-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8082
+8082 - Closing socket...
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-async-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: 
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-sync-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8082
+8082 - Closing socket...
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-async-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: 
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-sync-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-async-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-sync-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: ./public/cluster/127.0.0.1
+8082 - Fetch: path: /ping-local
+8082 - Fetch: type: http
+8082 - Fetch: message: Ping from 8080
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  14
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-sync-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8082
+8082 - Closing socket...
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-async-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: 
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-async-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-async-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8082"}
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-async-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: 
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-sync-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8082
+8082 - Closing socket...
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-async-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: 
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-async-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: 
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-async-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: 
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-sync-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8082
+8082 - Closing socket...
+8082 - Fetch: Finished.
+
+
+8082 - Fetch: hostname: 127.0.0.1
+8082 - Fetch: port: 8082
+8082 - Fetch: fromPort: 8080
+8082 - Fetch: dir: undefined
+8082 - Fetch: path: /broadcast-async-job
+8082 - Fetch: type: plain
+8082 - Fetch: message: Let's get this bread!
+8082 - Fetch: flag: undefined
+8082 - Fetch: Message Size:  21
+8082 - Fetch: buffer published
+8082 - Fetch: Marking buffer with results: 
+8082 - Fetch: Finished.
+
+

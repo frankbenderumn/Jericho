@@ -5,6 +5,7 @@
 #include <unordered_map>
 
 #include "system/system.h"
+#include "message/callback.h"
 #include "server/defs.h"
 #include "api/api_helper.h"
 

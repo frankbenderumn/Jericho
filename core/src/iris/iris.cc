@@ -42,11 +42,11 @@ namespace iris {
         }
     }
 
-    std::string interpret(Router* router, std::string file) {
-        BYEL("File is: %s\n", file.c_str());
+    std::string interpret(Router* router, std::string file, bool path) {
+        // BYEL("File is: %s\n", file.c_str());
         std::string file_contents = JFS::read(file.c_str());
         size_t p = file.find_last_of('/');
-        printf("last of: %li\n", p);
+        // printf("last of: %li\n", p);
         std::string dir = file.substr(0, p + 1);
         std::string file_name = file.substr(p + 1, file.size());
         std::string cacheDir = dir + "cache";
@@ -61,7 +61,7 @@ namespace iris {
                 return cacheCheck;
             }
         }
-        printf("dir: %s\n", dir.c_str());
+        // printf("dir: %s\n", dir.c_str());
         std::vector<std::string> files = JFS::getDir(dir);
         JFS::mkDir(dir + "/cache");
         LEXES ls = scanzz(file_contents, std::regex("\\$\\[(idoc)\\]\\$"));
@@ -526,7 +526,7 @@ namespace iris {
     bool checkMeta(std::string dir, std::string path) {
         std::string imeta = dir + "/index.imeta";
         std::string offset = path + ": ";
-        CYA("Offset is: %s\n", offset.c_str());
+        // CYA("Offset is: %s\n", offset.c_str());
         std::string bytes = JFS::read(imeta.c_str());
         if (bytes.find(offset) != std::string::npos) {
             char* p;

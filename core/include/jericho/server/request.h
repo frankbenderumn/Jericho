@@ -13,6 +13,7 @@
 #include "server/defs.h"
 #include "server/resource.h"
 #include "server/client.h"
+#include "message/callback2.h"
 
 typedef std::chrono::high_resolution_clock hrclock;
 
@@ -25,6 +26,8 @@ struct Request {
     std::unordered_map<std::string, std::string> args;
     std::string protocol;
     std::string signature;
+    std::string host;
+    Callback* callback;
     bool async = false;
 #ifdef TEST_MODE
     std::string headersStr;
@@ -43,7 +46,7 @@ struct Request {
         }
     }
     Request() { PCREATE; }
-    ~Request() { PDESTROY; }
+    ~Request() { PDESTROY; delete callback; }
 
     // helps with binary files
     void poll_request(Client* _client, int _buffer_limit) {
@@ -92,6 +95,7 @@ struct Request {
         BYEL("===============\n");
         BYEL("   REQUEST\n");
         BYEL("---------------\n");
+        BYEL("protocol: %s\n", this->protocol.c_str());
         BYEL("method: %s\n", this->method.c_str());
         BYEL("path: %s\n", this->path.c_str());
         BYEL("content: %s\n", this->content.c_str());
@@ -131,6 +135,17 @@ struct Request {
                 all_read = true;
             }
         }
+    }
+
+    void _parseCallback(std::unordered_map<std::string, std::string> map) {
+        callback = new Callback;
+        callback->url = map["Callback-Url"];
+        callback->endpoint = map["Callback-Endpoint"]; 
+        callback->type = map["Callback-Type"];
+        callback->satellite = std::stoi(map["Callback-Satellite"]);
+        callback->fn = map["Callback-Fn"];        
+        callback->count = std::stoi(map["Callback-Count"]);
+        callback->limit = std::stoi(map["Callback-Limit"]);
     }
 
     std::string parseProtocol() {
@@ -202,6 +217,7 @@ struct Request {
         bool first = true;
         std::string protoHead;
         std::unordered_map<std::string, std::string> args2;
+        std::unordered_map<std::string, std::string> callback;
         while (std::getline(ss, word, '\n')) {
             if (word != "") {
                 std::string::size_type sep = word.find(": ");
@@ -212,6 +228,11 @@ struct Request {
                     //     val.pop_back();
                     // }
                     prizm::erase(val, '\r');
+                    if (key == "Host") {
+                        host = val;
+                    } else if (key.find("Callback-") != std::string::npos) {
+                        callback[key] = val;
+                    }
                     args2[key] = val;
                 } else if (first) {
                     protoHead = word;
@@ -219,6 +240,9 @@ struct Request {
                 }
                 words.push_back(word);
             }
+        }
+        if (callback.size() != 0) {
+            _parseCallback(callback);
         }
         // BBLU("ProtoHead:\n");
         // printf("%s\n", protoHead.c_str());
@@ -283,7 +307,7 @@ struct Request {
         } else {
             BRED("Request::header: Header %s does not exist!\n", key.c_str());
         }
-        return "undefined";
+        return "";
     }
 
     std::string arg(std::string key) {
@@ -292,7 +316,11 @@ struct Request {
         } else {
             BRED("Request::arg: Arg %s does not exist!\n", key.c_str());
         }
-        return "undefined";
+        return "";
+    }
+
+    std::string reply(std::string protocol, std::string path) {
+        return protocol + "://" + host + path;
     }
 };
 

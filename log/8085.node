@@ -12180,3 +12180,1752 @@
 8085 - Fetch: Finished.
 
 
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": true, "response": "Hello from :"}
+8085 - Closing socket...
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: Marking buffer with results: {"live": true, "response": "Hello from :"}
+8085 - Fetch: fromPort: 8085
+8085 - Fetch: dir: ./public/cluster/8085
+8085 - Closing socket...
+8085 - Fetch: path: undefined
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: type: undefined
+8085 - Fetch: message: Hello from :
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  12
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8085
+8085 - Fetch: dir: ./public/cluster/8085
+8085 - Fetch: path: undefined
+8085 - Fetch: type: undefined
+8085 - Fetch: message: undefined
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  9
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8085
+8085 - Fetch: dir: ./public/cluster/8085
+8085 - Fetch: path: undefined
+8085 - Fetch: type: undefined
+8085 - Fetch: message: undefined
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  9
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-sync-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: Hello from 127.0.0.1:8085
+8085 - Closing socket...
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-sync-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: Hello from 127.0.0.1:8085
+8085 - Closing socket...
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-sync-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: Hello from 127.0.0.1:8085
+8085 - Closing socket...
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-sync-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: Hello from 127.0.0.1:8085
+8085 - Closing socket...
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-async-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-async-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-async-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-async-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-async-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-async-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-sync-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8085
+8085 - Closing socket...
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-sync-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8085
+8085 - Closing socket...
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-sync-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8085
+8085 - Closing socket...
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-sync-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8085
+8085 - Closing socket...
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-sync-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8085
+8085 - Closing socket...
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-sync-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8085
+8085 - Closing socket...
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-sync-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8085
+8085 - Closing socket...
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-sync-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8085
+8085 - Closing socket...
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-sync-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8085
+8085 - Closing socket...
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-sync-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8085
+8085 - Closing socket...
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-sync-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8085
+8085 - Closing socket...
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-sync-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8085
+8085 - Closing socket...
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-sync-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8085
+8085 - Closing socket...
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-sync-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8085
+8085 - Closing socket...
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-sync-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8085
+8085 - Closing socket...
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-async-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-sync-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8085
+8085 - Closing socket...
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-async-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-sync-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-async-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-sync-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: ./public/cluster/127.0.0.1
+8085 - Fetch: path: /ping-local
+8085 - Fetch: type: http
+8085 - Fetch: message: Ping from 8080
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  14
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-sync-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8085
+8085 - Closing socket...
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-async-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-async-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-async-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: {"live": false, "response": "Failed to connect to 127.0.0.1:8085"}
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-async-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-sync-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8085
+8085 - Closing socket...
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-async-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-async-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-async-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-sync-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: Synchronous hello from 127.0.0.1:8085
+8085 - Closing socket...
+8085 - Fetch: Finished.
+
+
+8085 - Fetch: hostname: 127.0.0.1
+8085 - Fetch: port: 8085
+8085 - Fetch: fromPort: 8080
+8085 - Fetch: dir: undefined
+8085 - Fetch: path: /broadcast-async-job
+8085 - Fetch: type: plain
+8085 - Fetch: message: Let's get this bread!
+8085 - Fetch: flag: undefined
+8085 - Fetch: Message Size:  21
+8085 - Fetch: buffer published
+8085 - Fetch: Marking buffer with results: 
+8085 - Fetch: Finished.
+
+

@@ -14,7 +14,7 @@
 #include <vector>
 #include <string>
 
-#include "crypt/base64.hpp"
+#include "crypt/base64.h"
 #include "prizm/prizm.h"
 #include "util/file_system.hpp"
 
@@ -27,7 +27,6 @@ const size_t IV_LENGTH = 12;
 const size_t AUTH_TAG_LENGTH = 16;
 
 static const char *propq = NULL;
-
 
 namespace jcrypt {
 
@@ -268,21 +267,6 @@ cleanup:
         }
     }
 
-
-    // const char* to_encode = "Well how the fuck are ya?";
-
-    // std::string s = base64_encode((const BYTE*)to_encode, strlen(to_encode));
-
-    // printf("Base64 encoding is:\n%s\n", s.c_str());
-
-    // std::vector<BYTE> decoded = base64_decode(s);
-
-    // std::cout << "Base64 decoded is:" << std::endl;
-    // for (auto b : decoded) {
-    //     std::cout << b;
-    // }
-    // std::cout << std::endl;
-
     return 0;
 }
 
@@ -303,12 +287,6 @@ std::vector<BYTE> encrypt_str(const char* to_encrypt, const char* out_fname, con
     unsigned char* out_buf;
 
     std::string s;
-
-    // in_file = fopen(in_fname, "rb");
-    // if (!in_file) {
-    //     fprintf(stderr, "Could not open input file \"%s\"\n", in_fname);
-    //     goto failure;
-    // }
 
     out_file = fopen(out_fname, "wb");
     if (!out_file) {
@@ -332,7 +310,7 @@ std::vector<BYTE> encrypt_str(const char* to_encrypt, const char* out_fname, con
 
     // BYEL("PUBLIC KEY IS: %s\n", pkey_fname);
 
-    BYEL("Encrypt key file: %s\n", pkey_fname);
+    // BYEL("Encrypt key file: %s\n", pkey_fname);
 
     if (is_public) {
 

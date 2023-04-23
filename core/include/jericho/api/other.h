@@ -4,11 +4,11 @@
 #include "api/api.h"
 
 API(Python, {})
-    if (!contains(TOKEN_LIST, args["token"])) {
+    if (!contains(TOKEN_LIST, req->arg("token"))) {
         return JsonResponse::error(404, "Invalid token provided");
     }
 
-    if (args.find("command") == args.end()) {
+    if (req->args.find("command") == req->args.end()) {
         return JsonResponse::error(404, "Command not provided");
     }
 
@@ -19,11 +19,11 @@ API(Python, {})
     // char path[BUF_MAX];
     std::string result;
 
-    std::string command = args["command"];
+    std::string command = req->arg("command");
 
     std::string clients = "";
-    if (containsKey(args, std::string("clients"))) {
-        clients = args["clients"];
+    if (containsKey(req->args, std::string("clients"))) {
+        clients = req->arg("clients");
     }
 
     std::string command_path = "python3 ./py/" + command + ".py " + clients;
@@ -86,38 +86,38 @@ API(Python, {})
 
 API(Spawn, {})
     BBLU("ATTEMPTING TO SPAWN NEW SERVER\n");
-    if (!contains(TOKEN_LIST, args["token"])) {
+    if (!contains(TOKEN_LIST, req->arg("token"))) {
         return JsonResponse::error(404, "Invalid token provided");
     }
 
-    if (!subset(std::set<std::string>{"port", "threads", "directory"}, keys(args))) {
+    if (!subset(std::set<std::string>{"port", "threads", "directory"}, keys(req->args))) {
         return JsonResponse::error(404, "Invalid arguments provided");
     }
 
-    if (!apiValidate(args["port"], std::regex("^[0-9][0-9]{0,4}[0-9]$"))) {
+    if (!apiValidate(req->arg("port"), std::regex("^[0-9][0-9]{0,4}[0-9]$"))) {
         return JsonResponse::error(404, "Port is not a number. Should check if in use.");
     }
 
-    if (!apiValidate(args["threads"], std::regex("^[0-9][0-9]{0,3}[0-9]$|^[0-9]$"))) {
+    if (!apiValidate(req->arg("threads"), std::regex("^[0-9][0-9]{0,3}[0-9]$|^[0-9]$"))) {
         return JsonResponse::error(404, "Thread is not a number");
     }
 
-    if (std::stoi(args["threads"]) > 10) {
+    if (std::stoi(req->arg("threads")) > 10) {
         return JsonResponse::error(404, "Threads must be <= 10");
     }
 
-    if (apiValidate(args["directory"], std::regex("\\.\\.|\\s"))) {
+    if (apiValidate(req->arg("directory"), std::regex("\\.\\.|\\s"))) {
         return JsonResponse::error(404, "Directory contains .. or space");
     }
 
-    if (args["directory"].size() > 100) {
+    if (req->arg("directory").size() > 100) {
         return JsonResponse::error(500, "Directory length greater than 100");
     }
 
     std::string directory;
-    BYEL("PRE-DIRECTORY: %s\n", args["directory"].c_str());
-    if (args["directory"].find("%2f") != std::string::npos){
-        std::vector<std::string> chunks = tokenize(args["directory"], "%2F");
+    BYEL("PRE-DIRECTORY: %s\n", req->arg("directory").c_str());
+    if (req->arg("directory").find("%2f") != std::string::npos){
+        std::vector<std::string> chunks = tokenize(req->arg("directory"), "%2F");
         for (auto c : chunks) {
             YEL("CHUNK: %s\n", c.c_str());
         }
@@ -127,8 +127,8 @@ API(Spawn, {})
     BBLU("DIRECTORY TO SPAWN IS: %s\n", directory.c_str());
 
     std::string command;
-    std::string port = args["port"];
-    std::string threads = args["threads"];
+    std::string port = req->arg("port");
+    std::string threads = req->arg("threads");
     if (directory != "") {
         command = "./bin/extend -p " + port + " -t " + threads + " -d \"" + directory + "\"";
     } else {

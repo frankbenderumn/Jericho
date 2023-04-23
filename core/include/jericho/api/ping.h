@@ -17,7 +17,7 @@ API(Ping, {})
         buf->hostname = host;
         buf->port = port;
         buf->dir = "./public/cluster/" + port;
-        buf->broker = broker;
+        // buf->broker = broker;
         buf->sent = "Ping from 8080...";
         buf->fromPort = "8080";
         buf->path = "/ping-local";
@@ -31,7 +31,7 @@ API(Ping, {})
 }
 
 API(PingOne, {})
-    if (!contains(TOKEN_LIST, args["token"])) {
+    if (!contains(TOKEN_LIST, req->arg("token"))) {
         return JsonResponse::error(404, "Invalid token provided");
     }
 
@@ -39,11 +39,11 @@ API(PingOne, {})
         return JsonResponse::error(500, "Cluster not in scope of api call");
     }
 
-    if (!containsKey(args, std::string("port"))) {
+    if (!containsKey(req->args, std::string("port"))) {
         return JsonResponse::error(404, "Port needs to be specified");
     }
 
-    ClusterNode* node = router->cluster()->boss()->getEdge("127.0.0.1", args["port"]);
+    ClusterNode* node = router->cluster()->boss()->getEdge("127.0.0.1", req->arg("port"));
 
 
     if (node != nullptr) {
@@ -57,7 +57,7 @@ API(PingOne, {})
 }
 
 API(PingAll, {})
-    // if (!contains(TOKEN_LIST, args["token"])) {
+    // if (!contains(TOKEN_LIST, req->arg("token"))) {
     //     return JsonResponse::error(404, "Invalid token provided");
     // }
 
@@ -84,9 +84,16 @@ API(PingAll, {})
     BCYA("PINGING ALL...\n");
     // for predefined topology
     // router->cluster()->pingAll(router, client);
+    if (!router->cluster()->active()) {
+        BRED("Api::ping::all: Cluster not set up!\n");
+        return JsonResponse::success(200, "Cluster not active");
+    }
 
     // for naive topology testing (clients come and go)
-    router->cluster()->pingSet(router, client->url, set);
+    if (router->cluster() != NULL && router->cluster() != nullptr) {
+        BGRE("Cluster is active!\n");
+        router->cluster()->pingSet(router, client->url, set);
+    }
 
     return "TICKET";
 }
@@ -102,15 +109,28 @@ API(Echo, {})
 }
 
 API(PingLocal, {})
+    BBLU("Crying...\n");
     REQUEST_INFO
     std::string msg = "Hello from " + host + ":" + port;
+    if (!router->cluster()->active()) {
+        BRED("Node is not active!\n");
+    }
     std::string name = router->cluster()->boss()->url();
+    BMAG("Name: %s\n", name.c_str());
+    hostname = host + ":" + port;
+    BMAG("Hostname: %s\n", hostname.c_str());
     MessageBuffer* buf = new MessageBuffer(name, hostname + "/echo", router->cluster()->boss()->dir(), msg);
-    broker = new MessageBroker(BROKER_FIFO, single_callback);
-    buf->broker = broker;
+    SEGH
+    // broker = std::shared_ptr<MessageBroker>(BROKER_FIFO, single_callback);
+    SEGH
+    // buf->broker = broker;
+    SEGH
     // buf->dump();
+    BBLU("FML!\n");
     router->cluster()->boss()->brokers()[client->url].push_back(broker);
+    BBLU("FML 2!\n");
     router->cluster()->boss()->send(router, client->url, std::string("/ping"), buf);
+    BBLU("FML 3!\n");
     return "{\"live\": true, \"response\": \""+msg+"\"}";
 }
 

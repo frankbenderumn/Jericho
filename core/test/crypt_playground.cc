@@ -66,6 +66,7 @@ int main(int argc, char** argv) {
     std::string encoded;
     byte_t decrypted;
     byte_t decoded;
+    std::string decode;
 
 // commented encrypt and decrypt with cli generated rsa keys
 
@@ -87,12 +88,13 @@ int main(int argc, char** argv) {
 
     TEST(RSAEncrypt, Base64Encoded) {
         bytes = jcrypt::rsa::encrypt_str(to_encrypt, out_fname, pkey_fname, true, stderr);
-        encoded = base64_encode((const BYTE*)bytes.data(), bytes.size());
+        std::string h(reinterpret_cast<const char*>(bytes.data()), bytes.size());
+        encoded = jcrypt::base64::encode(h);
         // ASSERT_STR(encoded.c_str(), base64_encoded_rsa);
     }
 
     // BBLU("Encoded: %s\n", encoded.c_str());
-    decoded = base64_decode(encoded);
+    decode = jcrypt::base64::decode(encoded);
 
     // for (auto b : bytes) {
     //     printf("%c", (char)b);

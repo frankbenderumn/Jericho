@@ -3,7 +3,7 @@
 
 bool Router::hasFunction(std::string path) {
     if (_routeFunctions.find(path) != _routeFunctions.end()) return true;
-    if (_systemFunctions.find(path) != _systemFunctions.end()) return true;
+    // if (_systemFunctions.find(path) != _systemFunctions.end()) return true;
     if (_httpFunctions.find(path) != _httpFunctions.end()) return true;
     return false;
 }
@@ -86,9 +86,9 @@ bool Router::contains(std::string path) {
 }
 // std::unordered_map<std::string, std::string>& ipaths() { return _ipaths; }
 
-void Router::bindSystem(std::string path, SystemFunction function, RouteProtocol protocol) {
+void Router::bindSystem(std::string path, RouteFunction function, RouteProtocol protocol) {
     _routeProtocols[path] = protocol;
-    _systemFunctions[path] = function;
+    _routeFunctions[path] = function;
 }
 
 void Router::bindNode(std::string path, MessageBuffer* buffer) {
@@ -97,11 +97,12 @@ void Router::bindNode(std::string path, MessageBuffer* buffer) {
 }
 
 // sort based on priority for static. Need more advanced approach for cms ex: /user/:id/posts
-std::string Router::exec(std::string path, std::unordered_map<std::string, std::string> args, System* router, Client* client) {
+std::string Router::subexec(std::string path, Request* req, System* router, Client* client) {
     bool found = false;
     for (auto route : _routes) {
         if (route->path == path) { 
-            return route->exec(args);
+            BBLU("Router::exec: Executing route!\n");
+            return route->exec(req, router, client, NULL);
         }
     }
 
@@ -131,35 +132,35 @@ Response* Router::resource(System* system, Request* request, jericho::Session* s
 }
 
 
-std::string Router::exec3(std::string path, std::unordered_map<std::string, std::string> args, System* router, Client* client) {
-    if (!prizm::contains_key(_test, path)) {
-        return JsonResponse::error(500, "Unregistered path detected for path: " + path);
-    }
+// std::string Router::exec3(std::string path, std::unordered_map<std::string, std::string> args, System* router, Client* client) {
+//     if (!prizm::contains_key(_test, path)) {
+//         return JsonResponse::error(500, "Unregistered path detected for path: " + path);
+//     }
 
-    return _test[path];
+//     return _test[path];
 
-    return JsonResponse::error(500, "Invalid protocol provided");
-}
+//     return JsonResponse::error(500, "Invalid protocol provided");
+// }
 
-std::string Router::exec2(std::string path, std::unordered_map<std::string, std::string> args, System* router, Client* client) {
-    if (!hasFunction(path)) {
-        return JsonResponse::error(500, "Function does not exist for path: " + path);
-    }
-    switch (_routeProtocols[path]) {
-        case ROUTE_API:
-            return _routeFunctions[path](args);
-        case ROUTE_HTTP:
-            return _httpFunctions[path](args);
-        case ROUTE_SYSTEM:
-            return _systemFunctions[path](args, router, client, NULL);
-        case ROUTE_RAW:
-            return _systemFunctions[path](args, router, client, NULL);
-        default:
-            break;
-    }
+// std::string Router::exec2(std::string path, std::unordered_map<std::string, std::string> args, System* router, Client* client) {
+//     if (!hasFunction(path)) {
+//         return JsonResponse::error(500, "Function does not exist for path: " + path);
+//     }
+//     switch (_routeProtocols[path]) {
+//         case ROUTE_API:
+//             return _routeFunctions[path](args, router, client, NULL);
+//         case ROUTE_HTTP:
+//             return _httpFunctions[path](args, router, client, NULL);
+//         case ROUTE_SYSTEM:
+//             return _routeFunctions[path](args, router, client, NULL);
+//         case ROUTE_RAW:
+//             return _routeFunctions[path](args, router, client, NULL);
+//         default:
+//             break;
+//     }
 
-    return JsonResponse::error(500, "Invalid protocol provided");
-}
+//     return JsonResponse::error(500, "Invalid protocol provided");
+// }
 
 int Router::registerSymbol(std::string symbol) {
     if (!hasSymbol(symbol)) {
@@ -184,8 +185,13 @@ void Router::dump() {
     }
 }
 
-void Router::system(std::string path, SystemFunction fn) {
-    this->bindSystem(path, fn);
+void Router::system(std::string path, RouteFunction fn) {
+    Route* route = new Route(ROUTE_SYSTEM, path, fn);
+    _routes.push_back(route);
+    _routeProtocols[path] = ROUTE_SYSTEM;
+    _routeFunctions[path] = fn;
+    _routeTable[path] = route;
+    _test[path] = "get some";
 }   
 
 bool Router::secured(std::string path) {
@@ -205,16 +211,16 @@ void Router::secure(std::string path, RouteFunction fn) {
     this->securePath(path, fn);
 }
 
-std::string Router::exec(RouteProtocol protocol, std::string path, std::unordered_map<std::string, std::string> args, System* router, Client* client) {
+std::string Router::exec(RouteProtocol protocol, std::string path, Request* req, System* router, Client* client) {
     // YEL("System::exec: Executing route %s...n", path.c_str());
     PLOG(LSERVER, "Executing route \033[0;35m%s\033[0m", path.c_str());
-    return this->exec(path, args, router, client);
+    return this->subexec(path, req, router, client);
 }
 
-std::string Router::execNode(RouteProtocol protocol, std::string path, std::unordered_map<std::string, std::string> args, System* router, Client* client) {
-    if (client == NULL) {
-        return JsonResponse::error(500, "No client to serve!");
-    }
+// std::string Router::execNode(RouteProtocol protocol, std::string path, std::unordered_map<std::string, std::string> args, System* router, Client* client) {
+//     if (client == NULL) {
+//         return JsonResponse::error(500, "No client to serve!");
+//     }
 
-    return JsonResponse::error(500, "Exec node deprecated");
-}
+//     return JsonResponse::error(500, "Exec node deprecated");
+// }

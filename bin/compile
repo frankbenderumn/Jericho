@@ -1,13 +1,13 @@
 #!/bin/bash
 # ./bin/kill-cluster
 # ./ext/celerity/bin/compile
-# mkdir -p ./cmake-build
-# cd ./cmake-build
-# cmake --build .. --target clean
+mkdir -p ./cmake-build
+cd ./cmake-build
+cmake --build .. --target clean
 cmake -DOPENSSL_ROOT_DIR=/usr/local/comet/build/openssl ..
 
 # make clean
-# make -j`nproc`
+make -j`nproc`
 # cd ..
 
 # ./cmake-build/server 8080 5 ./nebulaui/frontend

@@ -1,6 +1,6 @@
 #include "message/message_broker.h"
 
-MessageBroker::MessageBroker(BrokerType type, MessageCallback callback, int epoch) {
+MessageBroker::MessageBroker(BrokerType type, Callback* callback, int epoch) {
     PCREATE;
     _type = type;
     _callback = callback;
@@ -8,13 +8,13 @@ MessageBroker::MessageBroker(BrokerType type, MessageCallback callback, int epoc
 }
 
 void MessageBroker::publishMessage(MessageBuffer* mbuf) {
-    _tickets[mbuf->ticket] = 0;
-    _promised[mbuf->ticket] = mbuf;
+    // _tickets[mbuf->ticket] = 0;
+    // _promised[mbuf->ticket] = mbuf;
 }
 
 void MessageBroker::markMessage(MessageBuffer* mbuf) {
-    _messages.push_back(mbuf);
-    _tickets[mbuf->ticket] = 1;
+    // _messages.push_back(mbuf);
+    // _tickets[mbuf->ticket] = 1;
 }
 
 void MessageBroker::broadcast(std::string url, std::deque<MessageBuffer*> mq, std::vector<ClusterNode*> nodes) {
@@ -29,7 +29,7 @@ void MessageBroker::broadcast(std::string url, std::deque<MessageBuffer*> mq, st
     BMAG("PROMISED SIZE IS: %i\n", (int)_promised.size());
 }
 
-MessageCallback MessageBroker::callback() const { return _callback; }
+Callback* MessageBroker::callback() const { return _callback; }
 
 bool MessageBroker::hasMessages() {
     return (_messages.size() > 0);

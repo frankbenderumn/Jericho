@@ -56,21 +56,22 @@ struct Route {
         this->callback = fn;
     }
     ~Route() { PDESTROY; }
-    std::string exec(std::unordered_map<std::string, std::string> args) {
-        for (auto p : pre) {
-            if (p(args) < 0) {
-                return "undefined";
-            }
-        }
+    std::string exec(Request* req, System* sys = NULL, Client* cli = NULL, MessageBroker* mb = NULL) {
+        // for (auto p : pre) {
+        //     if (p(args) < 0) {
+        //         return "undefined";
+        //     }
+        // }
         std::string result = "No callback";
         if (callback != NULL) {
-            result = callback(args);
+            BYEL("Callback exists!\n");
+            result = callback(req, sys, cli, mb);
         }
-        for (auto p : post) {
-            if (p(args) < 0) {
-                return "undefined";
-            }
-        }
+        // for (auto p : post) {
+        //     if (p(args) < 0) {
+        //         return "undefined";
+        //     }
+        // }
         return result;
     }
     void dump() {
@@ -122,7 +123,7 @@ class Router {
     std::unordered_map<std::string, Route*> _secureTable;
     std::unordered_map<std::string, RouteFunction> _routeFunctions;
     std::unordered_map<std::string, RouteFunction> _httpFunctions;
-    std::unordered_map<std::string, SystemFunction> _systemFunctions;
+    // std::unordered_map<std::string, RouteFunction> _systemFunctions;
     std::unordered_map<std::string, MessageBuffer*> _nodes;
     std::unordered_map<std::string, std::string> _ipaths;
     std::unordered_map<std::string, std::string> _test;
@@ -168,11 +169,11 @@ class Router {
 
     void bindNode(std::string path, MessageBuffer* buffer);
 
-    std::string exec(std::string path, std::unordered_map<std::string, std::string> args, System* router = NULL, Client* client = NULL);
+    std::string subexec(std::string path, Request* req, System* router = NULL, Client* client = NULL);
 
-    std::string exec2(std::string path, std::unordered_map<std::string, std::string> args, System* router = NULL, Client* client = NULL);
+    // std::string exec2(std::string path, Request* req, System* router = NULL, Client* client = NULL);
 
-    std::string exec3(std::string path, std::unordered_map<std::string, std::string> args, System* router = NULL, Client* client = NULL);
+    // std::string exec3(std::string path, Request* req, System* router = NULL, Client* client = NULL);
 
     int registerSymbol(std::string symbol);
 
@@ -180,7 +181,7 @@ class Router {
 
     void dump();
 
-    void system(std::string path, SystemFunction fn);
+    void system(std::string path, RouteFunction fn);
 
     void secure(std::string path, RouteFunction fn = NULL);
 
@@ -190,9 +191,9 @@ class Router {
 
     Response* resource(System* system, Request* req, jericho::Session* sesh);
 
-    std::string exec(RouteProtocol protocol, std::string path, std::unordered_map<std::string, std::string> args, System* router = NULL, Client* client = NULL);
+    std::string exec(RouteProtocol protocol, std::string path, Request* req, System* router = NULL, Client* client = NULL);
 
-    std::string execNode(RouteProtocol protocol, std::string path, std::unordered_map<std::string, std::string> args, System* router = NULL, Client* client = NULL);
+    // std::string execNode(RouteProtocol protocol, std::string path, Request* req, System* router = NULL, Client* client = NULL);
 
     Route* route(std::string path) {
         for (auto r : _routes) {

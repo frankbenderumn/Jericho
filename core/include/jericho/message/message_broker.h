@@ -9,6 +9,8 @@
 #include <chrono>
 
 #include "message/message_buffer.h"
+#include "server/request.h"
+#include "message/callback2.h"
 
 class ClusterNode;
 
@@ -25,10 +27,11 @@ enum BrokerType {
 typedef std::chrono::high_resolution_clock jclock;
 
 class MessageBroker;
+class Request;
 
 typedef std::unordered_map<std::string, std::string> Args;
 
-typedef std::string (*__RPC)(Args, System*, Client*, MessageBroker*);
+typedef std::string (*__RPC)(Request*, System*, Client*, MessageBroker*);
 
 enum BifrostInsType {
 	BIN_NULL,
@@ -50,7 +53,7 @@ class MessageBroker {
 	
 	BrokerType _type = BROKER_NULL;
 	
-	MessageCallback _callback;
+	Callback* _callback;
 	
 	int _epoch = 0;
 	int _epochs = 1;
@@ -67,7 +70,7 @@ class MessageBroker {
 	// std::unordered_map<int, std::tuple<Args, System*, Client*>> _chainArgs;
 
   public:
-	MessageBroker(BrokerType type, MessageCallback callback, int epoch = 1);
+	MessageBroker(BrokerType type, Callback* callback, int epoch = 1);
 
 	~MessageBroker() {
 		PDESTROY;
@@ -94,7 +97,7 @@ class MessageBroker {
 
 	void broadcast(std::string url, std::deque<MessageBuffer*> mq, std::vector<ClusterNode*> nodes);
 
-	MessageCallback callback() const;
+	Callback* callback() const;
 
 	bool hasMessages();
 
@@ -105,6 +108,14 @@ class MessageBroker {
 	std::deque<MessageBuffer*> response(std::string url);
 
 	void markMessage(MessageBuffer* mbuf);
+
+	void messages(std::deque<MessageBuffer*> messages) {
+		_messages = messages;
+	}
+
+	std::deque<MessageBuffer*> messages() const {
+		return _messages;
+	}
 
 	const int epoch() const { return _epoch; }
 
@@ -176,6 +187,13 @@ class MessageBroker {
 			return true;
 		}
 		return false;
+	}
+
+	void dump() {
+		for (auto msg : _messages) {
+			YEL("MSG:\n");
+			msg->dump();
+		}
 	}
 
 };

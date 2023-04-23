@@ -2,10 +2,15 @@
 #include "server/defs.h"
 #include "message/message_buffer.h"
 #include "util/file_system.hpp"
+// #include "crypt/jwt.h"
 
 #include <vector>
+#include <string>
+#include <unordered_map>
 
-#define TIMEOUT2 10.0
+typedef std::unordered_map<std::string, std::string> Args;
+
+#define TIMEOUT2 5.0
 
 void parse_url(char *url, char **hostname, char **port, char** path) {
     printf("URL: %s\n", url);
@@ -56,9 +61,14 @@ void parse_url(char *url, char **hostname, char **port, char** path) {
 }
 
 
-int send_request(SSL *s, const char *hostname, const char *port, const char *path, std::string type, std::string message) {
+int send_request(SSL *s, const char *hostname, const char *port, const char *path, MessageBuffer* buf) {
     int result = 1;
     char buffer[490000];
+
+    std::string message = buf->sent;
+    Args headers = buf->headers;
+    std::string type = buf->type;
+    std::string protocol = buf->protocol;
 
     size_t sz = message.size();
     unsigned char char_arr[sz];
@@ -90,17 +100,18 @@ int send_request(SSL *s, const char *hostname, const char *port, const char *pat
     }
 
     DEBUG("sendRequest: path: %s\n", path);
-
     DEBUG("sendRequest: arr size: %li\n", sizeof(arr));
     // WHI("sendRequest: arr len: %li\n", strlen(arr));
-
     DEBUG("sendRequest: char_arr size: %li\n", sizeof(char_arr));
     DEBUG("sendRequest: char_arr len: %li\n", strlen((char*)char_arr));
     DEBUG("sendRequest: %s\n", message.data());
 
     // std::cout << message;
-
-    sprintf(buffer, "GET %s HTTP/1.1\r\n", path);
+    if (protocol == "https") {
+        sprintf(buffer, "GET %s HTTP/1.1\r\n", path);
+    } else if (protocol == "job") {
+        sprintf(buffer, "GET %s JOB\r\n", path);
+    }
     sprintf(buffer + strlen(buffer), "Host: %s:%s\r\n", hostname, port);
     sprintf(buffer + strlen(buffer), "Connection: keep-alive\r\n");
     sprintf(buffer + strlen(buffer), "User-Agent: honpwc https_get 1.0\r\n");
@@ -110,6 +121,9 @@ int send_request(SSL *s, const char *hostname, const char *port, const char *pat
         sprintf(buffer + strlen(buffer), "Content-Type: %s\r\n", type.c_str());
         sprintf(buffer + strlen(buffer), "Content-Length: %li\r\n", message.size());
     }
+    for (auto head : headers) {
+        sprintf(buffer + strlen(buffer), "%s: %s\r\n", head.first.c_str(), head.second.c_str());
+    }
     sprintf(buffer + strlen(buffer), "\r\n");
     if (type == "binary") {
         memcpy(buffer + strlen(buffer), v.data(), v.size());
@@ -118,7 +132,6 @@ int send_request(SSL *s, const char *hostname, const char *port, const char *pat
     }
 
     v.clear();
-    // free(char_arr);
 
     DEBUG("SendRequest: Request content being sent: %.300s\n", buffer);
 
@@ -253,9 +266,10 @@ void fetch(Any args) {
     std::string dir = buf->dir;
     std::string path = buf->path;
     std::string type = buf->type;
-    // MessageQueue* queue = buf->mq;
+    std::string protocol = buf->protocol;
     std::string message = buf->sent;
     std::string flag = buf->flag;
+    std::unordered_map<std::string, std::string> headers = buf->headers;
     double latency = 0.0;
 
     DEBUG("BUF PORT: %s\n", buf->port.c_str());
@@ -289,7 +303,7 @@ void fetch(Any args) {
 
     if (flag != "undefined") {
         int t = std::stoi(flag);
-        sleep(t);
+        // sleep(t);
     }
 
     // if (port == "8082") {
@@ -380,13 +394,9 @@ void fetch(Any args) {
 
         X509_free(cert);
 
-        // t_write(iport, tpath.c_str(), "Sending message to node!");
-
         Benchmark* bm = bm_start("fetch");
 
-        if (send_request(ssl, hostname.c_str(), fromPort.c_str(), path.c_str(), type, message)) {
-
-        // t_write(iport, tpath.c_str(), "Message successfully sent!");
+        if (send_request(ssl, hostname.c_str(), fromPort.c_str(), path.c_str(), buf)) {
 
         const clock_t start_time = clock();
 
@@ -501,9 +511,9 @@ void fetch(Any args) {
                             }
                         } while (!remaining);
                     }
-                } //if (body)
-            } //if FDSET
-        } //end while(1)
+                } // if (body)
+            } // if FDSET
+        } // while(1)
 
         }
 
@@ -529,6 +539,7 @@ void fetch(Any args) {
     } else {
         std::string msg = "Failed to connect to " + std::string(hostname) + ":" +
         std::string(port);
+        buf->fulfilled = 2;
         BRED("Fetch: Failed to fetch anything\n");
         result = "{\"live\": false, \"response\": \""+msg+"\"}";
     }
@@ -579,5 +590,10 @@ finish:
 
     t_write(iport, tpath.c_str(), "Fetch: Finished.\n\n");
 
-    // CYA("Fetch: Finished.\n");
+    if (buf->modality) {
+        // may want to check barrier is not null
+        pthread_barrier_wait(buf->barrier);
+    }
+
+    GRE("Fetch: Finished.\n");
 }

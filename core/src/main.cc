@@ -115,7 +115,6 @@ int main(int argc, char* argv[]) {
     bool federator = false;
 
     Celerity* celerity = nullptr;
-    Bifrost* bifrost = new Bifrost;
 
     if (flag != "synch") {
         // celerity = new Celerity(dbname);
@@ -141,16 +140,18 @@ int main(int argc, char* argv[]) {
     PUBLIC_DIRECTORY = "./public/"+std::string(argv[3]);
     int port = atoi(argv[1]);
 
+    BCYA("SSL Init\n=======================================================\n");
     SSL_CTX* ctx = ssl_init();
     if (ctx == NULL) { 
         BRED("FAILED TO INITALIZE SSL CTX\n");
         return 1; 
     }
 
-    ClusterIndex* index = NULL;
-    ClusterNode* boss = NULL;
-    // ClusterIndex* index = new ClusterIndex;
-    // ClusterNode* boss = new ClusterNode("127.0.0.1", std::string(argv[1]), "./public/"+std::string(argv[3]), index);
+    // ClusterIndex* index = NULL;
+    // ClusterNode* boss = NULL;
+    Bifrost* bifrost = new Bifrost(host, portStr, tpool, fetch);
+    ClusterIndex* index = new ClusterIndex;
+    ClusterNode* boss = new ClusterNode("127.0.0.1", std::string(argv[1]), "./public/"+std::string(argv[3]), index);
     Cluster* cluster = new Cluster(CLUSTER_MAIN, boss, index);
 
     SOCKET server = socket_create(0, port, 1, AF_INET, SOCK_STREAM);
@@ -158,24 +159,29 @@ int main(int argc, char* argv[]) {
     sys = new System(tpool, fetch, cluster, celerity);
     sys->bifrost(bifrost);
     
-    // if (script != "orch") {
-    //     orch = new Orchestrator;
-    //     if (migrate(host+":"+portStr, orch, script) < 0) {
-    //         BRED("Main.cc: Failed to migrate!: %s\n", script.c_str());
-    //         return 1;
-    //     }
-    //     if (orch->federator == nullptr) {
-    //         BMAG("Orch federator is null somehow\n");
-    //         exit(1);
-    //     }
-    //     orch->federator->dump();
-    //     FedRole role = orch->federator->local()->role();
-    //     if (role == FED_ROLE_CENTRAL || role == FED_ROLE_AGGREGATOR) {
-    //         sys->cluster()->boss()->configDir("agg");
-    //     }
-    //     sys->federator(orch->federator);
-    //     write_file("./log/debug.log", "Hello friend");
-    // }
+    if (script != "orch") {
+        orch = new Orchestrator;
+        if (migrate(host+":"+portStr, orch, script) < 0) {
+            BRED("Main.cc: Failed to migrate!: %s\n", script.c_str());
+            return 1;
+        }
+        if (orch->federator == nullptr) {
+            BMAG("Orch federator is null somehow\n");
+            exit(1);
+        }
+        orch->federator->dump();
+        FedRole role = orch->federator->local()->role();
+
+        BYEL("Well hello!\n");
+
+        if (role == FED_ROLE_CENTRAL || role == FED_ROLE_AGGREGATOR) {
+            sys->cluster()->boss()->configDir("agg");
+        }
+        sys->federator(orch->federator);
+
+        BRED("Made it here!\n");
+        // write_file("./log/debug.log", "Hello friend");
+    }
 
     // if (flag == "synch") {
     //     BYEL("SYNCHING...\n");
@@ -234,47 +240,15 @@ SSL_CTX* ssl_init() {
         return NULL;
     }
 
-    SSL_CTX_set_min_proto_version(ctx, TLS1_3_VERSION);
-    SSL_CTX_set_max_proto_version(ctx, TLS1_3_VERSION);
-
-    int max_proto_version = SSL_CTX_get_max_proto_version(ctx);
-    // Print the maximum protocol version
-    printf("Maximum protocol version: %d\n", max_proto_version);
-
-    int min_proto_version = SSL_CTX_get_min_proto_version(ctx);
-    // Print the maximum protocol version
-    printf("Minimum protocol version: %d\n", min_proto_version);
-
-
-    // load private key and certificate into SSL_CTX object
-    if (SSL_CTX_use_PrivateKey_file(ctx, "key.pem", SSL_FILETYPE_PEM) != 1) {
-        // print error messages to stderr
+    if (!SSL_CTX_use_certificate_file(ctx, "cert.pem" , SSL_FILETYPE_PEM)
+    || !SSL_CTX_use_PrivateKey_file(ctx, "key.pem", SSL_FILETYPE_PEM)) {
+        fprintf(stderr, "SSL_CTX_use_certificate_file() failed.\n");
         ERR_print_errors_fp(stderr);
-        return NULL;
-    }
-    if (SSL_CTX_use_certificate_file(ctx, "cert.pem", SSL_FILETYPE_PEM) != 1) {
-        // print error messages to stderr
-        ERR_print_errors_fp(stderr);
-        return NULL;
-    }
-    
-    // check for SSL/TLS configuration errors
-    if (SSL_CTX_check_private_key(ctx) != 1) {
-        // print error messages to stderr
-        ERR_print_errors_fp(stderr);
-        return NULL;
-    }
-
-    BGRE("AND SERVER SAYS...\n");
-
-    if (ctx == NULL) {
-        BRED("SSL_CTX* is NULL\n");
         return NULL;
     }
 
     return ctx;
 }
-
 
 void server_create(int argc, char* argv[]) {
     PLOG(LSERVER, "Launching server...");

@@ -1,4 +1,5 @@
 #include "server/web_socket.h"
+#include "crypt/base64_c.h"
 
 extern EventManager event_manager;
 
@@ -21,9 +22,16 @@ int handshake_key(char *wsKey, unsigned char **dest)
 	SHA1Input(&ctx, (const uint8_t *)str, PLAIN_LEN);
 	SHA1Result(&ctx, hash);
 
+	// std::string h(reinterpret_cast<const char*>(hash), SHA1HashSize);
+	// BGRE("Handshake_key: %s (%li)\n", h.c_str(), h.size());
+	// const char* s = jcrypt::base64::encode(h).data();
+	// GRE("encoding is: %s\n", s);
+	// *dest = reinterpret_cast<unsigned char*>(const_cast<char*>(s)); // encode hash
+
 	*dest = base64_encode(hash, SHA1HashSize, NULL);
 	*(*dest + strlen((const char *)*dest) - 1) = '\0';
 	free(str);
+
 	return 0;
 }
 
@@ -72,6 +80,8 @@ int handshake(char *hsrequest, char **hsresponse)
 	strcpy(*hsresponse, WS_HEADER);
 	strcat(*hsresponse, (const char *)accept);
 	strcat(*hsresponse, "\r\n\r\n");
+
+	BYEL("%s\n", *hsresponse);
 
 	free(accept);
 	return 0;

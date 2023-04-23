@@ -11,8 +11,8 @@
 
 class System;
 
-typedef std::string (*SystemFunction)(std::unordered_map<std::string, std::string>, System*, Client*, MessageBroker*);
-typedef std::string (*RouteFunction)(std::unordered_map<std::string, std::string>);
+typedef std::string (*SystemFunction)(Request*, System*, Client*, MessageBroker*);
+typedef std::string (*RouteFunction)(Request*, System*, Client*, MessageBroker*);
 typedef Response* (*ResourceFunction)(System* system, Request* req, jericho::Session* sesh);
 typedef int (*ContractFunction)(std::unordered_map<std::string, std::string>);
 typedef std::string (*ClusterFunction)(ThreadPool* tpool, void* (*worker)(void*), std::string message);

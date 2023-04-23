@@ -53,9 +53,18 @@ class Cluster {
         }
     }
 
+    const bool active() const {
+        if (_boss) return true;
+        return false;
+    }
+
     void pingSet(System* router, std::string url, std::vector<std::pair<std::string, std::string>> set) {
         BBLU("CLUSTER SET SIZE: %i\n", (int)set.size());
-        _boss->pingAll(router, url, set);
+        if (_boss) {
+            _boss->pingAll(router, url, set);
+        } else {
+            BRED("Boss not active!\n");
+        }
     }
 
     void federate(System* router, std::string url) {

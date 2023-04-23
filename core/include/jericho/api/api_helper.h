@@ -13,10 +13,10 @@
 #define OPT std::pair<std::string, std::string>
 typedef std::unordered_map<std::string, std::string> Args;
 typedef std::regex_iterator<std::string::iterator> RegexIter;
-#define SYS_CALL(x) std::string x(Args args, System* router = NULL, Client* client = NULL)
-#define API_ARG(args, name) (containsKey(args, name)) ? args[name] : "undefined";
+#define SYS_CALL(x) std::string x(Request* req, System* router = NULL, Client* client = NULL)
+#define API_ARG(args, name) (containsKey(req->args, name)) ? req->args[name] : "undefined";
 
-#define REQUEST_INFO std::string hostname = (containsKey(args, std::string("Host"))) ? args["Host"] : "undefined"; \
+#define REQUEST_INFO std::string hostname = (containsKey(req->args, std::string("Host"))) ? req->args["Host"] : "undefined"; \
 std::string host; std::string port; \
 if (hostname != "undefined") { \
     std::vector<std::string> vec = tokenize(hostname, ':'); \
@@ -41,9 +41,10 @@ bool contains(std::unordered_map<K, V> map, K key) {
 
 #define ARGS std::set<std::string>
 
-#define API(x, y) std::string api##x(Args args, \
+#define API(x, y) std::string api##x(Request* req, \
                                     System* router = NULL, \
-                                    Client* client = NULL, MessageBroker* broker = NULL) { \
+                                    Client* client = NULL, \
+                                    MessageBroker* broker = NULL) { \
     if (router == NULL) \
         return JsonResponse::error(404, "Client does not exist!"); \
     if (client == NULL) \

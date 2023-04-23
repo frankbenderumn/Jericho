@@ -4,7 +4,7 @@
 #include "api/api.h"
 
 API(MongoDatabases, {})
-    if (!contains(TOKEN_LIST, args["token"])) {
+    if (!contains(TOKEN_LIST, req->args["token"])) {
         return JsonResponse::error(404, "Invalid token provided");
     }
 
@@ -15,7 +15,7 @@ API(MongoDatabases, {})
 }
 
 API(MongoInsert, {})
-    if (!contains(TOKEN_LIST, args["token"])) {
+    if (!contains(TOKEN_LIST, req->args["token"])) {
         return JsonResponse::error(404, "Invalid token provided");
     }
 
@@ -35,9 +35,9 @@ API(MongoCollection, {})
         {"ticker", "AAPL"},
         {"token", "undefined"}
     }; 
-    if (subset(keys(args), std::set<std::string>{"timespan", "adjusted", "window", "series_type", "order", "ticker", "token"})) {
-        if (contains(TOKEN_LIST, args["token"])) {
-            for (auto arg : args) {
+    if (subset(keys(req->args), std::set<std::string>{"timespan", "adjusted", "window", "series_type", "order", "ticker", "token"})) {
+        if (contains(TOKEN_LIST, req->args["token"])) {
+            for (auto arg : req->args) {
                 v[arg.first] = arg.second;
             }
             return JsonResponse::error(200, "Placeholder");
@@ -46,7 +46,7 @@ API(MongoCollection, {})
             return JsonResponse::error(404, "Invalid token provided");
         }
     } else {
-        print(keys(args));
+        print(keys(req->args));
         return JsonResponse::error(500, "invalid arguments provided");
     }
 }

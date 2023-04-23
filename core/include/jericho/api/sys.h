@@ -71,4 +71,29 @@ API(LoadScript, {})
     return result;
 }
 
+API(LaunchCluster, {})
+    REQUEST_INFO
+    std::string content = API_ARG(args, std::string("content"));
+    BBLU("Launching script! Default is orchestrator.json\n");
+
+    // Orchestrator* orch = new Orchestrator;
+    // if (migrate(host+":"+portStr, orch, script) < 0) {
+    //     BRED("Main.cc: Failed to migrate!: %s\n", script.c_str());
+    //     return 1;
+    // }
+    // if (orch->federator == nullptr) {
+    //     BMAG("Orch federator is null somehow\n");
+    //     exit(1);
+    // }
+    // orch->federator->dump();
+    // FedRole role = orch->federator->local()->role();
+    // if (role == FED_ROLE_CENTRAL || role == FED_ROLE_AGGREGATOR) {
+    //     sys->cluster()->boss()->configDir("agg");
+    // }
+    // sys->federator(orch->federator);
+    // write_file("./log/debug.log", "Hello friend");
+
+    return JsonResponse::success(200, "Launching cluster");
+}
+
 #endif

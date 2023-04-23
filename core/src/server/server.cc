@@ -30,7 +30,7 @@ int connection_setup(System* router, Client** clients, SSL_CTX* ctx, SOCKET* ser
 	char address_buffer[16];
 	client_get_address(client, address_buffer);
 	// CYA("0New connection from %s.\n", address_buffer);
-	PLOG(LSERVER, "New connection frdm %s.", address_buffer);
+	PLOG(LSERVER, "New connection from %s.", address_buffer);
 
 	// char address_buffer2[16];
 	// uint16_t p2;
@@ -90,6 +90,8 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Syste
 
 		// router->bifrost()->burst(router);
 
+		BLU("Awaiting clients...\n");
+
         reads = wait_on_clients(*server, clients);
 
         if (FD_ISSET(*server, &reads)) {
@@ -110,6 +112,8 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Syste
             Client* next = client->next;
 
             if (FD_ISSET(client->socket, &reads)) {
+
+				router->bifrost()->dumpBrokerSizes();
 
 				// Benchmark* bm = bm_start("serve");
 				// if (router->federator()->local()->resource() > 0) {
@@ -132,7 +136,27 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Syste
 					MAG("%s\n", client->request);
 
 					req->eval();
-					// PLOGN("./log/jan23.log", client->request);
+
+					if (req->protocol == "JOB") {
+						std::string response;
+						int status = router->bifrost()->fulfill(response, req, client, clients);
+						if (status == 1) {
+							picojson::object o;
+							o["host"] = picojson::value(req->header("Host"));
+							o["message"] = picojson::value(response);
+							std::string s = JsonResponse::ws(200, "placeholder", "null", &o);
+							BMAG("Serialized ws: %s\n", s.c_str());
+							router->ws_send(s.c_str());
+							drop_client(client, clients, &router->num_clients);
+							break;
+						} else if (status == 0) {
+							drop_client(client, clients, &router->num_clients);
+							break;
+						} else {
+							BGRE("\n\nRicochet in progress!\n\n");
+						}
+					}
+
 					if (!req->valid) {
 						delete req;
 						drop_client(client, clients, &router->num_clients);
@@ -159,8 +183,10 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Syste
                     SocketState state;
                     switch(state = client_get_state(client)) {
                         case SOCKST_ALIVE:
+							BRED("Getting served!\n");
 							router->bifrost()->serve(router, client, clients, req);
-                            break;
+                            router->bifrost()->dumpBrokerSizes();
+							break;
                         case SOCKST_CLOSING:
                             break;
                         case SOCKST_UPGRADING: 
@@ -184,12 +210,13 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Syste
 				/**************
 				 * CLEANUP
 				**************/
-				if (!client->websocket && !req->async) {
+				if (!client->websocket) {
 					delete req;
 					drop_client(client, clients, &router->num_clients);
-				} else if (!req->async) {
-					delete req;
 				}
+				// } else if (!req->async) {
+				// 	delete req;
+				// }
 
             }
             client = next;
@@ -273,7 +300,7 @@ void recv_websocket(Any arg) {
 	frame.client = client;
 
 	memcpy(frame.request, (unsigned char*)client->request, sizeof(frame.request));
-	frame.request[2048] = (unsigned char)'\0';
+	frame.request[WS_PACKET] = (unsigned char)'\0';
 	frame.received = client->received;
 	/* Read next frame until client disclientects or an error occur. */
 	// while (client_get_state(frame.client) == SOCKET_OPEN_WS) {
@@ -315,14 +342,14 @@ void ws_to_client(void* targ) {
 	frame.client = client;
 
 	memcpy(frame.request, (unsigned char*)client->request, sizeof(frame.request));
-	frame.request[2048] = (unsigned char)'\0';
+	frame.request[WS_PACKET] = (unsigned char)'\0';
 	frame.received = client->received;
 
 	printf("Frame client fd: %i\n", frame.client->socket);
 
-	char buffer[2048];
+	char buffer[WS_PACKET];
 	memcpy(buffer, frame.request, sizeof(buffer));
-	buffer[2048] = 0;
+	buffer[WS_PACKET] = 0;
 
 	ws_sendframe_txt(frame.client, buffer);
 	memset(client->request, 0, sizeof(client->request));
@@ -338,7 +365,7 @@ void connect(void* targ) {
 	frame.client = client;
 
 	memcpy(frame.request, (unsigned char*)client->request, sizeof(frame.request));
-	frame.request[2048] = (unsigned char)'\0';
+	frame.request[WS_PACKET] = (unsigned char)'\0';
 	frame.received = client->received;
 
 	printf("Frame client fd: %i\n", frame.client->socket);

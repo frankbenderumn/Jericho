@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
 
     req->dump();
 
-    std::string result = sys->router()->exec(ROUTE_HTTP, req->path, req->args, sys, cli);
+    std::string result = sys->router()->exec(ROUTE_HTTP, req->path, req, sys, cli);
     BYEL("Result is: %s\n", result.c_str());
     
     Response* res = new Response(sys, req);

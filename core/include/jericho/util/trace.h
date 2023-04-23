@@ -132,19 +132,14 @@ struct Trace {
     }
 
     void dump() {
-        MAG("Prizm Trace Dump\n");
-        // if (head != nullptr && head->className != "undefined") {
-        //     CYA("Class: %s, count: %i\n", head->className.c_str(), head->count);
-        // } else {
-        //     BRED("Trace - No classes registered\n");
-        // }
+        // MAG("Prizm Trace Dump\n");
         if (head == nullptr) {
-            BRED("Nothing to dump. Head is null!\n");
+            // BRED("Nothing to dump. Head is null!\n");
         }
 
         TracePair* temp = head;
         while (temp != nullptr && temp != NULL) {
-            CYA("Class: %s, count: %i\n", temp->className.c_str(), temp->count);
+            // CYA("Class: %s, count: %i\n", temp->className.c_str(), temp->count);
             temp = temp->next;
         }
     }

@@ -6,6 +6,7 @@
 #include "system/system.h"
 #include "server/defs.h"
 #include "message/message_buffer.h"
+#include "util/trace.h"
 
 std::string single_callback(System* node, Client* client, std::deque<MessageBuffer*> mq, std::string type, void* args);
 

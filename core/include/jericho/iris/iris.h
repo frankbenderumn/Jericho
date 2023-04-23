@@ -32,7 +32,7 @@ namespace iris {
 
     std::string parseLink(Router* router, LEX lex);
 
-    std::string interpret(Router* router, std::string file);
+    std::string interpret(Router* router, std::string file, bool path = true);
 
     // std::string interpret(std::string file);
 
