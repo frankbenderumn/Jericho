@@ -15,6 +15,7 @@ API(AsyncRPC, {})
 }
 
 API(AsyncJob, {})
+    BMAG("Firing Async job!\n");
     REQUEST_INFO
     System* sys = router;
     std::string content = req->arg("content");

@@ -17,74 +17,6 @@
 #include "server/client.h"
 #include "util/url.h"
 
-// for client only use, may need to make thread pool more robust to handle behavior that doesn't require incoming connections
-
-void Bifrost::burst(System* router) {
-    MAG("Bifrost::serve: Start...\n");
-    std::vector<BifrostBurst*> bursts = router->cluster()->boss()->bursts();
-    MAG("Bifrost::serve: Burst size: %li\n", bursts.size());
-    if (bursts.size() > 0) {
-        for (auto burst : bursts) {
-            MessageBroker* broker = burst->broker;
-            if (broker->hasMessages()) {
-                MAG("Bifrost::serve: FIRING ASYNC CALL - EPOCH: %i\n", broker->epoch());
-                MAG("Bifrost::serve: Client url is: %s\n", burst->url.c_str());
-                MAG("Bifrost::serve: Compiling callback...\n");
-                std::deque<MessageBuffer*> bufs = broker->response(burst->url);
-                broker->stash(bufs);
-                // std::string response = broker->callback()(router, burst->client, bufs, broker->callbackType(), broker->args());
-                std::string response = "None";
-                MAG("Bifrost::serve: Response: %s\n", response.c_str());    
-                if (broker->epoch() == broker->epochs()) {
-                    if (isHTTP(response)) {
-                        MAG("Bifrost::serve: Serve raw\n");
-                        // resource::serve_raw(burst->client, clients, response.c_str());
-                    } else {
-                        MAG("Bifrost::serve: Serve HTTP\n");
-                        // resource::serve_http(burst->client, clients, response.c_str());
-                    }
-                    // client->promised = false;
-                    router->cluster()->boss()->serveBroker(burst->url, broker);
-                    MAG("Bifrost::serve: End poll true\n");
-                    // drop_client(client, clients); // this segfaults buffer size of 500000 but not 4095 (fixed...?)
-                }
-            }
-        }
-    }
-}
-
-bool Bifrost::poll(System* router, std::string url, Client* client, Client** clients) {
-    MAG("Bifrost::poll: They see me pollin, they hatin\n");
-    MessageBroker* broker = router->cluster()->boss()->poll(url);
-    if (broker != NULL) {
-        MAG("Bifrost::poll: FIRING ASYNC CALL - EPOCH: %i\n", broker->epoch());
-        MAG("Bifrost::poll: Client url is: %s\n", url.c_str());
-        MAG("Bifrost::poll: Compiling callback...\n");
-        std::deque<MessageBuffer*> bufs = broker->response(url);
-        broker->stash(bufs);
-        // std::string response = broker->callback()(router, client, bufs, broker->callbackType(), broker->args());
-        std::string response = "none";
-        MAG("Bifrost::poll: Response: %s\n", response.c_str());    
-        MAG("Bifrost::poll: Epoch: %i, Epochs: %i\n", broker->epoch(), broker->epochs());    
-        if (broker->epoch() - 1 == broker->epochs()) {
-            if (isHTTP(response)) {
-                MAG("Bifrost::poll: Serve raw\n");
-                resource::serve_raw(client, clients, response.c_str());
-            } else {
-                MAG("Bifrost::poll: Serve HTTP\n");
-                resource::serve_http(client, clients, response.c_str());
-            }
-            // client->promised = false;
-            router->cluster()->boss()->serveBroker(url, broker);
-            MAG("Bifrost::poll: End poll true\n");
-            return true;
-            // drop_client(client, clients); // this segfaults buffer size of 500000 but not 4095 (fixed...?)
-        }
-    }
-    MAG("Bifrost::poll: End poll false\n");
-    return false;
-}
-
 bool authenticate(System* sys, Request* req) {
 	bool username = false;
 	bool password = false;
@@ -102,9 +34,70 @@ std::string serialize(std::string url, std::string response, std::string command
 
 std::string batch_serialize(std::vector<std::pair<std::string, std::string>> responses, std::string command = "null");
 
+void Bifrost::cleanse() {
+    std::chrono::high_resolution_clock::time_point now = std::chrono::high_resolution_clock::now();
+    BMAG("Bifrost::cleanse: Cleansing...\n");
+    // MAG("\tPrecleanse:\n");
+    // this->dumpBrokerSizes();
+    BCYA("Bifrost::cleanse: Brokers size %li\n", _brokers.size());
+    for (auto it = _brokers.begin(); it != _brokers.end(); ) {
+        BCYA("Bifrost::cleanse: Broker Message size %li\n", it->second->messages().size());
+        CYA("%i : %li\n", it->first, _brokers.size());
+        bool toContinue = false;
+        BYEL("Bifrost::cleanse: Iterating brokers\n");
+        std::deque<MessageBuffer*> messages;
+        if (it->second->messages().size() != 0) {
+            messages = it->second->messages();
+        } else {
+            BRED("Bifrost::cleanse: it is nullptr!\n");
+        }
+        for (int i = 0; i < messages.size(); i++) {
+            MessageBuffer* buf = messages.at(i);
+            YEL("Bifrost::cleanse: Iterating message\n");
+            std::chrono::microseconds micro = std::chrono::duration_cast<std::chrono::microseconds>(now - buf->timestamp);
+            int diff = static_cast<int>(micro.count());
+            MAG("\tCompare: %i == %li\n", diff, buf->timeout);
+            if (diff > buf->timeout) {
+                BMAG("\tBifrost::cleanse: Async call timed out\n");
+                // exit(1);
+                // delete messages.at(i);
+                messages.erase(messages.begin() + i);
+            } else {
+                MAG("\tBifrost::cleanse: Call still valid\n");
+                // ++it;
+            }
+            // if (buf->fulfilled == 2) {
+            //     BRED("EXPIRED BUFFER FOUND!\n");
+            //     exit(1);
+            // }
+            MAG("Bifrost::cleanse: Finished Iterating Message\n");
+        }
+        if (messages.size() == 0) {
+            // exit(1);
+            it->second.reset();
+            it = _brokers.erase(it);
+        } else {
+            ++it;
+        }
+    }
+    auto it = _fnfs.begin();
+    while (it != _fnfs.end()) {
+        if ((*it)->fulfilled != 0) {
+            delete *it;
+            it = _fnfs.erase(it);
+        } else {
+            it++;
+        }
+    }
+    // MAG("\tPostcleanse:\n");
+    // this->dumpBrokerSizes();
+    // BMAG("Bifrost::cleanse: Done\n");
+}
+
 int Bifrost::fulfill(std::string& response, Request* req, Client* client, Client** clients) {
+    BMAG("Bifrost::fulfill: Starting...\n");
     int ticket = std::stoi(req->header("Ticket"));
-    GRE("Fulfilling ticket: %i\n", ticket);
+    printf("\tFulfilling ticket: %i\n", ticket);
     Callback* callback = req->callback;
     std::string type = req->header("Broker-Type");
 
@@ -120,11 +113,13 @@ int Bifrost::fulfill(std::string& response, Request* req, Client* client, Client
             m->dump();
         }
 
-        if (callback->resolved) {
-            _brokers[ticket].reset();
-            _brokers.erase(ticket);
-            delete callback;
-            return 2;
+        if (callback) {
+            if (callback->resolved) {
+                _brokers[ticket].reset();
+                _brokers.erase(ticket);
+                delete callback;
+                return 2;
+            }
         }
 
         if (type == "simple") {
@@ -138,6 +133,8 @@ int Bifrost::fulfill(std::string& response, Request* req, Client* client, Client
                 _brokers.erase(ticket);
                 response = content;
                 return 1;
+            } else {
+                BMAG("Well shit guess we got a callback!\n");
             }
         } else if (type == "broadcast") {
             if (!callback) {
@@ -259,10 +256,10 @@ void Bifrost::serve(System* sys, Client* client, Client** clients, Request* req)
     }
 
     switch (sys->router()->protocol(req->path)) {
-        case ROUTE_RAW:
-            result = sys->router()->exec(ROUTE_RAW, req->path, req, sys, client);
-            resource::serve_http(client, clients, result.c_str());	
-            break;									
+        // case ROUTE_RAW:
+        //     result = sys->router()->exec(ROUTE_RAW, req->path, req, sys, client);
+        //     resource::serve_http(client, clients, result.c_str());	
+        //     break;									
         case ROUTE_SYSTEM:
             BYEL("System...\n");
             req->dump();
@@ -271,22 +268,24 @@ void Bifrost::serve(System* sys, Client* client, Client** clients, Request* req)
             result = sys->router()->exec(ROUTE_SYSTEM, req->path, req, sys, client);
             if (result == "TICKET") {
                 GRE("Bifrost::serve: Ticket Received -- will not drop client for now\n");
-                req->async = true;
-                resource::serve_http(client, clients, "ticket", std::string("application/json"));
+                // req->async = true;
+                // resource::serve_http(client, clients, "ticket", std::string("application/json"));
                 // exit(1);
             } else if (result == "COMPLETE") {
                 // drop_client(client, clients, &sys->num_clients);
+            } else if (result == "FNF") {
+
             } else {
                 GRE("Bifrost::serve: System call sending http result: %.100s\n", result.c_str());
                 resource::serve_http(client, clients, result.c_str());		
             }
             break;
-        case ROUTE_API:
-            BYEL("API CALL...\n");
-            result = sys->router()->exec(ROUTE_API, req->path, req, sys, client);
-            GRE("Bifrost::serve: API call sending http result: %.100s\n", result.c_str());
-            resource::serve_http(client, clients, result.c_str(), std::string("application/json"));
-            break;
+        // case ROUTE_API:
+        //     BYEL("API CALL...\n");
+        //     result = sys->router()->exec(ROUTE_API, req->path, req, sys, client);
+        //     GRE("Bifrost::serve: API call sending http result: %.100s\n", result.c_str());
+        //     resource::serve_http(client, clients, result.c_str(), std::string("application/json"));
+        //     break;
         case ROUTE_RESOURCE:
             BYEL("RESOURCE CALL...\n");
             resp = sys->router()->resource(sys, req, sesh);
@@ -354,9 +353,8 @@ void Bifrost::serve(System* sys, Client* client, Client** clients, Request* req)
     }
     if (req->async) {
         BGRE("Async request made!\n");
-        // sys->bifrost()->dumpBrokers();
-        // exit(1);
     }
+    BGRE("Bifrost::serv done!\n");
 }
 
 
@@ -422,36 +420,31 @@ std::string Bifrost::broadcast(std::vector<std::string> urls, std::string conten
         mq.push_back(buf);
     }
     broker->messages(mq);
-    this->broker(ticket, broker);
+    // this->broker(ticket, broker);
 
     for (int i = 0; i < urls.size(); i++) {
         pthread_create(&threads[i], NULL, reinterpret_cast<void* (*)(void*)>(_worker), (void*)mq[i]);
     }
-
-    SEGH
 
     std::vector<std::pair<std::string, std::string>> responses;
     int status;
     for (int i = 0; i < urls.size(); i++) {
         pthread_join(threads[i], (void**)&status);
         printf("i: %i\n", i);
-        if (mq[i] != nullptr) {
-            // responses.push_back({"wtf", "hell"});
-        } else {
+        if (mq[i] == nullptr) {
             BRED("%i not found!\n", i);
         }
         printf("i2: %i\n", i);
     }
 
+    BYEL("MessageBuffer size: %li\n", mq.size());
     for (auto m : mq) {
         responses.push_back({m->url, m->received});
     }
 
-    SEGH
-
     pthread_barrier_destroy(&barrier);
 
-    SEGH
+    broker.reset();
 
     return batch_serialize(responses);
 }
@@ -471,7 +464,7 @@ int Bifrost::broadcast_async(std::vector<std::string> urls, std::string content,
             buf->headers["Message-Id"] = std::to_string(buf->id);
             BMAG("BROADCAST SIZE: %li\n", content.size());
         }
-        buf->dump();
+        // buf->dump();
         mq.push_back(buf);
     }
     broker->messages(mq);
@@ -485,7 +478,7 @@ int Bifrost::broadcast_async(std::vector<std::string> urls, std::string content,
 }
 
 int Bifrost::send_async(std::string url, std::string content, Callback* callback, int timeout) {
-    BBLU("SENDING...\n");
+    BMAG("Bifrost::send_async: Starting...\n");
     std::deque<MessageBuffer*> mq;
     int ticket = ++TICKET_ID; 
     std::shared_ptr<MessageBroker> broker = std::make_shared<MessageBroker>(BROKER_BARRIER, callback);
@@ -497,15 +490,16 @@ int Bifrost::send_async(std::string url, std::string content, Callback* callback
         buf->headers["Broker-Type"] = "simple";
         buf->headers["Ticket"] = std::to_string(ticket);
         buf->headers["Message-Id"] = std::to_string(buf->id);
-        BMAG("SEND SIZE: %li\n", content.size());
         buf->broker = broker;
+        if (callback) {
+            buf->callback(callback);
+        }
     }
-    buf->dump();
+
     mq.push_back(buf);
     broker->messages(mq);
     _brokers[ticket] = broker;
-    
-    BBLU("MQ SIZE IS: %li\n", mq.size());
+
     for (auto m : mq) {
         thread_pool_add(_tpool, _worker, (void*)m);
     }
@@ -521,7 +515,7 @@ std::string Bifrost::send(std::string url, std::string content, Callback* callba
     if (content != "") {
         buf->sent = content;
         buf->size = content.size();
-        buf->ticket = ticket;
+        // buf->ticket = ticket; // only use if messagebuffer needs to reference a ticket, should make more intuitive
         buf->headers["Broker-Type"] = "simple";
         buf->headers["Ticket"] = std::to_string(ticket);
         buf->headers["Message-Id"] = std::to_string(buf->id);
@@ -540,40 +534,52 @@ std::string Bifrost::send(std::string url, std::string content, Callback* callba
     pthread_join(thread, (void**)&status);
 
     std::string result = mq[0]->received;
+
+    // BCYA("Bifrost::send (Client %s):\n", this->hostname().c_str());
+    // printf("\t\033[1;37m%s\033[0m: %s\n", "Received", mq[0]->received.c_str());
+
     broker.reset();
     // _brokers[ticket].reset();
     // _brokers.erase(ticket);
 
-    return serialize(url, mq[0]->received);
+    return serialize(url, result);
 }
 
 void Bifrost::reply(Request* req, std::string url, std::string content, Callback* callback, std::string brokerType, int timeout) {
     BBLU("REPLYING...\n");
-    std::deque<MessageBuffer*> mq;
-    int ticket = ++TICKET_ID;
-    std::shared_ptr<MessageBroker> broker = std::make_shared<MessageBroker>(BROKER_BARRIER, callback);
-    MessageBuffer* buf = this->buffer(url, broker);
+    // std::deque<MessageBuffer*> mq;
+    // MessageBroker* broker = new MessageBroker(BROKER_BARRIER, callback);
+    MessageBuffer* buf = new MessageBuffer(TICKET_ID, url);
     if (content != "") {
+        MAG("Content: %s\n", content.c_str());
         buf->sent = content;
         buf->size = content.size();
-        buf->ticket = ticket;
+        buf->ticket = std::stoi(req->header("Ticket"));
         buf->headers["Ticket"] = req->header("Ticket");
         buf->headers["Broker-Type"] = brokerType;
         buf->headers["Message-Id"] = req->header("Message-Id");
+        buf->hostname = this->host();
+        buf->fromHost = this->host();
+        buf->fromPort = this->port();
+        buf->port = this->port();
         if (callback) {
             buf->callback(callback);
         }
-        BMAG("SEND SIZE: %li\n", content.size());
     }
-    buf->dump();
-    mq.push_back(buf);
-    broker->messages(mq);
-    this->broker(ticket, broker);
+
+    // mq.push_back(buf);
+    // broker->messages(mq);
+    _fnfs.push_back(buf);
+    BMAG("FNFS SIZE: %li\n", _fnfs.size());
     
-    BBLU("MQ SIZE IS: %li\n", mq.size());
-    for (auto m : mq) {
-        thread_pool_add(_tpool, _worker, (void*)m);
-    }
+    // for (auto m : mq) {
+    thread_pool_add(_tpool, _worker, (void*)buf);
+
+    // delete broker;
+    
+    BBLU("Reply brokers @\n");
+    dumpBrokerSizes();
+    // broker.reset();
     // return ticket;
 }
 
@@ -657,6 +663,8 @@ int Bifrost::ricochet(std::string url, std::string endpoint, std::string content
 // }
 
 std::string serialize(std::string url, std::string response, std::string command) {
+    // BRED("Bifrost::serialize DEBUG:\n");
+    // printf("\tResponse: %s\n", response.c_str());
     picojson::object o;
     picojson::object subo;
     subo["status"] = picojson::value("200");

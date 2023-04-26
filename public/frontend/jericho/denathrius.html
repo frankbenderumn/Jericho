@@ -13,11 +13,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.145.0/three.min.js" integrity="sha512-mElAVmOZp/n8OKao194p++kIARCbLKnf/pdVTVI+ZkxL0Rmyw6p5C4kcLd67l2WdvfyBqFe6dI4lR3m++xhdnA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="https://unpkg.com/three@0.145.0/examples/js/controls/OrbitControls.js"></script>
     </head>
-    <script type="text/javascript">
-    </script>
-    <script type="module">
-
-    </script>
     <body style="background-image:url('../assets/images/finance.jpeg');width:100%;height:100%;">
     <section id="loader" class="jericho-gradient" style="position:absolute;z-index:9999999;height:100%;width:100%;">
         <div style="font-size:100px;margin: 20% auto;max-width:600px;font-weight:bold;color:white;" class="font-mbf">
@@ -450,14 +445,16 @@
                         </div>
                         <div id="distribution" data-role="tab">
                             Welcome to distribution
-                            
+
+                            <div id="ws-init" class="bttn">Init Websocket</div>
+
                             <div data-role="request" data-target="ck" data-request='get*../async-rpc*{"command": "hello_world"}' class="bttn">Async RPC</div>
 
                             <div data-role="request" data-target="ck" data-request='get*../sync-rpc*{"command": "hello_world"}' class="bttn">Sync RPC</div>
 
-                            <div data-role="request" data-target="ck" data-request='get*../broadcast-sync-rpc*{"command": "hello_world"}' class="bttn">Broadcast Sync RPC</div>
-
                             <div data-role="request" data-target="ck" data-request='get*../broadcast-async-rpc*{"command": "hello_world"}' class="bttn">Broadcast Async RPC</div>
+
+                            <div data-role="request" data-target="ck" data-request='get*../broadcast-sync-rpc*{"command": "hello_world"}' class="bttn">Broadcast Sync RPC</div>
 
                             <div data-role="request" data-target="ck" data-request='get*../binary-rpc*{"command": "hello_world"}' class="bttn">Binary RPC</div>
 
@@ -465,13 +462,13 @@
 
                             <div data-role="request" data-target="ck" data-request='get*../pulse-rpc*{"command": "hello_world"}' class="bttn">Pulse RPC</div>
 
-                            <div data-role="request" data-target="ck" data-request='get*../realm-rpc*{"command": "hello_world"}' class="bttn">(WIP) Realm RPC</div>
+                            <!-- <div data-role="request" data-target="ck" data-request='get*../realm-rpc*{"command": "hello_world"}' class="bttn">(WIP) Realm RPC</div> -->
 
-                            <div data-role="request" data-target="ck" data-request='get*../ftp*{"command": "hello_world"}' class="bttn">FTP</div>
+                            <!-- <div data-role="request" data-target="ck" data-request='get*../ftp*{"command": "hello_world"}' class="bttn">FTP</div> -->
 
-                            <div data-role="request" data-target="ck" data-request='get*../secure-rpc*{"command": "hello_world"}' class="bttn">(WIP) Secure</div>
+                            <!-- <div data-role="request" data-target="ck" data-request='get*../secure-rpc*{"command": "hello_world"}' class="bttn">(WIP) Secure</div> -->
 
-                            <div data-role="request" data-target="ck" data-request='get*https://localhost:8081/request-join*{"command": "federate"}' class="bttn">(WIP) Secure</div>
+                            <div data-role="request" data-target="ck" data-request='get*https://localhost:8084/request-join*{"command": "federate"}' class="bttn">Projected Federate</div>
 
                         </div>
                     </div>

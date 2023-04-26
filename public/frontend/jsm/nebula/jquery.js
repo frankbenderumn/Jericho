@@ -29,9 +29,9 @@ setTimeout(function() {
 
 g2.update(xs3, ys3);
 
+    let socket = undefined;
 // document.addEventListener("DOMContentLoaded", function(event) { 
-    let socket;
-    socketTest();
+    socket = socketTest();
     let open = false;
     document.getElementById("web-socket").addEventListener("click", function() {
         if (!open) {
@@ -41,6 +41,17 @@ g2.update(xs3, ys3);
             socket.close(1000);
             open = false;
         }
+    });
+
+    document.getElementById("ws-init").addEventListener("click", function(){
+        // if (socket == undefined) {
+            console.log("%c Socket is undefined", "color: green;");
+            socketTest();
+            let s = JSON.stringify({route: "new", function: "main"});
+            socket.send(s);
+        // } else {
+        //     console.log("%c Socket is defined", "color: red;");
+        // }
     });
 
     document.getElementById("send-socket").addEventListener("click", function() {

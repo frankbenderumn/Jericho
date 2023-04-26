@@ -118,7 +118,7 @@ void drop_client(Client* client, Client** clients, size_t* num_clients) {
             if (**p == client) { // if client
                 **p = client->next; // set pointer to client
                 free(client); // free memory, was allocated on heap
-                PLOG(LSERVER, "Dropping client: <client-address>");
+                // PLOG(LSERVER, "Dropping client: <client-address>");
                 PDESTROYC("Client");
                 // BYEL("Client dropped!\n");
                 (*num_clients)--;

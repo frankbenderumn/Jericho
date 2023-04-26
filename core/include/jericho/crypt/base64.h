@@ -18,6 +18,9 @@ std::string decode(const std::string& input);
 std::string encode_url(const std::string& input);
 std::string decode_url(const std::string& input);
 
+size_t size(const std::string& original);
+size_t size_num(const size_t& original_sz);
+
 }
 
 }

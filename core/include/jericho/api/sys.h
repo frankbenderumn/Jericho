@@ -4,16 +4,16 @@
 #include "api/api_helper.h"
 #include "util/file_system.hpp"
 
-API(Setup, {})
+API(SSetup, {})
     REQUEST_INFO
-    std::string script = router->federator()->script();
+    // std::string script = router->federator()->script();
     picojson::value data;
     std::string result;
-    if (JFS::readJson(data, script.c_str()) < 0) {
-        result = "failed to parse script";
-    } else {
-        result = data.serialize();
-    }
+    // if (JFS::readJson(data, script.c_str()) < 0) {
+    //     result = "failed to parse script";
+    // } else {
+    //     result = data.serialize();
+    // }
     return result;
 }
 

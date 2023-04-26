@@ -80,7 +80,7 @@ namespace jwt {
             signature_encoded = base64::encode_url(signature);            
             // url_safe(signature_encoded);
         } else {
-            BBLU("Secret: %s\n", keypath);
+            DEBUG("Secret: %s\n", keypath);
             signature_encoded = hs256::sign(token_encoded, keypath);
         }
         jwt = token_encoded + "." + signature_encoded;
@@ -88,7 +88,7 @@ namespace jwt {
     }
 
     bool generate_sym(std::string& jwt, picojson::object& payload_obj, std::string& secret, int mins) {
-        BMAG("GENERATING SYM JWT:\n");
+        DEBUG("GENERATING SYM JWT:\n");
         secret = ::jcrypt::generate_session_token(32);
         secret = base64::encode_url(secret);
         auto now = Clock::now_chrono();
@@ -97,11 +97,11 @@ namespace jwt {
         std::string time_str = std::to_string(time);
         payload_obj["expiration"] = picojson::value(time_str);
         std::string payload = picojson::value(payload_obj).serialize();
-        printf("\t\033[0;35mPayload\033[0m: %s (%li)\n", payload.c_str(), payload.size());
+        DEBUG("\t\033[0;35mPayload\033[0m: %s (%li)\n", payload.c_str(), payload.size());
         bool result = generate(jwt, payload, secret.c_str(), JWT_HMAC);
-        MAG("\tGenerated token:\n");
-        printf("\t%s (%li)\n",jwt.c_str(), jwt.size());
-        printf("\t\033[0;35mSecret\033[0m: %s (%li)\n", secret.c_str(), secret.size());
+        DEBUG("\tGenerated token:\n");
+        DEBUG("\t%s (%li)\n",jwt.c_str(), jwt.size());
+        DEBUG("\t\033[0;35mSecret\033[0m: %s (%li)\n", secret.c_str(), secret.size());
         return result;
     }
 
@@ -185,14 +185,10 @@ namespace jwt {
             std::string sig_enc = hs256::sign(header_encode + "." + payload_encode, std::string(pub_keypath));
             std::string sig_dec_enc = base64::encode_url(signature_decode);
 
-            BWHI("======================\n");
-            printf("%-16s: %s (%li)\n", "To Verify", signature_encode.c_str(), signature_encode.size());
-            printf("%-16s: %s (%li)\n", "Verification", sig_enc.c_str(), sig_enc.size());
-            // BWHI("2nd: %s (%li)\n", sig_dec_enc.c_str(), sig_dec_enc.size());
-            // BBLU("1st: %s (%li)\n", sig_enc2.c_str(), sig_enc2.size());
-            // BBLU("2nd: %s (%li)\n", sig_dec_enc2.c_str(), sig_dec_enc2.size());
-
-            MAG("Token is:\n%s\n\n\n", encoded_token.c_str());
+            DEBUG("======================\n");
+            DEBUG("%-16s: %s (%li)\n", "To Verify", signature_encode.c_str(), signature_encode.size());
+            DEBUG("%-16s: %s (%li)\n", "Verification", sig_enc.c_str(), sig_enc.size());
+            DEBUG("Token is:\n%s\n\n\n", encoded_token.c_str());
             if (sig_enc == signature_encode) {
                 return true;
             } else {
@@ -206,18 +202,18 @@ namespace jwt {
 
     bool verify_sym(const std::string& jwt_token, picojson::object& extracted_payload, const std::string& secret) {
         std::string received_payload;
-        BMAG("VERIFYING SYM JWT:\n");
-        MAG("\tToken to verify:\n");
-        printf("\t%s (%li)\n",jwt_token.c_str(), jwt_token.size());
-        printf("\t\033[0;35mVerified with secret\033[0m: %s (%li)\n", secret.c_str(), secret.size());
+        DEBUG("VERIFYING SYM JWT:\n");
+        DEBUG("\tToken to verify:\n");
+        DEBUG("\t%s (%li)\n",jwt_token.c_str(), jwt_token.size());
+        DEBUG("\t\033[0;35mVerified with secret\033[0m: %s (%li)\n", secret.c_str(), secret.size());
         if (!verify(jwt_token, received_payload, secret.c_str(), NULL, 0, JWT_HMAC)) {
-            BRED("Failed to verify symmetric JWT token!\n");
+            // BRED("Failed to verify symmetric JWT token!\n");
             return false;
         }
 
         picojson::value payload_json;
         if (JFS::parseJson(payload_json, received_payload.c_str()) < 0) {
-            BRED("Failed to parse JSON payload!\n");
+            // BRED("Failed to parse JSON payload!\n");
             return false;
         }
 

@@ -1,3 +1,6 @@
+#include <iostream>
+#include <cmath>
+
 #include "crypt/base64.h"
 
 namespace jcrypt {
@@ -38,27 +41,38 @@ std::string encode_url(const std::string& input) {
 }
 
 std::string encode(const std::string& input) {
-	// Create a memory buffer BIO
-	BIO* bio = BIO_new(BIO_s_mem());
+    // Create a memory buffer BIO
+    BIO* bio = BIO_new(BIO_s_mem());
 
-	// Create a base64 encoding BIO and push it onto the memory buffer BIO
-	BIO* b64 = BIO_new(BIO_f_base64());
-	BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
-	bio = BIO_push(b64, bio);
+    // Create a base64 encoding BIO and push it onto the memory buffer BIO
+    BIO* b64 = BIO_new(BIO_f_base64());
+    BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
+    bio = BIO_push(b64, bio);
 
-	// Write the input data to the base64 encoding BIO
-	BIO_write(bio, input.data(), input.length());
+    // Write the input data to the base64 encoding BIO
+    BIO_write(bio, input.data(), input.length());
 
-	// Flush the base64 encoding BIO to get the encoded data as a string
-	BIO_flush(bio);
-	char* base64_data;
-	long base64_length = BIO_get_mem_data(bio, &base64_data);
-	std::string output(base64_data, base64_length);
+    // Flush the base64 encoding BIO to get the encoded data as a string
+    BIO_flush(bio);
+    BUF_MEM* bufferPtr;
+    BIO_get_mem_ptr(bio, &bufferPtr);
+    std::string output(bufferPtr->data, bufferPtr->length);
 
-	// Clean up the BIOs
-	BIO_free_all(bio);
+    // Clean up the BIOs
+    BIO_free_all(bio);
 
-	return output;
+    return output;
+}
+
+size_t size(const std::string& original) { 
+	size_t original_sz = original.length();
+	size_t sz = std::ceil(original_sz / 3.0) * 4;
+	return sz;
+}
+
+size_t size_num(const size_t& original_sz) { 
+	size_t sz = std::ceil(original_sz / 3.0) * 4;
+	return sz;
 }
 
 std::string decode(const std::string& input) {

@@ -15,8 +15,6 @@ std::string r6 = "scooby=snacks; HttpOnly; SameSite=Lax;";
 
 int main(int argc, char* argv[]) {
     /** TODO: add fixture support to Testing library */
-    // Pretty time: Tue, Jan 31, 2023 06:06:03 PM CST
-    time_t fixed = 1675209963;
 
     // time_t t = std::time(NULL);
     // BMAG("Time: %li\n", t);

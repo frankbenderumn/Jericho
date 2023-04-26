@@ -8,6 +8,7 @@
 #include "server/defs.h"
 #include "prizm/prizm.h"
 #include "message/callback2.h"
+#include "util/url.h"
 
 static int MBUF_ID = -1;
 
@@ -18,6 +19,7 @@ class Client;
 struct MessageBuffer {
   
     MessageBuffer() { PCREATE; }
+    MessageBuffer(int& ticket, std::string _url);
 
     MessageBuffer(std::string src, std::string dest, std::string dir, std::string content) {
         PCREATE;
@@ -46,57 +48,43 @@ struct MessageBuffer {
         this->id = ++MBUF_ID;
     }
 
-    ~MessageBuffer() { PDESTROY; }
+    ~MessageBuffer() { BMAG("Deleting MessageBuffer\n"); PDESTROY; }
   
-    std::string sent = "undefined";
-  
+    int ticket = -1;
+    int id = -1;
+    int modality = 0;
+    int fulfilled = 0;
+    double latency = 0.0;
+    size_t size = 0;
+    long timeout = 5000000;
+
     std::string hostname = "undefined";
-  
     std::string port = "undefined";
 
     std::string fromHost = "undefined";
-
     std::string fromPort = "undefined";
+    std::string sent = "undefined";
 
     std::string toHost;
-
     std::string toPort;
+    std::string received = "undefined";
+
+    std::string client;
+    std::string url;
+    std::unordered_map<std::string, std::string> headers;
 
     std::string protocol;
-  
     std::string path = "undefined";
-  
-    std::string received = "undefined";
-  
     std::string dir = "undefined";
-
     std::string type = "text/plain";
 
     std::string flag = "undefined";
-
     std::string flag2 = "undefined";
-  
-    int ticket = -1;
 
-    int id = -1;
-
-    int modality = 0;
+    std::chrono::high_resolution_clock::time_point timestamp = std::chrono::high_resolution_clock::now();
 
     pthread_barrier_t* barrier = nullptr;
-
-    int fulfilled = 0;
-  
     std::weak_ptr<MessageBroker> broker;
-
-    double latency = 0.0;
-
-    size_t size = 0;
-
-    std::string client;
-
-    std::string url;
-
-    std::unordered_map<std::string, std::string> headers;
   
     void publish();
   

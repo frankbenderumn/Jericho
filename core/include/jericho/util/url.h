@@ -10,8 +10,8 @@ class URL {
     void _parseProtocol(std::string protocol) {
         std::string::size_type p;
         if ((p = protocol.find("+")) != std::string::npos) {
-            this->protocol = protocol.substr(0, p);
-            this->type = protocol.substr(p+1, protocol.size() - p - 1); 
+            this->type = protocol.substr(0, p);
+            this->protocol = protocol.substr(p+1, protocol.size() - p - 1); 
         }
     }
 
@@ -20,8 +20,8 @@ class URL {
         if ((p = hostname.find(":")) != std::string::npos) {
             host = hostname.substr(0, p);
             port = hostname.substr(p+1, hostname.size() - p - 1);
-            BMAG("Host: %s\n", host.c_str());
-            BMAG("Port: %s\n", port.c_str());
+            // BMAG("Host: %s\n", host.c_str());
+            // BMAG("Port: %s\n", port.c_str());
             ip = true;
         } else if ((p = hostname.find(".")) != std::string::npos) {
             p = 0;
@@ -32,7 +32,7 @@ class URL {
             }
             tokens.push_back(hostname);
             for (auto tok : tokens) {
-                BBLU("Token: %s\n", tok.c_str());
+                // BBLU("Token: %s\n", tok.c_str());
             }
 
             if (tokens.size() == 2) {
@@ -72,8 +72,8 @@ class URL {
             if (p3 != nullptr) {
                 std::string arg = std::string(p, p3 - p);
                 std::string val = std::string(p3 + 1, p2 - p3 - 1);
-                BYEL("ARG: %s\n", arg.c_str());
-                BYEL("VAL: %s\n", val.c_str());
+                // BYEL("ARG: %s\n", arg.c_str());
+                // BYEL("VAL: %s\n", val.c_str());
                 args.push_back({arg, val});
             }
             p = p2 + 1;
@@ -84,8 +84,8 @@ class URL {
                 std::string arg = std::string(p, p2 - p);
                 len -= p2 - p - 1;
                 std::string val = std::string(p2 + 1, len);
-                BYEL("ARG: %s\n", arg.c_str());
-                BYEL("VAL: %s\n", val.c_str());
+                // BYEL("ARG: %s\n", arg.c_str());
+                // BYEL("VAL: %s\n", val.c_str());
                 args.push_back({arg, val});
             }
         }
@@ -123,43 +123,45 @@ class URL {
         char* p = NULL, *p2 = NULL, *p3 = NULL;
         const char* str = url.c_str();
         int len = strlen(str);
-        BRED("len: %i\n", len);
+        // BRED("len: %i\n", len);
         p = strstr((char*)str, "://");
-        if (!p) { BRED("URL does not provide a protocol!\n"); }
+        if (!p) { 
+            // BRED("URL does not provide a protocol!\n");
+        }
         std::string s(p);
         protocol = std::string(str, p - str);
-        BYEL("Protocol is: %s\n", protocol.c_str());
+        // BYEL("Protocol is: %s\n", protocol.c_str());
         len -= protocol.size() + 3;
         p += 3;
         bool no_path = false;
-        BRED("len: %i\n", len);
+        // BRED("len: %i\n", len);
         p2 = strstr((char*)p, "/");
         if (!p2) { 
-            BRED("URL does not provide a path!\n"); 
+            // BRED("URL does not provide a path!\n"); 
             hostname = std::string(p, len);
             no_path = true;
         } else {
             hostname = std::string(p, p2 - p);
         }
-        BYEL("Hostname is: %s\n", hostname.c_str());
+        // BYEL("Hostname is: %s\n", hostname.c_str());
         p += (p2 - p);
         len -= hostname.size();
-        BRED("len: %i\n", len);
+        // BRED("len: %i\n", len);
         std::string args;
         if (!no_path) {
             p3 = strstr((char*)p, "?");
             if (!p3) {
-                BRED("No arguments detected!\n"); 
+                // BRED("No arguments detected!\n"); 
                 path = std::string(p2, len);        
             } else {
                 p3 += 1;
                 path = std::string(p, p3 - p - 1);
                 len -= path.size() + 1;
-                BRED("len: %i\n", len);
+                // BRED("len: %i\n", len);
                 args = std::string(p3, len);
             }
-            BYEL("Path is: %s\n", path.c_str());
-            BYEL("Args are: %s\n", args.c_str());
+            // BYEL("Path is: %s\n", path.c_str());
+            // BYEL("Args are: %s\n", args.c_str());
         }
         _parseProtocol(protocol);
         _parseHostname(hostname);
@@ -173,12 +175,12 @@ class URL {
 
     ~URL() { PDESTROY; }
 
-    std::string serialize(URL* url) {
-        return "undefined";
-    }
-
     bool arg(std::string& value, std::string key) {
-        return true;
+        if (prizm::contains_key(_args, key)) {
+            value = _args[key];
+            return true;
+        }
+        return false;
     }
 };
 

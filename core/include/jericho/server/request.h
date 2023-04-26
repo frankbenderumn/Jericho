@@ -17,8 +17,22 @@
 
 typedef std::chrono::high_resolution_clock hrclock;
 
+enum ContentType {
+    CONTENT_OCTET,
+    CONTENT_JSON,
+    CONTENT_PLAIN
+};
+
+enum EncodingType {
+    ENCODING_NONE,
+    ENCODING_BASE64
+};
+
 struct Request {
     std::string content;
+    int size;
+    ContentType type = CONTENT_PLAIN;
+    EncodingType encoding = ENCODING_NONE;
     std::unordered_map<std::string, std::string> headers;
     std::string method;
     std::string path;
@@ -27,7 +41,7 @@ struct Request {
     std::string protocol;
     std::string signature;
     std::string host;
-    Callback* callback;
+    Callback* callback = nullptr;
     bool async = false;
 #ifdef TEST_MODE
     std::string headersStr;
@@ -46,7 +60,12 @@ struct Request {
         }
     }
     Request() { PCREATE; }
-    ~Request() { PDESTROY; delete callback; }
+    ~Request() { 
+        PDESTROY; 
+        if (callback) {
+            delete callback;
+        } 
+    }
 
     // helps with binary files
     void poll_request(Client* _client, int _buffer_limit) {
@@ -99,6 +118,7 @@ struct Request {
         BYEL("method: %s\n", this->method.c_str());
         BYEL("path: %s\n", this->path.c_str());
         BYEL("content: %s\n", this->content.c_str());
+        BYEL("content-size: %li\n", this->content.size());
         for (auto head : this->headers) {
             BYEL("header: %-32s %s\n", head.first.c_str(), head.second.c_str());
         }
@@ -123,29 +143,21 @@ struct Request {
                 char* q = strstr(client->request, "\r\n\r\n");
                 if (q) {
                     all_read = true;
-                    this->request = std::string(client->request);
+                    // this->request = std::string(q + 4);
+                    CYA("Request::poll_request: Content %s\n", q);
+                    CYA("Request::poll_request: Content-Size %li\n", this->request.size());
                     all_read = true;
                 } else {
                     BRED("Request::poll_request: Http headers not found!\n");
                     RED("%s\n", client->request);
                 }
                 client->received += strlen(client->request) + 1;
-                // BMAG("Request::poll_request: Number of bytes received from client is %i\n", client->received);
+                BMAG("Request::poll_request: Number of bytes received from client is %i\n", client->received);
+                BMAG("Request::poll_request: Request is %i\n", client->received);
             } else {
                 all_read = true;
             }
         }
-    }
-
-    void _parseCallback(std::unordered_map<std::string, std::string> map) {
-        callback = new Callback;
-        callback->url = map["Callback-Url"];
-        callback->endpoint = map["Callback-Endpoint"]; 
-        callback->type = map["Callback-Type"];
-        callback->satellite = std::stoi(map["Callback-Satellite"]);
-        callback->fn = map["Callback-Fn"];        
-        callback->count = std::stoi(map["Callback-Count"]);
-        callback->limit = std::stoi(map["Callback-Limit"]);
     }
 
     std::string parseProtocol() {
@@ -167,139 +179,9 @@ struct Request {
         return msg;
     }
 
-    void eval() {
-        std::string bytes(client->request);
-        // BYEL("Request::eval example:\n");
-        // printf("%s\n", bytes.c_str());
+    void eval();
 
-        std::string::size_type p = bytes.find("\r\n\r\n");
-        if (p != std::string::npos) {
-            // BBLU("Term location: %li :: %li\n", p, bytes.size());
-        } else {
-            BRED("Request::eval: Invalid headers (\\r\\n\\r\\n not found)\n");
-            this->valid = false;
-        }
-
-        std::string headersStr;
-        std::string content;
-
-        if (p != bytes.size() - 4) {
-            size_t last = 0;
-            size_t next = 0;
-            std::vector<std::string> result;
-            std::string delim = "\r\n\r\n";
-            while ((next = bytes.find(delim, last)) != std::string::npos) {
-                if (bytes.substr(last, next-last) != "") {
-                    result.push_back(bytes.substr(last, next-last));
-                }
-                last = next + delim.size();
-            }
-            if (bytes.substr(last, next-last) != "") {
-                result.push_back(bytes.substr(last));
-            }
-            if (result.size() == 2) {
-                // BWHI("Headers:\n");
-                // printf("%s\n", result[0].c_str());
-                headersStr = result[0];
-                // BWHI("Content:\n");
-                // printf("%s\n", result[1].c_str());
-                this->content = result[1];
-            } else if (result.size() == 1) {
-                BWHI("Request::eval: Headers only!\n");
-            }
-        } else {
-            headersStr = bytes;
-        }
-
-        std::istringstream ss(headersStr);
-        std::string word;
-        std::vector<std::string> words;
-        bool first = true;
-        std::string protoHead;
-        std::unordered_map<std::string, std::string> args2;
-        std::unordered_map<std::string, std::string> callback;
-        while (std::getline(ss, word, '\n')) {
-            if (word != "") {
-                std::string::size_type sep = word.find(": ");
-                if (sep != std::string::npos && !first) {
-                    std::string key = word.substr(0, sep);
-                    std::string val = word.substr(sep+2, word.size() - sep+2);
-                    // if (val[val.size() - 1] == '\r') {
-                    //     val.pop_back();
-                    // }
-                    prizm::erase(val, '\r');
-                    if (key == "Host") {
-                        host = val;
-                    } else if (key.find("Callback-") != std::string::npos) {
-                        callback[key] = val;
-                    }
-                    args2[key] = val;
-                } else if (first) {
-                    protoHead = word;
-                    first = !first;
-                }
-                words.push_back(word);
-            }
-        }
-        if (callback.size() != 0) {
-            _parseCallback(callback);
-        }
-        // BBLU("ProtoHead:\n");
-        // printf("%s\n", protoHead.c_str());
-        int sepGate = 0;
-        std::string method2;
-        std::string path2;
-        std::string protocol2;
-        for (auto c : protoHead) {
-            if (c == ' ') { sepGate++; continue; }
-            if (c == '\t') { continue; }
-            if (c == '\r') { continue; }
-            if (sepGate == 0) { method2 += c; }
-            else if (sepGate == 1) { path2 += c; }
-            else if (sepGate == 2) { protocol2 += c; }
-        }
-        this->method = method2;
-        this->path = path2;
-        this->protocol = protocol2;
-        // BBLU("Method\n");
-        // printf("%s\n", method2.c_str());
-        // BBLU("Path\n");
-        // printf("%s\n", this->path.c_str());
-        // BBLU("Protocol\n");
-        // printf("%s\n", protocol2.c_str());
-        // BBLU("Headers:\n");
-        // for (auto a : args2) {
-        //     printf("%s -- %s\n", a.first.c_str(), a.second.c_str());
-        // }
-        this->headers = args2;
-
-        size_t pathp = this->path.find("?");
-        if (pathp != std::string::npos) {
-            std::string npath = this->path.substr(pathp+1, this->path.size());
-            this->path = this->path.substr(0, pathp);
-            std::vector<std::string> toks = prizm::tokenize(npath, '&');
-            for (auto t : toks) {
-                std::string::size_type p = t.find("=");
-                if (p != std::string::npos) {
-                    std::string key = t.substr(0, p);
-                    std::string val = t.substr(p+1, t.size());
-                    args[key] = val;
-                }
-            }
-        }
-
-        if (this->method == "POST" && this->content != "") {
-            std::vector<std::string> toks = prizm::tokenize(this->content, '&');
-            for (auto t : toks) {
-                std::string::size_type p = t.find("=");
-                if (p != std::string::npos) {
-                    std::string key = t.substr(0, p);
-                    std::string val = t.substr(p+1, t.size());
-                    args[key] = val;
-                }
-            }
-        }
-    }
+    void parseHeaders(std::string headerStr);
 
     std::string header(std::string key) {
         if (prizm::contains_key(this->headers, key)) {
@@ -323,23 +205,6 @@ struct Request {
         return protocol + "://" + host + path;
     }
 };
-
-// std::vector<std::string> prizm::tokenize(std::string in, std::string delim) {
-//     size_t last = 0;
-//     size_t next = 0;
-//     std::vector<std::string> result = {};
-//     while ((next = in.find(delim, last)) != std::string::npos) {
-//         if (in.substr(last, next-last) != "") {
-//             result.push_back(in.substr(last, next-last));
-//         }
-//         last = next + delim.size();
-//     }
-//     if (in.substr(last, next-last) != "") {
-//         result.push_back(in.substr(last));
-//     }
-//     return result;
-//     }
-// };
 
 bool is_valid_request(Client* client);
 

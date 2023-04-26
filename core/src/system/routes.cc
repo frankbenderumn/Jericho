@@ -57,13 +57,19 @@ void compile_routes(Router* router) {
     router->system("/pulse-function-job", apiPulseFunctionJob);
     router->system("/ftp", apiFTP);
 
+    router->system("/heartbeat", apiHeartbeat);
+
     // Federated Module
     router->system("/request-join", apiRequestJoin);
     router->system("/client-profile", apiClientProfile);
     router->system("/ping-ricochet", apiPingRicochet);
-    router->system("/request-model", apiRequestModel);
-    router->system("/send-model", apiSendWeights);
-    router->system("/aggregate-model", apiAggregateModel)
+    router->system("/callback-resolution", apiCallbackResolution);
+    router->system("/test-resolve", apiTestResolve);
+    router->system("/train", apiTrain);
+    router->system("/join-network", apiJoinNetwork);
+    router->system("/aggregate-model", apiAggregateModel);
+    router->system("/new-model", apiNewModel);
+
     // router->system("/federate-local", apiFederateLocal);
     // router->system("/model", apiServeModel);
     // router->system("/new-model", apiNewModel);

@@ -19,6 +19,19 @@ void Jericho::FileSystem::write(const char* path, std::string toWrite, bool over
     myfile.close();
 }
 
+void Jericho::FileSystem::write(const char* path, const char* _toWrite, bool overwrite) {
+    std::ofstream myfile;
+    std::string toWrite(_toWrite);
+    if (overwrite) {
+        myfile.open(path, std::ios_base::in | std::ofstream::trunc);
+    } else {
+        myfile.open(path, std::ios_base::app | std::ios_base::in);
+    }
+    myfile << toWrite << "\n";
+    myfile.close();
+}
+
+
 std::string Jericho::FileSystem::read(const char* path) {
     std::ifstream t(path);
     std::stringstream buffer;
@@ -155,8 +168,6 @@ int Jericho::FileSystem::parseJson(picojson::value& data, const char* json) {
         std::cerr << err << std::endl;
         BRED("Failed to parse json file: %s\n", json);
         return -1;
-    } else {
-        BGRE("Json data parsed for: %s\n", json);
     }
 
     if (!data.is<picojson::object>()) {
@@ -178,8 +189,6 @@ int Jericho::FileSystem::readJson(picojson::value& data, const char* path) {
         std::cerr << err << std::endl;
         BRED("Failed to parse json file: %s\n", path);
         return -1;
-    } else {
-        BGRE("Json data parsed for: %s\n", path);
     }
 
     if (!data.is<picojson::object>()) {

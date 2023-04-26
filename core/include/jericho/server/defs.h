@@ -55,9 +55,11 @@
 #include "crypt/utf8.h"
 #include "util/trace.h"
 
+#ifndef BOOL
 #define BOOL int
 #define TRUE 1
 #define FALSE 0
+#endif
 
 // SHA-1 hash
 

@@ -64,7 +64,7 @@ struct Route {
         // }
         std::string result = "No callback";
         if (callback != NULL) {
-            BYEL("Callback exists!\n");
+            // BYEL("Callback exists!\n");
             result = callback(req, sys, cli, mb);
         }
         // for (auto p : post) {
@@ -74,41 +74,42 @@ struct Route {
         // }
         return result;
     }
+    
     void dump() {
-BMAG("=====================================================================\n");
-MAG("Route Dump\n");
-// MAG("Url: %s\n", url.c_str());
-MAG("Path: %s\n", path.c_str());
-std::string typeStr;
-switch(this->type) {
-    case ROUTE_HTTP:
-        typeStr = "HTTP";
-        break;
-    case ROUTE_SYSTEM:
-        typeStr = "System";
-        break;
-    case ROUTE_API:
-        typeStr = "Api";
-        break;
-    case ROUTE_IRIS:
-        typeStr = "Iris";
-        break;
-    case ROUTE_JERICHO:
-        typeStr = "Jericho";
-        break;
-    case ROUTE_DB:
-        typeStr = "Database";
-        break;
-    case ROUTE_CONTROLLER:
-        typeStr = "Controller";
-        break;
-    default:
-        typeStr = "NULL";
-        break;
-}
-MAG("Type: %s\n", typeStr.c_str());
-// WHI("Implement wildcards? Could be a vulnerability but need interpolation\n");
-// WHI("Implement route callbacks? \n");
+        BMAG("=====================================================================\n");
+        MAG("Route Dump\n");
+        // MAG("Url: %s\n", url.c_str());
+        MAG("Path: %s\n", path.c_str());
+        std::string typeStr;
+        switch(this->type) {
+            case ROUTE_HTTP:
+                typeStr = "HTTP";
+                break;
+            case ROUTE_SYSTEM:
+                typeStr = "System";
+                break;
+            case ROUTE_API:
+                typeStr = "Api";
+                break;
+            case ROUTE_IRIS:
+                typeStr = "Iris";
+                break;
+            case ROUTE_JERICHO:
+                typeStr = "Jericho";
+                break;
+            case ROUTE_DB:
+                typeStr = "Database";
+                break;
+            case ROUTE_CONTROLLER:
+                typeStr = "Controller";
+                break;
+            default:
+                typeStr = "NULL";
+                break;
+        }
+        MAG("Type: %s\n", typeStr.c_str());
+        // WHI("Implement wildcards? Could be a vulnerability but need interpolation\n");
+        // WHI("Implement route callbacks? \n");
     }
 };
 

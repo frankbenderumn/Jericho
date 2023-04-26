@@ -25,6 +25,7 @@ class Bifrost {
     ThreadPool* _tpool;
     WorkerThread _worker;
     std::unordered_map<int, std::shared_ptr<MessageBroker>> _brokers;
+    std::deque<MessageBuffer*> _fnfs;
     std::unordered_map<int, std::vector<double>> _latencies;
     std::unordered_map<int, std::vector<long>> _bandIn;
     std::unordered_map<int, std::vector<long>> _bandOut;
@@ -42,7 +43,11 @@ class Bifrost {
         _tpool = tpool;
         _worker = worker;
     }
-    ~Bifrost() { PDESTROY; delete _sm; }
+    ~Bifrost() { PDESTROY; delete _sm;
+        for (auto& f : _fnfs) {
+            delete f;
+        }
+    }
 
     const std::string host() const { return _host; }
     const std::string port() const { return _port; }
@@ -61,6 +66,8 @@ class Bifrost {
     }
 
     SessionManager* sessionManager() const;
+
+    void cleanse();
 
     void serve(System* sys, Client* client, Client** clients, Request* req);
 

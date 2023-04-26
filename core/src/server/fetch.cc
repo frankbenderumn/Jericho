@@ -62,6 +62,8 @@ void parse_url(char *url, char **hostname, char **port, char** path) {
 
 
 int send_request(SSL *s, const char *hostname, const char *port, const char *path, MessageBuffer* buf) {
+    BMAG("Fetch: Sending Request...\n");
+
     int result = 1;
     char buffer[490000];
 
@@ -96,7 +98,7 @@ int send_request(SSL *s, const char *hostname, const char *port, const char *pat
     // BCYA("%s\n", carr);
 
     for (int i = 0; i < message.size(); i++) {
-        if (v[i] != (unsigned char)carr[i]) { BRED("fetch::send_request: CRITICAL: WRONG\n"); }
+        if (v[i] != (unsigned char)carr[i]) { BRED("Fetch::send_request: CRITICAL: WRONG\n"); }
     }
 
     DEBUG("sendRequest: path: %s\n", path);
@@ -117,16 +119,21 @@ int send_request(SSL *s, const char *hostname, const char *port, const char *pat
     sprintf(buffer + strlen(buffer), "User-Agent: honpwc https_get 1.0\r\n");
     // sprintf(buffer + strlen(buffer), "Access-Control-Allow-Origin: %s\r\n", "*");
     sprintf(buffer + strlen(buffer), "Jericho: %s\r\n", "true");
-    if (type != "" || type != "undefined") {
-        sprintf(buffer + strlen(buffer), "Content-Type: %s\r\n", type.c_str());
-        sprintf(buffer + strlen(buffer), "Content-Length: %li\r\n", message.size());
+    if (type == "bin") {
+        BGRE("Binary type detected!\n");
+        sprintf(buffer + strlen(buffer), "Content-Type: %s\r\n", "application/octet-stream");        
+        sprintf(buffer + strlen(buffer), "Content-Size: %li\r\n", message.size());
+        sprintf(buffer + strlen(buffer), "Content-Encoding: %s\r\n", "base64");
+    } else {
+        sprintf(buffer + strlen(buffer), "Content-Size: %li\r\n", message.size());
     }
     for (auto head : headers) {
         sprintf(buffer + strlen(buffer), "%s: %s\r\n", head.first.c_str(), head.second.c_str());
     }
     sprintf(buffer + strlen(buffer), "\r\n");
-    if (type == "binary") {
-        memcpy(buffer + strlen(buffer), v.data(), v.size());
+    if (type == "bin") {
+        std::string encoded = jcrypt::base64::encode_url(message);
+        sprintf(buffer + strlen(buffer), encoded.data());
     } else {
         sprintf(buffer + strlen(buffer), message.data());
     }
@@ -135,7 +142,7 @@ int send_request(SSL *s, const char *hostname, const char *port, const char *pat
 
     DEBUG("SendRequest: Request content being sent: %.300s\n", buffer);
 
-    if (type == "binary") {
+    if (type == "bin") {
         int a;
         if ((a = SSL_write(s, buffer, sizeof(buffer))) <= 0) {
             printf("Server closed connection\n");
@@ -259,7 +266,10 @@ SOCKET connect_to_host(const char *hostname, const char *port) {
 }
 
 void fetch(Any args) {
-    MessageBuffer* buf = (MessageBuffer*)args;
+    BLU("Fetch: Starting thread!\n");
+
+    MessageBuffer* buf = static_cast<MessageBuffer*>(args);
+    buf->dump();
     std::string hostname = buf->hostname;
     std::string port = buf->port;
     std::string fromPort = buf->fromPort;
@@ -267,35 +277,31 @@ void fetch(Any args) {
     std::string path = buf->path;
     std::string type = buf->type;
     std::string protocol = buf->protocol;
-    std::string message = buf->sent;
+    std::string message = "quirky";
     std::string flag = buf->flag;
     std::unordered_map<std::string, std::string> headers = buf->headers;
     double latency = 0.0;
 
-    DEBUG("BUF PORT: %s\n", buf->port.c_str());
-    int iport = std::stoi(buf->port);
-    std::string tpath = "./log/" + buf->port + ".node";  
+    SSL *ssl;
+    int err_status = 0;
+    SOCKET server;
+    SSL_CTX* ctx;
+    std::string result = "UNDEFINED";
+    int iport;
+    std::string tpath = "./log/" + buf->port + ".node";      
 
-    // too pressed for time to set up thread safe __VA_ARGS__ right now
-    std::string s1 = "Fetch: hostname: " + hostname;
-    std::string s2 = "Fetch: port: " + port;
-    std::string s3 = "Fetch: fromPort: " + fromPort;
-    std::string s4 = "Fetch: dir: " + dir;
-    std::string s5 = "Fetch: path: " + path;
-    std::string s6 = "Fetch: type: " + type;
-    std::string s7 = "Fetch: message: " + message;
-    std::string s8 = "Fetch: flag: " + flag;
-    std::string s9 = "Fetch: Message Size:  " + std::to_string(message.size());
+    for (char& c : buf->port) {
+        if (!std::isdigit(c)) {
+            BRED("Fetch: Port %s is not a number\n", port.c_str())
+            buf->fulfilled = 2;
+            result = "ERROR";
+            goto finish;
+        }
+    }
 
-    t_write(iport, tpath.c_str(), s1.c_str());
-    t_write(iport, tpath.c_str(), s2.c_str());
-    t_write(iport, tpath.c_str(), s3.c_str());
-    t_write(iport, tpath.c_str(), s4.c_str());
-    t_write(iport, tpath.c_str(), s5.c_str());
-    t_write(iport, tpath.c_str(), s6.c_str());
-    t_write(iport, tpath.c_str(), s7.c_str());
-    t_write(iport, tpath.c_str(), s8.c_str());
-    t_write(iport, tpath.c_str(), s9.c_str());
+    iport = std::stoi(buf->port);
+
+    BLU("Fetch: Variables initialized\n");
 
     buf->publish();
 
@@ -310,11 +316,6 @@ void fetch(Any args) {
     // sleep(5);
     // }
 
-    // BMAG("DIR IS: %s\n", dir.c_str());
-    // BMAG("TPATH IS: %s\n", tpath.c_str());
-
-    // t_write(iport, tpath.c_str(), "Prepping exchange with ingress");
-
 #if defined(_WIN32)
     WSADATA d;
     if (WSAStartup(MAKEWORD(2, 2), &d)) {
@@ -326,9 +327,7 @@ void fetch(Any args) {
     SSL_library_init();
     OpenSSL_add_all_algorithms();
     SSL_load_error_strings();
-    SSL *ssl;
-    std::string result = "UNDEFINED";
-    SSL_CTX *ctx = SSL_CTX_new(TLS_client_method());
+    ctx = SSL_CTX_new(TLS_client_method());
     
     if (ctx == NULL || ctx == nullptr) {
         BRED("CTX IS NULL SOME FUCKING HOW\n");
@@ -338,12 +337,11 @@ void fetch(Any args) {
         fprintf(stderr, "SSL_CTX_new() failed.\n");
     }
 
-    SOCKET server = connect_to_host(hostname.c_str(), port.c_str());
-
-    int err_status = 0;
+    server = connect_to_host(buf->toHost.c_str(), buf->toPort.c_str());
 
     if (server != -1) {
 
+    BLU("Fetch: Setting Up SSL\n");
 
     int err = 0;
     ssl = SSL_new(ctx);
@@ -369,7 +367,6 @@ void fetch(Any args) {
         }
     }
 
-    // printf ("SSL/TLS using %s\n", SSL_get_cipher(ssl));
     X509* cert;
     if (!err) {
         cert = SSL_get_peer_certificate(ssl);
@@ -398,6 +395,8 @@ void fetch(Any args) {
 
         if (send_request(ssl, hostname.c_str(), fromPort.c_str(), path.c_str(), buf)) {
 
+        BLU("Fetch: Sending Request!\n");
+
         const clock_t start_time = clock();
 
         #define RESPONSE_SIZE 32768
@@ -414,16 +413,15 @@ void fetch(Any args) {
         while(1) {
 
             if ((clock() - start_time) / CLOCKS_PER_SEC > TIMEOUT2) {
-                fprintf(stderr, "timeout after %.2f seconds\n", TIMEOUT2);
-                // pthread_exit(NULL);
+                BRED("Fetch: Timeout after %.2f seconds\n", TIMEOUT2);
+                err_status = 1;
                 break;
-            } else {
-                // printf("%f\n", (clock() - start_time) / CLOCKS_PER_SEC);
             }
 
             if (p == end) {
-                fprintf(stderr, "out of buffer space\n");
-                // pthread_exit(NULL);
+                BRED("Fetch: Out of buffer space\n");
+                err_status = 1;
+                break;
             }
 
             fd_set reads;
@@ -435,8 +433,8 @@ void fetch(Any args) {
             timeout.tv_usec = 200;
 
             if (select(server+1, &reads, 0, 0, &timeout) < 0) {
-                fprintf(stderr, "select() failed. (%d)\n", GETSOCKETERRNO());
-                pthread_exit(NULL);
+                BRED("Fetch: select() failed. (%d)\n", GETSOCKETERRNO());
+                break;
             }
 
             if (FD_ISSET(server, &reads)) {
@@ -446,8 +444,7 @@ void fetch(Any args) {
                         // printf("%.*s", (int)(end - body), body);
                     }
 
-                    printf("\nConnection closed by peer.\n");
-                    // pthread_exit(NULL);
+                    BRED("Fetch: Connection closed by peer.\n");
                     err_status = 1;
                     break;
                 }
@@ -549,22 +546,17 @@ finish:
     // BMAG("RESPONSE IS: %s\n", result.c_str());
     // t_write(iport, tpath.c_str(), result.c_str());
 
-    if (result == "UNDEFINED") {
-        // t_write(iport, tpath.c_str(), "Message from Node is UNDEFINED!");
-        // BMAG("Message from Node is UNDEFINED!");
-    } else if (result == "") {
-        // t_write(iport, tpath.c_str(), "Message from Node is empty. Read failure!");
-        // BMAG("Message from Node is empty. Read failure!");
+    if (result == "ERROR") {
+        buf->fulfilled = 2;
     } else {
-        // std::string reply = "Bytes sent to ingress: " + result.size();
-        // t_write(iport, tpath.c_str(), reply.c_str());
-        // BMAG("%s\n", reply.c_str());
+        buf->fulfilled = 1;
     }
 
     // buf->mq->publish(result);
     buf->received = result;
 
     std::string end = "Fetch: Marking buffer with results: " + result;
+    BLU("%s\n", end.c_str());
 
     // CYA("Fetch: Marking buffer with results: %.100s\n", result.c_str());
 
@@ -576,11 +568,11 @@ finish:
     if (server != -1 && err_status != 1) {
 
         t_write(iport, tpath.c_str(), "Closing socket...");
-        // CYA("Fetch: Closing socket...\n");
-        // SSL_shutdown(ssl);
-        // CLOSESOCKET(server);
-        // SSL_free(ssl);
-        // SSL_CTX_free(ctx);
+        CYA("Fetch: Closing socket...\n");
+        SSL_shutdown(ssl);
+        CLOSESOCKET(server);
+        SSL_free(ssl);
+        SSL_CTX_free(ctx);
 
     #if defined(_WIN32)
         WSACleanup();
@@ -595,5 +587,5 @@ finish:
         pthread_barrier_wait(buf->barrier);
     }
 
-    GRE("Fetch: Finished.\n");
+    BGRE("Fetch: Finished.\n");
 }

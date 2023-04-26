@@ -7,15 +7,8 @@ MessageBroker::MessageBroker(BrokerType type, Callback* callback, int epoch) {
     _epoch = epoch;
 }
 
-void MessageBroker::publishMessage(MessageBuffer* mbuf) {
-    // _tickets[mbuf->ticket] = 0;
-    // _promised[mbuf->ticket] = mbuf;
-}
-
-void MessageBroker::markMessage(MessageBuffer* mbuf) {
-    // _messages.push_back(mbuf);
-    // _tickets[mbuf->ticket] = 1;
-}
+void MessageBroker::publishMessage(MessageBuffer* mbuf) {}
+void MessageBroker::markMessage(MessageBuffer* mbuf) {}
 
 void MessageBroker::broadcast(std::string url, std::deque<MessageBuffer*> mq, std::vector<ClusterNode*> nodes) {
     if (mq.size() != nodes.size()) {

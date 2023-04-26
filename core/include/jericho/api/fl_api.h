@@ -1,15 +1,54 @@
 #ifndef API_FEDERATED_H_
 #define API_FEDERATE_H_
 
+#include <string>
+
 #include "api/api.h"
 #include "api/ping.h"
 #include "system/gui.h"
+#include "federator/fl.h"
+
+API(Heartbeat, {})
+    std::string hostname = router->bifrost()->hostname();
+    BGRE("HEARTBEAT:\n");
+    printf("\t\033[1;37mHostname:\033[0m %s\n", hostname.c_str());
+    return hostname + " heartbeat";
+}
+
+API(Setup, {})
+    std::string result = req->content;
+    BBLU("Json is: %s\n", result.c_str());
+    return "COMPLETE";
+}
+
+API(InitializeFederator, {})
+    return "COMPLETE";
+}
+
+API(CreateNode, {})
+    std::string json = req->content;
+    BLU("Json is: %s\n", json.c_str());
+    return "COMPLETE";
+}
+
+API(UpdateNode, {})
+    std::string json = req->content;
+    BLU("Json is: %s\n", json.c_str());
+    return "COMPLETE";
+}
+
+API(DeleteNode, {})
+    std::string json = req->content;
+    BLU("Json is: %s\n", json.c_str());
+    return "COMPLETE";
+}
 
 API(RequestJoin, {})
-    std::string ingress = "https://127.0.0.1:8080/federate";
+    BRED("==============DOUBLE FREE DEBUG=============\n");
+    std::string ingress = "https://127.0.0.1:8080/client-profile";
     int result = router->bifrost()->send_async(ingress, "MNIST", NULL);
     BGRE("Returning result!\n");
-    return "TICKET";
+    return "TICKET"; // if ticket is returned... SEGFAULT? WTF
 }
 
 API(ClientProfile, {})
@@ -29,44 +68,102 @@ API(PingRicochet, {})
             router->bifrost()->ricochet_reply(req, reply, "null", req->callback, "ricochet", std::stoi(req->header("Ticket")));
         } else {
             BGRE("RESOLVE ME!\n");
-            std::string reply = req->reply("job", "/request-model");
-            std::string content = "bin+https://127.0.0.1:8084/serve-model";
-            // change to propogate / fnf
-            std::string response = router->bifrost()->send(reply, req->content, req->callback);
+
+            /** TODO: should implement propogate / fnf */
+            // need to resolve callback since initial request-join was an asynchronous call
+            std::string resolution = router->bifrost()->send("job://127.0.0.1:8084/callback-resolution", "null", req->callback);
+
+            // need a callback check in the bifrost job processor
+            std::string content = "https://127.0.0.1:8084/train";
+            int ticket = router->bifrost()->send_async(content, req->content, NULL);
         }
     } else {
         BRED("req->callback is NULL\n");
     }
-    return "COMPLETE";
+    return "TICKET";
 }
 
-API(RequestModel, {})
-    std::string aggregator = req->content;
-    std::string model = router->bifrost()->send(aggregator, "MNIST", NULL);
-    BBLU("Begin training...\n");
-    return "COMPLETE";
+// IGNORE THESE TWO (FOR DEBUG)
+API(CallbackResolution, {})
+    return "RESOLVED";
 }
 
-API(ServeModel, {})
-    std::string model = req->content;
+API(TestResolve, {})
+    std::string model = router->bifrost()->send("https://127.0.0.1:8081/heartbeat", "null", NULL);
+    return model;
+}
+
+API(Train, {})
+    BRED("TRAINING!\n");
+    std::string latency = req->content;
+    std::string model = router->bifrost()->send("https://127.0.0.1:8081/join-network", "null", NULL);
+    BMAG("MODEL IS: %s\n", model.c_str());
     if (router->federator() == nullptr) {
-        Federator* federator = new Federator;
+        Trainer* trainer = new Trainer("MNIST");
+        BBLU("Begin training...\n");
+        trainer->train(model);
+        std::string weights = trainer->weights();
+        std::string received = router->bifrost()->send("https://127.0.0.1:8081/aggregate-model", weights, NULL);
+        router->federator(trainer);
+    } else {
+        Trainer* trainer = static_cast<Trainer*>(router->federator());
+        trainer->train(model);
+        std::string weights = trainer->weights();
+        std::string received = router->bifrost()->send("https://127.0.0.1:8081/aggregate-model", weights, NULL);
     }
     return "COMPLETE";
 }
 
-API(SendWeight, {})
-
-    return "COMPLETE";
+API(JoinNetwork, {})
+    std::string hostname = req->header("Host");
+    BYEL("CLIENT %s JOINING NETWORK THROUGH %s\n", hostname.c_str(), router->bifrost()->hostname().c_str());
+    Aggregator* aggregator = static_cast<Aggregator*>(router->federator());
+    if (aggregator) {
+        aggregator->addClient(hostname);
+        return "SUCCESS";
+    } else {
+        BRED("FLAPI::JoinModel: Not a valid Aggregator Node\n")
+        return "ERROR";
+    }
 }
 
 API(AggregateModel, {})
-
+    std::string hostname = req->header("Host");
+    if (router->federator() == nullptr) {
+        // Aggregator* aggregator = new Aggregator("MNIST");
+        // aggregator->addClient(hostname);
+        // aggregator->storeWeights(hostname, req->content);
+        // router->federator(aggregator);
+        // if (aggregator->quorumMet()) {
+        //     aggregator->fuse();
+        // }
+        BRED("FLAPI::JoinModel: Not a valid Aggregator Node\n")
+        return "ERROR";
+    } else {
+        Aggregator* aggregator = static_cast<Aggregator*>(router->federator());
+        aggregator->storeWeights(hostname, req->content);
+        if (aggregator->fuse()) {
+            SEGH
+            std::string model = aggregator->model();
+            if (aggregator->hasAggregator()) {
+                BGRE("TELLING DAD!\n");
+                std::string status = router->bifrost()->send("bin+https://127.0.0.1:8080/aggregate-model", model, NULL);
+            } else {
+                BGRE("STARTING NEW MODEL!\n");
+                std::string status = router->bifrost()->broadcast({"bin+https://127.0.0.1:8081/new-model"}, model, NULL);
+            }
+        }
+    }
     return "COMPLETE";
 }
 
-API(PropogateModel, {})
-
+API(NewModel, {})
+    Aggregator* agg = static_cast<Aggregator*>(router->federator());
+    agg->model(req->content);
+    if (!agg->stop()) {
+        std::string model = agg->model();
+        std::string status = router->bifrost()->broadcast({"bin+https://127.0.0.1:8084/request-model"}, model, NULL);
+    }
     return "COMPLETE";
 }
 

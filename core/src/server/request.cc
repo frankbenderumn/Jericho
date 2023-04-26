@@ -3,6 +3,202 @@
 
 using namespace Jericho;
 
+std::unordered_map<std::string, ContentType> content_type_map = {
+    {"application/octet-stream", CONTENT_OCTET}
+};
+
+std::unordered_map<std::string, EncodingType> encoding_map = {
+    {"base64", ENCODING_BASE64}
+};
+
+void Request::eval() {
+    BCYA("Evaling request!\n");
+    std::string bytes(client->request);
+    // BYEL("Request::eval example:\n");
+    // printf("%s\n", bytes.c_str());
+
+    std::string::size_type p = bytes.find("\r\n\r\n");
+    if (p != std::string::npos) {
+        // BBLU("Term location: %li :: %li\n", p, bytes.size());
+    } else {
+        BRED("Request::eval: Invalid headers (\\r\\n\\r\\n not found)\n");
+        this->valid = false;
+    }
+
+    std::string headersStr;
+    std::string content;
+
+    if (p != bytes.size() - 4) {
+        size_t last = 0;
+        size_t next = 0;
+        std::vector<std::string> result;
+        std::string delim = "\r\n\r\n";
+        while ((next = bytes.find(delim, last)) != std::string::npos) {
+            if (bytes.substr(last, next-last) != "") {
+                result.push_back(bytes.substr(last, next-last));
+            }
+            last = next + delim.size();
+        }
+        if (bytes.substr(last, next-last) != "") {
+            result.push_back(bytes.substr(last));
+        }
+        if (result.size() == 2) {
+            BWHI("Headers:\n");
+            printf("%s\n", result[0].c_str());
+            headersStr = result[0];
+            BWHI("Content:\n");
+            printf("%s\n", result[1].c_str());
+            this->content = result[1];
+        } else if (result.size() == 1) {
+            BWHI("Request::eval: Headers only!\n");
+        }
+    } else {
+        headersStr = bytes;
+    }
+    
+    parseHeaders(headersStr);        
+
+    BGRE("CONTENT: %s\n", this->content.c_str());
+}
+
+void Request::parseHeaders(std::string headerStr) {
+    std::istringstream ss(headerStr);
+    std::string word;
+    std::vector<std::string> words;
+    bool first = true;
+    std::string protoHead;
+    std::unordered_map<std::string, std::string> args2;
+    std::unordered_map<std::string, std::string> callbackMap;
+    while (std::getline(ss, word, '\n')) {
+        if (word != "") {
+            std::string::size_type sep = word.find(": ");
+            if (sep != std::string::npos && !first) {
+                std::string key = word.substr(0, sep);
+                std::string val = word.substr(sep+2, word.size() - sep+2);
+                prizm::erase(val, '\r');
+                if (key == "Host") {
+                    host = val;
+                } else if (key.find("Callback-") != std::string::npos) {
+                    callbackMap[key] = val;
+                }
+                if (key == "Content-Encoding") {
+                    if (prizm::contains_key(encoding_map, val)) {
+                        this->encoding = encoding_map[val];
+                    }
+                }
+                if (key == "Content-Type") {
+                    if (prizm::contains_key(content_type_map, val)) {
+                        this->type = content_type_map[val];
+                    }
+                }
+                if (key == "Content-Size") {
+                    // need safe std::stoi
+                    bool is_digit = true;
+                    for (auto& c : val) {
+                        if (!std::isdigit(c)) {
+                            is_digit = false;
+                        }
+                    }
+                    if (is_digit) {
+                        this->size = std::stoi(val);
+                    } else {
+                        this->size = 0;
+                    }
+                }
+                args2[key] = val;
+            } else if (first) {
+                protoHead = word;
+                first = !first;
+            }
+            words.push_back(word);
+        }
+    }
+    if (callbackMap.size() != 0) {
+        callback = new Callback(callbackMap);
+    }
+
+    int sepGate = 0;
+    std::string method2;
+    std::string path2;
+    std::string protocol2;
+    for (auto c : protoHead) {
+        if (c == ' ') { sepGate++; continue; }
+        if (c == '\t') { continue; }
+        if (c == '\r') { continue; }
+        if (sepGate == 0) { method2 += c; }
+        else if (sepGate == 1) { path2 += c; }
+        else if (sepGate == 2) { protocol2 += c; }
+    }
+    this->method = method2;
+    this->path = path2;
+    this->protocol = protocol2;
+    this->headers = args2;
+
+    size_t pathp = this->path.find("?");
+    if (pathp != std::string::npos) {
+        std::string npath = this->path.substr(pathp+1, this->path.size());
+        this->path = this->path.substr(0, pathp);
+        std::vector<std::string> toks = prizm::tokenize(npath, '&');
+        for (auto t : toks) {
+            std::string::size_type p = t.find("=");
+            if (p != std::string::npos) {
+                std::string key = t.substr(0, p);
+                std::string val = t.substr(p+1, t.size());
+                args[key] = val;
+            }
+        }
+    }
+
+    if (this->method == "POST" && this->content != "") {
+        if (this->type == CONTENT_OCTET) {
+        char* p;
+        if ((p = strstr(client->request, "\r\n\r\n")) != NULL) {
+            std::string cont = std::string(p+4, jcrypt::base64::size_num(this->size));
+            std::string s;
+            bool has_null = false;
+            if (this->encoding == ENCODING_BASE64) {
+                BMAG("CONTENT: %s\n", cont.c_str());
+                for (auto& c : cont) {
+                    if (c == '\0') {
+                        BRED("NULL CHAR FOUND!\n");
+                        has_null = true;
+                    }
+                }
+                if (has_null) {
+                    cont.pop_back();
+                }
+                s = jcrypt::base64::decode_url(cont);
+                BRED("ENCODING IS BASE64: %li\n", s.size());
+                BYEL("DECODED: %s\n", s.c_str());
+            }
+            BRED("CONTENT SIZE IS: %i\n", this->size);
+            for (auto& c : s) {
+                if (c == '\0') {
+                    printf("\\0");
+                } else {
+                    printf("%c", c);
+                }
+            }
+            printf("\n");
+            this->content = std::string(s.data(), s.size());
+            BMAG("THIS CONTENT IS: %s\n", this->content.c_str());
+        } 
+        } else {
+            if (this->content.find("&") != std::string::npos) {
+                std::vector<std::string> toks = prizm::tokenize(this->content, '&');
+                for (auto t : toks) {
+                    std::string::size_type p = t.find("=");
+                    if (p != std::string::npos) {
+                        std::string key = t.substr(0, p);
+                        std::string val = t.substr(p+1, t.size());
+                        args[key] = val;
+                    }
+                }
+            }
+        }
+    }
+}
+
 bool isHTTP(std::string request) {
     std::vector<std::string> cpath = tokenize(request, ' ');
     if (cpath.size() >= 3) {

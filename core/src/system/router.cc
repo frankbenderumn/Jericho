@@ -101,7 +101,6 @@ std::string Router::subexec(std::string path, Request* req, System* router, Clie
     bool found = false;
     for (auto route : _routes) {
         if (route->path == path) { 
-            BBLU("Router::exec: Executing route!\n");
             return route->exec(req, router, client, NULL);
         }
     }

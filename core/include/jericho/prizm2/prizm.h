@@ -8,6 +8,7 @@
 #include <map>
 #include <unordered_map>
 #include <chrono>
+#include <typeinfo>
 
 #include "prizm/prizm.h"
 #include "util/trace.h"
@@ -62,6 +63,19 @@ class Assertion2 {
     AssertionType2 _type;
     std::string _test;
     std::string _method;
+    // Helper function to convert L or R to std::string
+    template <typename T>
+    typename std::enable_if<std::is_convertible<T, std::string>::value, std::string>::type
+    _to_string(const T& value) {
+        return static_cast<std::string>(value);
+    }
+
+    template <typename T>
+    typename std::enable_if<!std::is_convertible<T, std::string>::value, std::string>::type
+    _to_string(const T& value) {
+        return std::to_string(value);
+    }
+
   public:
     template <typename L, typename R>
     Assertion2(std::string test, std::string method, AssertionType2 type, std::string llabel, std::string rlabel, L lvalue, R rvalue, const char* file, int line) {
@@ -70,8 +84,8 @@ class Assertion2 {
         _type = type;
         _line = line;
         _file = std::string(file);
-        _actual = std::to_string(lvalue);
-        _expected = std::to_string(rvalue);
+        _actual = _to_string(lvalue);
+        _expected = _to_string(rvalue);
         _test = test;
         _method = method;
         _llabel = llabel;
@@ -82,15 +96,15 @@ class Assertion2 {
     void dump_assertion() {
         printf("    [\033[1;35mASSERTION\033[0m]");
         printf(" @ %s:%i\n", _file.c_str(), (int)_line);
-        printf("\t\033[1;33mactual   \033[0m\033[1;37m%s\033[0m: %s\n", _rlabel.c_str(), _actual.c_str());
-        printf("\t\033[1;36mexpected \033[0m\033[1;37m%s\033[0m: %s\n", _llabel.c_str(), _expected.c_str());
+        printf("\t\033[1;33mactual   \033[0m\033[1;37m%s\033[0m: %s\n", _llabel.c_str(), _actual.c_str());
+        printf("\t\033[1;36mexpected \033[0m\033[1;37m%s\033[0m: %s\n", _rlabel.c_str(), _expected.c_str());
     }
 
     void dump_refutation() {
         printf("    [\033[1;35mREFUTATION\033[0m]");
         printf(" @ %s:%i\n", _file.c_str(), (int)_line);
-        printf("\t\033[1;33mactual:\033[0m\n\t\t\033[1;37m%s\033[0m: %s\n", _rlabel.c_str(), _actual.c_str());
-        printf("\t\033[1;36mexpected:\033[0m\n\t\t\033[1;37m%s\033[0m: %s\n", _llabel.c_str(), _expected.c_str());
+        printf("\t\033[1;33mactual:\033[0m\n\t\t\033[1;37m%s\033[0m: %s\n", _llabel.c_str(), _actual.c_str());
+        printf("\t\033[1;36mexpected:\033[0m\n\t\t\033[1;37m%s\033[0m: %s\n", _rlabel.c_str(), _expected.c_str());
     }
 
     void dump() {
@@ -124,7 +138,7 @@ class Assertion2 {
 
 class ITest {
     std::vector<Assertion2*> _assertions;
-    std::map<std::string, Benchmark2*> _benchmarks;
+    std::unordered_map<std::string, Benchmark2*> _benchmarks;
   protected:
     template <typename L, typename R>
     void registrate(std::string test, std::string method, AssertionType2 type, std::string llabel, std::string rlabel, L lvalue, R rvalue, const char* file, int line) {
@@ -184,7 +198,7 @@ public:
         return instance;
     }
 
-    template <typename... Args>
+    // template <typename... Args>
     void registrate(std::string test, std::string method, const char* file, int line, ITest* (*create)(std::string, std::string)) {
         std::string name = test+"|"+method;
         _classes[name] = create;
@@ -209,7 +223,7 @@ public:
 
 private:
     SuiteRegistry() {}
-    std::map<std::string, Meta> _meta;
+    std::unordered_map<std::string, Meta> _meta;
     std::map<std::string, ITest* (*)(std::string, std::string)> _classes;
 };
 

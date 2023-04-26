@@ -19,7 +19,7 @@
 #include "cluster/cluster.h"
 #include "util/iters.h"
 #include "system/router.h"
-#include "federate/federator.h"
+#include "federator/fl.h"
 #include "message/bifrost.h"
 
 using namespace Jericho;
@@ -35,7 +35,7 @@ class System {
     WorkerThread _worker;
     Celerity* _celerity;
     Cluster* _cluster;
-    Federator* _federator = nullptr;
+    FedNode* _federator = nullptr;
     Bifrost* _bifrost = nullptr;
     Websocket _ws = nullptr;
     // Orchestrator* _orch = nullptr;
@@ -70,6 +70,7 @@ class System {
         BMAG("Server::~Server: Shutting down server!\n");
         PDESTROY;
         delete _router;
+        delete _federator;
         // delete _orch;
         _bifrost->dump();
         delete _bifrost;
@@ -78,11 +79,15 @@ class System {
     void ws(Websocket sock) { _ws = sock; }
     Websocket ws() const { return _ws; }
     void ws_send(const char* message) {
-        if (_ws == nullptr) return;
+        if (_ws == nullptr) {
+            BRED("Server::ws_send: WS is nullptr!\n");
+            return;
+        }
         if (strlen(message) >= 2048) {
             // BRED("System::ws_send: Websocket message too long: %li\n", strlen(message));
         }
-        // BGRE("System::ws_send: SENDING WEBSOCKET...");
+        BGRE("System::ws_send: SENDING WEBSOCKET...");
+        GRE("%s\n", _ws->request);
         // BGRE("System::ws_send: %s\n", message);
         memset(_ws->request, 0, sizeof(_ws->request));
         memcpy(_ws->request, (unsigned char*)message, strlen(message));
@@ -111,8 +116,11 @@ class System {
         // _federator->start();
     }
 
-    void federator(Federator* fed) { _federator = fed; }
-    Federator* federator() const { return _federator; }
+    void federator(FedNode* fed) { _federator = fed; }
+    FedNode* federator() const { return _federator; }
+
+    void celerity(Celerity* celerity) { _celerity = celerity; }
+    Celerity* celerity() const { return _celerity; }
 
     void bifrost(Bifrost* bifrost) { _bifrost = bifrost; }
     Bifrost* bifrost() const { return _bifrost; }
@@ -128,9 +136,7 @@ class System {
 
     WorkerThread worker() const { return _worker; }
     ThreadPool* tpool() const { return _tpool; }
-    Celerity* celerity() const { return _celerity; }
     Cluster* cluster() const { return _cluster; }
-    // Router* registry() const { return _router; }
     Router* router() const { return _router; }
 };
 

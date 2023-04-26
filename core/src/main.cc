@@ -11,7 +11,8 @@
 #include "celerity/celerity.h"
 #include "celerity/entity/internal/query_ir.h"
 #include "system/routes.h"
-#include "migrator/migrator.h"
+#include "module/migrator.h"
+#include "module/module.h"
 #include "message/bifrost.h"
 #include "util/trace.h"
 
@@ -109,46 +110,17 @@ int main(int argc, char* argv[]) {
     std::string script(argv[6]);
     std::string portStr(argv[1]);
     std::string host = "127.0.0.1";
-
-    bool topology = false;
-    bool dbCluster = false;
-    bool federator = false;
-
-    Celerity* celerity = nullptr;
-
-    if (flag != "synch") {
-        // celerity = new Celerity(dbname);
-
-        // std::string schema = celerity->serialize();
-        // BMAG("SCHEMA: %s\n", schema.c_str());
-
-        // User user;
-        // Users users = user.find_by("username", "tankinfranklin").commit(celerity->primary()).as<Users>(); 
-        // BBLU("Users size: %i\n", (int)users.size());
-
-        // Artist artist(name_("Jerry Jones"));
-        // artist->persist(celerity->primary());
-    } else if (flag == "migrate") {
-        // celerity = new Celerity(dbname);
-        // std::string celerity_path = "./ext/celerity/core/include/celerity/entity/";
-        // // std::string model = "./db/";
-        // celerity->migrate(script.c_str(), celerity_path.c_str());
-    }
+    int port = atoi(argv[1]);
+    PUBLIC_DIRECTORY = "./public/"+std::string(argv[3]);
 
     server_create(argc, argv);
 
-    PUBLIC_DIRECTORY = "./public/"+std::string(argv[3]);
-    int port = atoi(argv[1]);
-
-    BCYA("SSL Init\n=======================================================\n");
     SSL_CTX* ctx = ssl_init();
     if (ctx == NULL) { 
         BRED("FAILED TO INITALIZE SSL CTX\n");
         return 1; 
     }
 
-    // ClusterIndex* index = NULL;
-    // ClusterNode* boss = NULL;
     Bifrost* bifrost = new Bifrost(host, portStr, tpool, fetch);
     ClusterIndex* index = new ClusterIndex;
     ClusterNode* boss = new ClusterNode("127.0.0.1", std::string(argv[1]), "./public/"+std::string(argv[3]), index);
@@ -156,54 +128,22 @@ int main(int argc, char* argv[]) {
 
     SOCKET server = socket_create(0, port, 1, AF_INET, SOCK_STREAM);
 
-    sys = new System(tpool, fetch, cluster, celerity);
+    sys = new System(tpool, fetch, cluster, NULL);
     sys->bifrost(bifrost);
-    
-    if (script != "orch") {
-        orch = new Orchestrator;
-        if (migrate(host+":"+portStr, orch, script) < 0) {
-            BRED("Main.cc: Failed to migrate!: %s\n", script.c_str());
-            return 1;
-        }
-        if (orch->federator == nullptr) {
-            BMAG("Orch federator is null somehow\n");
-            exit(1);
-        }
-        orch->federator->dump();
-        FedRole role = orch->federator->local()->role();
 
-        BYEL("Well hello!\n");
-
-        if (role == FED_ROLE_CENTRAL || role == FED_ROLE_AGGREGATOR) {
-            sys->cluster()->boss()->configDir("agg");
-        }
-        sys->federator(orch->federator);
-
-        BRED("Made it here!\n");
-        // write_file("./log/debug.log", "Hello friend");
+    FedNode* federator;
+    Celerity* celerity;
+    celerity = Module::celerity();
+    federator = Module::federator(script, host + ":" + argv[1]);
+    if (celerity) sys->celerity(celerity);
+    if (federator != nullptr) {
+        BGRE("Federator bound!\n");
+        sys->federator(federator);
+    } else {
+        BRED("Federator is nullptr!\n");
     }
-
-    // if (flag == "synch") {
-    //     BYEL("SYNCHING...\n");
-    //     sys->flash(true);
-    //     std::deque<MessageBuffer*> bufs;
-    //     for (auto db : orch->dbs) {
-    //         BMAG("name: %s, url: %s\n", db.second.c_str(), db.first.c_str());
-    //         std::vector<std::string> toks = prizm::tokenize(db.first, ":");
-    //         MessageBuffer* buf = new MessageBuffer;
-    //         buf->hostname = toks[0];
-    //         buf->port = toks[1];
-    //         buf->fromPort = std::string(argv[1]);
-    //         buf->dir = PUBLIC_DIRECTORY;
-    //         buf->path = "/db-info";
-    //         buf->sent = "Requesting db info!";
-    //         bufs.push_back(buf);
-    //     }
-    //     sys->flashBuffer(bufs);
-    // }
-
+    
     compile_routes(sys->router());
-
     BBLU("==========================================\n");
     BBLU("               SERVER START               \n");
     BBLU("==========================================\n");
@@ -211,17 +151,6 @@ int main(int argc, char* argv[]) {
     if (flag != "synch" && flag != "migrate") {
         run(&server, &clients, ctx, tpool, sys);
     }
-
-    BMAG("Does this execute? Probably not.\n");
-
-    BYEL("SHUTTING DOWN ---\n");
-
-    if (celerity != nullptr) delete celerity;
-
-    delete cluster;
-    delete sys;
-
-    if (orch != nullptr) delete orch;
     
     return 0;
 }

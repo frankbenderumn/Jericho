@@ -1,8 +1,8 @@
-#include "federate/federator.h"    
+#include "federator/federator.h"    
 #include "system/system.h"
 #include "api/api_helper.h"
     
-void Federator::poll(std::string hostname, System* router, std::string url, MessageCallback callback, Benchmark* bm) {
+// void Federator::poll(std::string hostname, System* router, std::string url, MessageCallback callback, Benchmark* bm) {
     // if (router->needsAggregate()) {
     //     // long long t = std::time(NULL) - router->federator()->startTime() - router->federator()->waitTime();
     //     // BWHI("TIME TILL TIMEOUT: %lld\n", t * -1);
@@ -62,19 +62,19 @@ void Federator::poll(std::string hostname, System* router, std::string url, Mess
     //         }
     //     }
     // }
-}
+// }
 
-void Federator::train(std::string hostname, System* router, std::string url, MessageCallback callback, Benchmark* bm) {
-    while (router->needsTrain()) {
-        if (router->needsTrain()) {
-            BMAG("NEED TRAINING\n");
-            std::string dir = "./public/cluster/" + router->cluster()->boss()->port();
-            std::string command_path = "python3 ./py/torch_load.py " + dir;
-            std::string results = pipe(command_path);
-            router->train(false);
-            std::string wts = dir + "/mnist_train.wt";
-            std::string bytes = Jericho::FileSystem::readBinary(wts.c_str());
-            router->cluster()->boss()->send2(router, url, "127.0.0.1:8080/join-weights", "binary", bytes);
-        }
-    }
-}
+// void Federator::train(std::string hostname, System* router, std::string url, MessageCallback callback, Benchmark* bm) {
+//     while (router->needsTrain()) {
+//         if (router->needsTrain()) {
+//             BMAG("NEED TRAINING\n");
+//             std::string dir = "./public/cluster/" + router->cluster()->boss()->port();
+//             std::string command_path = "python3 ./py/torch_load.py " + dir;
+//             std::string results = pipe(command_path);
+//             router->train(false);
+//             std::string wts = dir + "/mnist_train.wt";
+//             std::string bytes = Jericho::FileSystem::readBinary(wts.c_str());
+//             router->cluster()->boss()->send2(router, url, "127.0.0.1:8080/join-weights", "binary", bytes);
+//         }
+//     }
+// }

@@ -18,6 +18,8 @@ namespace Jericho {
     public:
       static void write(const char* path, std::string toWrite, bool overwrite = false);
 
+      static void write(const char* path, const char* _toWrite, bool overwrite = false);
+
       static std::string read(const char* path);
 
       static int exists(std::string pathname);

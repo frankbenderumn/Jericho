@@ -1,3 +1,10 @@
+/** WARNING: 
+ * 
+ * ALWAYS INITIALIZE POINTERS WHEN USED AS MEMBER VARIABLES
+ * public member var class ptrs are not initialized to nullptr by default
+*/
+
+
 #include <openssl/ssl.h>
 
 #include "system/system.h"
@@ -39,13 +46,12 @@ int connection_setup(System* router, Client** clients, SSL_CTX* ctx, SOCKET* ser
 
     // Print the options set in the SSL context
     unsigned long options = SSL_CTX_get_options(ctx);
-    printf("SSL context options: %lu\n", options);
 
-	if (options & SSL_OP_NO_TLSv1_3) {
-		printf("SSL_OP_NO_TLSv1_3 is set\n");
-	} else {
-		printf("SSL_OP_NO_TLSv1_3 is not set\n");
-	}
+	// if (options & SSL_OP_NO_TLSv1_3) {
+		// printf("SSL_OP_NO_TLSv1_3 is set\n");
+	// } else {
+		// printf("SSL_OP_NO_TLSv1_3 is not set\n");
+	// }
 
 	// // Get the SSL context options as a string
     // const char *options_str = SSL_CTX_get_options_string(ctx);
@@ -55,13 +61,13 @@ int connection_setup(System* router, Client** clients, SSL_CTX* ctx, SOCKET* ser
 
 
 	if (ctx == NULL) {
-		BRED("CTX FUCKED UP!\n");
+		// BRED("CTX FUCKED UP!\n");
 	}
 
 	client->ssl = SSL_new(ctx);
 
 	if (SSL_new(ctx) == NULL) {
-		BRED("YALL DONE FUCKED UP!\n");
+		// BRED("YALL DONE FUCKED UP!\n");
 	}
 
 	if (!client->ssl) {
@@ -75,7 +81,7 @@ int connection_setup(System* router, Client** clients, SSL_CTX* ctx, SOCKET* ser
 	if (SSL_accept(client->ssl) != 1) {
 		// SSL_get_error(client->ssl, SSL_accept(...));
 		ERR_print_errors_fp(stderr);
-		BRED("OAHAXCA\n");
+		// BRED("Server::connection_setup: Failed to accept SSL. Likely retrying...\n");
 		drop_client(client, clients, &router->num_clients); // this will cause bugs on mac localhost test
 	} else {
 		// printf("SSL connection using %s\n", SSL_get_cipher(client->ssl));
@@ -101,34 +107,31 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Syste
         }
 
         Client* client = *clients;
+		Request* req;
 
         while (client) {
-
-			// if (router->bifrost()->poll(router, client->url, client, clients)) {
-			// 	break;
-			// }
             
 			// iterate through clients
             Client* next = client->next;
 
             if (FD_ISSET(client->socket, &reads)) {
 
-				router->bifrost()->dumpBrokerSizes();
-
-				// Benchmark* bm = bm_start("serve");
-				// if (router->federator()->local()->resource() > 0) {
-				// 	sleep(router->federator()->local()->resource());
-				// }
+				// could be a very expensive operation without observer and indexing,
+				// a broker agent should be used to manage this (could be relevant to iHARP)
+				// BYEL("Bifrost::serve: Precleanse\n");
+				router->bifrost()->cleanse();
+				// BYEL("Bifrost::serve: Postcleanse\n");
 
                 // max request
                 if (MAX_REQUEST_SIZE == client->received) {
                     send_400(client);
                     client = next;
-					BYEL("Server::main: Continuing: client received to large. Greate than MAX_REQUEST_SIZE!\n"); 
+					BYEL("Server::main: Continuing: client received to large. Greater than MAX_REQUEST_SIZE!\n"); 
                     continue;
                 }
 
-				Request* req = new Request(client, MAX_REQUEST_SIZE);
+
+				req = new Request(client, MAX_REQUEST_SIZE);
 				int r = req->client->received;
 
                 if (r > 0) { // bytes received
@@ -138,6 +141,9 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Syste
 					req->eval();
 
 					if (req->protocol == "JOB") {
+						BMAG("=============================================\n");
+						BMAG("      JOB PROTOCOL DETECTED. FULFILLING!     \n");
+						BMAG("=============================================\n");
 						std::string response;
 						int status = router->bifrost()->fulfill(response, req, client, clients);
 						if (status == 1) {
@@ -148,6 +154,7 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Syste
 							BMAG("Serialized ws: %s\n", s.c_str());
 							router->ws_send(s.c_str());
 							drop_client(client, clients, &router->num_clients);
+							delete req;
 							break;
 						} else if (status == 0) {
 							drop_client(client, clients, &router->num_clients);
@@ -158,9 +165,18 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Syste
 					}
 
 					if (!req->valid) {
+						BRED("Server: Invalid request detected! Watch for double free!\n")
 						delete req;
 						drop_client(client, clients, &router->num_clients);
 						break;
+					}
+
+					BGRE("?\n");
+					if (!req) {
+						BRED("Server::run: Request is NULL somehow?\n");
+					}
+					if (!client) {
+						BRED("Server::run: CLient is NULL wtf?\n");
 					}
 
 					client->url = req->headers["Host"];
@@ -183,21 +199,21 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Syste
                     SocketState state;
                     switch(state = client_get_state(client)) {
                         case SOCKST_ALIVE:
-							BRED("Getting served!\n");
 							router->bifrost()->serve(router, client, clients, req);
-                            router->bifrost()->dumpBrokerSizes();
 							break;
                         case SOCKST_CLOSING:
                             break;
                         case SOCKST_UPGRADING: 
                             PLOG(LSERVER, "Upgrading socket fd: %i", client->socket);
 							router->ws(client);
+							delete req;
 							client->websocket = true;
                             thread_pool_add(tpool, connect, (void*)client); // spawn thread for web socket
                             break;
                         case SOCKST_OPEN_WS:
 							client->websocket = true;
-                            thread_pool_add(tpool, recv_websocket, (void*)client);
+                            delete req;
+							thread_pool_add(tpool, recv_websocket, (void*)client);
                             break;
                         default:
                             PERR(ESERVER, "AN UNEXPECTED STATE WAS ENCOUNTERED!\n");
@@ -210,10 +226,18 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Syste
 				/**************
 				 * CLEANUP
 				**************/
+
+				BMAG("Server::run: Cleaning client!\n");
+
 				if (!client->websocket) {
-					delete req;
+					BMAG("Server::run: Dropping client and deleting request!\n");
 					drop_client(client, clients, &router->num_clients);
+					if (req != nullptr) {
+						delete req;
+					}
 				}
+
+				BMAG("Server::run: Client looped!\n");
 				// } else if (!req->async) {
 				// 	delete req;
 				// }
