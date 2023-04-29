@@ -12,7 +12,7 @@
 
 #include "system/route_functions.h"
 
-class MessageBuffer;
+class Message;
 class System;
 
 enum RouteProtocol {
@@ -125,7 +125,7 @@ class Router {
     std::unordered_map<std::string, RouteFunction> _routeFunctions;
     std::unordered_map<std::string, RouteFunction> _httpFunctions;
     // std::unordered_map<std::string, RouteFunction> _systemFunctions;
-    std::unordered_map<std::string, MessageBuffer*> _nodes;
+    std::unordered_map<std::string, Message*> _nodes;
     std::unordered_map<std::string, std::string> _ipaths;
     std::unordered_map<std::string, std::string> _test;
     std::vector<std::string> _securePaths;
@@ -168,7 +168,7 @@ class Router {
 
     void bindSystem(std::string path, SystemFunction function, RouteProtocol protocol = ROUTE_SYSTEM);
 
-    void bindNode(std::string path, MessageBuffer* buffer);
+    void bindNode(std::string path, Message* buffer);
 
     std::string subexec(std::string path, Request* req, System* router = NULL, Client* client = NULL);
 

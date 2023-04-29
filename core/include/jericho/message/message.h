@@ -1,60 +1,133 @@
-#ifndef JERICHO_MESSAGE_MESSAGE_H_
-#define JERICHO_MESSAGE_MESSAGE_H_
+#ifndef JERICHO_API_MESSAGE_BUFFER_H_
+#define JERICHO_API_MESSAGE_BUFFER_H_
 
 #include <string>
+#include <deque>
+#include <memory>
 
-#include "message/message_broker.h"
+#include "server/defs.h"
+#include "prizm/prizm.h"
+#include "message/callback2.h"
+#include "util/url.h"
+#include "util/file_system.hpp"
+#include "crypt/base64.h"
 
-static int RES_TICKET_ID = -1;
+static int MBUF_ID = -1;
 
-enum MessageFormatType {
-    MSGF_NULL,
-    MSGF_HTTP,
-    MSGF_JSON,
-    MSGF_JSON_LINES,
-    MSGF_XML,
-    MSGF_YAML,
-    MSGF_IRIS,
-    MSGF_HSTS,
-    MSGF_SEC,
-    MSGF_BLOCKCHAIN
-};
+class MessageBroker;
+class System;
+class Client;
 
-enum MessageType {
-    MSG_NULL,
-    MSG_RESPONSE,
-    MSG_REQUEST
-};
+struct Message {
+  
+    Message() { PCREATE; }
+    Message(int& ticket, std::string _url, std::string fromHost = "", std::string fromPort = "");
 
-class Message {
-  protected:
-    int status = -1;
-    int _ticket = -1;
-    MessageType _type;
-    MessageBroker* _broker = nullptr;
-    bool fulfilled = false;
-  public:
-    Message() {}
-    virtual ~Message() {}
-    const MessageType type() const {
-        return _type;
+    Message(std::string src, std::string dest, const std::string& dir, const std::string& content) {
+        PCREATE;
+        BRED("Creating message buffer!\n");
+        RED("%s\n", src.c_str());
+        RED("%s\n", dest.c_str());
+        RED("%s\n", dir.c_str());
+        std::vector<std::string> toks;
+        std::vector<std::string> toks2;
+        std::vector<std::string> toks3;
+        if (src.find(":") != std::string::npos) { toks = prizm::tokenize(src, ':'); }
+        if (dest.find(":") != std::string::npos) { toks2 = prizm::tokenize(src, ':'); }
+        if (toks2.size() >= 2) {
+            if (src.find(":") != std::string::npos) { toks3 = prizm::tokenize(toks2[1], ':'); }
+        }
+        // toks2 = prizm::tokenize(dest, ':');
+        // toks3 = prizm::tokenize(toks2[1], '/');
+        BGRE("Successfully tokenized!\n");
+        (toks2.size() >= 1) ? this->hostname = toks2[0] : this->hostname = "undefined";
+        (toks3.size() >= 1) ? this->port = toks3[0] : this->port = "undefined";
+        this->dir = dir;
+        this->sent = content;
+        (toks.size() >= 2) ? this->fromPort = toks[1] : this->port = "undefined";
+        (toks3.size() >= 2) ? this->path = "/" + toks3[1] : this->path = "undefined";
+        this->client = src;
+        this->id = ++MBUF_ID;
     }
+
+    ~Message() { BMAG("Deleting Message\n"); PDESTROY; }
+  
+    int ticket = -1;
+    int id = -1;
+    int modality = 0;
+    int fulfilled = 0;
+    double latency = 0.0;
+    size_t size = 0;
+    long timeout = 5000000;
+    
+    // for chunking
+    bool chunked = false;
+    size_t chunkSize;
+    size_t fileSize;
+    int chunkNum;
+
+    void chunk(std::string chunkStr, int chunkNum, size_t chunkSize, size_t fileSize) {
+        this->chunkNum = chunkNum;
+        this->chunkSize = chunkSize;
+        this->fileSize = fileSize;
+        this->chunked = true;
+        if (chunkStr.size() > chunkSize) {
+            BRED("Message::chunk: Size of chunk (%li) is greater than chunk limit (%li)!\n", chunkStr.size(), chunkSize);
+            return;
+        }
+        this->sent = chunkStr;
+        this->size = chunkStr.size();
+    }
+
+    void status(int statusCode);
+
+    std::string hostname = "undefined";
+    std::string port = "undefined";
+
+    std::string fromHost = "undefined";
+    std::string fromPort = "undefined";
+    std::string sent = "undefined";
+
+    std::string toHost;
+    std::string toPort;
+    std::string received = "undefined";
+
+    std::string method = "GET";
+    
+    int statusCode = 100;
+    std::string statusName;
+
+    std::string client;
+    std::string url;
+    std::unordered_map<std::string, std::string> headers;
+
+    std::string protocol = "HTTP/1.1";
+    std::string path = "undefined";
+    std::string dir = "undefined";
+    std::string type = "text/plain";
+
+    std::string flag = "undefined";
+    std::string flag2 = "undefined";
+
+    std::chrono::high_resolution_clock::time_point timestamp = std::chrono::high_resolution_clock::now();
+
+    pthread_barrier_t* barrier = nullptr;
+    std::weak_ptr<MessageBroker> broker;
+  
+    void publish();
+  
+    void mark();
+  
+    void dump();
+
+    void callback(Callback* callback) {
+        callback->serialize(this->headers);
+    }
+
+    std::string serialize();
+
 };
 
-class MessageRequest : public Message {
-    std::string request = "undefined";
-
-  public:
-    MessageRequest() {}
-    ~MessageRequest() {}
-};
-
-class MessageResponse : public Message {
-    std::string response = "undefined";
-
-  public:
-    MessageResponse() {}
-    ~MessageResponse() {}
-};
+typedef std::string (*MessageCallback)(System* router, Client* client, std::deque<Message*>, std::string, void*);
 
 #endif

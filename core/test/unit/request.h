@@ -39,7 +39,7 @@ PTEST(RequestUnit, Base64Binary) {
     Client* client2 = (Client*)malloc(sizeof(Client));
     std::string regular = JFS::read("./core/test/data/request_bin.txt");
     strncpy(client2->request, regular.data(), regular.size());
-    PASSERT(regular.size(), 700);
+    PASSERT(regular.size(), 702);
     std::string binary_string;
     const char* data = "eseweflkwjelkjlk\0ssjkl\0sldfjlsdkjf\0\0\0\0\0\0\0\0\0\0\0\0\0I AM BINARY BAD BITCH";
     size_t length = 68;

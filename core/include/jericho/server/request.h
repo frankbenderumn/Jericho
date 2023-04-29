@@ -43,6 +43,12 @@ struct Request {
     std::string host;
     Callback* callback = nullptr;
     bool async = false;
+    bool handshaked = false;
+    
+    // used for lfs
+    bool locked = false;
+    bool resolved = false;
+
 #ifdef TEST_MODE
     std::string headersStr;
 #endif
@@ -130,6 +136,10 @@ struct Request {
         BYEL("===============\n");
     }
 
+    std::string address() {
+        return "undefined";
+    }
+
     void poll_request_test(Client* _client, int _buffer_limit) {
         bool all_read = false;
         // time_t timeout = std::time(NULL);
@@ -145,7 +155,7 @@ struct Request {
                     all_read = true;
                     // this->request = std::string(q + 4);
                     CYA("Request::poll_request: Content %s\n", q);
-                    CYA("Request::poll_request: Content-Size %li\n", this->request.size());
+                    CYA("Request::poll_request: Content-Length: %li\n", this->request.size());
                     all_read = true;
                 } else {
                     BRED("Request::poll_request: Http headers not found!\n");

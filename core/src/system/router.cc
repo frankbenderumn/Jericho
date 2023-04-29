@@ -91,7 +91,7 @@ void Router::bindSystem(std::string path, RouteFunction function, RouteProtocol 
     _routeFunctions[path] = function;
 }
 
-void Router::bindNode(std::string path, MessageBuffer* buffer) {
+void Router::bindNode(std::string path, Message* buffer) {
     _routeProtocols[path] = ROUTE_CLUSTER;
     _nodes[path] = buffer;
 }

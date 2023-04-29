@@ -9,6 +9,7 @@
 #include "api/ws.h"
 #include "api/sys.h"
 #include "api/binary_test.h"
-#include "api/bifrost.h"
+#include "api/bifrost_test.h"
+#include "api/internals.h"
 
 #endif

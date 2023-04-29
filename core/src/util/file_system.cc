@@ -3,10 +3,13 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "util/file_system.hpp"
 #include <dirent.h>
 #include <sys/stat.h>
+#include "openssl/md5.h"
+
+#include "util/file_system.hpp"
 #include "prizm/prizm.h"
+
 
 void Jericho::FileSystem::write(const char* path, std::string toWrite, bool overwrite) {
     std::ofstream myfile;
@@ -243,3 +246,57 @@ long Jericho::FileSystem::modifiedAt(const char* path) {
     return l;
 }
 
+size_t Jericho::FileSystem::size(const char* path) {
+    FILE* fp;
+    fp = fopen(path, "rb");
+    size_t size;
+
+    if (!fp) {
+        BRED("JFS::size: Failed to open file '%s'\n", path);
+        return -1;
+    }
+
+    // Get the current position of the file pointer
+    long int current_pos = ftell(fp);
+
+    // Seek to the end of the file
+    fseek(fp, 0L, SEEK_END);
+
+    // Get the current position, which is the size of the file
+    size = ftell(fp);
+
+    // Seek back to the original position
+    fseek(fp, current_pos, SEEK_SET);
+
+    return size;
+}
+
+std::string JFS::checksum(const std::string& filename, size_t chunk_size) {
+    std::ifstream ifs(filename, std::ios::binary);
+    if (!ifs) {
+        throw std::runtime_error("Failed to open file: " + filename);
+    }
+
+    MD5_CTX md5_ctx;
+    MD5_Init(&md5_ctx);
+
+    std::array<unsigned char, 4096> buffer;
+    while (ifs) {
+        ifs.read(reinterpret_cast<char*>(buffer.data()), buffer.size());
+        const auto bytes_read = ifs.gcount();
+        if (bytes_read > 0) {
+            MD5_Update(&md5_ctx, buffer.data(), bytes_read);
+        }
+    }
+
+    std::array<unsigned char, MD5_DIGEST_LENGTH> md5_hash;
+    MD5_Final(md5_hash.data(), &md5_ctx);
+
+    std::ostringstream oss;
+    oss << std::hex << std::setfill('0');
+    for (const auto byte : md5_hash) {
+        oss << std::setw(2) << static_cast<int>(byte);
+    }
+
+    return oss.str();
+}

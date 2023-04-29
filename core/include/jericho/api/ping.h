@@ -11,7 +11,7 @@ API(Ping, {})
     std::string content = API_ARG(args, std::string("content"));
     if (broker != NULL) {
         // broker->refresh();
-        MessageBuffer* buf = new MessageBuffer;
+        Message* buf = new Message;
         BWHI("apiPing: CLIENT URL IS: %s:%s\n", host.c_str(), port.c_str());
         BYEL("Ping: Content: %s\n", content.c_str());
         buf->hostname = host;
@@ -119,7 +119,7 @@ API(PingLocal, {})
     BMAG("Name: %s\n", name.c_str());
     hostname = host + ":" + port;
     BMAG("Hostname: %s\n", hostname.c_str());
-    MessageBuffer* buf = new MessageBuffer(name, hostname + "/echo", router->cluster()->boss()->dir(), msg);
+    Message* buf = new Message(name, hostname + "/echo", router->cluster()->boss()->dir(), msg);
     SEGH
     // broker = std::shared_ptr<MessageBroker>(BROKER_FIFO, single_callback);
     SEGH

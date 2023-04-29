@@ -446,6 +446,8 @@
                         <div id="distribution" data-role="tab">
                             Welcome to distribution
 
+                            <div>Health Checks</div>
+
                             <div id="ws-init" class="bttn">Init Websocket</div>
 
                             <div data-role="request" data-target="ck" data-request='get*../async-rpc*{"command": "hello_world"}' class="bttn">Async RPC</div>
@@ -456,17 +458,19 @@
 
                             <div data-role="request" data-target="ck" data-request='get*../broadcast-sync-rpc*{"command": "hello_world"}' class="bttn">Broadcast Sync RPC</div>
 
-                            <div data-role="request" data-target="ck" data-request='get*../binary-rpc*{"command": "hello_world"}' class="bttn">Binary RPC</div>
+                            <div data-role="request" data-target="ck" data-request='get*../binary-rpc*{"command": "hello_world"}' class="bttn">Successful Binary RPC</div>
+
+                            <div data-role="request" data-target="ck" data-request='get*../failed-binary-rpc*{"command": "hello_world"}' class="bttn">Failed Binary RPC</div>
 
                             <div data-role="request" data-target="ck" data-request='get*../callback-rpc*{"command": "hello_world"}' class="bttn">Callback RPC</div>
 
-                            <div data-role="request" data-target="ck" data-request='get*../pulse-rpc*{"command": "hello_world"}' class="bttn">Pulse RPC</div>
+                            <div data-role="request" data-target="ck" data-request='get*../ricochet-rpc*{"command": "hello_world"}' class="bttn">Ricochet RPC</div>
 
-                            <!-- <div data-role="request" data-target="ck" data-request='get*../realm-rpc*{"command": "hello_world"}' class="bttn">(WIP) Realm RPC</div> -->
+                            <div data-role="request" data-target="ck" data-request='get*../get-ftp-rpc*{"command": "hello_world"}' class="bttn">GET FTP RPC</div>
 
-                            <!-- <div data-role="request" data-target="ck" data-request='get*../ftp*{"command": "hello_world"}' class="bttn">FTP</div> -->
+                            <div data-role="request" data-target="ck" data-request='post*../post-ftp-rpc*{"command": "hello_world"}' class="bttn">POST FTP RPC</div>
 
-                            <!-- <div data-role="request" data-target="ck" data-request='get*../secure-rpc*{"command": "hello_world"}' class="bttn">(WIP) Secure</div> -->
+                            <div>Federated Module</div>
 
                             <div data-role="request" data-target="ck" data-request='get*https://localhost:8084/request-join*{"command": "federate"}' class="bttn">Projected Federate</div>
 

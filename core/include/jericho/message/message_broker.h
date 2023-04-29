@@ -8,7 +8,7 @@
 #include <ctime>
 #include <chrono>
 
-#include "message/message_buffer.h"
+#include "message/message.h"
 #include "server/request.h"
 #include "message/callback2.h"
 
@@ -21,8 +21,6 @@ enum BrokerType {
 	BROKER_LIFO,
 	BROKER_RR
 };
-
-// class MessageBuffer;
 
 typedef std::chrono::high_resolution_clock jclock;
 
@@ -45,11 +43,11 @@ class MessageBroker {
 
 	jclock::time_point t1 = jclock::now();
 
-	std::deque<MessageBuffer*> _messages;
+	std::deque<Message*> _messages;
 	
 	std::unordered_map<int, int> _tickets;
 	
-	std::unordered_map<int, MessageBuffer*> _promised;
+	std::unordered_map<int, Message*> _promised;
 	
 	BrokerType _type = BROKER_NULL;
 	
@@ -58,7 +56,7 @@ class MessageBroker {
 	int _epoch = 0;
 	int _epochs = 1;
 	
-	std::deque<MessageBuffer*> _stash;
+	std::deque<Message*> _stash;
 
 	std::string _callbackType = "undefined";
     
@@ -93,9 +91,9 @@ class MessageBroker {
 
 	const bool completed() const { return _finished; }
 
-	void publishMessage(MessageBuffer* mbuf);
+	void publishMessage(Message* mbuf);
 
-	void broadcast(std::string url, std::deque<MessageBuffer*> mq, std::vector<ClusterNode*> nodes);
+	void broadcast(std::string url, std::deque<Message*> mq, std::vector<ClusterNode*> nodes);
 
 	Callback* callback() const;
 
@@ -105,15 +103,15 @@ class MessageBroker {
 
 	bool ready(std::string url);
 
-	std::deque<MessageBuffer*> response(std::string url);
+	std::deque<Message*> response(std::string url);
 
-	void markMessage(MessageBuffer* mbuf);
+	void markMessage(Message* mbuf);
 
-	void messages(std::deque<MessageBuffer*> messages) {
+	void messages(std::deque<Message*> messages) {
 		_messages = messages;
 	}
 
-	std::deque<MessageBuffer*> messages() const {
+	std::deque<Message*> messages() const {
 		return _messages;
 	}
 
@@ -127,7 +125,7 @@ class MessageBroker {
 
 	void refresh();
 
-	void stash(std::deque<MessageBuffer*>);
+	void stash(std::deque<Message*>);
 
 	void args(void* args) { _args = args; }
 
@@ -137,7 +135,7 @@ class MessageBroker {
 
 	std::string callbackType() { return _callbackType; }
 
-	std::deque<MessageBuffer*> stashed();
+	std::deque<Message*> stashed();
 
 	const std::string stringify() const {
 		std::string result;

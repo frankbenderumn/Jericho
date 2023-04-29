@@ -21,6 +21,7 @@
 #include "system/router.h"
 #include "federator/fl.h"
 #include "message/bifrost.h"
+#include "module/dns.h"
 
 using namespace Jericho;
 
@@ -38,12 +39,13 @@ class System {
     FedNode* _federator = nullptr;
     Bifrost* _bifrost = nullptr;
     Websocket _ws = nullptr;
+    DNS* _dns = nullptr;
     // Orchestrator* _orch = nullptr;
     bool _needsTrain = false;
     int _fedCounter = 0;
     bool _flash = false;
     bool _fnf = false;
-    std::deque<MessageBuffer*> _bufs;
+    std::deque<Message*> _bufs;
 
   public:
     size_t num_clients = 0;
@@ -98,8 +100,8 @@ class System {
     // distributed orm
     void flash(bool val) { _flash = val; }
     const bool flash() const { return _flash; }
-    void flashBuffer(std::deque<MessageBuffer*> buf) { _bufs = buf; }
-    const std::deque<MessageBuffer*> flashBuffer() const { return _bufs; }
+    void flashBuffer(std::deque<Message*> buf) { _bufs = buf; }
+    const std::deque<Message*> flashBuffer() const { return _bufs; }
 
     // federated
     const bool needsTrain() const { return _needsTrain; }

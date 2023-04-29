@@ -58,7 +58,7 @@ add_library(jericho SHARED
     core/src/server/request.cc
     core/src/system/router.cc
     core/src/system/system.cc
-    core/src/message/message_buffer.cc
+    core/src/message/message.cc
     core/src/message/message_broker.cc
     core/src/cluster/cluster_index.cc
     core/src/cluster/cluster_edge.cc

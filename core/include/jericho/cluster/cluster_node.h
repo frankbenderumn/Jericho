@@ -13,7 +13,7 @@
 #include "server/thread_pool.h"
 #include "util/iters.h"
 #include "message/message_broker.h"
-#include "message/message_buffer.h"
+#include "message/message.h"
 
 #include "cluster/cluster_edge.h"
 #include "cluster/cluster_index.h"
@@ -77,11 +77,11 @@ class ClusterNode {
 
   public:
 
-  	void send(System* router, std::string url, std::string path, MessageBuffer* buf);
+  	void send(System* router, std::string url, std::string path, Message* buf);
 
-	MessageBuffer* buffer(std::string url, std::string path);
+	Message* buffer(std::string url, std::string path);
 
-	MessageBuffer* buffer2(std::string url, std::string path, std::string content);
+	Message* buffer2(std::string url, std::string path, std::string content);
 
 	ClusterNode() {}
 
@@ -95,9 +95,9 @@ class ClusterNode {
 
 	std::unordered_map<std::string, std::deque<MessageBroker*>>& brokers() { return _brokers; }
 
-	void brokerBroadcast(System* router, std::string url, std::deque<MessageBuffer*> mq, MessageCallback callback);
+	void brokerBroadcast(System* router, std::string url, std::deque<Message*> mq, MessageCallback callback);
 
-	void brokerSend(System* router, std::string url, std::string path, MessageBuffer* buf, std::string type = "", std::string content = "");
+	void brokerSend(System* router, std::string url, std::string path, Message* buf, std::string type = "", std::string content = "");
 
 	void serveBroker(std::string client, MessageBroker* broker);
 

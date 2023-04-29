@@ -7,10 +7,10 @@ MessageBroker::MessageBroker(BrokerType type, Callback* callback, int epoch) {
     _epoch = epoch;
 }
 
-void MessageBroker::publishMessage(MessageBuffer* mbuf) {}
-void MessageBroker::markMessage(MessageBuffer* mbuf) {}
+void MessageBroker::publishMessage(Message* mbuf) {}
+void MessageBroker::markMessage(Message* mbuf) {}
 
-void MessageBroker::broadcast(std::string url, std::deque<MessageBuffer*> mq, std::vector<ClusterNode*> nodes) {
+void MessageBroker::broadcast(std::string url, std::deque<Message*> mq, std::vector<ClusterNode*> nodes) {
     if (mq.size() != nodes.size()) {
         BRED("Message Queue and Nodes to broadcast aren't same size!");
         return;
@@ -61,9 +61,9 @@ std::string MessageBroker::reduce() {
     return "undefined";
 }
 
-std::deque<MessageBuffer*> MessageBroker::response(std::string url) {
+std::deque<Message*> MessageBroker::response(std::string url) {
     BGRE("MessageBroker::response: BROKER RESPONDING\n");
-    std::deque<MessageBuffer*> result;
+    std::deque<Message*> result;
     if (_type == BROKER_BARRIER || _type == BROKER_RR) {
         result = _messages;
         BYEL("MessageBroker::response: Returning messages of size: %i\n", (int)_messages.size());
@@ -76,7 +76,7 @@ std::deque<MessageBuffer*> MessageBroker::response(std::string url) {
         _tickets.clear();
     } else {
         if (_messages.size() > 0) {
-            MessageBuffer* el = _messages.front();
+            Message* el = _messages.front();
             BCYA("MessageBroker::response: SINGLE MSG: ");
             BWHI("%s\n", el->received.c_str());
             _messages.pop_front();
@@ -91,13 +91,13 @@ std::deque<MessageBuffer*> MessageBroker::response(std::string url) {
     return result;
 }
 
-void MessageBroker::stash(std::deque<MessageBuffer*> buf) {
+void MessageBroker::stash(std::deque<Message*> buf) {
     BBLU("MessageBroker::stash: stashing...\n");
     for (auto m : buf) {
         _stash.push_back(m);
     }
 }
 
-std::deque<MessageBuffer*> MessageBroker::stashed() {
+std::deque<Message*> MessageBroker::stashed() {
     return _stash;
 }

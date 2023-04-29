@@ -52,16 +52,17 @@ PTEST(URLUnit, url1) {
     PASSERT(has_key_tok, false);
     bool has_key_token = url->arg(val, "token");
     PASSERT(has_key_token, true);
+    PASSERT(val.length(), 13);
     PASSERT(val.size(), 14);
     std::string res = std::string("sdk43k5lj3sdf");
+    bool match = true;
     for (int i = 0; i < res.size(); i++) {
         if (val[i] != res[i]) {
-            BRED("Failed to match: %c with %c\n", val[i], res[i]);
-        } else {
-            BGRE("M\n");
+            BRED("Failed to match: [%i] %c with [%i] %c\n", i, val[i], i, res[i]);
+            match = false;
         }
     }
-    PASSERT(val, res);
+    PASSERT(match, true);
     // PASSERT(url->arg(), "/join-model");
     delete url;
 }

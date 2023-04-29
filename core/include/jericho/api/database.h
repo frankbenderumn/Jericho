@@ -56,7 +56,7 @@ API(DbRequestSynch, {})
     if (client == NULL) {
         BRED("CLIENT IS NULL SOMEHOW :: apiDBRequestSynch\n");
     }
-    MessageBuffer* buf = router->cluster()->buffer(client->url, "/db-synch");
+    Message* buf = router->cluster()->buffer(client->url, "/db-synch");
     buf->port = "8080";
     router->cluster()->boss()->brokerSend(router, client->url, "/db-synch", buf);
     return "TICKET";

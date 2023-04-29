@@ -13,6 +13,8 @@
 #include "message/message_broker.h"
 #include "message/callback2.h"
 
+#include "module/dns.h"
+
 using namespace jericho;
 
 static int TICKET_ID = -1;
@@ -25,7 +27,8 @@ class Bifrost {
     ThreadPool* _tpool;
     WorkerThread _worker;
     std::unordered_map<int, std::shared_ptr<MessageBroker>> _brokers;
-    std::deque<MessageBuffer*> _fnfs;
+    DNS* _dns;
+    std::deque<Message*> _fnfs;
     std::unordered_map<int, std::vector<double>> _latencies;
     std::unordered_map<int, std::vector<long>> _bandIn;
     std::unordered_map<int, std::vector<long>> _bandOut;
@@ -47,11 +50,15 @@ class Bifrost {
         for (auto& f : _fnfs) {
             delete f;
         }
+        delete _dns;
     }
 
     const std::string host() const { return _host; }
     const std::string port() const { return _port; }
     const std::string hostname() const { return _host + ":" + _port; }
+
+    void dns(DNS* dns) { _dns = dns; }
+    DNS* dns() const { return _dns; }
 
     void burst(System* router);
 
@@ -77,7 +84,7 @@ class Bifrost {
 
     int send_async(std::string url, std::string content, Callback* callback, int timeout = 5);
 
-    std::string send(std::string url, std::string content, Callback* callback, int timeout = 5);
+    std::string send(std::string url, std::string content, Callback* callback, std::string response_format = "plain", int timeout = 5);
 
     void reply(Request* request, std::string url, std::string content, Callback* callback, std::string brokerType = "simple", int timeout = 5);
 
@@ -87,9 +94,17 @@ class Bifrost {
 
     void ricochet_reply(Request* req, std::string url, std::string content, Callback* callback, std::string brokerType, int ticket, int timeout = 5);
 
+    std::string get_file(std::string remote_host, std::string path, Callback* callback, int timeout = 5);
+
+    std::string send_file(std::string remote_host, std::string path, Callback* callback, int timeout = 5);
+
+    int parse_handshake(const std::string& heartbeat);
+
+    int handshake(std::string url, std::string endpoint, std::string content, Callback* callback, int timeout = 5);
+
     int fulfill(std::string& response, Request* req, Client* cli, Client** clients);
 
-    MessageBuffer* buffer(std::string _url, std::shared_ptr<MessageBroker> broker = nullptr, std::string dir = "undefined");
+    Message* buffer(std::string _url, std::shared_ptr<MessageBroker> broker = nullptr, std::string dir = "undefined");
 
     /** DEBUG **/
 

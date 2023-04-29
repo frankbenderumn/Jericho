@@ -48,6 +48,10 @@ namespace Jericho {
 
       static long modifiedAt(const char* path);
 
+      static size_t size(const char* path);
+
+      static std::string checksum(const std::string& path, size_t chunk_size = 4096);
+
   };
 }
 

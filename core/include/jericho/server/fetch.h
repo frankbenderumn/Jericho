@@ -46,15 +46,19 @@
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 
+#include "message/message.h"
+
 #define TIMEOUT 1.0
 
 void parse_url(char *url, char **hostname, char **port, char** path);
 
-int send_request(SSL *s, char *hostname, char *port, char *path);
+int send_request(SSL *s, char *hostname, char *port, char *path, Message* buf, std::string chunk, size_t chunkSize, int chunkNum, int chunkTotal);
 
 SOCKET connect_to_host(char *hostname,
                         char *port,
                         char* path,
                         std::string message);
+
+size_t num_chunks(size_t size, size_t chunkSize);
 
 void fetch(void* arg);

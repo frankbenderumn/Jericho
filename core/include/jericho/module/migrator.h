@@ -5,7 +5,7 @@
 
 #include "server/fetch.h"
 #include "server/defs.h"
-#include "message/message_buffer.h"
+#include "message/message.h"
 #include "util/file_system.hpp"
 #include "prizm/prizm.h"
 #include "federator/fl.h"

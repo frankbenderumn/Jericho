@@ -32,13 +32,13 @@ API(SyncRPC, {})
     System* sys = router;
     BMAG("Firing RPC Call!\n");
     std::string url = "https://127.0.0.1:8081/sync-job";
-    std::string result = sys->bifrost()->send(url, "Let's get this bread!", NULL);
+    std::string result = sys->bifrost()->send(url, "Let's get this bread!", NULL, "json");
     sys->bifrost()->dumpBrokerSizes();
     return result;
 }
 
 API(SyncJob, {})
-    return "Asynchronous hello from " + router->bifrost()->hostname();
+    return "Synchronous hello from " + router->bifrost()->hostname();
 }
 
 API(BroadcastAsyncRPC, {})
@@ -100,29 +100,42 @@ API(BroadcastSyncJob, {})
 }
 
 API(BinaryRPC, {})
-    std::string s = "This is the end of the binary file";
+    std::string s = "This is the start of the binary message";
     for (int i = 0; i < 100; i++) {
         s += '\0';
     }
-    s += "This is the end of the binary file";
+    s += "This is the end of the binary message";
+    BMAG("API::BifrostTest::BinaryRPC: Sizeof msg is %li\n", s.size());
+    std::string url = "bin+https://127.0.0.1:8081/binary-job";
+    int ticket = router->bifrost()->send_async(url, s, NULL);
+    return "TICKET";
+}
+
+API(FailedBinaryRPC, {})
+    std::string s = "This is the start of the binary message";
+    for (int i = 0; i < 100; i++) {
+        s += '\0';
+    }
+    s += "This is the end of the binary A MF BUG";
     std::string url = "bin+https://127.0.0.1:8081/binary-job";
     int ticket = router->bifrost()->send_async(url, s, NULL);
     return "TICKET";
 }
 
 API(BinaryJob, {})
-    std::string test = "This is the end of the binary file";
+    std::string test = "This is the start of the binary message";
     for (int i = 0; i < 100; i++) {
         test += '\0';
     }
-    test += "This is the end of the binary file";
+    test += "This is the end of the binary message";
     std::string response;
     if (req->content == test) {
-        response = "binary files match";
+        response = "binary messages match";
     } else {
-        response = "binary files do not match";
+        response = "binary messages do not match";
     }
-    std::string reply = req->reply("bin+job", "/null");
+    req->content = response;
+    std::string reply = req->reply("job", "/null");
     router->bifrost()->reply(req, reply, response, NULL);
     return "COMPLETE";
 }
@@ -139,30 +152,52 @@ API(Callback2Job, {})
     return "TICKET";
 }
 
-API(PulseRPC, {})
+API(RicochetRPC, {})
     return "TICKET";
 }
 
-API(PulseJob, {})
+API(RicochetJob, {})
     return "TICKET";
 }
 
-API(PulseFunctionRPC, {})
-    return "TICKET";
+API(PostFileRPC, {})
+    BMAG("API::BifrostTest::PostFileRPC: Running...\n");
+    std::string path = "./data/wn.xml";
+    size_t lfs = JFS::size(path.c_str());
+    BBLU("Api::Bifrost::PostFileRPC: %li\n", lfs);
+    std::string result = router->bifrost()->send_file("127.0.0.1:8081", path, NULL);
+    return result;
 }
 
-API(PulseFunctionJob, {})
-    return "TICKET";
+API(GetFileRPC, {})
+    BMAG("API::BifrostTest::GetFileRPC: Running...\n");
+    std::string path = "./data/wn.xml";
+    std::string result = router->bifrost()->get_file("127.0.0.1:8081", path, NULL);
+    return result;
 }
 
-API(FTP, {})
-    REQUEST_INFO
+API(WriteFileRPC, {})
+    BMAG("API::BifrostTest::WriteFileRPC: Running...\n");
     System* sys = router;
-    BMAG("Firing RPC Call!\n");
-    std::string url = "https://127.0.0.1:8081/bifrost-ping";
-    std::string file = sys->bifrost()->send(url, "Let's get this bread!", NULL);
-    sys->bifrost()->dumpBrokerSizes();
-    return file;
+    MAG("\tAPI::BifrostTest::WriteFileRPC: Content-Range: %s\n", req->header("Content-Range").c_str());
+    MAG("\tAPI::BifrostTest::WriteFileRPC: Content-Type: %s\n", req->header("Content-Type").c_str());
+    MAG("\tAPI::BifrostTest::WriteFileRPC: Content-Length: %s\n", req->header("Content-Length").c_str());
+    MAG("\tAPI::BifrostTest::WriteFileRPC: Transfer-Encoding: %s\n", req->header("Transfer-Encoding").c_str());
+    std::string content = JFS::read("./data/wn.xml");
+    std::string url = req->reply("https", "/null");
+    std::string response;
+    if (req->content.size() == content.size()) {
+        response = "FTP Successful!";
+    } else {
+        response = "FTP Unsuccessful!";
+    }
+    sys->bifrost()->reply(req, url, response, NULL);
+    return "COMPLETE";
+}
+
+API(ReadFileRPC, {})
+    BMAG("API::BifrostTest::ReadFileRPC: Running...\n");
+    return "COMPLETE";
 }
 
 #endif

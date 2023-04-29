@@ -6,7 +6,7 @@
 #include "server/request.h"
 #include "server/fetch.h"
 #include "celerity/celerity.h"
-#include "message/message_buffer.h"
+#include "message/message.h"
 #include "message/message_broker.h"
 #include "api/api_helper.h"
 #include "message/callback.h"
@@ -45,14 +45,14 @@ void Bifrost::cleanse() {
         CYA("%i : %li\n", it->first, _brokers.size());
         bool toContinue = false;
         BYEL("Bifrost::cleanse: Iterating brokers\n");
-        std::deque<MessageBuffer*> messages;
+        std::deque<Message*> messages;
         if (it->second->messages().size() != 0) {
             messages = it->second->messages();
         } else {
             BRED("Bifrost::cleanse: it is nullptr!\n");
         }
         for (int i = 0; i < messages.size(); i++) {
-            MessageBuffer* buf = messages.at(i);
+            Message* buf = messages.at(i);
             YEL("Bifrost::cleanse: Iterating message\n");
             std::chrono::microseconds micro = std::chrono::duration_cast<std::chrono::microseconds>(now - buf->timestamp);
             int diff = static_cast<int>(micro.count());
@@ -358,10 +358,10 @@ void Bifrost::serve(System* sys, Client* client, Client** clients, Request* req)
 }
 
 
-MessageBuffer* Bifrost::buffer(std::string _url, std::shared_ptr<MessageBroker> broker, std::string dir) {
+Message* Bifrost::buffer(std::string _url, std::shared_ptr<MessageBroker> broker, std::string dir) {
     URL* url = new URL(_url);
     if (url->ip) {
-        MessageBuffer* buf = new MessageBuffer;
+        Message* buf = new Message;
         buf->hostname = this->host();
         buf->port = url->port;
 
@@ -398,7 +398,7 @@ MessageBuffer* Bifrost::buffer(std::string _url, std::shared_ptr<MessageBroker> 
 
 std::string Bifrost::broadcast(std::vector<std::string> urls, std::string content, Callback* callback) {
     BBLU("BROADCASTING...\n");
-    std::deque<MessageBuffer*> mq;
+    std::deque<Message*> mq;
     std::shared_ptr<MessageBroker> broker = std::make_shared<MessageBroker>(BROKER_BARRIER, callback);
     int ticket = ++TICKET_ID;
 
@@ -407,7 +407,7 @@ std::string Bifrost::broadcast(std::vector<std::string> urls, std::string conten
     pthread_barrier_init(&barrier, NULL, urls.size());
 
     for (auto url : urls) {
-        MessageBuffer* buf = this->buffer(url, broker);
+        Message* buf = this->buffer(url, broker);
         if (content != "") {
             buf->sent = content;
             buf->ticket = ticket;
@@ -437,7 +437,7 @@ std::string Bifrost::broadcast(std::vector<std::string> urls, std::string conten
         printf("i2: %i\n", i);
     }
 
-    BYEL("MessageBuffer size: %li\n", mq.size());
+    BYEL("Message size: %li\n", mq.size());
     for (auto m : mq) {
         responses.push_back({m->url, m->received});
     }
@@ -451,11 +451,11 @@ std::string Bifrost::broadcast(std::vector<std::string> urls, std::string conten
 
 int Bifrost::broadcast_async(std::vector<std::string> urls, std::string content, Callback* callback) {
     BBLU("BROADCASTING...\n");
-    std::deque<MessageBuffer*> mq;
+    std::deque<Message*> mq;
     std::shared_ptr<MessageBroker> broker = std::make_shared<MessageBroker>(BROKER_BARRIER, callback);
     int ticket = ++TICKET_ID;
     for (auto url : urls) {
-        MessageBuffer* buf = this->buffer(url, broker);
+        Message* buf = this->buffer(url, broker);
         if (content != "") {
             buf->sent = content;
             buf->ticket = ticket;
@@ -479,10 +479,10 @@ int Bifrost::broadcast_async(std::vector<std::string> urls, std::string content,
 
 int Bifrost::send_async(std::string url, std::string content, Callback* callback, int timeout) {
     BMAG("Bifrost::send_async: Starting...\n");
-    std::deque<MessageBuffer*> mq;
+    std::deque<Message*> mq;
     int ticket = ++TICKET_ID; 
     std::shared_ptr<MessageBroker> broker = std::make_shared<MessageBroker>(BROKER_BARRIER, callback);
-    MessageBuffer* buf = this->buffer(url, broker);
+    Message* buf = this->buffer(url, broker);
     if (content != "") {
         buf->sent = content;
         buf->size = content.size();
@@ -506,12 +506,12 @@ int Bifrost::send_async(std::string url, std::string content, Callback* callback
     return ticket;
 }
 
-std::string Bifrost::send(std::string url, std::string content, Callback* callback, int timeout) {
+std::string Bifrost::send(std::string url, std::string content, Callback* callback, std::string response_format, int timeout) {
     BBLU("SENDING...\n");
-    std::deque<MessageBuffer*> mq;
+    std::deque<Message*> mq;
     int ticket = ++TICKET_ID; 
     std::shared_ptr<MessageBroker> broker = std::make_shared<MessageBroker>(BROKER_BARRIER, callback);
-    MessageBuffer* buf = this->buffer(url, broker);
+    Message* buf = this->buffer(url, broker);
     if (content != "") {
         buf->sent = content;
         buf->size = content.size();
@@ -530,6 +530,8 @@ std::string Bifrost::send(std::string url, std::string content, Callback* callba
     pthread_t thread;
     int status;
 
+    std::string type = buf->type;
+
     pthread_create(&thread, NULL, reinterpret_cast<void* (*)(void*)>(_worker), (void*)mq[0]);
     pthread_join(thread, (void**)&status);
 
@@ -542,14 +544,18 @@ std::string Bifrost::send(std::string url, std::string content, Callback* callba
     // _brokers[ticket].reset();
     // _brokers.erase(ticket);
 
-    return serialize(url, result);
+    if (response_format == "json" || type == "json") {
+        return serialize(url, result);
+    }
+
+    return result;
 }
 
 void Bifrost::reply(Request* req, std::string url, std::string content, Callback* callback, std::string brokerType, int timeout) {
     BBLU("REPLYING...\n");
-    // std::deque<MessageBuffer*> mq;
+    // std::deque<Message*> mq;
     // MessageBroker* broker = new MessageBroker(BROKER_BARRIER, callback);
-    MessageBuffer* buf = new MessageBuffer(TICKET_ID, url);
+    Message* buf = new Message(TICKET_ID, url);
     if (content != "") {
         MAG("Content: %s\n", content.c_str());
         buf->sent = content;
@@ -585,10 +591,10 @@ void Bifrost::reply(Request* req, std::string url, std::string content, Callback
 
 void Bifrost::ricochet_reply(Request* req, std::string url, std::string content, Callback* callback, std::string brokerType, int ticket, int timeout) {
     BBLU("REPLYING...\n");
-    std::deque<MessageBuffer*> mq;
+    std::deque<Message*> mq;
     // int ticket = ++TICKET_ID;
     std::shared_ptr<MessageBroker> broker = std::make_shared<MessageBroker>(BROKER_BARRIER, callback);
-    MessageBuffer* buf = this->buffer(url, broker);
+    Message* buf = this->buffer(url, broker);
     if (content != "") {
         buf->sent = content;
         buf->size = content.size();
@@ -624,10 +630,10 @@ void Bifrost::ricochet_reply(Request* req, std::string url, std::string content,
 // pulse, make a realm?
 int Bifrost::ricochet_async(std::string url, std::string endpoint, std::string content, Callback* callback, int timeout) {
     BBLU("RICOCHET ASYNC...\n");
-    std::deque<MessageBuffer*> mq;
+    std::deque<Message*> mq;
     std::shared_ptr<MessageBroker> broker = std::make_shared<MessageBroker>(BROKER_BARRIER, callback);
     int ticket = ++TICKET_ID;
-    MessageBuffer* buf = this->buffer(url, broker);
+    Message* buf = this->buffer(url, broker);
     if (content != "") {
         buf->sent = content;
         buf->ticket = ticket;
@@ -654,6 +660,105 @@ int Bifrost::ricochet_async(std::string url, std::string endpoint, std::string c
 
 int Bifrost::ricochet(std::string url, std::string endpoint, std::string content, Callback* callback, int timeout) {
 
+    return -1;
+}
+
+std::string Bifrost::get_file(std::string remote_host, std::string file_path, Callback* callback, int timeout) {
+    BMAG("Bifrost::post_ftp: Getting FTP...\n");    
+    // std::string url = "https://" + remote_host + "/read-file";
+    // size_t sz = JFS::size(file_path.c_str());
+    // size_t chunks = num_chunks(sz, 4096);
+    // MAG("\tBifrost::post_ftp: Size of file: %li\n", sz);
+    // MAG("\tBifrost::post_ftp: Num chunks: %li\n", chunks);
+    // if (chunks > 1) {
+    //     std::string handshake = this->send("https://" + remote_host + "/handshake", file_path, NULL);
+    //     MAG("\tBifrost::get_ftp: Received handshake: %s\n", handshake.c_str());
+    //     if (handshake == "HTTP/1.1 100 Continue") {
+    //         BGRE("Bifrost::get_ftp: Greenlight given to continue!\n");
+    //         std::shared_ptr<MessageBroker> broker = std::make_shared<MessageBroker>(BROKER_BARRIER, callback);
+    //         int ticket = ++TICKET_ID;
+    //         Message* buf = this->buffer(url, broker);
+    //         buf->headers["Broker-Type"] = "simple";
+    //         buf->headers["Ticket"] = std::to_string(ticket);
+    //         buf->headers["Message-Id"] = std::to_string(buf->id);
+    //         // buf->broker = broker;
+    //         thread_pool_add(_tpool, _worker, (void*)buf);
+    //         return handshake;
+    //     }
+    // }
+    return "HTTP/1.1 500 Internal Server Error";
+}
+
+// consider using a Expect: header
+std::string Bifrost::send_file(std::string remote_host, std::string file_path, Callback* callback, int timeout) {
+    int _chunk_size = 2048;
+    BMAG("Bifrost::send_file: Posting FTP...\n");    
+    std::string url = "https://" + remote_host + "/write-file";
+    size_t sz = JFS::size(file_path.c_str());
+    size_t chunks = num_chunks(sz, _chunk_size);
+    MAG("\tBifrost::send_file: Size of file: %li\n", sz);
+    MAG("\tBifrost::send_file: Num chunks: %li\n", chunks);
+    std::ifstream file(file_path, std::ios::binary);
+    if (!file.is_open()) {
+        BRED("\tBifrost::send_file: Error opening file '%s'!\n", file_path.c_str());
+        return "HTTP/1.1 500 Internal Server Error";
+    }
+    if (chunks > 1) {
+        std::vector<char> buffer(_chunk_size);
+        bool init = true;
+        int chunk_idx = 0;
+        std::string job_id = "applesauce";
+        while (file.read(buffer.data(), buffer.size())) {
+            std::string chunkStr(buffer.begin(), buffer.end());
+            if (init) {
+                MAG("\tRead %i bytes\n", (int)file.gcount());
+                std::string handshake = this->send("https://" + remote_host + "/write-file", file_path, NULL);
+                MAG("\tBifrost::send_file: Received handshake: %s\n", handshake.c_str());
+                if (handshake == "HTTP/1.1 100 Continue") {
+                    BGRE("\tBifrost::send_file: Greenlight given to continue!\n");
+                    std::shared_ptr<MessageBroker> broker = std::make_shared<MessageBroker>(BROKER_BARRIER, callback);
+                    int ticket = ++TICKET_ID;
+                    Message* buf = this->buffer(url, broker);
+                    buf->chunk(chunkStr, 0, _chunk_size, sz);
+                    buf->headers["Broker-Type"] = "simple";
+                    buf->headers["Ticket"] = std::to_string(ticket);
+                    buf->headers["Message-Id"] = std::to_string(buf->id);
+                    buf->headers["Job-Id"] = job_id;
+
+                    pthread_t thread;
+                    int status;
+                    pthread_create(&thread, NULL, reinterpret_cast<void* (*)(void*)>(_worker), (void*)buf);
+                    pthread_join(thread, (void**)&status);
+                    std::string result = buf->received;
+                    MAG("\tBifrost::send_file: Received: %s\n", result.c_str());
+                }
+                init = false;
+            } else {
+                Message* buf = new Message(TICKET_ID, url, this->host(), this->port());
+                buf->chunk(chunkStr, chunk_idx, _chunk_size, sz);
+                buf->headers["Job-Id"] = job_id;
+                
+                pthread_t thread;
+                int status;
+                pthread_create(&thread, NULL, reinterpret_cast<void* (*)(void*)>(_worker), (void*)buf);
+                pthread_join(thread, (void**)&status);
+                std::string result = buf->received;
+                MAG("\tBifrost::send_file: Received: %s\n", result.c_str());
+            }
+            chunk_idx++;
+        }
+        std::string checksum = this->send("https://" + remote_host + "/write-file", file_path, NULL);
+        return checksum;
+    }
+    return "HTTP/1.1 500 Internal Server Error";
+}
+
+int Bifrost::parse_handshake(const std::string& heartbeat) {
+    BMAG("Bifrost::parse_handshake: Parsing: %s\n", heartbeat.c_str());
+    return 0;
+}
+
+int Bifrost::handshake(std::string url, std::string endpoint, std::string content, Callback* callback, int timeout) {
     return -1;
 }
 

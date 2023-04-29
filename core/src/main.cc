@@ -112,6 +112,7 @@ int main(int argc, char* argv[]) {
     std::string host = "127.0.0.1";
     int port = atoi(argv[1]);
     PUBLIC_DIRECTORY = "./public/"+std::string(argv[3]);
+    std::string dns_script = "./config/dns.json";
 
     server_create(argc, argv);
 
@@ -133,8 +134,11 @@ int main(int argc, char* argv[]) {
 
     FedNode* federator;
     Celerity* celerity;
+    DNS* dns;
     celerity = Module::celerity();
     federator = Module::federator(script, host + ":" + argv[1]);
+    dns = Module::dns(dns_script);
+    if (dns) sys->bifrost()->dns(dns);
     if (celerity) sys->celerity(celerity);
     if (federator != nullptr) {
         BGRE("Federator bound!\n");

@@ -1,6 +1,5 @@
 #include "server/fetch.h"
 #include "server/defs.h"
-#include "message/message_buffer.h"
 #include "util/file_system.hpp"
 // #include "crypt/jwt.h"
 
@@ -11,6 +10,7 @@
 typedef std::unordered_map<std::string, std::string> Args;
 
 #define TIMEOUT2 5.0
+#define CHUNK_SIZE 4096
 
 void parse_url(char *url, char **hostname, char **port, char** path) {
     printf("URL: %s\n", url);
@@ -60,77 +60,79 @@ void parse_url(char *url, char **hostname, char **port, char** path) {
     printf("path: %s\n", *path);
 }
 
+size_t num_chunks(size_t size, size_t chunkSize) {
+    return size / chunkSize;
+}
 
-int send_request(SSL *s, const char *hostname, const char *port, const char *path, MessageBuffer* buf) {
+int send_request(SSL *s, const char *hostname, const char *port, const char *path, Message* buf, std::string chunk, size_t chunkSize, int chunkNum, int chunkTotal) {
     BMAG("Fetch: Sending Request...\n");
 
     int result = 1;
-    char buffer[490000];
+    char* buffer = (char*)malloc((CHUNK_SIZE));
 
-    std::string message = buf->sent;
+    std::string message = chunk;
     Args headers = buf->headers;
     std::string type = buf->type;
     std::string protocol = buf->protocol;
 
-    size_t sz = message.size();
-    unsigned char char_arr[sz];
-    std::copy(message.cbegin(), message.cend(), char_arr);
-    std::vector<unsigned char> v(message.begin(), message.end());
-    // BYEL("CHAR VEC SIZE: %li\n", v.size());
-    // for (const unsigned char& c : v) {
-    //     std::cout << c;
-    // }
-
-    unsigned char arr[message.size()];
-    char carr[message.size() + 1];
-
-    for (int i = 0; i < message.size(); i++) {
-        // if (v[i] == '\0') { BRED("NULL TERMINATOR DETECTED\n"); }
-        // printf("%u -- %c\n", v[i], (char)v[i]);
-        arr[i] = v[i];
-        // if (v[i] == '\0') {
-        //     carr[i] = 'a';
-        // } else {
-        carr[i] = (char)v[i];
-        // }
-    }
-    
-    // BCYA("%s\n", carr);
-
-    for (int i = 0; i < message.size(); i++) {
-        if (v[i] != (unsigned char)carr[i]) { BRED("Fetch::send_request: CRITICAL: WRONG\n"); }
+    if (strlen(path) > 200) {
+        BRED("Fetch::send_request: Path size > 200\n");
+        return 0;
     }
 
-    DEBUG("sendRequest: path: %s\n", path);
-    DEBUG("sendRequest: arr size: %li\n", sizeof(arr));
-    // WHI("sendRequest: arr len: %li\n", strlen(arr));
-    DEBUG("sendRequest: char_arr size: %li\n", sizeof(char_arr));
-    DEBUG("sendRequest: char_arr len: %li\n", strlen((char*)char_arr));
-    DEBUG("sendRequest: %s\n", message.data());
+    if (strlen(hostname) > 50) {
+        BRED("Fetch::send_request: Host size > 50\n");
+        return 0;
+    }
+
+    if (strlen(port) > 6) {
+        BRED("Fetch::send_request: Port size > 6\n");
+        return 0;
+    }
 
     // std::cout << message;
     if (protocol == "https") {
-        sprintf(buffer, "GET %s HTTP/1.1\r\n", path);
+        sprintf(buffer, "POST %s HTTP/1.1\r\n", path);
     } else if (protocol == "job") {
         sprintf(buffer, "GET %s JOB\r\n", path);
     }
+
     sprintf(buffer + strlen(buffer), "Host: %s:%s\r\n", hostname, port);
+    if (strlen(buffer) > 4000) { BRED("Fetch::send_request: Buffer too large\n"); return 0; }
     sprintf(buffer + strlen(buffer), "Connection: keep-alive\r\n");
+    if (strlen(buffer) > 4000) { BRED("Fetch::send_request: Buffer too large\n"); return 0; }
     sprintf(buffer + strlen(buffer), "User-Agent: honpwc https_get 1.0\r\n");
+    if (strlen(buffer) > 4000) { BRED("Fetch::send_request: Buffer too large\n"); return 0; }
     // sprintf(buffer + strlen(buffer), "Access-Control-Allow-Origin: %s\r\n", "*");
     sprintf(buffer + strlen(buffer), "Jericho: %s\r\n", "true");
+    if (strlen(buffer) > 4000) { BRED("Fetch::send_request: Buffer too large\n"); return 0; }
+
     if (type == "bin") {
         BGRE("Binary type detected!\n");
+        sprintf(buffer + strlen(buffer), "Content-Length: %li\r\n", message.size());
         sprintf(buffer + strlen(buffer), "Content-Type: %s\r\n", "application/octet-stream");        
-        sprintf(buffer + strlen(buffer), "Content-Size: %li\r\n", message.size());
-        sprintf(buffer + strlen(buffer), "Content-Encoding: %s\r\n", "base64");
     } else {
-        sprintf(buffer + strlen(buffer), "Content-Size: %li\r\n", message.size());
+        sprintf(buffer + strlen(buffer), "Content-Length: %li\r\n", message.size());
     }
+
+
+// range vs. content-range get vs. post
+    if (chunkTotal > 1 && type == "bin") {
+        sprintf(buffer + strlen(buffer), "Content-Encoding: %s\r\n", "base64");
+        sprintf(buffer + strlen(buffer), "Range: %li\r\n", message.size());
+    } else if (chunkTotal > 1) {
+
+    } else if (type == "bin") {
+        sprintf(buffer + strlen(buffer), "Content-Encoding: %s\r\n", "base64");
+    }
+
     for (auto head : headers) {
         sprintf(buffer + strlen(buffer), "%s: %s\r\n", head.first.c_str(), head.second.c_str());
     }
     sprintf(buffer + strlen(buffer), "\r\n");
+
+    SEGH
+
     if (type == "bin") {
         std::string encoded = jcrypt::base64::encode_url(message);
         sprintf(buffer + strlen(buffer), encoded.data());
@@ -138,28 +140,42 @@ int send_request(SSL *s, const char *hostname, const char *port, const char *pat
         sprintf(buffer + strlen(buffer), message.data());
     }
 
-    v.clear();
+    // v.clear();
 
-    DEBUG("SendRequest: Request content being sent: %.300s\n", buffer);
+    printf("\tSendRequest: Request content being sent: %.300s\n", buffer);
 
     if (type == "bin") {
-        int a;
-        if ((a = SSL_write(s, buffer, sizeof(buffer))) <= 0) {
-            printf("Server closed connection\n");
-            ERR_print_errors_fp(stderr);
-            result = 0;
+        int a, n = 0, remaining = strlen(buffer);
+        while (remaining > 0) {
+            int chunk_size = std::min(remaining, CHUNK_SIZE);
+            if ((a = SSL_write(s, buffer + n, chunk_size)) <= 0) {
+                printf("Server closed connection\n");
+                ERR_print_errors_fp(stderr);
+                result = 0;
+                break;
+            }
+            printf("SENT %i bytes\n", a);
+            remaining -= a;
+            n += a;
         }
-        DEBUG("SENT %i bytes\n", a);
     } else {
-        int a;
-        if (a = SSL_write(s, buffer, strlen(buffer)) <= 0) {
-            printf("Server closed connection\n");
-            ERR_print_errors_fp(stderr);
-            result = 0;
+        int a, n = 0, remaining = strlen(buffer);
+        while (remaining > 0) {
+            int chunk_size = std::min(remaining, CHUNK_SIZE);
+            if ((a = SSL_write(s, buffer + n, chunk_size)) <= 0) {
+                printf("Server closed connection\n");
+                ERR_print_errors_fp(stderr);
+                result = 0;
+                break;
+            }
+            printf("FETCH SEND REQUEST - SENT %i bytes\n", a);
+            remaining -= a;
+            n += a;
         }
-        DEBUG("FETCH SEND REQUEST - SENT %i bytes\n", a);
     }
-    // printf("Sent Headers:\n%s", buffer);
+
+    free(buffer);
+
     return result;
 }
 
@@ -268,7 +284,7 @@ SOCKET connect_to_host(const char *hostname, const char *port) {
 void fetch(Any args) {
     BLU("Fetch: Starting thread!\n");
 
-    MessageBuffer* buf = static_cast<MessageBuffer*>(args);
+    Message* buf = static_cast<Message*>(args);
     buf->dump();
     std::string hostname = buf->hostname;
     std::string port = buf->port;
@@ -393,9 +409,20 @@ void fetch(Any args) {
 
         Benchmark* bm = bm_start("fetch");
 
-        if (send_request(ssl, hostname.c_str(), fromPort.c_str(), path.c_str(), buf)) {
+        int chunkCt = 0;
+        int chunks = 1;
+        size_t chunkSize = 4096;
+        if (buf->chunked) chunks = num_chunks(buf->size, chunkSize);
+        bool chunked = (chunks > 1);
+        std::string chunkStr;
 
-        BLU("Fetch: Sending Request!\n");
+        if (chunks == 1) {
+            chunkStr = buf->sent;
+        }
+
+        if (send_request(ssl, hostname.c_str(), fromPort.c_str(), path.c_str(), buf, chunkStr, chunkSize, chunkCt, chunks)) {
+
+        BLU("Fetch: Sending Request Chunk %i/%i!\n", chunkCt+1, chunks);
 
         const clock_t start_time = clock();
 

@@ -105,7 +105,7 @@ class Cluster {
 
     void type(ClusterType type) { _type = type; }
 
-    MessageBuffer* buffer(std::string url, std::string path) { return _boss->buffer(url, path); }
+    Message* buffer(std::string url, std::string path) { return _boss->buffer(url, path); }
 };
 
 #endif

@@ -91,7 +91,7 @@ void Request::parseHeaders(std::string headerStr) {
                         this->type = content_type_map[val];
                     }
                 }
-                if (key == "Content-Size") {
+                if (key == "Content-Length") {
                     // need safe std::stoi
                     bool is_digit = true;
                     for (auto& c : val) {
@@ -153,11 +153,12 @@ void Request::parseHeaders(std::string headerStr) {
         if (this->type == CONTENT_OCTET) {
         char* p;
         if ((p = strstr(client->request, "\r\n\r\n")) != NULL) {
+            MAG("Request::parseHeaders: Content-Length: %li\n", this->size);
             std::string cont = std::string(p+4, jcrypt::base64::size_num(this->size));
             std::string s;
             bool has_null = false;
             if (this->encoding == ENCODING_BASE64) {
-                BMAG("CONTENT: %s\n", cont.c_str());
+                BMAG("\tRequest::parseHeaders: Content: %s\n", cont.c_str());
                 for (auto& c : cont) {
                     if (c == '\0') {
                         BRED("NULL CHAR FOUND!\n");
@@ -168,10 +169,8 @@ void Request::parseHeaders(std::string headerStr) {
                     cont.pop_back();
                 }
                 s = jcrypt::base64::decode_url(cont);
-                BRED("ENCODING IS BASE64: %li\n", s.size());
-                BYEL("DECODED: %s\n", s.c_str());
+                MAG("\tRequest::parseHeaders: DECODED: %s\n", s.c_str());
             }
-            BRED("CONTENT SIZE IS: %i\n", this->size);
             for (auto& c : s) {
                 if (c == '\0') {
                     printf("\\0");

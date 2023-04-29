@@ -197,7 +197,7 @@ API(NewModel, {})
 //     std::string agg = router->federator()->local()->dispatch(content);
 //     BYEL("Dispatch: Content: %s\n", content.c_str());
 //     if (broker != NULL) {
-//         MessageBuffer* buf = new MessageBuffer;
+//         Message* buf = new Message;
 //         buf->hostname = host;
 //         buf->port = port;
 //         buf->dir = "./public/frontend";
@@ -221,7 +221,7 @@ API(NewModel, {})
 //     BMAG("DispatchJoin: Start on %s:%s\n", localHost.c_str(), localPort.c_str());
 //     Benchmark* bm = bm_start("ping client->url");
 //     broker = new MessageBroker(BROKER_FIFO, chain_callback);
-//     MessageBuffer* buf = new MessageBuffer;
+//     Message* buf = new Message;
 //     buf->hostname = host;
 //     buf->port = port;
 //     buf->dir = "./public/frontend";
@@ -309,7 +309,7 @@ API(NewModel, {})
 //     broker->chain(&apiTrain);
 //     GUI::state(router, client);
 
-//     MessageBuffer* buf = new MessageBuffer;
+//     Message* buf = new Message;
 //     buf->hostname = host;
 //     buf->port = portmanteau;
 //     buf->dir = "./public/frontend";
@@ -337,10 +337,10 @@ API(NewModel, {})
 //     BMAG("apiSurvey: SERVING FED MODEL...\n");
 //     REQUEST_INFO
 //     std::string content = API_ARG(args, std::string("content"));
-//     std::deque<MessageBuffer*> bufs;
+//     std::deque<Message*> bufs;
 //     std::vector<std::string> clients = router->federator()->local()->clientUrls();
 //     for (auto client : clients) {
-//         MessageBuffer* buf = new MessageBuffer(hostname, client + "/train", router->cluster()->boss()->dir(), content);
+//         Message* buf = new Message(hostname, client + "/train", router->cluster()->boss()->dir(), content);
 //         buf->type = "binary";
 //         if (broker == NULL) {
 //             BRED("apiSurvey: NULL broker encountered\n");
@@ -380,7 +380,7 @@ API(NewModel, {})
 //         router->federator()->local()->round(0);
 //         for (auto cli : router->federator()->local()->clientUrls()) {
 //             std::string name = router->cluster()->boss()->url();
-//             MessageBuffer* buf = new MessageBuffer(name, cli + "/fed-node", router->cluster()->boss()->dir(), router->cluster()->boss()->port());
+//             Message* buf = new Message(name, cli + "/fed-node", router->cluster()->boss()->dir(), router->cluster()->boss()->port());
 //             router->cluster()->boss()->send(router, client->url, std::string("/ping"), buf);
 //         }
 //     }
@@ -455,7 +455,7 @@ API(NewModel, {})
 //                     if (mode != "main") {
 //                         BBLU("apiJoinWeights: Starting next stage of federation: %i\n", router->federator()->local()->round());
 //                         broker = new MessageBroker(BROKER_FIFO, single_callback);
-//                         MessageBuffer* buf = new MessageBuffer(name, hostname + "/fed-node", router->cluster()->boss()->dir(), router->cluster()->boss()->port());
+//                         Message* buf = new Message(name, hostname + "/fed-node", router->cluster()->boss()->dir(), router->cluster()->boss()->port());
 //                         buf->broker = broker;
 //                         router->cluster()->boss()->brokers()[client->url].push_back(broker);
 //                         router->cluster()->boss()->send(router, client->url, std::string("/ping"), buf);
@@ -463,7 +463,7 @@ API(NewModel, {})
 //                     } else {
 //                         BBLU("apiJoinWeights: Broadcasting new model to children\n");
 //                         broker = new MessageBroker(BROKER_FIFO, single_callback);
-//                         MessageBuffer* buf = new MessageBuffer(name, hostname + "/new-model", router->cluster()->boss()->dir(), bytes);
+//                         Message* buf = new Message(name, hostname + "/new-model", router->cluster()->boss()->dir(), bytes);
 //                         buf->type = "binary";
 //                         buf->broker = broker;
 //                         router->cluster()->boss()->brokers()[client->url].push_back(broker);
@@ -487,7 +487,7 @@ API(NewModel, {})
 //                     // GUI::finalTrain(router, client);
 //                     // YEL("apiJoinWeights: train sent\n");
 //                     for (auto out : outs) {
-//                         MessageBuffer* buf = new MessageBuffer(name, out + "/join-weights", router->cluster()->boss()->dir(), bytes);
+//                         Message* buf = new Message(name, out + "/join-weights", router->cluster()->boss()->dir(), bytes);
 //                         broker = new MessageBroker(BROKER_FIFO, single_callback);
 //                         buf->type = "binary";
 //                         buf->broker = broker;

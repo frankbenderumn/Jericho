@@ -37,7 +37,10 @@ void compile_routes(Router* router) {
     router->system("/echo", apiEcho);
     // router->bind(ROUTE_API, "/model-json", apiServeModelJson);
 
-    // Bifrost Module
+    // Internals Module
+    router->system("/handshake", apiHandshake);
+
+    // Bifrost Test Module
     router->system("/async-rpc", apiAsyncRPC);
     router->system("/async-job", apiAsyncJob);
     router->system("/sync-rpc", apiSyncRPC);
@@ -47,17 +50,17 @@ void compile_routes(Router* router) {
     router->system("/broadcast-async-rpc", apiBroadcastAsyncRPC);
     router->system("/broadcast-async-job", apiBroadcastAsyncJob);
     router->system("/binary-rpc", apiBinaryRPC);
+    router->system("/failed-binary-rpc", apiFailedBinaryRPC);
     router->system("/binary-job", apiBinaryJob);
     router->system("/callback-rpc", apiCallbackRPC);
     router->system("/callback-job1", apiCallback1Job);
     router->system("/callback-job2", apiCallback2Job);
-    router->system("/pulse-rpc", apiPulseRPC);
-    router->system("/pulse-job", apiPulseJob);
-    router->system("/pulse-function-rpc", apiPulseFunctionRPC);
-    router->system("/pulse-function-job", apiPulseFunctionJob);
-    router->system("/ftp", apiFTP);
-
-    router->system("/heartbeat", apiHeartbeat);
+    router->system("/ricochet-rpc", apiRicochetRPC);
+    router->system("/ricochet-job", apiRicochetJob);
+    router->system("/get-ftp-rpc", apiGetFileRPC);
+    router->system("/post-ftp-rpc", apiPostFileRPC);
+    router->system("/read-file", apiReadFileRPC);
+    router->system("/write-file", apiWriteFileRPC);
 
     // Federated Module
     router->system("/request-join", apiRequestJoin);

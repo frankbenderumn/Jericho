@@ -5,6 +5,7 @@
 #include "util/file_system.hpp"
 #include "picojson/picojson.h"
 #include "module/migrator.h"
+#include "module/dns.h"
 
 class Module {
   public:
@@ -47,6 +48,21 @@ class Module {
         printf("\t%s\n", fedScript.c_str());
         FedNode* node = migrate::federator(fedScript, url); 
         return node;
+    }
+
+    static DNS* dns(const std::string& script) {
+        picojson::value v;
+        if (JFS::readJson(v, script.c_str()) < 0) {
+            BRED("Module::DNS: Failed to read script '%s'\n", script.c_str());
+            return nullptr;
+        }
+        if (!v.is<picojson::object>()) {
+            BRED("Module::DNS: Script '%s' should be a JSON object\n", script.c_str());
+            return nullptr;
+        }
+
+        picojson::object o = v.get<picojson::object>();
+        return new DNS(o);
     }
 
 };

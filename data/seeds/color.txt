@@ -1,0 +1,16 @@
+red
+green
+blue
+orange
+yellow
+black
+white
+gray
+brown
+cerulean
+crimson
+periwinkle
+indigo
+violet
+magenta
+cyan
