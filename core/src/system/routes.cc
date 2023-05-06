@@ -19,23 +19,19 @@ void compile_routes(Router* router) {
     // router->bind(ROUTE_API, "/sma", apiSma);
 
     // System module
-    router->system("/spawn", apiSpawn);
-    router->system("/python", apiPython);
+    // router->system("/spawn", apiSpawn);
+    // router->system("/python", apiPython);
 
     // Database Module
-    router->system("/mongo-databases", apiMongoDatabases);
-    router->system("/mongo-insert", apiMongoInsert);
-    router->system("/postgres", apiPostgres);
-    router->system("/db-synch", apiDbSynch);
-    router->system("/db-request-synch", apiDbRequestSynch);
+    // router->system("/mongo-databases", apiMongoDatabases);
+    // router->system("/mongo-insert", apiMongoInsert);
+    // router->system("/postgres", apiPostgres);
+    // router->system("/db-synch", apiDbSynch);
+    // router->system("/db-request-synch", apiDbRequestSynch);
 
     // Ping Module
-    router->system("/ping-one", apiPingOne);
     router->system("/ping-all", apiPingAll);
-    router->system("/ping-local", apiPingLocal);
     router->system("/ping", apiPing);
-    router->system("/echo", apiEcho);
-    // router->bind(ROUTE_API, "/model-json", apiServeModelJson);
 
     // Internals Module
     router->system("/handshake", apiHandshake);
@@ -57,20 +53,29 @@ void compile_routes(Router* router) {
     router->system("/callback-job2", apiCallback2Job);
     router->system("/ricochet-rpc", apiRicochetRPC);
     router->system("/ricochet-job", apiRicochetJob);
+
+    // file io
     router->system("/get-ftp-rpc", apiGetFileRPC);
     router->system("/post-ftp-rpc", apiPostFileRPC);
+    router->system("/get-ftp-async-rpc", apiGetFileRPC);
+    router->system("/post-ftp-async-rpc", apiPostFileRPC);
     router->system("/read-file", apiReadFileRPC);
     router->system("/write-file", apiWriteFileRPC);
+    router->system("/verify-write", apiVerifyWriteRPC);
 
     // Federated Module
-    router->system("/request-join", apiRequestJoin);
+    
+    // Federated Profiling, needs rework due to race conditions.
+    // router->system("/request-join", apiRequestJoin);
     router->system("/client-profile", apiClientProfile);
     router->system("/ping-ricochet", apiPingRicochet);
-    router->system("/callback-resolution", apiCallbackResolution);
-    router->system("/test-resolve", apiTestResolve);
-    router->system("/train", apiTrain);
+
+    router->system("/request-join", apiRequestJoin);
     router->system("/join-network", apiJoinNetwork);
-    router->system("/aggregate-model", apiAggregateModel);
+    router->system("/get-model", apiGetModel);
+    router->system("/send-weights", apiSendWeights);
+    // router->system("/train", apiTrain);
+    // router->system("/send-aggregator", apiSendAggregator);
     router->system("/new-model", apiNewModel);
 
     // router->system("/federate-local", apiFederateLocal);

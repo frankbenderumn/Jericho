@@ -1,15 +1,11 @@
 #ifndef JERICHO_API_APIS_H_
 #define JERICHO_API_APIS_H_
 
-#include "api/database.h"
-#include "api/polygon.h"
 #include "api/fl_api.h"
 #include "api/ping.h"
-#include "api/other.h"
 #include "api/ws.h"
 #include "api/sys.h"
-#include "api/binary_test.h"
 #include "api/bifrost_test.h"
-#include "api/internals.h"
+#include "api/io.h"
 
 #endif

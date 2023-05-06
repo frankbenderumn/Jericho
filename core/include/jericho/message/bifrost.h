@@ -34,7 +34,8 @@ class Bifrost {
     std::unordered_map<int, std::vector<long>> _bandOut;
     std::string _host;
     std::string _port;
-    std::deque<MessageJob*> _jobs;
+    std::unordered_map<int, MessageJob*> _jobs;
+    std::unordered_map<std::string, MessageJob*> _job_ids;
 
     // std::unordered_map<std::string, std::vector<MessageResponse*>> _responses;
   public:
@@ -78,23 +79,25 @@ class Bifrost {
 
     void serve(System* sys, Client* client, Client** clients, Request* req);
 
-    int broadcast_async(std::vector<std::string> urls, std::string content, Callback* callback);
+    int broadcast_async(std::vector<std::string> urls, std::string content, Callback* callback = NULL);
 
-    std::string broadcast(std::vector<std::string> urls, std::string content, Callback* callback);
+    std::string broadcast(std::vector<std::string> urls, std::string content, Callback* callback = NULL);
 
-    int send_async(std::string url, std::string content, Callback* callback, int timeout = 5);
+    int send_async(std::string url, std::string content, Callback* callback = NULL, int timeout = 5);
 
-    std::string send(std::string url, std::string content, Callback* callback, std::string response_format = "plain", int timeout = 5);
+    std::string send(std::string url, std::string content, Callback* callback = NULL, std::string response_format = "plain", int timeout = 5);
 
-    void reply(Request* request, std::string url, std::string content, Callback* callback, std::string brokerType = "simple", int timeout = 5);
+    std::string send(Message* msg);
 
-    int ricochet_async(std::string url, std::string endpoint, std::string content, Callback* callback, int timeout = 5);
+    void reply(Request* request, std::string url, std::string content, Callback* callback = NULL, std::string brokerType = "simple", int timeout = 5);
+
+    int ricochet_async(std::string url, std::string endpoint, std::string content, Callback* callback = NULL, int timeout = 5);
 
     int ricochet(std::string url, std::string endpoint, std::string content, Callback* callback, int timeout = 5);
 
     void ricochet_reply(Request* req, std::string url, std::string content, Callback* callback, std::string brokerType, int ticket, int timeout = 5);
 
-    std::string get_file(std::string remote_host, std::string path, Callback* callback, int timeout = 5);
+    std::string get_file(std::string remote_host, std::string path, int fd, Callback* callback = NULL, int timeout = 5);
 
     std::string send_file(std::string remote_host, std::string path, Callback* callback, int timeout = 5);
 
@@ -105,6 +108,38 @@ class Bifrost {
     int fulfill(std::string& response, Request* req, Client* cli, Client** clients);
 
     Message* buffer(std::string _url, std::shared_ptr<MessageBroker> broker = nullptr, std::string dir = "undefined");
+
+    void job(std::string hostname, int fd, MessageJob* job) {
+        _jobs[fd] = job;
+    }
+    
+    void job_id(std::string hostname, std::string id, MessageJob* job) {
+        _job_ids[id] = job;
+    }
+
+    void clear_job(int fd) {
+        _jobs.erase(fd);
+    }
+
+    void clear_job_id(std::string job_id) {
+        _job_ids.erase(job_id);
+    }
+
+    MessageJob* job(int fd) {
+        if (!prizm::contains_key(_jobs, fd)) {
+            BRED("Bifrost::job: Job not found for fd: %i\n", fd);
+            return nullptr;
+        }
+        return _jobs[fd];
+    }
+
+    MessageJob* job_id(std::string job_id) {
+        if (!prizm::contains_key(_job_ids, job_id)) {
+            BRED("Bifrost::job: Job not found for fd: %s\n", job_id.c_str());
+            return nullptr;
+        }
+        return _job_ids[job_id];
+    }
 
     /** DEBUG **/
 

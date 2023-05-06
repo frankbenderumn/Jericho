@@ -43,13 +43,11 @@ API(DeleteNode, {})
     return "COMPLETE";
 }
 
-API(RequestJoin, {})
-    BRED("==============DOUBLE FREE DEBUG=============\n");
-    std::string ingress = "https://127.0.0.1:8080/client-profile";
-    int result = router->bifrost()->send_async(ingress, "MNIST", NULL);
-    BGRE("Returning result!\n");
-    return "TICKET"; // if ticket is returned... SEGFAULT? WTF
-}
+// API(RequestJoin, {})
+//     std::string ingress = "https://127.0.0.1:8080/client-profile";
+//     int result = router->bifrost()->send_async(ingress, "MNIST", NULL);
+//     return HttpStatus::response(200); // if ticket is returned... SEGFAULT? WTF
+// }
 
 API(ClientProfile, {})
     std::string content = req->arg("content");
@@ -57,11 +55,12 @@ API(ClientProfile, {})
     std::string endpoint = "/ping-ricochet";
     Callback* callback = new Callback(router->bifrost()->hostname(), endpoint, "LATENCY", 0, "AVG", 0, 100);
     std::string reply = req->reply("job", endpoint);
-    int ticket = router->bifrost()->ricochet_async(reply, endpoint, "null", callback);
-    return "TICKET";
+    router->bifrost()->ricochet_reply(req, reply, "null", callback, "ricochet", std::stoi(req->header("Ticket")));
+    return HttpStatus::response(200);
 }
 
 API(PingRicochet, {})
+    std::string host = req->header("Host");
     if (req->callback) {
         if (!req->callback->resolved) {
             std::string reply = req->reply("job", req->callback->endpoint);
@@ -71,11 +70,20 @@ API(PingRicochet, {})
 
             /** TODO: should implement propogate / fnf */
             // need to resolve callback since initial request-join was an asynchronous call
-            std::string resolution = router->bifrost()->send("job://127.0.0.1:8084/callback-resolution", "null", req->callback);
+            // std::string resolution = router->bifrost()->send("job://127.0.0.1:8084/callback-resolution", "null", req->callback);
+            std::string aggregator;
+            
+            if (std::stod(req->content) < 10) {
+                aggregator = "127.0.0.1:8081";
+            } else if (std::stod(req->content) > 10 && std::stod(req->content) < 50)  {
+                aggregator = "127.0.0.1:8082";
+            } else {
+                aggregator = "127.0.0.1:8083";
+            }
 
             // need a callback check in the bifrost job processor
-            std::string content = "https://127.0.0.1:8084/train";
-            int ticket = router->bifrost()->send_async(content, req->content, NULL);
+            std::string content = "https://"+host+"/train";
+            int ticket = router->bifrost()->send_async(content, aggregator, NULL);
         }
     } else {
         BRED("req->callback is NULL\n");
@@ -83,87 +91,87 @@ API(PingRicochet, {})
     return "TICKET";
 }
 
-// IGNORE THESE TWO (FOR DEBUG)
-API(CallbackResolution, {})
-    return "RESOLVED";
-}
-
-API(TestResolve, {})
-    std::string model = router->bifrost()->send("https://127.0.0.1:8081/heartbeat", "null", NULL);
-    return model;
-}
-
-API(Train, {})
-    BRED("TRAINING!\n");
-    std::string latency = req->content;
-    std::string model = router->bifrost()->send("https://127.0.0.1:8081/join-network", "null", NULL);
-    BMAG("MODEL IS: %s\n", model.c_str());
+API(RequestJoin, {})
+    BMAG("FLAPI::Train: Start...\n");
+    // std::string agg = req->content;
+    std::string agg = "127.0.0.1:8081";
+    std::string response = router->bifrost()->send("https://"+agg+"/join-network", "null", NULL);
+    BCYA("Response is: %s\n", response.c_str());
+    if (response != HttpStatus::response(100)) {
+        BRED("\tFLAPI::Train: Failed to join network!\n");
+        return HttpStatus::response(500);
+    }
+    GUI::state(router, FL2_JOINED);
+    std::string model = router->bifrost()->send("https://"+agg+"/get-model", "null", NULL);
+    std::string model_path = "./public/cluster/"+router->bifrost()->port()+"/model_init.pt";
+    std::string alias = model + " AS " + model_path;
+    std::string model_bin = router->bifrost()->get_file(agg, alias, req->client->socket);
+    BMAG("FLAPI::Train: Join Network status is %s\n", response.c_str());
     if (router->federator() == nullptr) {
         Trainer* trainer = new Trainer("MNIST");
-        BBLU("Begin training...\n");
-        trainer->train(model);
+        trainer->config(router->cluster()->boss()->host(), router->cluster()->boss()->port());
+        MAG("\tFLAPI::Train: Begin training...\n");
+        GUI::state(router, FL2_TRAINING);
+        std::string acc = trainer->train(model_path);
+        GUI::state(router, FL2_TRAINED);
+        GUI::accuracy(router, acc);
         std::string weights = trainer->weights();
-        std::string received = router->bifrost()->send("https://127.0.0.1:8081/aggregate-model", weights, NULL);
+        GRE("\tFLAPI::Train: weights: %s\n", weights.c_str());
         router->federator(trainer);
+        int fuse_ok = router->bifrost()->send_async("https://"+agg+"/send-weights", weights, NULL);
     } else {
         Trainer* trainer = static_cast<Trainer*>(router->federator());
-        trainer->train(model);
+        MAG("\tFLAPI::Train: Begin training...\n");
+        GUI::state(router, FL2_TRAINING);
+        std::string acc = trainer->train(model_path);
+        GUI::state(router, FL2_TRAINED);
+        GUI::accuracy(router, acc);
         std::string weights = trainer->weights();
-        std::string received = router->bifrost()->send("https://127.0.0.1:8081/aggregate-model", weights, NULL);
+        GRE("\tFLAPI::Train: weights: %s\n", weights.c_str());
+        int fuse_ok = router->bifrost()->send_async("https://"+agg+"/send-weights", weights, NULL);
     }
-    return "COMPLETE";
+    return HttpStatus::response(200);
 }
 
 API(JoinNetwork, {})
+    BMAG("FLAPI::JoinNetwork: Start...\n");
     std::string hostname = req->header("Host");
-    BYEL("CLIENT %s JOINING NETWORK THROUGH %s\n", hostname.c_str(), router->bifrost()->hostname().c_str());
+    MAG("\tFLAPI::JoinNetwork: Client %s Joining Aggregator %s\n", hostname.c_str(), router->bifrost()->hostname().c_str());
     Aggregator* aggregator = static_cast<Aggregator*>(router->federator());
     if (aggregator) {
+        GUI::connect(router, hostname);
         aggregator->addClient(hostname);
-        return "SUCCESS";
+        return HttpStatus::response(100);
     } else {
-        BRED("FLAPI::JoinModel: Not a valid Aggregator Node\n")
-        return "ERROR";
+        BRED("\tFLAPI::JoinModel: Not a valid Aggregator Node\n")
+        return HttpStatus::response(500);
     }
 }
 
-API(AggregateModel, {})
+API(GetModel, {}) 
+    BMAG("FLAPI::GetModel: Start...\n");
     std::string hostname = req->header("Host");
     if (router->federator() == nullptr) {
-        // Aggregator* aggregator = new Aggregator("MNIST");
-        // aggregator->addClient(hostname);
-        // aggregator->storeWeights(hostname, req->content);
-        // router->federator(aggregator);
-        // if (aggregator->quorumMet()) {
-        //     aggregator->fuse();
-        // }
-        BRED("FLAPI::JoinModel: Not a valid Aggregator Node\n")
-        return "ERROR";
+        BRED("\tFLAPI::JoinModel: Not a valid Aggregator Node\n")
+        return HttpStatus::response(500);
     } else {
-        Aggregator* aggregator = static_cast<Aggregator*>(router->federator());
-        aggregator->storeWeights(hostname, req->content);
-        if (aggregator->fuse()) {
-            SEGH
-            std::string model = aggregator->model();
-            if (aggregator->hasAggregator()) {
-                BGRE("TELLING DAD!\n");
-                std::string status = router->bifrost()->send("bin+https://127.0.0.1:8080/aggregate-model", model, NULL);
-            } else {
-                BGRE("STARTING NEW MODEL!\n");
-                std::string status = router->bifrost()->broadcast({"bin+https://127.0.0.1:8081/new-model"}, model, NULL);
-            }
-        }
+        Aggregator* agg = static_cast<Aggregator*>(router->federator());
+        std::string model = agg->model();
+        MAG("\tFLAPI::GetModel: %s\n", model.c_str());
+        return model;
     }
-    return "COMPLETE";
+}
+
+API(SendWeights, {})
+    BBLU("Calling FLAPI FuseModel\n");
+    std::string file_path = req->content;
+    std::string host = req->header("Host");
+    Aggregator* agg = static_cast<Aggregator*>(router->federator());
+    agg->readable(host, file_path);
+    return HttpStatus::response(200);
 }
 
 API(NewModel, {})
-    Aggregator* agg = static_cast<Aggregator*>(router->federator());
-    agg->model(req->content);
-    if (!agg->stop()) {
-        std::string model = agg->model();
-        std::string status = router->bifrost()->broadcast({"bin+https://127.0.0.1:8084/request-model"}, model, NULL);
-    }
     return "COMPLETE";
 }
 

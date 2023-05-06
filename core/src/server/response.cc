@@ -116,7 +116,7 @@ void post_resource(Client* conn, char* resource) {
     char* vals = strstr(resource, "\r\n\r\n");
     if (vals == NULL) {
         BRED("SUBSTRING NOT FOUND!\n");
-        exit(1);
+        // exit(1);
     }
     printf("vals: %s\n", vals + 4);
     int position = vals - resource;
@@ -162,6 +162,11 @@ void socket_write(SSL* ssl, const void *buf, unsigned size) {
     }
 }
 
+void resource::serve_raw2(Client* conn, const char* content, size_t content_size) {
+    SSL_write(conn->ssl, content, content_size); // send bytes
+    printf("DONE WRITING DIST\n");
+}
+
 void resource::serve_http(Client* conn, Client** clients, const char* content, std::string type) {
     if (strlen(content) > 65000) {
         BRED("CONTENT TO SEND IS TO LARGE! NEED TO FRAGMENT BUFFER!\n");
@@ -187,8 +192,45 @@ void resource::serve_http(Client* conn, Client** clients, const char* content, s
     SSL_write(conn->ssl, buffer, strlen(buffer));
     sprintf(buffer, "\r\n");
     SSL_write(conn->ssl, buffer, strlen(buffer));
-    
+    BBLU("bug found? response::serve_http: %li\n", strlen(content));
     SSL_write(conn->ssl, content, strlen(content)); // send bytes
+}
+
+void resource::serve_http2(Client* conn, Client** clients, const char* content, size_t content_size, std::string type) {
+    if (content_size > 4096) {
+        BRED("CONTENT TO SEND IS TOO LARGE! NEED TO FRAGMENT BUFFER!\n");
+    }
+    char buffer[4096];
+    int len = 0;
+    // len += snprintf(buffer + len, sizeof(buffer) - len, "HTTP/1.1 200 OK\r\n");
+    // len += snprintf(buffer + len, sizeof(buffer) - len, "Connection: close\r\n");
+    // len += snprintf(buffer + len, sizeof(buffer) - len, "Content-Length: %lu\r\n", content_size);
+    // len += snprintf(buffer + len, sizeof(buffer) - len, "Content-Type: %s\r\n", type.c_str());
+    // len += snprintf(buffer + len, sizeof(buffer) - len, "Access-Control-Allow-Origin: %s\r\n", "*");
+    // len += snprintf(buffer + len, sizeof(buffer) - len, "Access-Control-Allow-Methods: %s\r\n", "GET, POST, OPTIONS");
+    // len += snprintf(buffer + len, sizeof(buffer) - len, "Access-Control-Allow-Headers: %s\r\n", "Content-Type");
+    // len += snprintf(buffer + len, sizeof(buffer) - len, "Access-Control-Max-Age: %s\r\n", "86400");
+    // len += snprintf(buffer + len, sizeof(buffer) - len, "Jericho: %s\r\n", "true");
+    // len += snprintf(buffer + len, sizeof(buffer) - len, "\r\n");
+    // SSL_write(conn->ssl, buffer, len);
+    // std::string temp = "hello larry";
+    // if (content_size == 201) {
+    //     len += snprintf(buffer + len, sizeof(buffer) - len, "hello larry");
+    // } else {
+    //     len += snprintf(buffer + len, sizeof(buffer) - len, "%s", content);
+    // }
+    int written = SSL_write(conn->ssl, content, content_size);
+    BBLU("Sent bytes is: %i\n", written);
+    std::string sent(content, content_size);
+    // BBLU("resource::serve_http2: Sending data\n");
+    // for (auto& c : sent) {
+    //     if (c == '\0') {
+    //         printf("\033[1;34m0\033[0m");
+    //     } else {
+    //         printf("%c", c);
+    //     }
+    // }
+    // printf("\n");
 }
 
 void resource::serve_cxx(System* sys, Client* conn, Client** clients, const char* path) {

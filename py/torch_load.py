@@ -12,11 +12,11 @@ args = sys.argv[1:]
 print("WE MADE IT! READING FROM FILE:",args[0])
 client_dir = args[0]
 
-train_dataset=torchvision.datasets.MNIST('./py/data/MNIST/raw',train=True,
-                transform=torchvision.transforms.ToTensor(),download=False)
+train_dataset=torchvision.datasets.MNIST('./py/data',train=True,
+                transform=torchvision.transforms.ToTensor(),download=True)
 
-test_dataset=torchvision.datasets.MNIST('./py/data/MNIST/raw',train=False,     
-                transform=torchvision.transforms.ToTensor(),download=False)
+test_dataset=torchvision.datasets.MNIST('./py/data',train=False,     
+                transform=torchvision.transforms.ToTensor(),download=True)
 
 train_subset = torch.utils.data.Subset(train_dataset, torch.arange(20000))
 test_subset = torch.utils.data.Subset(test_dataset, torch.arange(1000))
@@ -106,7 +106,7 @@ def test(model, features):
 
 # load torch script
 # model = torch.jit.load("./py/scripts/torch.pt")
-model = torch.jit.load(client_dir + "/torch.pt")
+model = torch.jit.load(client_dir + "/model_init.pt")
 # model.load_state_dict(torch.load("./py/models/ok"))
 # model = torch.load("./py/models/ok_full")
 

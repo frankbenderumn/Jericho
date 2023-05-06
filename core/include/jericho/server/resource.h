@@ -20,6 +20,10 @@ namespace resource {
     void serve_raw(Client* conn, Client** clients, const char* message);
 
     void serve_http(Client* conn, Client** clients, const char* message, std::string type = "text/html");
+
+    void serve_http2(Client* conn, Client** clients, const char* message, size_t content_size, std::string type = "text/html");
+
+    void serve_raw2(Client* conn, const char* content, size_t content_size);
 }
 
 #endif

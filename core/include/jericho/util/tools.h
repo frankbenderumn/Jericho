@@ -5,8 +5,12 @@
 #include <string>
 #include <iomanip>
 
-std::string size_to_hex(size_t size) {
-    std::stringstream stream;
-    stream << std::hex << size;
-    return stream.str();
-}
+std::string size_to_hex(size_t size);
+
+bool parseInt(int& val, const std::string& value);
+
+bool parseLong(long& val, const std::string& value);
+
+bool parseSize(size_t& val, const std::string& value);
+
+#endif

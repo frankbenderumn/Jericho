@@ -8,8 +8,8 @@ void Message::publish() {
         if (locked) {
             locked->publishMessage(this);
         }
-    } else {
-        BRED("NULL BROKER BEING USED\n");
+    // } else {
+    //     BRED("NULL BROKER BEING USED\n");
     }
 }
 
@@ -19,8 +19,8 @@ void Message::mark() {
         if (locked) {
             locked->markMessage(this);
         }
-    } else {
-        BRED("NULL BROKER BEING USED\n");
+    // } else {
+    //     BRED("NULL BROKER BEING USED\n");
     }
 }
 
@@ -97,26 +97,28 @@ std::string Message::serialize() {
     char* buffer = (char*)malloc((4096));
 
     std::string message = this->sent;
+    BMAG("Message::serialize: this->sent.size(): %li\n", this->sent.size());
     std::unordered_map<std::string, std::string> headers = this->headers;
     std::string type = this->type;
     std::string protocol = this->protocol;
     if (protocol == "https") protocol = "HTTP/1.1";
-    std::string hostname = this->toHost;
-    std::string port = this->port;
+    if (protocol == "job") protocol = "JOB";
+    std::string hostname = this->fromHost;
+    std::string port = this->fromPort;
     std::string path = this->path;
 
     if (path.size() > 200) {
-        BRED("Fetch::send_request: Path size > 200\n");
+        BRED("Message::serialize: Path size > 200\n");
         return "";
     }
 
     if (hostname.size() > 50) {
-        BRED("Fetch::send_request: Host size > 50\n");
+        BRED("Message::serialize: Host size > 50\n");
         return "";
     }
 
     if (port.size() > 6) {
-        BRED("Fetch::send_request: Port size > 6\n");
+        BRED("Message::serialize: Port size > 6\n");
         return "";
     }
 
@@ -150,14 +152,22 @@ std::string Message::serialize() {
         if (method == "GET") {
             sprintf(buffer + strlen(buffer), "Range: bytes=%li/%li\r\n", message.size(), message.size());
         } else if (method == "POST") {
-            sprintf(buffer + strlen(buffer), "Content-Range: bytes %li-%li/%li\r\n", chunkNum*chunkSize, (chunkNum+1)*chunkSize - 1, fileSize);
+            if ((chunkNum + 1) * chunkSize > fileSize) {
+                sprintf(buffer + strlen(buffer), "Content-Range: bytes %li-%li/%li\r\n", chunkNum*chunkSize, (chunkNum+1)*chunkSize, fileSize);
+            } else { 
+                sprintf(buffer + strlen(buffer), "Content-Range: bytes %li-%li/%li\r\n", chunkNum*chunkSize, fileSize, fileSize);
+            }
         }
     } else if (chunkTotal > 1) {
         sprintf(buffer + strlen(buffer), "Transfer-Encoding: %s\r\n", "base64");
         if (method == "GET") {
             sprintf(buffer + strlen(buffer), "Range: bytes=%li/%li\r\n", message.size(), message.size());
         } else if (method == "POST") {
-            sprintf(buffer + strlen(buffer), "Content-Range: bytes %li-%li/%li\r\n", chunkNum*chunkSize, (chunkNum+1)*chunkSize - 1, fileSize);
+            if ((chunkNum + 1) * chunkSize > fileSize) {
+                sprintf(buffer + strlen(buffer), "Content-Range: bytes %li-%li/%li\r\n", chunkNum*chunkSize, (chunkNum+1)*chunkSize, fileSize);
+            } else { 
+                sprintf(buffer + strlen(buffer), "Content-Range: bytes %li-%li/%li\r\n", chunkNum*chunkSize, fileSize, fileSize);
+            }
         }
     } else if (type == "bin") {
         sprintf(buffer + strlen(buffer), "Content-Encoding: %s\r\n", "base64");
@@ -175,4 +185,14 @@ std::string Message::serialize() {
         sprintf(buffer + strlen(buffer), "%s", message.data());
     }
     return std::string(buffer);
+}
+
+std::string Message::serialize_directive() {
+    std::string result;
+    result += directive + "\r\n";
+    for (auto h : headers) {
+        result += h.first + ": " + h.second + "\r\n";
+    }
+    result += "\r\n" + sent;
+    return result;
 }

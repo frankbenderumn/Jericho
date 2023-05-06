@@ -7,7 +7,7 @@
 // #include "example.h"
 // #include "rsa.h"
 // #include "cookie.h"
-// #include "request.h"
+#include "request.h"
 // #include "base64.h"
 // #include "url.h"
 #include "message.h"

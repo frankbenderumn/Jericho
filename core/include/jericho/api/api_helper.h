@@ -9,6 +9,7 @@
 
 #include "server/defs.h"
 #include "server/response.h"
+#include "serializer/serializer.h"
 
 #define OPT std::pair<std::string, std::string>
 typedef std::unordered_map<std::string, std::string> Args;

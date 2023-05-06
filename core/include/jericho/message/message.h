@@ -11,6 +11,7 @@
 #include "util/url.h"
 #include "util/file_system.hpp"
 #include "crypt/base64.h"
+#include "server/http_status.h"
 
 static int MBUF_ID = -1;
 
@@ -18,10 +19,40 @@ class MessageBroker;
 class System;
 class Client;
 
+
+// potentially make two subclasses header, payload and maybe signature
 struct Message {
   
     Message() { PCREATE; }
     Message(int& ticket, std::string _url, std::string fromHost = "", std::string fromPort = "");
+    Message(std::string response) {
+        BBLU("Message::Message: Response size is: %li\n", response.size());
+        size_t p;
+        std::string headers_str;
+        if ((p = response.find("\r\n\r\n")) != std::string::npos) {
+            headers_str = response.substr(0, p);
+            this->sent = response.substr(p+4, response.size() - p - 4);
+        }
+        if ((p = headers_str.find("\r\n")) != std::string::npos) {
+            this->directive = headers_str.substr(0, p);
+            headers_str = headers_str.substr(p+2, headers_str.size() - p - 2);
+        }
+        while ((p = headers_str.find("\r\n")) != std::string::npos) {
+            std::string keyval = headers_str.substr(0, p);
+            size_t p2;
+            if ((p2 = keyval.find(": ")) != std::string::npos) {
+                headers[keyval.substr(0, p2)] = keyval.substr(p2+2, keyval.size()-p-2);
+            }
+            headers_str = headers_str.substr(p+2, headers_str.size()-p-2);
+        }
+        if (!headers_str.empty()) {
+            std::string keyval = headers_str.substr(0, p);
+            size_t p2;
+            if ((p2 = keyval.find(": ")) != std::string::npos) {
+                headers[keyval.substr(0, p2)] = keyval.substr(p2+2, keyval.size()-p-2);
+            }
+        }
+    }
 
     Message(std::string src, std::string dest, const std::string& dir, const std::string& content) {
         PCREATE;
@@ -62,13 +93,14 @@ struct Message {
     
     // for chunking
     bool chunked = false;
-    size_t chunkSize;
+    size_t chunkSize = 2048;
     size_t fileSize;
     int chunkNum;
+    bool simple = false;
 
     void chunk(std::string chunkStr, int chunkNum, size_t chunkSize, size_t fileSize) {
         this->chunkNum = chunkNum;
-        this->chunkSize = chunkSize;
+        this->chunkSize = chunkStr.size();
         this->fileSize = fileSize;
         this->chunked = true;
         if (chunkStr.size() > chunkSize) {
@@ -81,12 +113,18 @@ struct Message {
 
     void status(int statusCode);
 
-    std::string hostname = "undefined";
-    std::string port = "undefined";
+    void setDirective(int status) {
+        this->directive = HttpStatus::response(status);
+    }
 
-    std::string fromHost = "undefined";
-    std::string fromPort = "undefined";
-    std::string sent = "undefined";
+    std::string directive;
+
+    std::string hostname;
+    std::string port;
+
+    std::string fromHost;
+    std::string fromPort;
+    std::string sent;
 
     std::string toHost;
     std::string toPort;
@@ -102,8 +140,8 @@ struct Message {
     std::unordered_map<std::string, std::string> headers;
 
     std::string protocol = "HTTP/1.1";
-    std::string path = "undefined";
-    std::string dir = "undefined";
+    std::string path;
+    std::string dir;
     std::string type = "text/plain";
 
     std::string flag = "undefined";
@@ -125,6 +163,30 @@ struct Message {
     }
 
     std::string serialize();
+
+    std::string serialize_directive();
+
+    std::string serialize_simple() {
+        std::string result;
+        std::string protocol;
+        if (this->protocol == "https") protocol = "HTTP/1.1";
+        result += this->method + " " + this->path + " " + protocol + "\r\n";
+        for (auto head : headers) {
+            result += head.first + ": " + head.second + "\r\n";
+        }
+        result += "\r\n";
+        result += this->sent;
+        BYEL("Message::serialize_simple:\n");
+        YEL("\t%s\n", result.c_str());
+        return result;
+    }
+
+    std::string header(std::string key) {
+        if (prizm::contains_key(headers, key)) {
+            return headers[key];
+        }
+        return "";
+    }
 
 };
 

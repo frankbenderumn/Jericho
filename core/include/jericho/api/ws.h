@@ -4,16 +4,20 @@
 #include "api/api.h"
 
 API(WsAccuracy, {})
-    REQUEST_INFO
-    BWHI("WsAccuracy: Start\n");
-    std::string content = API_ARG(args, std::string("content"));
+    std::string host = req->header("Host");
     picojson::object o;
-    o["host"] = picojson::value(host);
-    o["port"] = picojson::value(port);
-    o["hostname"] = picojson::value(hostname);
-    o["accuracy"] = picojson::value(content);
+    size_t ptr;
+    std::string h, p;
+    if ((ptr = host.find(":")) != std::string::npos) {
+        h = host.substr(0, ptr);
+        p = host.substr(ptr+1, host.size()-ptr-1);
+    }
+    o["host"] = picojson::value(h);
+    o["port"] = picojson::value(p);
+    o["hostname"] = picojson::value(host);
+    o["accuracy"] = picojson::value(req->content);
     BWHI("WsAccuracy: Object created\n");
-    std::string s = JsonResponse::ws(200, content.c_str(), "accuracy", &o);
+    std::string s = JsonResponse::ws(200, req->content.c_str(), "accuracy", &o);
     BWHI("WsAccuracy: Response: %s\n", s.c_str());
     BWHI("WsAccuracy: Start\n");
     router->ws_send(s.c_str());
@@ -21,14 +25,19 @@ API(WsAccuracy, {})
 }
 
 API(WsLatency, {})
-    REQUEST_INFO
-    std::string content = API_ARG(args, std::string("content"));
+    std::string host = req->header("Host");
     picojson::object o;
-    o["host"] = picojson::value(host);
-    o["port"] = picojson::value(port);
-    o["hostname"] = picojson::value(hostname);
-    o["latency"] = picojson::value(content);
-    std::string s = JsonResponse::ws(200, content.c_str(), "latency", &o);
+    size_t ptr;
+    std::string h, p;
+    if ((ptr = host.find(":")) != std::string::npos) {
+        h = host.substr(0, ptr);
+        p = host.substr(ptr+1, host.size()-ptr-1);
+    }
+    o["host"] = picojson::value(h);
+    o["port"] = picojson::value(p);
+    o["hostname"] = picojson::value(host);
+    o["latency"] = picojson::value(req->content);
+    std::string s = JsonResponse::ws(200, req->content.c_str(), "latency", &o);
     router->ws_send(s.c_str());
     return "FNF";
 }
@@ -73,16 +82,24 @@ API(WsBandwidthO, {})
 }
 
 API(WsState, {})
-    REQUEST_INFO
-    std::string content = API_ARG(args, std::string("content"));
+    std::string host = req->header("Host");
     picojson::object o;
-    o["host"] = picojson::value(host);
-    o["port"] = picojson::value(port);
-    o["hostname"] = picojson::value(hostname);
-    o["state"] = picojson::value(content);
-    std::string s = JsonResponse::ws(200, content.c_str(), "state", &o);
+    size_t ptr;
+    std::string h, p;
+    if ((ptr = host.find(":")) != std::string::npos) {
+        h = host.substr(0, ptr);
+        p = host.substr(ptr+1, host.size()-ptr-1);
+    }
+    // std::string hostname_ = req->header("Host");
+    // size_t p = 
+    o["host"] = picojson::value(h);
+    o["port"] = picojson::value(p);
+    o["hostname"] = picojson::value(host);
+    o["state"] = picojson::value(req->content);
+    std::string s = JsonResponse::ws(200, req->content.c_str(), "state", &o);
+    BGRE("WsState: Sending websocket... %s\n", s.c_str());
     router->ws_send(s.c_str());
-    return "FNF";
+    return "HTTP/1.1 200 OK";
 }
 
 API(WsTolerantState, {})
@@ -105,31 +122,45 @@ API(WsTolerantState, {})
         std::string s = JsonResponse::ws(200, "Undefined - WSTolerantState", "tolerant-state", &o);
         router->ws_send(s.c_str());
     }
-    return "FNF";
+    return "HTTP/1.1 200 OK";
 }
 
 API(WsNodeConnect, {})
-    REQUEST_INFO
-    std::string content = API_ARG(args, std::string("content"));
+    std::string host = req->header("Host");
     picojson::object o;
-    o["host"] = picojson::value(host);
-    o["port"] = picojson::value(port);
-    o["hostname"] = picojson::value(hostname);
-    o["dest"] = picojson::value(content);
-    std::string s = JsonResponse::ws(200, content.c_str(), "node-connect", &o);
+    size_t ptr;
+    std::string h, p;
+    if ((ptr = host.find(":")) != std::string::npos) {
+        h = host.substr(0, ptr);
+        p = host.substr(ptr+1, host.size()-ptr-1);
+    }
+    // std::string hostname_ = req->header("Host");
+    // size_t p = 
+    o["host"] = picojson::value(h);
+    o["port"] = picojson::value(p);
+    o["hostname"] = picojson::value(host);
+    o["dest"] = picojson::value(req->content);
+    std::string s = JsonResponse::ws(200, req->content.c_str(), "node-connect", &o);
     router->ws_send(s.c_str());
     return "FNF";
 }
 
 API(WsNodeDisconnect, {})
-    REQUEST_INFO
-    std::string content = API_ARG(args, std::string("content"));
+    std::string host = req->header("Host");
     picojson::object o;
-    o["host"] = picojson::value(host);
-    o["port"] = picojson::value(port);
-    o["hostname"] = picojson::value(hostname);
-    o["dest"] = picojson::value(content);
-    std::string s = JsonResponse::ws(200, content.c_str(), "node-disconnect", &o);
+    size_t ptr;
+    std::string h, p;
+    if ((ptr = host.find(":")) != std::string::npos) {
+        h = host.substr(0, ptr);
+        p = host.substr(ptr+1, host.size()-ptr-1);
+    }
+    // std::string hostname_ = req->header("Host");
+    // size_t p = 
+    o["host"] = picojson::value(h);
+    o["port"] = picojson::value(p);
+    o["hostname"] = picojson::value(host);
+    o["dest"] = picojson::value(req->content);
+    std::string s = JsonResponse::ws(200, req->content.c_str(), "node-disconnect", &o);
     router->ws_send(s.c_str());
     return "FNF";
 }

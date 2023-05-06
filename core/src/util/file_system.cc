@@ -6,6 +6,7 @@
 #include <dirent.h>
 #include <sys/stat.h>
 #include "openssl/md5.h"
+#include "openssl/sha.h"
 
 #include "util/file_system.hpp"
 #include "prizm/prizm.h"
@@ -14,11 +15,13 @@
 void Jericho::FileSystem::write(const char* path, std::string toWrite, bool overwrite) {
     std::ofstream myfile;
     if (overwrite) {
-        myfile.open(path, std::ios_base::in | std::ofstream::trunc);
+        myfile.open(path, std::ios_base::out | std::ofstream::trunc);
     } else {
-        myfile.open(path, std::ios_base::app | std::ios_base::in);
+        myfile.open(path, std::ios_base::app);
     }
-    myfile << toWrite << "\n";
+    if (toWrite.size() > 0) {
+        myfile << toWrite << "\n";
+    }
     myfile.close();
 }
 
@@ -30,6 +33,7 @@ void Jericho::FileSystem::write(const char* path, const char* _toWrite, bool ove
     } else {
         myfile.open(path, std::ios_base::app | std::ios_base::in);
     }
+    // may have a bug if I pass an empty string here, should have an init file func or pass in size of write
     myfile << toWrite << "\n";
     myfile.close();
 }
@@ -40,6 +44,36 @@ std::string Jericho::FileSystem::read(const char* path) {
     std::stringstream buffer;
     buffer << t.rdbuf();
     return buffer.str();
+}
+
+std::string Jericho::FileSystem::readOffset(const char* path, size_t start, size_t end) {
+    const char* s = (const char*)"";
+    std::ifstream file(path, std::ios::binary);
+    if (!file) {
+        return "HTTP/1.1 500 Internal Server Error";
+    }
+
+    std::vector<char> buffer(end - start);
+    file.seekg(start);
+    file.read(buffer.data(), end - start);
+    file.close();
+
+    return std::string(buffer.data(), buffer.size());
+}
+
+bool Jericho::FileSystem::writeOffset(const char* path, int offset, std::string chunk) {
+    FILE* fp = fopen(path, "ab");
+    if (!fp) {
+        BRED("JFS::writeOffset: Failed to write file '%s'\n", path);
+        return false;
+    }
+
+    fseek(fp, offset, SEEK_SET);
+    fwrite(chunk.data(), 1, chunk.size(), fp);
+
+    fclose(fp);
+
+    return true;
 }
 
 std::string Jericho::FileSystem::readBinary(const char* path) {
@@ -246,14 +280,13 @@ long Jericho::FileSystem::modifiedAt(const char* path) {
     return l;
 }
 
-size_t Jericho::FileSystem::size(const char* path) {
+bool Jericho::FileSystem::size(size_t& size, const char* path) {
     FILE* fp;
     fp = fopen(path, "rb");
-    size_t size;
 
     if (!fp) {
         BRED("JFS::size: Failed to open file '%s'\n", path);
-        return -1;
+        return false;
     }
 
     // Get the current position of the file pointer
@@ -268,10 +301,48 @@ size_t Jericho::FileSystem::size(const char* path) {
     // Seek back to the original position
     fseek(fp, current_pos, SEEK_SET);
 
-    return size;
+    return true;
 }
 
-std::string JFS::checksum(const std::string& filename, size_t chunk_size) {
+
+std::string JFS::sha256_checksum(const std::string& filename) {
+    std::ifstream infile(filename, std::ios::binary);
+
+    if (!infile) {
+        std::cerr << "Error opening file " << filename << std::endl;
+        return "undefined";
+    }
+
+    // Get the size of the file
+    infile.seekg(0, std::ios::end);
+    std::streampos size = infile.tellg();
+    infile.seekg(0);
+
+    // Allocate a buffer to hold the entire file
+    std::vector<char> buffer(size);
+
+    // Read the entire file into the buffer
+    infile.read(buffer.data(), size);
+
+    // Calculate the SHA256 checksum of the buffer
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+    SHA256((const unsigned char*) buffer.data(), buffer.size(), hash);
+
+    // Convert the hash to a string
+    std::stringstream ss;
+    ss << std::hex << std::setfill('0');
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
+        ss << std::setw(2) << (unsigned int) hash[i];
+    }
+    std::string sha256_checksum = ss.str();
+
+    // Print the SHA256 checksum
+    std::cout << "SHA256 checksum: " << sha256_checksum << std::endl;
+
+    return sha256_checksum;
+}
+
+std::string JFS::md5_checksum(const std::string& filename, size_t chunk_size) {
     std::ifstream ifs(filename, std::ios::binary);
     if (!ifs) {
         throw std::runtime_error("Failed to open file: " + filename);

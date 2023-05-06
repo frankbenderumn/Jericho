@@ -466,10 +466,14 @@
 
                             <div data-role="request" data-target="ck" data-request='get*../ricochet-rpc*{"command": "hello_world"}' class="bttn">Ricochet RPC</div>
 
-                            <div data-role="request" data-target="ck" data-request='get*../get-ftp-rpc*{"command": "hello_world"}' class="bttn">GET FTP RPC</div>
+                            <div data-role="request" data-target="ck" data-request='get*../get-ftp-rpc*{"command": "hello_world"}' class="bttn red">GET FTP RPC</div>
 
-                            <div data-role="request" data-target="ck" data-request='post*../post-ftp-rpc*{"command": "hello_world"}' class="bttn">POST FTP RPC</div>
+                            <div data-role="request" data-target="ck" data-request='get*../post-ftp-rpc*{"command": "hello_world"}' class="bttn">POST FTP RPC</div>
 
+                            <div data-role="request" data-target="ck" data-request='post*../get-ftp-rpc*{"command": "hello_world"}' class="bttn red">GET FTP ASYNC RPC</div>
+
+                            <div data-role="request" data-target="ck" data-request='get*../post-ftp-rpc*{"command": "hello_world"}' class="bttn red">POST FTP ASYNC RPC</div>
+                            
                             <div>Federated Module</div>
 
                             <div data-role="request" data-target="ck" data-request='get*https://localhost:8084/request-join*{"command": "federate"}' class="bttn">Projected Federate</div>

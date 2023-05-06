@@ -462,6 +462,7 @@ class Node {
         let el = observables.get(this.id);
         let value = "Accuracy: " + el.accuracy; 
         this.textEngine.draw(value, this._x + this.paddingX, this._y + 45 + this.paddingY, ctx);
+        if (el.stateStr == "undefined") { el.stateStr = "offline"; }
         let value2 = "State: " + el.stateStr; 
         this.textEngine.draw(value2, this._x + this.paddingX, this._y + 65 + this.paddingY, ctx);
         let value3 = "Latency: " + el.latency.toFixed(1) + "ms"; 
@@ -615,7 +616,7 @@ class Node {
 } export { Node };
 
 const JerichoState = {
-    offline: "#ffcccc",
+    offline: "#cccccc",
     online: "#ccffcc",
     train: "#ff7033",
     agg: "#2b75ff",
@@ -625,21 +626,25 @@ const JerichoState = {
 class JerichoNode extends Node {
     constructor(urlx, rolex, width, height, x, y, system, federator, id = "none") {
         let radius = 5;
+        let state;
         switch (rolex) {
             case "agg":
                 radius = 5;
+                state = JerichoState.offline;
                 break;
             case "cli":
                 radius = 50;
+                state = JerichoState.offline;
                 break;
             case "main":
                 radius = 5;
+                state = JerichoState.offline;
                 break;
             default:
                 break;
         }
         let port = urlx.split(":")[1];
-        super(port, "rect", width, height, x, y, JerichoState.offline, system, id);
+        super(port, "rect", width, height, x, y, state, system, id);
         this.cornerRadius = radius;
         this.federator = federator;
         this._role = rolex;
@@ -653,20 +658,6 @@ class JerichoNode extends Node {
         this._quorum = 1;
         this._latency = 0;
     }
-
-    // inspect() {
-    //     // super.inspect();
-    //     // <label>Quorum</label>
-    //     // <input id="node-quorum" type="text" placeholder="quorum"/>
-    //     // <label>Learning Rate</label>
-    //     // <input id="node-learning-rate" type="text" placeholder="learning rate"/>
-    //     // <label>Rounds</label>
-    //     // <input id="node-rounds" type="text" placeholder="rounds"/>
-    //     // <label>Optimizer</label>
-    //     // <input id="node-optimizer" type="text" placeholder="optimizer"/>
-    //     // <label>Epochs</label>
-    //     // <input id="node-epochs" type="text" placeholder="epochs"/>
-    // }
 
     get lr() { return this._lr; }
     set lr(val) { this._lr = val; }
@@ -1240,8 +1231,8 @@ class NodeEditor {
 
 const States = {
     "dormant": "#ccffcc",
-    "training": "#ff3ccc",
-    "trained": "ffccff",
+    "training": "#aa3ccc",
+    "trained": "#ffbbff",
     "joined": "#00ff00",
     "dropped": "#cccccc",
     "waitlisted": "#ff00ff",
@@ -1262,11 +1253,12 @@ class JerichoEditor extends NodeEditor {
 
     addMap(url, map) {
         this.graphMap[url] = map;
-        console.log("graph  map debug");
+        console.log("graph map debug");
         console.log(this.graphMap);
     }
 
     run() {
+        console.log("%c Welcome to the club", "color:cyan");
         let urls = [];
         this.nodes.forEach((n) => {
             if (n.role == "cli") {

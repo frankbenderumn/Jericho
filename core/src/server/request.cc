@@ -12,21 +12,17 @@ std::unordered_map<std::string, EncodingType> encoding_map = {
 };
 
 void Request::eval() {
-    BCYA("Evaling request!\n");
-    std::string bytes(client->request);
-    // BYEL("Request::eval example:\n");
-    // printf("%s\n", bytes.c_str());
+    std::string bytes;
+    if (client != nullptr) { bytes = std::string(client->request); }
+    else { bytes = buffer; }
 
     std::string::size_type p = bytes.find("\r\n\r\n");
-    if (p != std::string::npos) {
-        // BBLU("Term location: %li :: %li\n", p, bytes.size());
-    } else {
+    if (p == std::string::npos) {
         BRED("Request::eval: Invalid headers (\\r\\n\\r\\n not found)\n");
         this->valid = false;
     }
 
-    std::string headersStr;
-    std::string content;
+    std::string directive, headers_str, content;
 
     if (p != bytes.size() - 4) {
         size_t last = 0;
@@ -43,22 +39,17 @@ void Request::eval() {
             result.push_back(bytes.substr(last));
         }
         if (result.size() == 2) {
-            BWHI("Headers:\n");
-            printf("%s\n", result[0].c_str());
-            headersStr = result[0];
-            BWHI("Content:\n");
-            printf("%s\n", result[1].c_str());
+            headers_str = result[0];
             this->content = result[1];
         } else if (result.size() == 1) {
             BWHI("Request::eval: Headers only!\n");
         }
     } else {
-        headersStr = bytes;
+        headers_str = bytes;
     }
     
-    parseHeaders(headersStr);        
-
-    BGRE("CONTENT: %s\n", this->content.c_str());
+    parseHeaders(headers_str);        
+    // parseContent(content);
 }
 
 void Request::parseHeaders(std::string headerStr) {
@@ -134,6 +125,7 @@ void Request::parseHeaders(std::string headerStr) {
     this->protocol = protocol2;
     this->headers = args2;
 
+    // parsePath
     size_t pathp = this->path.find("?");
     if (pathp != std::string::npos) {
         std::string npath = this->path.substr(pathp+1, this->path.size());
@@ -149,48 +141,60 @@ void Request::parseHeaders(std::string headerStr) {
         }
     }
 
-    if (this->method == "POST" && this->content != "") {
-        if (this->type == CONTENT_OCTET) {
-        char* p;
-        if ((p = strstr(client->request, "\r\n\r\n")) != NULL) {
-            MAG("Request::parseHeaders: Content-Length: %li\n", this->size);
-            std::string cont = std::string(p+4, jcrypt::base64::size_num(this->size));
-            std::string s;
-            bool has_null = false;
-            if (this->encoding == ENCODING_BASE64) {
-                BMAG("\tRequest::parseHeaders: Content: %s\n", cont.c_str());
-                for (auto& c : cont) {
-                    if (c == '\0') {
-                        BRED("NULL CHAR FOUND!\n");
-                        has_null = true;
-                    }
-                }
-                if (has_null) {
-                    cont.pop_back();
-                }
-                s = jcrypt::base64::decode_url(cont);
-                MAG("\tRequest::parseHeaders: DECODED: %s\n", s.c_str());
-            }
-            for (auto& c : s) {
-                if (c == '\0') {
-                    printf("\\0");
-                } else {
-                    printf("%c", c);
-                }
-            }
-            printf("\n");
-            this->content = std::string(s.data(), s.size());
-            BMAG("THIS CONTENT IS: %s\n", this->content.c_str());
-        } 
+    // parseContent
+    if (this->content != "") {
+        std::string bytes;
+        if (client == nullptr) {
+            bytes = std::string(client->request);
         } else {
-            if (this->content.find("&") != std::string::npos) {
-                std::vector<std::string> toks = prizm::tokenize(this->content, '&');
-                for (auto t : toks) {
-                    std::string::size_type p = t.find("=");
-                    if (p != std::string::npos) {
-                        std::string key = t.substr(0, p);
-                        std::string val = t.substr(p+1, t.size());
-                        args[key] = val;
+            bytes = buffer;
+        }
+        if (this->type == CONTENT_OCTET) {
+            char* p;
+            if ((p = strstr(client->request, "\r\n\r\n")) != NULL) {
+                MAG("Request::parseHeaders: Content-Length: %i\n", this->size);
+                std::string s;
+                bool has_null = false;
+                if (this->encoding == ENCODING_BASE64) {
+                    std::string cont = std::string(p+4, jcrypt::base64::size_num(this->size));
+                    BMAG("\tRequest::parseHeaders: Content: %s\n", cont.c_str());
+                    for (auto& c : cont) {
+                        if (c == '\0') {
+                            BRED("NULL CHAR FOUND!\n");
+                            has_null = true;
+                        }
+                    }
+                    if (has_null) {
+                        cont.pop_back();
+                    }
+                    s = jcrypt::base64::decode_url(cont);
+                    MAG("\tRequest::parseHeaders: DECODED: %s\n", s.c_str());
+                    for (auto& c : s) {
+                        if (c == '\0') {
+                            printf("\\0");
+                        } else {
+                            printf("%c", c);
+                        }
+                    }
+                    printf("\n");
+                    this->content = std::string(s.data(), s.size());
+                } else {
+                    std::string cont = std::string(p+4, this->size);
+                    this->content = cont;
+                }
+                BMAG("THIS CONTENT IS (%li):\n%s\n", this->content.size(), this->content.c_str());
+            } 
+        } else {
+            if (this->header("Content-Type") != "application/octet-stream") {
+                if (this->content.find("&") != std::string::npos) {
+                    std::vector<std::string> toks = prizm::tokenize(this->content, '&');
+                    for (auto t : toks) {
+                        std::string::size_type p = t.find("=");
+                        if (p != std::string::npos) {
+                            std::string key = t.substr(0, p);
+                            std::string val = t.substr(p+1, t.size());
+                            args[key] = val;
+                        }
                     }
                 }
             }

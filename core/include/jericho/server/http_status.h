@@ -140,6 +140,10 @@ class HttpStatus {
         return http_group_to_name_map[type];
     }
 
+    static std::string response(int status) {
+        return "HTTP/1.1 " + std::to_string(status) + " " + HttpStatus::status_to_name(status);
+    }
+
     static std::string status_to_name(int status) {
         return http_status_to_name_map[status];
     }

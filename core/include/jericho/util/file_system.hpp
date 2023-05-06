@@ -42,15 +42,21 @@ namespace Jericho {
 
       static void writeCBinary(const char* path, unsigned char* buffer);
 
+      static std::string readOffset(const char* path, size_t start, size_t end);
+
+      static bool writeOffset(const char* path, int offset, std::string chunk);
+
       static int readJson(picojson::value& val, const char* path);
 
       static int parseJson(picojson::value& val, const char* path);
 
       static long modifiedAt(const char* path);
 
-      static size_t size(const char* path);
+      static bool size(size_t& file_sz, const char* path);
 
-      static std::string checksum(const std::string& path, size_t chunk_size = 4096);
+      static std::string md5_checksum(const std::string& path, size_t chunk_size = 4096);
+
+      static std::string sha256_checksum(const std::string& path);
 
   };
 }

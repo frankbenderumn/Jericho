@@ -137,6 +137,7 @@ int main(int argc, char* argv[]) {
     DNS* dns;
     celerity = Module::celerity();
     federator = Module::federator(script, host + ":" + argv[1]);
+    if (federator) federator->setConfig(host, argv[1]);
     dns = Module::dns(dns_script);
     if (dns) sys->bifrost()->dns(dns);
     if (celerity) sys->celerity(celerity);

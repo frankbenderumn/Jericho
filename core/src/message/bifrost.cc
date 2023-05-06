@@ -16,6 +16,7 @@
 #include "server/defs.h"
 #include "server/client.h"
 #include "util/url.h"
+#include "crypt/crypt.h"
 
 bool authenticate(System* sys, Request* req) {
 	bool username = false;
@@ -210,7 +211,7 @@ void Bifrost::serve(System* sys, Client* client, Client** clients, Request* req)
 
     std::string cookie_header = req->header("Cookie");
 
-    if (cookie_header != "undefined") {
+    if (!cookie_header.empty()) {
         BGRE("Cookie detected!\n");
         std::vector<std::string> toks = prizm::tokenize(cookie_header, "; ");
         if (toks.size() > 1) {
@@ -255,37 +256,35 @@ void Bifrost::serve(System* sys, Client* client, Client** clients, Request* req)
         BRED(" Session not found!\n");
     }
 
-    switch (sys->router()->protocol(req->path)) {
-        // case ROUTE_RAW:
-        //     result = sys->router()->exec(ROUTE_RAW, req->path, req, sys, client);
-        //     resource::serve_http(client, clients, result.c_str());	
-        //     break;									
+    switch (sys->router()->protocol(req->path)) {						
         case ROUTE_SYSTEM:
-            BYEL("System...\n");
-            req->dump();
-            // BMAG("Sys->router()->dump():\n");
-            // sys->router()->dump();
             result = sys->router()->exec(ROUTE_SYSTEM, req->path, req, sys, client);
             if (result == "TICKET") {
                 GRE("Bifrost::serve: Ticket Received -- will not drop client for now\n");
-                // req->async = true;
-                // resource::serve_http(client, clients, "ticket", std::string("application/json"));
-                // exit(1);
-            } else if (result == "COMPLETE") {
-                // drop_client(client, clients, &sys->num_clients);
-            } else if (result == "FNF") {
-
             } else {
-                GRE("Bifrost::serve: System call sending http result: %.100s\n", result.c_str());
-                resource::serve_http(client, clients, result.c_str());		
+                GRE("Bifrost::serve: System call sending http result: (%li) %s\n", result.size(), result.c_str());
+                std::string proto;
+                if (result.size() > 8) {
+                    for (int i = 0; i < 8; i++) {
+                        proto += result[i];
+                    }
+                }
+                // for (auto& c : result) {
+                //     if (c == '\0') {
+                //         printf("\033[1;35m0\033[0m");
+                //     } else {
+                //         printf("%c", c);
+                //     }
+                // }
+                printf("\n");
+                if (proto == "HTTP/1.1" || (result[0] == 'G')) {
+                    resource::serve_http2(client, clients, result.data(), result.size());
+                } else {
+                    BRED("Proto: %s\n", proto.c_str());
+                    resource::serve_http(client, clients, result.c_str());
+                }
             }
             break;
-        // case ROUTE_API:
-        //     BYEL("API CALL...\n");
-        //     result = sys->router()->exec(ROUTE_API, req->path, req, sys, client);
-        //     GRE("Bifrost::serve: API call sending http result: %.100s\n", result.c_str());
-        //     resource::serve_http(client, clients, result.c_str(), std::string("application/json"));
-        //     break;
         case ROUTE_RESOURCE:
             BYEL("RESOURCE CALL...\n");
             resp = sys->router()->resource(sys, req, sesh);
@@ -551,11 +550,24 @@ std::string Bifrost::send(std::string url, std::string content, Callback* callba
     return result;
 }
 
+std::string Bifrost::send(Message* msg) {
+    pthread_t thread;
+    int status;
+
+    pthread_create(&thread, NULL, reinterpret_cast<void* (*)(void*)>(_worker), (void*)msg);
+    pthread_join(thread, (void**)&status);
+
+    std::string result = msg->received;
+    // delete msg;
+    return result;
+}
+
+
 void Bifrost::reply(Request* req, std::string url, std::string content, Callback* callback, std::string brokerType, int timeout) {
     BBLU("REPLYING...\n");
     // std::deque<Message*> mq;
     // MessageBroker* broker = new MessageBroker(BROKER_BARRIER, callback);
-    Message* buf = new Message(TICKET_ID, url);
+    Message* buf = new Message(TICKET_ID, url, this->host(), this->port());
     if (content != "") {
         MAG("Content: %s\n", content.c_str());
         buf->sent = content;
@@ -564,10 +576,6 @@ void Bifrost::reply(Request* req, std::string url, std::string content, Callback
         buf->headers["Ticket"] = req->header("Ticket");
         buf->headers["Broker-Type"] = brokerType;
         buf->headers["Message-Id"] = req->header("Message-Id");
-        buf->hostname = this->host();
-        buf->fromHost = this->host();
-        buf->fromPort = this->port();
-        buf->port = this->port();
         if (callback) {
             buf->callback(callback);
         }
@@ -590,7 +598,7 @@ void Bifrost::reply(Request* req, std::string url, std::string content, Callback
 }
 
 void Bifrost::ricochet_reply(Request* req, std::string url, std::string content, Callback* callback, std::string brokerType, int ticket, int timeout) {
-    BBLU("REPLYING...\n");
+    BBLU("RICOCHET REPLYING...\n");
     std::deque<Message*> mq;
     // int ticket = ++TICKET_ID;
     std::shared_ptr<MessageBroker> broker = std::make_shared<MessageBroker>(BROKER_BARRIER, callback);
@@ -598,7 +606,7 @@ void Bifrost::ricochet_reply(Request* req, std::string url, std::string content,
     if (content != "") {
         buf->sent = content;
         buf->size = content.size();
-        buf->ticket = ticket;
+        buf->ticket = std::stoi(req->header("Ticket"));
         buf->headers["Ticket"] = req->header("Ticket");
         buf->headers["Broker-Type"] = brokerType;
         buf->headers["Message-Id"] = req->header("Message-Id");
@@ -663,92 +671,222 @@ int Bifrost::ricochet(std::string url, std::string endpoint, std::string content
     return -1;
 }
 
-std::string Bifrost::get_file(std::string remote_host, std::string file_path, Callback* callback, int timeout) {
-    BMAG("Bifrost::post_ftp: Getting FTP...\n");    
-    // std::string url = "https://" + remote_host + "/read-file";
-    // size_t sz = JFS::size(file_path.c_str());
-    // size_t chunks = num_chunks(sz, 4096);
-    // MAG("\tBifrost::post_ftp: Size of file: %li\n", sz);
-    // MAG("\tBifrost::post_ftp: Num chunks: %li\n", chunks);
-    // if (chunks > 1) {
-    //     std::string handshake = this->send("https://" + remote_host + "/handshake", file_path, NULL);
-    //     MAG("\tBifrost::get_ftp: Received handshake: %s\n", handshake.c_str());
-    //     if (handshake == "HTTP/1.1 100 Continue") {
-    //         BGRE("Bifrost::get_ftp: Greenlight given to continue!\n");
-    //         std::shared_ptr<MessageBroker> broker = std::make_shared<MessageBroker>(BROKER_BARRIER, callback);
-    //         int ticket = ++TICKET_ID;
-    //         Message* buf = this->buffer(url, broker);
-    //         buf->headers["Broker-Type"] = "simple";
-    //         buf->headers["Ticket"] = std::to_string(ticket);
-    //         buf->headers["Message-Id"] = std::to_string(buf->id);
-    //         // buf->broker = broker;
-    //         thread_pool_add(_tpool, _worker, (void*)buf);
-    //         return handshake;
-    //     }
-    // }
-    return "HTTP/1.1 500 Internal Server Error";
+std::string Bifrost::get_file(std::string remote_host, std::string file_path, int fd, Callback* callback, int timeout) {
+    std::string job_token = jcrypt::base64::encode_url(jcrypt::generate_session_token(32));
+    size_t chunk_size = 2048;
+    std::string file, moniker;
+    size_t p;
+    if ((p = file_path.find(" AS ")) != std::string::npos) {
+        file = file_path.substr(0, p);
+        moniker = file_path.substr(p+4, file_path.size() - p - 4);
+    } else {
+        file = file_path;
+        moniker = file_path;
+    }
+    BMAG("Bifrost::get_file: Getting FTP...\n"); 
+    std::string url = "https://" + remote_host + "/read-file";
+    Message* hs = new Message(TICKET_ID, url, this->host(), this->port());
+    hs->headers["Job-Id"] = job_token;
+    hs->headers["Connection"] = "keep-alive";
+    hs->headers["Host"] = this->host() + ":" + this->port();
+    hs->sent = file;
+    hs->simple = true;
+    std::string handshake = this->send(hs);
+    delete hs;
+    Message* handy = new Message(handshake);
+    MAG("\tBifrost::get_file: Received handshake: %s\n", handshake.c_str());
+    if (handy->directive == HttpStatus::response(100)) {
+        std::string all;
+        std::string sz_str = handy->header("Content-Length");
+        size_t content_sz;
+        if (!parseSize(content_sz, sz_str)) {
+            delete handy;
+            this->clear_job_id(job_token);
+            return HttpStatus::response(500);
+        }
+        std::string empty;
+        std::ofstream ofs(moniker, std::ios::out | std::ios::trunc);
+        ofs.close();
+        int what = content_sz;
+        int num_chunks = ceil(static_cast<double>(content_sz) / chunk_size);
+        for (int i = 0; i < num_chunks; i++) {
+            BYEL("Content_sz: %i\n", what);
+            BYEL("num_chunks: %i\n", num_chunks);
+            BYEL("chunk_idx: %i\n", i);
+            Message* buf = new Message(TICKET_ID, url, this->host(), this->port());
+            buf->method = "GET";
+            buf->headers["Broker-Type"] = "simple";
+            buf->headers["Message-Id"] = std::to_string(buf->id);
+            buf->headers["Job-Id"] = job_token;
+            size_t start, end;
+            if (i == num_chunks - 1) {
+                start = i * chunk_size;
+                end = what;
+            } else {
+                start = i * chunk_size;
+                end = (i+1) * chunk_size;
+            }
+            BYEL("start: %li\n", start);
+            BYEL("end: %li\n", end);
+            buf->headers["Range"] = "bytes="+std::to_string(start)+"-"+std::to_string(end);
+            buf->sent = file;
+            pthread_t thread;
+            int status;
+            pthread_create(&thread, NULL, reinterpret_cast<void* (*)(void*)>(_worker), (void*)buf);
+            pthread_join(thread, (void**)&status);
+            std::string result = buf->received;
+            delete buf;
+            printf("\t\033[1;33mBifrost::send_file\033[0m: Received:\n%s\n", result.c_str());
+            Message* shit = new Message(result);
+            if (shit->directive != HttpStatus::response(206)) {
+                this->clear_job_id(job_token);
+                delete handy;
+                delete shit;
+                return HttpStatus::response(500);
+            } else {
+                all += shit->sent;
+                BYEL("Response->sent size: %li\n", shit->sent.size());
+                if (!JFS::writeOffset(moniker.c_str(), start, shit->sent)) {
+                    BRED("Bifrost::get_file: Failed to writeOffset file '%s'\n", moniker.c_str());
+                    this->clear_job_id(job_token);
+                    delete handy;
+                    delete shit;
+                    return HttpStatus::response(500);
+                }
+            }
+            delete shit;
+        }
+        BGRE("Bifrost::get_file: Sizeof all is %li\n", all.size());
+        size_t check_sz;
+        if (!JFS::size(check_sz, file.c_str())) {
+            BRED("Failed to get size of file '%s'\n", file.c_str());
+            delete handy;
+            return HttpStatus::response(500);
+        }
+        size_t written_sz;
+        if (!JFS::size(written_sz, moniker.c_str())) {
+            BRED("Failed to get size of file moniker '%s'\n", moniker.c_str());
+            this->clear_job_id(job_token);
+            delete handy;
+            return HttpStatus::response(500);
+        }
+        if (written_sz == check_sz) {
+            BGRE("Files match!\n");
+            this->clear_job_id(job_token);
+            delete handy;
+            return HttpStatus::response(200);
+        } else {
+            BRED("Files do not match %li != %li\n", written_sz, check_sz);
+            delete handy;
+            this->clear_job_id(job_token);
+            return HttpStatus::response(500);
+        }
+    }
+    this->clear_job_id(job_token);
+    delete handy;
+    return HttpStatus::response(500);
 }
 
 // consider using a Expect: header
 std::string Bifrost::send_file(std::string remote_host, std::string file_path, Callback* callback, int timeout) {
-    int _chunk_size = 2048;
     BMAG("Bifrost::send_file: Posting FTP...\n");    
+    std::string job_token = jcrypt::base64::encode_url(jcrypt::generate_session_token(32));
+    size_t buf_size = 2048;
+    size_t chunk_size = buf_size;
     std::string url = "https://" + remote_host + "/write-file";
-    size_t sz = JFS::size(file_path.c_str());
-    size_t chunks = num_chunks(sz, _chunk_size);
-    MAG("\tBifrost::send_file: Size of file: %li\n", sz);
-    MAG("\tBifrost::send_file: Num chunks: %li\n", chunks);
-    std::ifstream file(file_path, std::ios::binary);
+    size_t p = file_path.find(" AS ");
+    std::string to_send, to_write;
+    if (p != std::string::npos) {
+        to_send = file_path.substr(0, p);
+        to_write = file_path.substr(p+4, file_path.size() - p - 4);
+    } else {
+        to_send = file_path;
+        to_write = file_path;
+    }
+    size_t file_sz;
+    if (!JFS::size(file_sz, to_send.c_str())) {
+        BRED("Failed to get file size for send file '%s'\n", to_send.c_str());
+    }
+    std::string checksum = JFS::sha256_checksum(to_send);
+    size_t num_chunks = ceil(static_cast<double>(file_sz) / buf_size);
+    std::ifstream file(to_send, std::ios::binary);
     if (!file.is_open()) {
-        BRED("\tBifrost::send_file: Error opening file '%s'!\n", file_path.c_str());
+        BRED("\tBifrost::send_file: Error opening file '%s'!\n", to_send.c_str());
         return "HTTP/1.1 500 Internal Server Error";
     }
-    if (chunks > 1) {
-        std::vector<char> buffer(_chunk_size);
-        bool init = true;
-        int chunk_idx = 0;
+    if (num_chunks > 1) {
+        BGRE("-------------------\nCHUNKS GREATE THAN 1\n--------------------\n");
         std::string job_id = "applesauce";
-        while (file.read(buffer.data(), buffer.size())) {
-            std::string chunkStr(buffer.begin(), buffer.end());
-            if (init) {
-                MAG("\tRead %i bytes\n", (int)file.gcount());
-                std::string handshake = this->send("https://" + remote_host + "/write-file", file_path, NULL);
-                MAG("\tBifrost::send_file: Received handshake: %s\n", handshake.c_str());
-                if (handshake == "HTTP/1.1 100 Continue") {
-                    BGRE("\tBifrost::send_file: Greenlight given to continue!\n");
-                    std::shared_ptr<MessageBroker> broker = std::make_shared<MessageBroker>(BROKER_BARRIER, callback);
-                    int ticket = ++TICKET_ID;
-                    Message* buf = this->buffer(url, broker);
-                    buf->chunk(chunkStr, 0, _chunk_size, sz);
-                    buf->headers["Broker-Type"] = "simple";
-                    buf->headers["Ticket"] = std::to_string(ticket);
-                    buf->headers["Message-Id"] = std::to_string(buf->id);
-                    buf->headers["Job-Id"] = job_id;
-
-                    pthread_t thread;
-                    int status;
-                    pthread_create(&thread, NULL, reinterpret_cast<void* (*)(void*)>(_worker), (void*)buf);
-                    pthread_join(thread, (void**)&status);
-                    std::string result = buf->received;
-                    MAG("\tBifrost::send_file: Received: %s\n", result.c_str());
-                }
-                init = false;
-            } else {
-                Message* buf = new Message(TICKET_ID, url, this->host(), this->port());
-                buf->chunk(chunkStr, chunk_idx, _chunk_size, sz);
-                buf->headers["Job-Id"] = job_id;
-                
-                pthread_t thread;
-                int status;
-                pthread_create(&thread, NULL, reinterpret_cast<void* (*)(void*)>(_worker), (void*)buf);
-                pthread_join(thread, (void**)&status);
-                std::string result = buf->received;
-                MAG("\tBifrost::send_file: Received: %s\n", result.c_str());
-            }
-            chunk_idx++;
+        size_t all_size;
+        Message* hs = new Message(TICKET_ID, url, this->host(), this->port());
+        hs->headers["Job-Id"] = job_token;
+        hs->headers["Connection"] = "keep-alive";
+        hs->headers["Host"] = this->host() + ":" + this->port();
+        hs->simple = true;
+        hs->sent = to_write;
+        std::string handshake = this->send(hs);
+        delete hs;
+        MAG("\tBifrost::send_file: Received handshake: %s\n", handshake.c_str());
+        if (handshake != "HTTP/1.1 100 Continue") {
+            return HttpStatus::response(502);
         }
-        std::string checksum = this->send("https://" + remote_host + "/write-file", file_path, NULL);
-        return checksum;
+
+        for (int i = 0; i < num_chunks; i++) {
+            BGRE("Get some?\n");
+            size_t start, end;
+            if (i == num_chunks - 1) {
+                start = chunk_size * i;
+                end = file_sz;
+            } else {
+                start = chunk_size * i;
+                end = chunk_size * (i+1);
+            }
+            BYEL("\tstart: %li\n", start);
+            BYEL("\tend: %li\n", end);
+            std::string chunkStr = JFS::readOffset(to_send.c_str(), start, end);
+            BYEL("\tCHUNK STR SIZE: %li\n", chunkStr.size());
+            int ticket = ++TICKET_ID;
+            Message* buf = new Message(TICKET_ID, url, this->host(), this->port());
+            buf->method = "POST";
+            buf->headers["Host"] = this->host() + ":" + this->port();
+            buf->headers["Content-Disposition"] = "attachment; filename=" + to_write;
+            buf->headers["Content-Type"] = "application/octet-stream";
+            buf->headers["Content-Range"] = "bytes " + std::to_string(start) + "-" + std::to_string(end) + "/" + std::to_string(file_sz);
+            buf->sent = chunkStr;
+            buf->headers["Content-Length"] = std::to_string(chunkStr.size());
+            buf->headers["Job-Id"] = job_token;
+            buf->simple = true;
+
+            pthread_t thread;
+            int status;
+            pthread_create(&thread, NULL, reinterpret_cast<void* (*)(void*)>(_worker), (void*)buf);
+            pthread_join(thread, (void**)&status);
+            std::string result = buf->received;
+            delete buf;
+            all_size += result.size();
+            // BGRE("====================\nCHECK THIS SHIT\n========================\n");
+            // BGRE("\tBifrost::send_file: Received: %s\n", result.c_str());
+        }
+
+        // verification checksum
+        Message* buf2 = new Message(TICKET_ID, "https://"+remote_host+"/verify-write", this->host(), this->port());
+        buf2->method = "GET";
+        buf2->type = "text/plain";
+        buf2->headers["Content-Disposition"] = "attachment; filename=" + to_write;
+        buf2->headers["Content-Type"] = "application/octet-stream";
+        buf2->headers["Digest"] = "SHA-256=" + JFS::sha256_checksum(to_write);
+        buf2->headers["Job-Id"] = job_token;
+
+        pthread_t thread2;
+        int status2;
+        pthread_create(&thread2, NULL, reinterpret_cast<void* (*)(void*)>(_worker), (void*)buf2);
+        pthread_join(thread2, (void**)&status2);
+        std::string result = buf2->received;
+        delete buf2;
+
+        MAG("\tBifrost::send_file: Received: %s\n", result.c_str());
+
+        return result;
     }
     return "HTTP/1.1 500 Internal Server Error";
 }

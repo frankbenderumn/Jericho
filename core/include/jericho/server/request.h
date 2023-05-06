@@ -34,10 +34,11 @@ struct Request {
     ContentType type = CONTENT_PLAIN;
     EncodingType encoding = ENCODING_NONE;
     std::unordered_map<std::string, std::string> headers;
+    std::unordered_map<std::string, std::string> args;
+    std::string buffer;
     std::string method;
     std::string path;
     std::string request;
-    std::unordered_map<std::string, std::string> args;
     std::string protocol;
     std::string signature;
     std::string host;
@@ -53,7 +54,7 @@ struct Request {
     std::string headersStr;
 #endif
     int buffer_limit;
-    Client* client;
+    Client* client = nullptr;
     bool valid = true;
     Request(Client* _client, int _buffer_limit, bool test = false) { 
         PCREATE;
@@ -66,6 +67,7 @@ struct Request {
         }
     }
     Request() { PCREATE; }
+    Request(std::string buffer) { PCREATE; this->buffer = buffer; }
     ~Request() { 
         PDESTROY; 
         if (callback) {
@@ -120,25 +122,29 @@ struct Request {
         BYEL("===============\n");
         BYEL("   REQUEST\n");
         BYEL("---------------\n");
-        BYEL("protocol: %s\n", this->protocol.c_str());
-        BYEL("method: %s\n", this->method.c_str());
-        BYEL("path: %s\n", this->path.c_str());
-        BYEL("content: %s\n", this->content.c_str());
-        BYEL("content-size: %li\n", this->content.size());
         for (auto head : this->headers) {
             BYEL("header: %-32s %s\n", head.first.c_str(), head.second.c_str());
         }
-        // BYEL("request: \r\n"); 
-        // BCYA("%s\n", request->request.c_str());
         for (auto arg : this->args) {
-            BYEL("arg: %-32s %s\n", arg.first.c_str(), arg.second.c_str());
+            if (arg.first != "content") {
+                BYEL("arg: %-32s %s\n", arg.first.c_str(), arg.second.c_str());
+            }
         }
+        YEL("----------------\n");
+        BYEL("protocol: %s\n", this->protocol.c_str());
+        BYEL("method: %s\n", this->method.c_str());
+        BYEL("path: %s\n", this->path.c_str());
+        BYEL("content: %.100s\n", this->content.c_str());
+        BYEL("content-size: %li\n", this->content.size());
         BYEL("===============\n");
     }
 
     std::string address() {
         return "undefined";
     }
+
+    void lock() { locked = true; }
+    void unlock() { locked = false; }
 
     void poll_request_test(Client* _client, int _buffer_limit) {
         bool all_read = false;
@@ -173,7 +179,12 @@ struct Request {
     std::string parseProtocol() {
         // BYEL("Parsing protocol...\n");
         // BYEL("%s\n", client->request);
-        std::string msg(client->request);
+        std::string msg;
+        if (client != nullptr) {
+            msg = std::string(client->request);
+        } else {
+            msg = buffer;
+        }
         std::string::size_type p = msg.find("\r\n\r\n");
         if (p != std::string::npos) {
             std::string partition = msg.substr(0, p);
@@ -184,7 +195,7 @@ struct Request {
 #endif
         } else {
             BRED("Request::parseProtocol: No \\r\\n\\r\\n found!\n");
-            BRED("Report: %s\n", client->request);
+            BRED("Report: %s\n", msg.c_str());
         }
         return msg;
     }

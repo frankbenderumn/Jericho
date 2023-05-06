@@ -85,3 +85,11 @@ PTEST(RequestUnit, Base64Binary) {
     free(client2);
     delete req2;
 }
+
+PTEST(RequestUnit, StatusMessage) {
+    Client* client2 = (Client*)malloc(sizeof(Client));
+    std::string r = JFS::read("./core/test/data/request_status.txt");
+    strncpy(client2->request, r.data(), r.size());
+    Request* req2 = new Request(client2, 4096, true);
+    req2->eval();
+}

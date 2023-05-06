@@ -80,6 +80,8 @@ add_library(jericho SHARED
     core/src/util/encoding.cc
     core/src/util/trace.cc
     core/src/system/routes.cc
+    core/src/serializer/serializer.cc
+    core/src/util/tools.cc
     # FUCK ME - need to do a UML and track circular dependency or use scripting / 2 pphase compilation
     core/src/controller/auth.cc
     core/src/crypt/base64_c.cc

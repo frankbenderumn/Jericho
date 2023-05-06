@@ -1,0 +1,4 @@
+#!/bin/bash 
+./bin/launch -p 8081 -t 10 -d cluster/8081 -s config/orchestrator.json &
+./bin/launch -p 8082 -t 10 -d cluster/8082 -s config/orchestrator.json &
+./bin/launch -p 8083 -t 10 -d cluster/8083 -s config/orchestrator.json

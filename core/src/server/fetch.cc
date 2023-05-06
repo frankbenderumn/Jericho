@@ -9,7 +9,7 @@
 
 typedef std::unordered_map<std::string, std::string> Args;
 
-#define TIMEOUT2 5.0
+#define TIMEOUT2 60.0
 #define CHUNK_SIZE 4096
 
 void parse_url(char *url, char **hostname, char **port, char** path) {
@@ -64,117 +64,38 @@ size_t num_chunks(size_t size, size_t chunkSize) {
     return size / chunkSize;
 }
 
-int send_request(SSL *s, const char *hostname, const char *port, const char *path, Message* buf, std::string chunk, size_t chunkSize, int chunkNum, int chunkTotal) {
-    BMAG("Fetch: Sending Request...\n");
-
+bool send_request(SSL* ssl, Message* msg) {
+    BMAG("Fetch::send_request: Sending Request...\n");
     int result = 1;
-    char* buffer = (char*)malloc((CHUNK_SIZE));
 
-    std::string message = chunk;
-    Args headers = buf->headers;
-    std::string type = buf->type;
-    std::string protocol = buf->protocol;
+    std::string buf;
+    if (msg->simple) {
+        buf = msg->serialize_simple();
+    } else {
+        buf = msg->serialize();
+    }
 
-    if (strlen(path) > 200) {
-        BRED("Fetch::send_request: Path size > 200\n");
+    if (buf.size() > 4096) {
+        BRED("\tFetch::send_request: serialized message size (%li) is greater than buffer size (%li)\n", buf.size(), (long)4096);
         return 0;
     }
 
-    if (strlen(hostname) > 50) {
-        BRED("Fetch::send_request: Host size > 50\n");
+    // BBLU("Fetch::send_request: Buf size: %li\n", buf.size());
+    // BBLU("Fetch::send_request: Buf length: %li\n", buf.length());
+
+    char buffer[buf.size()];
+    memcpy(buffer, buf.data(), buf.size());
+
+    // MAG("\tFetch::send_request: Message being sent:\n\033[0m%.400s\n", buffer);
+
+    int a = 0;
+    if ((a = SSL_write(ssl, buffer, buf.length())) <= 0) {
+        printf("Server closed connection\n");
+        ERR_print_errors_fp(stderr);
         return 0;
     }
 
-    if (strlen(port) > 6) {
-        BRED("Fetch::send_request: Port size > 6\n");
-        return 0;
-    }
-
-    // std::cout << message;
-    if (protocol == "https") {
-        sprintf(buffer, "POST %s HTTP/1.1\r\n", path);
-    } else if (protocol == "job") {
-        sprintf(buffer, "GET %s JOB\r\n", path);
-    }
-
-    sprintf(buffer + strlen(buffer), "Host: %s:%s\r\n", hostname, port);
-    if (strlen(buffer) > 4000) { BRED("Fetch::send_request: Buffer too large\n"); return 0; }
-    sprintf(buffer + strlen(buffer), "Connection: keep-alive\r\n");
-    if (strlen(buffer) > 4000) { BRED("Fetch::send_request: Buffer too large\n"); return 0; }
-    sprintf(buffer + strlen(buffer), "User-Agent: honpwc https_get 1.0\r\n");
-    if (strlen(buffer) > 4000) { BRED("Fetch::send_request: Buffer too large\n"); return 0; }
-    // sprintf(buffer + strlen(buffer), "Access-Control-Allow-Origin: %s\r\n", "*");
-    sprintf(buffer + strlen(buffer), "Jericho: %s\r\n", "true");
-    if (strlen(buffer) > 4000) { BRED("Fetch::send_request: Buffer too large\n"); return 0; }
-
-    if (type == "bin") {
-        BGRE("Binary type detected!\n");
-        sprintf(buffer + strlen(buffer), "Content-Length: %li\r\n", message.size());
-        sprintf(buffer + strlen(buffer), "Content-Type: %s\r\n", "application/octet-stream");        
-    } else {
-        sprintf(buffer + strlen(buffer), "Content-Length: %li\r\n", message.size());
-    }
-
-
-// range vs. content-range get vs. post
-    if (chunkTotal > 1 && type == "bin") {
-        sprintf(buffer + strlen(buffer), "Content-Encoding: %s\r\n", "base64");
-        sprintf(buffer + strlen(buffer), "Range: %li\r\n", message.size());
-    } else if (chunkTotal > 1) {
-
-    } else if (type == "bin") {
-        sprintf(buffer + strlen(buffer), "Content-Encoding: %s\r\n", "base64");
-    }
-
-    for (auto head : headers) {
-        sprintf(buffer + strlen(buffer), "%s: %s\r\n", head.first.c_str(), head.second.c_str());
-    }
-    sprintf(buffer + strlen(buffer), "\r\n");
-
-    SEGH
-
-    if (type == "bin") {
-        std::string encoded = jcrypt::base64::encode_url(message);
-        sprintf(buffer + strlen(buffer), encoded.data());
-    } else {
-        sprintf(buffer + strlen(buffer), message.data());
-    }
-
-    // v.clear();
-
-    printf("\tSendRequest: Request content being sent: %.300s\n", buffer);
-
-    if (type == "bin") {
-        int a, n = 0, remaining = strlen(buffer);
-        while (remaining > 0) {
-            int chunk_size = std::min(remaining, CHUNK_SIZE);
-            if ((a = SSL_write(s, buffer + n, chunk_size)) <= 0) {
-                printf("Server closed connection\n");
-                ERR_print_errors_fp(stderr);
-                result = 0;
-                break;
-            }
-            printf("SENT %i bytes\n", a);
-            remaining -= a;
-            n += a;
-        }
-    } else {
-        int a, n = 0, remaining = strlen(buffer);
-        while (remaining > 0) {
-            int chunk_size = std::min(remaining, CHUNK_SIZE);
-            if ((a = SSL_write(s, buffer + n, chunk_size)) <= 0) {
-                printf("Server closed connection\n");
-                ERR_print_errors_fp(stderr);
-                result = 0;
-                break;
-            }
-            printf("FETCH SEND REQUEST - SENT %i bytes\n", a);
-            remaining -= a;
-            n += a;
-        }
-    }
-
-    free(buffer);
+    MAG("Fetch::send_request: Sent %i bytes\n", a);
 
     return result;
 }
@@ -304,7 +225,7 @@ void fetch(Any args) {
     SSL_CTX* ctx;
     std::string result = "UNDEFINED";
     int iport;
-    std::string tpath = "./log/" + buf->port + ".node";      
+    // std::string tpath = "./log/" + buf->port + ".node";      
 
     for (char& c : buf->port) {
         if (!std::isdigit(c)) {
@@ -317,11 +238,11 @@ void fetch(Any args) {
 
     iport = std::stoi(buf->port);
 
-    BLU("Fetch: Variables initialized\n");
+    // BLU("Fetch: Variables initialized\n");
 
     buf->publish();
 
-    t_write(iport, tpath.c_str(), "Fetch: buffer published");
+    // t_write(iport, tpath.c_str(), "Fetch: buffer published");
 
     if (flag != "undefined") {
         int t = std::stoi(flag);
@@ -357,7 +278,7 @@ void fetch(Any args) {
 
     if (server != -1) {
 
-    BLU("Fetch: Setting Up SSL\n");
+    // BLU("Fetch: Setting Up SSL\n");
 
     int err = 0;
     ssl = SSL_new(ctx);
@@ -420,126 +341,68 @@ void fetch(Any args) {
             chunkStr = buf->sent;
         }
 
-        if (send_request(ssl, hostname.c_str(), fromPort.c_str(), path.c_str(), buf, chunkStr, chunkSize, chunkCt, chunks)) {
+        if (send_request(ssl, buf)) {
 
-        BLU("Fetch: Sending Request Chunk %i/%i!\n", chunkCt+1, chunks);
+            // BLU("Fetch: Sending Request Chunk %i/%i!\n", chunkCt+1, chunks);
 
-        const clock_t start_time = clock();
+            const clock_t start_time = clock();
 
-        #define RESPONSE_SIZE 32768
-        char response[RESPONSE_SIZE+1];
-        char *p = response, *q;
-        char *end = response + RESPONSE_SIZE;
-        char *body = 0;
+            #define RESPONSE_SIZE 4096
+            char response[RESPONSE_SIZE+1];
+            char *p = response, *q;
+            char *end = response + RESPONSE_SIZE;
+            char *body = 0;
 
-        enum {length, chunked, connection};
-        int encoding = 0;
-        int remaining = 0;
-        result = "";
+            enum {length, chunked, connection};
+            int encoding = 0;
+            int remaining = 0;
+            result = "";
 
-        while(1) {
+            while(1) {
 
-            if ((clock() - start_time) / CLOCKS_PER_SEC > TIMEOUT2) {
-                BRED("Fetch: Timeout after %.2f seconds\n", TIMEOUT2);
-                err_status = 1;
-                break;
-            }
-
-            if (p == end) {
-                BRED("Fetch: Out of buffer space\n");
-                err_status = 1;
-                break;
-            }
-
-            fd_set reads;
-            FD_ZERO(&reads);
-            FD_SET(server, &reads);
-
-            struct timeval timeout;
-            timeout.tv_sec = TIMEOUT2;
-            timeout.tv_usec = 200;
-
-            if (select(server+1, &reads, 0, 0, &timeout) < 0) {
-                BRED("Fetch: select() failed. (%d)\n", GETSOCKETERRNO());
-                break;
-            }
-
-            if (FD_ISSET(server, &reads)) {
-                int bytes_received = SSL_read(ssl, p, end - p);
-                if (bytes_received < 1) {
-                    if (encoding == connection && body) {
-                        // printf("%.*s", (int)(end - body), body);
-                    }
-
-                    BRED("Fetch: Connection closed by peer.\n");
+                if ((clock() - start_time) / CLOCKS_PER_SEC > TIMEOUT2) {
+                    BRED("Fetch: Timeout after %.2f seconds\n", TIMEOUT2);
                     err_status = 1;
                     break;
                 }
 
-                // printf("Received (%d bytes): '%.*s'\n",
-                //         bytes_received, bytes_received, p);
-
-                p += bytes_received;
-                *p = 0;
-
-                if (!body && (body = strstr(response, "\r\n\r\n"))) {
-                    *body = 0;
-                    body += 4;
-
-                    // printf("Received Headers:\n%s\n", response);
-
-                    // result += std::string(response) + "\r\n\r\n";
-
-                    q = strstr(response, "\nContent-Length: ");
-                    if (q) {
-                        encoding = length;
-                        q = strchr(q, ' ');
-                        q += 1;
-                        remaining = strtol(q, 0, 10);
-
-                    } else {
-                        q = strstr(response, "\nTransfer-Encoding: chunked");
-                        if (q) {
-                            encoding = chunked;
-                            remaining = 0;
-                        } else {
-                            encoding = connection;
-                        }
-                    }
-                    // printf("\nReceived Body:\n");
+                if (p == end) {
+                    BRED("Fetch: Out of buffer space\n");
+                    err_status = 1;
+                    break;
                 }
 
-                if (body) {
-                    if (encoding == length) {
-                        if (p - body >= remaining) {
-                            // printf("%.*s", remaining, body);
-                            result += std::string(body);
-                            break;
-                        }
-                    } else if (encoding == chunked) {
-                        do {
-                            if (remaining == 0) {
-                                if ((q = strstr(body, "\r\n"))) {
-                                    remaining = strtol(body, 0, 16);
-                                    if (!remaining) goto finish;
-                                    body = q + 2;
-                                } else {
-                                    break;
-                                }
-                            }
-                            if (remaining && p - body >= remaining) {
-                                // printf("%.*s", remaining, body);
-                                result += std::string(body);
-                                body += remaining + 2;
-                                remaining = 0;
-                            }
-                        } while (!remaining);
-                    }
-                } // if (body)
-            } // if FDSET
-        } // while(1)
+                fd_set reads;
+                FD_ZERO(&reads);
+                FD_SET(server, &reads);
 
-        }
+                struct timeval timeout;
+                timeout.tv_sec = TIMEOUT2;
+                timeout.tv_usec = 200;
+
+                if (select(server+1, &reads, 0, 0, &timeout) < 0) {
+                    BRED("Fetch: select() failed. (%d)\n", GETSOCKETERRNO());
+                    break;
+                }
+
+                if (FD_ISSET(server, &reads)) {
+                    int bytes_received = SSL_read(ssl, p, 4096);
+                    if (bytes_received < 1) {
+                        // if (encoding == connection && body) {
+                        //     // printf("%.*s", (int)(end - body), body);
+                        // }
+
+                        BRED("Fetch: No more bytes to receive.\n");
+                        break;
+                    }
+
+                    printf("Received (%d bytes): '%.*s'\n",
+                            bytes_received, bytes_received, p);
+                            
+                    result = std::string(p, bytes_received);
+                } // if FDSET
+            } // while(1)
+        } // if send_request
 
         latency = bm_diff(bm);
         CYA("Fetch: Time taken: %.2fms\n", latency * 1000);
@@ -547,7 +410,7 @@ void fetch(Any args) {
             buf->latency = latency * 1000;
         }
 
-    } else {
+    } else { // if (!err)
         BRED("Fetch: SSL CONNECT FAILED\n");
     }
 
@@ -560,7 +423,7 @@ void fetch(Any args) {
      * TODO: Create a systematic way to switch protocal format: json, json-lines, xml, custom jericho, http, yaml 
      * 
      */
-    } else {
+    } else { // if (server != -1)
         std::string msg = "Failed to connect to " + std::string(hostname) + ":" +
         std::string(port);
         buf->fulfilled = 2;
@@ -580,22 +443,25 @@ finish:
     }
 
     // buf->mq->publish(result);
+
+    // BYEL("Fetch: buf->received (%li):\n%s\n", result.size(), result.c_str());
+
     buf->received = result;
 
-    std::string end = "Fetch: Marking buffer with results: " + result;
-    BLU("%s\n", end.c_str());
+    // std::string end = "Fetch: Marking buffer with results: " + result;
+    // BLU("%s\n", end.c_str());
 
     // CYA("Fetch: Marking buffer with results: %.100s\n", result.c_str());
 
-    t_write(iport, tpath.c_str(), end.c_str());
+    // t_write(iport, tpath.c_str(), end.c_str());
 
     buf->mark();
     // result = "";
 
-    if (server != -1 && err_status != 1) {
+    if (server != -1) {
 
-        t_write(iport, tpath.c_str(), "Closing socket...");
-        CYA("Fetch: Closing socket...\n");
+        // t_write(iport, tpath.c_str(), "Closing socket...");
+        BMAG("Fetch: Closing socket...\n");
         SSL_shutdown(ssl);
         CLOSESOCKET(server);
         SSL_free(ssl);
@@ -607,12 +473,18 @@ finish:
 
     }
 
-    t_write(iport, tpath.c_str(), "Fetch: Finished.\n\n");
+    SEGH
 
-    if (buf->modality) {
-        // may want to check barrier is not null
-        pthread_barrier_wait(buf->barrier);
-    }
+    // t_write(iport, tpath.c_str(), "Fetch: Finished.\n\n");
+
+    // websocket is some fucking how setting modality to 1 ? WTF, need yet another revamp
+    // if (buf->modality) {
+    //     YEL("Modality is 1 some fucking how!\n");
+    //     // may want to check barrier is not null
+    //     pthread_barrier_wait(buf->barrier);
+    // }
+
+    BYEL("BARRIER FINE!\n");
 
     BGRE("Fetch: Finished.\n");
 }

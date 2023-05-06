@@ -14,3 +14,7 @@ indigo
 violet
 magenta
 cyan
+gold
+aquamarine
+navy
+teal

@@ -1,0 +1,2 @@
+Fed Id: 8080, Round - 0, Clients Trained: [./public/cluster/8080/127.0.0.1_8081.wt], Accuracy: 0.794
+Fed Id: 8080, Round - 0, Clients Trained: [./public/cluster/8080/127.0.0.1_8081.wt], Accuracy: 0.792

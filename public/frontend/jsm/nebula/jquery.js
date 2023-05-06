@@ -97,10 +97,10 @@ g2.update(xs3, ys3);
                             nodeEditor.state(json.obj.url, json.obj.state);
                             break;
                         case "node-connect":
-                            nodeEditor.connect(hostname, json.message);
+                            nodeEditor.connect(json.message, hostname);
                             break;
                         case "node-disconnect":
-                            nodeEditor.disconnect(hostname, json.message);
+                            nodeEditor.disconnect(json.message, hostname);
                             break;
                         case "final-latency":
                             nodeEditor.finalLatency(hostname, message);
@@ -304,6 +304,7 @@ $(document).ready(function(){
                                                 let edges = json.edges;
                                                 nodeEditor.jerichoScript(nodes, edges);       
                                                 nodeEditor.nodes.forEach((el) => {
+                                                    console.log("%c SMD", "color:magenta");
                                                     // let el = nodes[n];
                                                     console.log(el);
                                                     let url = el.url;
@@ -327,15 +328,7 @@ $(document).ready(function(){
                                                     let tab = document.createElement("div");
                                                     tab.setAttribute("id", port);
                                                     tab.setAttribute("data-role", "tab");
-                            
-                                                    // <div id="graph-container" style="float:left;">
-                                                    // <div id="graph-accuracy-8080">
-                                                    // </div>
-                                                    // <div id="graph-rounds-8080">
-                                                    // </div>
-                                                    // <div id="graph-latency-8080">
-                                                    // </div>
-                                                    // </div>
+                        
                                                     let gm = document.createElement("div");
                                                     gm.setAttribute("id", `graph-container-${port}`);
                                                     let acc = document.createElement("div");
@@ -348,11 +341,13 @@ $(document).ready(function(){
                                                     latency.setAttribute("id", `graph-latency-${port}`);
                                                     let final = document.createElement("div");
                                                     final.setAttribute("id", `final-stats-${port}`);
+                                                    
                                                     gm.append(acc); 
                                                     gm.append(bandIn); 
                                                     gm.append(bandOut); 
                                                     gm.append(latency); 
                                                     gm.append(final);
+
                                                     tab.style.display = "none";
                                                     tab.append(gm);
                                                     document.getElementById("tab-collection").append(tab);
@@ -371,7 +366,8 @@ $(document).ready(function(){
                                                         latency: {"graph": a, "aggregates": [[],[]]}
                                                     };
                                                     nodeEditor.addMap(url, gMap);
-                                                    nodeEditor.state(url, "joined");
+                                                    console.log(`%c URL is ${url}`, "color: orange");
+                                                    // nodeEditor.state(url, "joined");
                                                     // nodeEditor.disconnect("127.0.0.1:8081", "127.0.0.1:8080");
                                                     let o = {
                                                         "accuracy": c,
@@ -405,12 +401,31 @@ $(document).ready(function(){
                                         });
                                     }
                                     let y = function(data, status, jqXHR) {
+                                        nodeEditor.state("127.0.0.1:8080", "online");
                                         return $.ajax({
                                             method: "GET",
                                             url: "/ping-all",
                                             success: function(el) {
                                                 console.log("WHOOOOOA BUDDY");
                                                 console.log(el);
+                                                let temp = JSON.parse(el);
+                                                console.log("temp.command: "+temp.command);
+                                                for (let i = 0; i < temp.responses.length; i++) {
+                                                    let o = temp.responses[i];
+                                                    let addr = o.url.slice(7);
+                                                    addr = addr.split("/")[0];
+                                                    console.log("temp.addr: "+addr);
+                                                    console.log(`%c msg: ${o.message}`, "color:#ffaaff");
+                                                    if (typeof o.message !== "string") {                                                    
+                                                        console.log("DORMANT");
+                                                    } else {
+                                                        let z = JSON.parse(o.message);
+                                                        if (z["live"]) {
+                                                            nodeEditor.state(addr, "online");
+                                                        }
+                                                        console.log(`%c ${z["live"]}`, "color:#ccff00");
+                                                    }
+                                                }
                                             }
                                         }); 
                                     } 

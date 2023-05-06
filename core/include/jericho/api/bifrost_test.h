@@ -162,42 +162,16 @@ API(RicochetJob, {})
 
 API(PostFileRPC, {})
     BMAG("API::BifrostTest::PostFileRPC: Running...\n");
-    std::string path = "./data/wn.xml";
-    size_t lfs = JFS::size(path.c_str());
-    BBLU("Api::Bifrost::PostFileRPC: %li\n", lfs);
+    std::string path = "./data/wn.xml AS ./data/get_some.txt";
     std::string result = router->bifrost()->send_file("127.0.0.1:8081", path, NULL);
-    return result;
+    return http_status_to_json(result);
 }
 
 API(GetFileRPC, {})
     BMAG("API::BifrostTest::GetFileRPC: Running...\n");
-    std::string path = "./data/wn.xml";
-    std::string result = router->bifrost()->get_file("127.0.0.1:8081", path, NULL);
+    std::string path = "./data/wn.xml AS ./data/get_test.txt";
+    std::string result = router->bifrost()->get_file("127.0.0.1:8081", path, req->client->socket);
     return result;
-}
-
-API(WriteFileRPC, {})
-    BMAG("API::BifrostTest::WriteFileRPC: Running...\n");
-    System* sys = router;
-    MAG("\tAPI::BifrostTest::WriteFileRPC: Content-Range: %s\n", req->header("Content-Range").c_str());
-    MAG("\tAPI::BifrostTest::WriteFileRPC: Content-Type: %s\n", req->header("Content-Type").c_str());
-    MAG("\tAPI::BifrostTest::WriteFileRPC: Content-Length: %s\n", req->header("Content-Length").c_str());
-    MAG("\tAPI::BifrostTest::WriteFileRPC: Transfer-Encoding: %s\n", req->header("Transfer-Encoding").c_str());
-    std::string content = JFS::read("./data/wn.xml");
-    std::string url = req->reply("https", "/null");
-    std::string response;
-    if (req->content.size() == content.size()) {
-        response = "FTP Successful!";
-    } else {
-        response = "FTP Unsuccessful!";
-    }
-    sys->bifrost()->reply(req, url, response, NULL);
-    return "COMPLETE";
-}
-
-API(ReadFileRPC, {})
-    BMAG("API::BifrostTest::ReadFileRPC: Running...\n");
-    return "COMPLETE";
 }
 
 #endif

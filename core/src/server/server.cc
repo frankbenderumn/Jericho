@@ -17,6 +17,7 @@
 #include "message/bifrost.h"
 #include "api/api_helper.h"
 #include "message/callback.h"
+#include "system/gui.h"
 
 using namespace Jericho;
 
@@ -51,10 +52,10 @@ int connection_setup(System* router, Client** clients, SSL_CTX* ctx, SOCKET* ser
 		inet_ntop(AF_INET6, &s->sin6_addr, ipstr, sizeof(ipstr));
 	}
 
-    printf("IP address: %s\n", ipstr);
-    printf("Port number: %d\n", port);
+    // printf("IP address: %s\n", ipstr);
+    // printf("Port number: %d\n", port);
 	std::string addy = std::string(ipstr) + std::to_string(port);
-	JFS::write("./log/client.log", addy.c_str());
+	// JFS::write("./log/client.log", addy.c_str());
 
 
 	char address_buffer[16];
@@ -118,6 +119,56 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Syste
         fd_set reads;
 
 		// router->bifrost()->burst(router);
+
+		if (router->federator() != NULL) {
+			if (router->federator()->role() == FED_ROLE_AGGREGATOR) {
+				Aggregator* agg = static_cast<Aggregator*>(router->federator());
+				BYEL("Server::run: Aggregator num clients: %i\n", agg->numClients());
+				std::pair<std::string, std::string> fpath = agg->toRead();
+				if (!fpath.second.empty()) {
+					BGRE("Server::run: Starting fusion!\n");
+					size_t p;
+					std::string host_path;
+					if ((p = fpath.first.find(":")) != std::string::npos) {
+						host_path += fpath.first.substr(0, p);
+						host_path += "_";
+						host_path += fpath.first.substr(p+1, fpath.first.size()-p-1);
+					}
+					std::string alias = "./public/cluster/" + router->bifrost()->port() + "/" + host_path + ".wt";
+					std::string content = fpath.second + " AS " + alias;
+					YEL("Content is: %s\n", content.c_str());
+					std::string received = router->bifrost()->get_file(fpath.first, content, 0);
+					if (received == "HTTP/1.1 200 OK") {
+						agg->storeWeights(fpath.first, alias);
+						GUI::state(router, FL2_TRAINING);
+						std::string acc_str;
+						if (agg->fuse(acc_str)) {
+							GUI::accuracy(router, acc_str);
+							if (agg->stop()) {
+								BGRE("Send model to parent\n");
+								agg->dropClient(fpath.first);
+								GUI::state(router, FL2_DELIVERED);
+								if (agg->parents().size() > 0) {
+									std::string response = router->bifrost()->send("https://"+agg->parents()[0]+"/join-network", router->bifrost()->host() + ":" + router->bifrost()->port());
+									int result = router->bifrost()->send_async("https://"+agg->parents()[0]+"/send-weights", agg->weights());
+								} else {
+
+								}
+							} else {
+								BGRE("Send model back to client\n");
+								GUI::state(router, FL2_TRAINED);
+								// std::deque<std::string> clients = agg->clients();
+								// for (auto& child : clients) {
+								// 	BYEL("CHILD: %s\n", child.c_str());
+								// }
+								agg->dropClient(fpath.first);
+								int result = router->bifrost()->send_async("https://127.0.0.1:8084/request-join", router->bifrost()->host() + ":" + router->bifrost()->port());
+							}
+						}
+					}
+				}
+			}
+		}
 
 		BLU("Awaiting clients...\n");
 
@@ -194,15 +245,8 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Syste
 						break;
 					}
 
-					BGRE("?\n");
-					if (!req) {
-						BRED("Server::run: Request is NULL somehow?\n");
-					}
-					if (!client) {
-						BRED("Server::run: CLient is NULL wtf?\n");
-					}
-
 					client->url = req->headers["Host"];
+
 					req->args["content"] = req->content; // need to change this feature in the API Macro, make api rely on request
 					// client->received += r; // increment bytes received
                     // client->request[client->received] = 0; 
@@ -216,6 +260,7 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Syste
 					} else if (conn == "Upgrade") {
 						client_set_state(client, SOCKST_UPGRADING);
 					} else {
+						client_set_state(client, SOCKST_ALIVE);
 						BRED("Server::run: Invalid Http request detected!\n");
 					}
 
@@ -250,17 +295,17 @@ int run(SOCKET* server, Client** clients, SSL_CTX* ctx, ThreadPool* tpool, Syste
 				 * CLEANUP
 				**************/
 
-				BMAG("Server::run: Cleaning client!\n");
+				DEBUG("Server::run: Cleaning client!\n");
 
 				if (!client->websocket) {
-					BMAG("Server::run: Dropping client and deleting request!\n");
+					printf("Server::run: Dropping client and deleting request!\n");
 					drop_client(client, clients, &router->num_clients);
 					if (req != nullptr) {
 						delete req;
 					}
 				}
 
-				BMAG("Server::run: Client looped!\n");
+				DEBUG("Server::run: Client looped!\n");
 				// } else if (!req->async) {
 				// 	delete req;
 				// }

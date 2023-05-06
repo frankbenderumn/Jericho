@@ -14,7 +14,7 @@ bool Jericho::jscan(const char* regex_val, char* request) {
     int value = regcomp(&regex, regex_val, 0);
     if (value) {
         fprintf(stderr, "Failed to compile regex!\n");
-        exit(1);
+        // exit(1);
     }
 
     char tbuffer[1024];
