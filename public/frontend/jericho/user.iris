@@ -1,0 +1,14 @@
+$[idoc]$
+$[ipart]{meta.html}$
+<body style="background-color:#cccccc">
+$[ipart]{header.html}$
+<div class="stage">
+$[itemp=user](user: User::all){
+    fname: user.fname,
+    lname: user.lname,
+    email: user.email,
+    username: user.username,
+}.many(10)$
+</div>
+</body>
+</html>

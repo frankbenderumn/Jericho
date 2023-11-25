@@ -1,0 +1,880 @@
+
+<html>
+    <head>
+        <title>Nebula UI</title>
+    <!-- background-image: url("../assets/texture/hdr/space.jpeg");
+    background-image: url("../assets/images/warp.jpeg"); -->
+
+        <!-- <link rel="preload" /> -->
+        <link rel="preload" src="../assets/texture/hdr/space.jpeg" as="image" crossorigin>
+        <link rel="preload" src="../assets/images/warp.jpeg" as="image" crossorigin>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" type="text/css" href="../css/nebula.css" />
+        <link rel="stylesheet" type="text/css" href="../css/issue.css" />
+        <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+        <script src="../jsm/nebula.js"></script>
+    </head>
+    <header class="white-bg">
+    </header>
+    <style>
+        .warp-bg {
+            background-image: url("../assets/images/warp.jpeg");
+            background-size: fill;
+            background-attachment: fixed;
+            /* position:absolute; */
+            /* background-position:center; */
+            /* backface-visibility:hidden; */
+            transform: scaleX(1.2);
+            filter: blur(6px);
+            -webkit-filter: blur(8px);
+            width: 100%;
+            height: inherit;
+        }
+
+        .nebula-bg {
+            /* background-image: url("../assets/texture/hdr/space.jpeg"); */
+            background-size: cover;
+            /* background-attachment: fixed; */
+            /* position:absolute; */
+            /* background-position:center; */
+            /* backface-visibility:hidden; */
+            /* transform:scaleX(1.2); */
+            /* filter: blur(6px); */
+            /* -webkit-filter: blur(8px); */
+            /* width:100%; */
+            height: inherit;
+        }
+    </style>
+    <body>
+        <section class="stage full">
+            <div id="hero-panel" class="hero-panel white anchor">
+                <div class="warp-bg"></div>
+                <div class="stage">
+                <div class="left">
+                <div class="f-112 slide-in-right" style="position:absolute;bottom:20%;">
+                <h1 class="title">NebulaUI</h1>
+                <sub>Innovative Interfacing</sub>
+                <div id="hero-panel-description">
+                    Nebula is a library that aims to elevate the dynamics and build time of websites.
+                </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </section>
+        <section class="stage full" id="divider">
+            <div class="anchor">
+                <div class="white-bg w-100 offset-up-30 p-5" style="position:absolute;top:-40px;">C</div>
+                <div class="p-20 w-100 offset-up-30" style="position:absolute;background-color:rgba(220, 220, 220);">B</div>
+                <div class="white-bg p-20 w-50 offset-up-30 left" style="position:absolute;">A</div>
+                <div class="offset-up-30 w-100">
+                    <div class="stage">
+                        <ul class="skew-menu">
+                            <li data-role="page-trigger" href="#page-specification">Specification</li>
+                            <li data-role="page-trigger" href="#page-ngine">Quantizmo</li>
+                            <li data-role="page-trigger" href="#page-main">About</li>
+                            <li data-role="page-trigger" href="#page-contact">Contact</li>
+                            <li data-role="page-trigger" href="#page-tutorial">Tutorial</li>
+                            <li data-role="page-trigger" href="#page-examples">Examples</li>
+                            <li data-role="page-trigger" href="#page-donate">Donate</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- </div> -->
+
+            <!-- Examples &bull; Referrals &bull; Portfolio &bull; Donate -->
+        </section>
+
+        <script>
+            $(document).ready(function(){
+                $("[data-role=page]").each(function(){
+                    console.warn("XXX");
+                        if (!$(this).attr("data-default")) {
+                            $(this).hide();
+                        }
+                    });
+                $("[data-role=page-trigger]").on('click', function(){
+                    let target = $(this).attr("href");
+                    $("[data-role=page]").each(function(){
+                        $(this).hide();
+                    });
+                    $(target).show();
+                });
+            });
+        </script>
+        
+        <div class="anchor">
+        <div class="offset-down-30 w-100 pt-50" style="background-color:rgba(220, 220, 220);">
+        <div id="tab-anchor" class="stage">
+        <section id="page-main" data-role="page" data-default="true">
+
+        <div id="cards">
+            <div class="cell-3">
+                <div class="cell">
+                    <div class="card white-bg m-10 shadow">
+                        <div class="header p-20 bold t-center nebula-bg white">
+                            <i class="fas fa-palette"></i>
+                            Card Header
+                        </div>
+                        <div class="content p-5">
+                            This is a card.
+                        </div>
+                    </div>
+                </div>
+                <div class="cell">
+                    <div class="card white-bg m-10 shadow">
+                        <div class="header p-20 bold t-center nebula-bg white">
+                            <i class="fas fa-palette"></i>
+                            Card Header
+                        </div>
+                        <div class="content p-5">
+                            This is a card.
+                        </div>
+                    </div>
+                </div>
+                <div class="cell">
+                    <div class="card white-bg m-10 shadow">
+                        <div class="header p-20 bold t-center nebula-bg white">
+                            <i class="fas fa-palette"></i>
+                            Card Header
+                        </div>
+                        <div class="content p-5">
+                            This is a card.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .accordion-list {
+
+        }
+
+        .accordion-list > * {
+            padding:5px 10px;
+            font-weight:bold;
+        }
+
+        .accordion-list > div:hover {
+            border-right:5px solid var(--black);
+        }
+    </style>
+
+<!-- ############################################################################################-->
+<!-- # ================================ SPECIFICATION ========================================= #-->
+<!-- ############################################################################################-->
+
+<!-- MODAL EXAMPLES #############################################################################-->
+<div id="example-standard-modal" class="slim modal">
+    <div class="slim modal-box" style="background-color:white;">
+        Hello, it's me.
+    </div> 
+</div>  
+
+<div id="example-slim-modal" class="slim modal">
+    <div class="slim modal-box" style="background-color:white;">
+        This is a slim modal.
+    </div>
+</div>
+
+
+<div id="a-modal" class="modal">
+<div class="dynamic modal-box">
+<div class="menu" data-cluster="dynamic-modal-menu">
+<li data-role="trigger" data-type="modal-tab" href="#modal-tab-1">A</li>
+<li data-role="trigger" data-type="modal-tab" href="#modal-tab-2">B</li>
+<li data-role="trigger" data-type="modal-tab" href="#modal-tab-3">C</li>
+<li data-role="trigger" data-type="modal-tab" href="#modal-tab-4">D</li>
+<li data-role="trigger" data-type="modal-tab" href="#modal-tab-5">E</li>
+</div>
+<div data-role="stage" data-cluster="dynamic-modal-menu" class="content"></div>
+<div id="modal-tab-1" data-role="modal-tab">This is modal tab A!</div>
+<div id="modal-tab-2" data-role="modal-tab">This is modal tab B!</div>
+<div id="modal-tab-3" data-role="modal-tab">This is modal tab C!</div>
+<div id="modal-tab-4" data-role="modal-tab">This is modal tab D!</div>
+<div id="modal-tab-5" data-role="modal-tab">This is modal tab E!</div>
+</div>
+</div>
+
+
+<section id="page-specification" data-role="page">
+        <div id="left-menu" class="nav-left">
+            <aside id="menu" class="accordion-list">
+                <div data-role="surf-trigger" href="#triggers">Triggers</div>
+                <div data-role="surf-trigger" href="#roles">Roles</div>
+                <div data-role="surf-trigger" href="#uniques">Uniques</div>
+                <div data-role="surf-trigger" href="#tokens">Tokens</div>
+                <div data-role="surf-trigger" href="#modals">Modals</div>
+                <div data-role="surf-trigger" href="#tabs">Tabs</div>
+                <div data-role="surf-trigger" href="#forms">Forms</div>
+                <div data-role="surf-trigger" href="#shells">Shells</div>
+                <div data-role="surf-trigger" href="#menus">Menus</div>
+                <div data-role="surf-trigger" href="#scaffolding">Scaffolding</div>
+            </aside>
+            <div id="content" class="content">
+                <h2>Specification</h2>
+                <div>A modality for streamiling the construction of websites utilizing, HTML, CSS,
+                        Javascript, WebGL and more. Nebula is to be built of its own template engine and 
+                    back-end system. Features including parsers, websockets, data management and security protocols.</div>
+
+                <h4>Terminology</h4>
+                <li><b>Menu</b></li> 
+                <li><b>Content</b></li> 
+                <li><b>Role</b></li> 
+                <li><b>Id</b></li> 
+                <li><b>Class</b></li> 
+                <li><b>Nav</b></li>
+                <li><b>Surf</b></li>  
+                <li><b>Comet</b></li> 
+                <li><b>Neutron</b></li> 
+                <li><b>Cluster</b></li> 
+                <li><b>Stage</b></li> 
+                <li><b>Hook</b></li> 
+                <li><b>Bait</b></li> 
+                <li><b>Fish</b></li> 
+                <li><b>School</b></li> 
+                <li><b>Reel</b></li> 
+
+                <h4>Conventions</h4>
+                <li>What kind of padding to use?</li>
+                <li>SEO Optimization and HTML5</li>
+                <li>Headers, font-size, line-spacing?</li> 
+
+                <h4>Guidelines</h4>
+                <li><b>Fish and Hook paradigm</b></li>
+                <li>All id's should be unique. </li> 
+                <li>Avoid the <code style="color:rgb(0, 0, 114);background-color:white;">!important</code> keyword when at all possible </li> 
+
+                <h2 class="theme">CSS</h2> 
+<!--####################################### TRIGGERS ################################################-->
+                <div id="triggers">
+                    <h4>Triggers</h4> 
+                    <p>Triggers are eventhandlers that performs certain actions when activated. Triggers can be created using the syntax data-role="trigger". 
+                        The type of trigger can be defined with data-type="<i>some type</i>". A target should be accompanied with almost all triggers. 
+                        A target can be represented as the id tag of some other element.</p>
+                    <br/><b>An example:</b><br/>
+                    <pre class="codeblock">
+<code>
+    &lt;a data-role="trigger" data-type="modal" href="#a-modal"&gt;Link&lt;/a&gt;
+
+    &lt;div id="a-modal" class="modal"&gt;
+        &lt;div class="modal-box"&gt;
+            Modal content goes here.
+        &lt;/div&gt;
+    &lt;/div&gt;
+</code>
+                    </pre>
+
+                    <div class="note">
+                        <li>May want to avoid href for security reasons?</li>
+                        <li>Trigger and toggle may be the same or just similar.</li>
+                    </div>
+                </div>
+
+<!--####################################### ROLES ################################################-->
+                <div id="roles">
+                    <h4>Roles</h4> 
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+                <div id="uniques">
+                <h4>Uniques</h4> 
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+                <div id="tokens">
+                <h4>Tokens</h4>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+
+<!--####################################### MODALS ################################################-->
+                <div id="modals">
+                    <p>Modals are mini windows that display additional information or allow further 
+                        dynamic interaction with certain elements. NebulaUI supports various modal styles 
+                        and formats. There is the standard modal, slim modal and the dynamic modal.
+                    </p>
+                    <br/><b>Standard Modal</b><br/>
+                    <pre class="codeblock">
+<code>
+    &lt;a data-role="trigger" data-type="modal" href="#a-modal"&gt;Link&lt;/a&gt;
+
+    &lt;div id="a-modal" class="modal"&gt;
+        &lt;div class="modal-box"&gt;
+            Modal content goes here.
+        &lt;/div&gt;
+    &lt;/div&gt;
+</code>
+                    </pre>
+
+                    <a class="bttn" data-role="trigger" data-type="modal" href="#example-standard-modal">Standard Modal Demo</a>
+
+                    <br/><b>Slim Modal</b><br/>
+                    <pre class="codeblock">
+<code>
+    &lt;a data-role="trigger" data-type="modal" href="#a-modal"&gt;Link&lt;/a&gt;
+
+    &lt;div id="a-modal" class="slim modal"&gt;
+        &lt;div class="slim modal-box"&gt;
+            Modal content goes here.
+        &lt;/div&gt;
+    &lt;/div&gt;
+</code>
+                    </pre>
+
+                    <a class="bttn" data-role="trigger" data-type="modal" href="#example-slim-modal">Slim Modal Demo</a>
+
+                    <p>As you can see, the difference between the standard modal and slim modal is distinguished only by the use 
+                        of the slim class addition. This is one of the goals of NebulaUI, to abstract customizable extensions as 
+                        atomically possible.
+                    </p> 
+
+                    <div class="note">
+                        <li>May not need a separate modal for slim and standard.</li>
+                    </div>
+
+                    <H5>Dynamic Modal</H5>
+                    <br/><b>Example Code</b><br/>
+                    <pre class="codeblock">
+<code>
+    &lt;a class="bttn" data-role="trigger" data-type="modal" href="#a-modal">Dynamic Modal Demo&lt;/a&gt;
+
+    &lt;div id="a-modal" class="modal"&gt;
+        &lt;div class="dynamic modal-box"&gt;
+            &lt;div class="menu" data-cluster="dynamic-modal-menu"&gt;
+                &lt;li data-role="trigger" data-type="modal-tab" href="#modal-tab-1">A&lt;/li&gt;
+                &lt;li data-role="trigger" data-type="modal-tab" href="#modal-tab-2">B&lt;/li&gt;
+                &lt;li data-role="trigger" data-type="modal-tab" href="#modal-tab-3">C&lt;/li&gt;
+                &lt;li data-role="trigger" data-type="modal-tab" href="#modal-tab-4">D&lt;/li&gt;
+                &lt;li data-role="trigger" data-type="modal-tab" href="#modal-tab-5">E&lt;/li&gt;
+            &lt;/div&gt;
+            &lt;div data-role="stage" data-cluster="dynamic-modal-menu" class="content"&gt;
+                &lt;div id="modal-tab-1" data-role="modal-tab">This is modal tab A!&lt;/div&gt;
+                &lt;div id="modal-tab-2" data-role="modal-tab">This is modal tab B!&lt;/div&gt;
+                &lt;div id="modal-tab-3" data-role="modal-tab">This is modal tab C!&lt;/div&gt;
+                &lt;div id="modal-tab-4" data-role="modal-tab">This is modal tab D!&lt;/div&gt;
+                &lt;div id="modal-tab-5" data-role="modal-tab">This is modal tab E!&lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+</code>
+                    </pre>
+
+                    <a class="bttn" data-role="trigger" data-type="modal" href="#example-dynamic-modal">Dynamic Modal Demo</a>
+
+                    <div class="note">
+                        <li>Modal-tab and tab may be the same and redundant. Just a composite.</li>
+                    </div>
+
+                    <div id="example-dynamic-modal" class="modal">
+                        <div class="dynamic modal-box">
+                            <div class="menu" data-cluster="dynamic-modal-menu">
+                                <li data-role="trigger" data-type="modal-tab" href="#modal-tab-1">A</li>
+                                <li data-role="trigger" data-type="modal-tab" href="#modal-tab-2">B</li>
+                                <li data-role="trigger" data-type="modal-tab" href="#modal-tab-3">C</li>
+                                <li data-role="trigger" data-type="modal-tab" href="#modal-tab-4">D</li>
+                                <li data-role="trigger" data-type="modal-tab" href="#modal-tab-5">E</li>
+                            </div>
+                            <div data-role="stage" data-cluster="dynamic-modal-menu" class="content">
+                                <div id="modal-tab-1" data-role="modal-tab">This is modal tab A!</div>
+                                <div id="modal-tab-2" data-role="modal-tab">This is modal tab B!</div>
+                                <div id="modal-tab-3" data-role="modal-tab">This is modal tab C!</div>
+                                <div id="modal-tab-4" data-role="modal-tab">This is modal tab D!</div>
+                                <div id="modal-tab-5" data-role="modal-tab">This is modal tab E!</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <H5>Draggable Modal</H5>
+
+                    <pre class="codeblock">
+<code>
+    
+</code>
+                    </pre>
+
+                    <a class="bttn" data-role="trigger" data-type="modal" href="#example-draggable-modal">Dynamic Modal Demo</a>
+
+                    <div id="example-draggable-modal" class="modal">
+                        <div class="draggable modal-box">
+                            This modal is draggable.
+                        </div>
+                    </div>
+
+                    <H5>Modal Carousel</H5>
+
+                    <H5>Sizeable Modal</H5>
+
+                    <pre class="codeblock">
+<code>
+
+</code>
+                    </pre>
+
+                    <style>
+                        .floors-2 {
+                            display:grid;
+                            grid-template-rows: 50%;
+                            grid-template-columns: 1fr;
+                            height:100%;
+                        }
+
+                        .floor-1 {
+                            grid-row:1;
+                        }
+
+                        .floor-2 {
+                            grid-row:2;
+                        }
+                    </style>
+
+                    <a class="bttn" data-role="trigger" data-type="modal" href="#example-sizeable-modal">Sizeable Modal Demo</a>
+
+                    <div id="example-sizeable-modal" class="modal">
+                        <div class="modal-box large">
+                            This is a large modal box with a menu. A composite
+                            <div class="nav-left">
+                                <aside class="menu floors-2 red-bg">
+                                    <!-- <li>Need to split in 2</li> -->
+                                    <div class="floor-1 orange-bg">
+                                        Floor 1
+                                    </div>
+                                    <div class="floor-2 yellow-bg">
+                                        Floor 2
+                                    </div>
+                                </aside>
+                                <div class="content green-bg">
+                                    This is the content pane.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <H5>Eagle Eye</H5>
+
+                    <H5>Gyro</H> 
+
+                    <h5>Options</h5>
+
+                    <li><b>slide-top</b></li>
+                    <li><b>slide-bottom</b></li>
+                    <li><b>slide-left</b></li>
+                    <li><b>slide-right</b></li>
+                </div>
+
+<!--####################################### TABS ################################################-->
+
+                <div id="tabs" class="w-100">
+                    <h4>Tabs</h4>
+                    <p>Tabs are a great way to display categorical data on one page without the need for a page refresh.</p>
+
+                    <pre class="codeblock">
+                        <code>
+
+                        </code>
+                    </pre>
+
+                <b>Demo</b>
+
+                <style>
+                    .block { 
+                        display:block;
+                        width:100%;
+                    }
+                    .tabs {
+                        /* padding:0px; */
+                        /* width:100%; */
+                        /* background-color:var(--green); */
+                        display:flex;
+                    }   
+
+                    .tabs-wrapper {
+                        display:block;
+                        width:100%;
+                        background-color:white;
+                        border-bottom:1px solid var(--grey);
+                        /* padding:5px; */
+                        /* margin:0px auto; */
+                    }
+
+                    .tabs [data-type=tab] {
+                        background-color:white;
+                        /* float:left; */
+                        list-style-type:none;
+                        padding:6px 10px;
+                        border-radius:6px 6px 0px 0px;
+                        margin:3px 3px 0px 3px;
+                        transform: perspective(10px) rotateX(2deg);
+                        border:1px solid rgba(200, 200, 200, 1);
+                    }
+
+                    .tabs [data-type=tab]:hover {
+                        background-color:rgba(200, 200, 200, 1);
+                        transition:0.2s;
+                    }
+
+                    [data-role=tab] {
+                        /* display:none;  */
+                        height:200px; /* custom value */
+                        padding:15px;
+                    }
+
+                    .tab-stage {
+                        width:100%;
+                        background-color:white;
+                        display:block;
+                        /* padding:15px; */
+                    }
+                </style>
+
+                <!-- <div class="block w-100"> -->
+                <div class="tabs-wrapper">
+                <div id="tabs" class="tabs" data-cluster="example-tabs" style="width:100%;">
+                    <li data-role="trigger" data-type="tab" href="#tab-a">Tab A</li>
+                    <li data-role="trigger" data-type="tab" href="#tab-b">Tab B</li>
+                    <li data-role="trigger" data-type="tab" href="#tab-c">Tab C</li>
+                    <li data-role="trigger" data-type="tab" href="#tab-d">Tab D</li>
+                    <li data-role="trigger" data-type="tab" href="#tab-e">Tab E</li>
+                </div>
+            </div>
+
+                <div data-role="stage" class="tab-stage" data-cluster="example-tabs">
+                    <section id="tab-a" data-role="tab" data-default="true">Tab A</section>
+                    <section id="tab-b" data-role="tab">Tab B</section>
+                    <section id="tab-c" data-role="tab">Tab C</section>
+                    <section id="tab-d" data-role="tab">Tab D</section>
+                    <section id="tab-e" data-role="tab">Tab E</section>
+                </div>
+
+                </div>
+
+                <!-- <br> -->
+
+<!--########################################## INPUT ############################################-->
+
+                <style>
+                    select {
+                        padding:6px 10px;
+                        border:none;
+                        border-radius:5px;
+                        width:100%;
+                    }
+
+                    option {
+                        padding:6px 10px;
+                    }
+
+                    input[type=checkbox] {
+                        padding:10px;
+                    }
+
+                    input[type=radio] {
+                        padding:10px;
+                    }
+
+                    input {
+                        outline:none;
+                        border-radius:5px;
+                    }
+
+                    div[contenteditable=true] {
+                        background-color:white;
+                        border-radius:5px;
+                        outline:none;
+                        padding:6px 10px;
+                    }
+
+                    /* The container */
+                    .checkbox, .checkbox {
+                        display: block;
+                        position: relative;
+                        padding-left: 35px;
+                        margin-bottom: 12px;
+                        cursor: pointer;
+                        font-size: 22px;
+                        -webkit-user-select: none;
+                        -moz-user-select: none;
+                        -ms-user-select: none;
+                        user-select: none;
+                    }
+
+                    /* Hide the browser's default checkbox */
+                    .checkbox input, .checkbox input {
+                        position: absolute;
+                        opacity: 0;
+                        cursor: pointer;
+                        height: 0;
+                        width: 0;
+                    }
+
+                    /* Create a custom checkbox */
+                    .checkmark {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        height: 25px;
+                        width: 25px;
+                        background-color: #eee;
+                    }
+
+                    /* On mouse-over, add a grey background color */
+                    .checkbox:hover input ~ .checkmark, .checkbox:hover input ~ .checkmark {
+                        background-color: #ccc;
+                    }
+
+                    /* When the checkbox is checked, add a blue background */
+                    .checkbox input:checked ~ .checkmark, .checkbox input:checked ~ .checkmark {
+                        background-color: #2196F3;
+                    }
+
+                    /* Create the checkmark/indicator (hidden when not checked) */
+                    .checkbox:after, .checkbox:after {
+                        content: "";
+                        position: absolute;
+                        display: none;
+                    }
+
+                    /* Show the checkmark when checked */
+                    .checkbox input:checked ~ .checkmark:after, .checkbox input:checked ~ .checkmark:after {
+                        display: block;
+                    }
+
+                    /* Style the checkmark/indicator */
+                    .checkbox .checkmark:after, .checkbox .checkmark:after {
+                        left: 9px;
+                        top: 5px;
+                        width: 5px;
+                        height: 10px;
+                        border: solid white;
+                        border-width: 0 3px 3px 0;
+                        -webkit-transform: rotate(45deg);
+                        -ms-transform: rotate(45deg);
+                        transform: rotate(45deg);
+                    }
+                </style>
+
+                <div id="inputs">
+                    <h4>Input</h4>
+
+                    <h5>Textfield</h5>
+
+                    <input type="text" />
+
+                    <h5>Password</h5>
+
+                    <input type="password" />
+
+                    <h5>Select</h5>
+
+                    <select>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                        <option>Option 3</option>
+                        <option>Option 4</option>
+                    </select>
+                    
+                    <h5>Checkbox</h5>
+
+                    <input type="checkbox" checked=true />
+
+                    <label class="checkbox">Four
+                        <input type="checkbox">
+                        <span class="checkmark"></span>
+                    </label>
+
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+
+                    <h5>Radio</h5>
+
+                    <input type="radio" value="Radio A" />
+
+                    <label class="radio">One
+                        <input type="radio" checked="checked" name="radio">
+                        <span class="checkmark"></span>
+                      </label>
+
+                    <h5>Contenteditable</h5>
+
+                    <div contenteditable="true"></div>
+                    
+                    <h5>Autocomplete</h5>
+
+                    <input type="text" />
+
+                    <div class="autocomplete">
+                        No info
+                    </div>
+
+                    <h5>Date Time</h5> 
+
+                    <input type="datetime" />
+
+                    <h5>Submit</h5> 
+
+                    <input type="submit" value="submit" class="bttn" />
+                </div>
+
+<!--########################################## FORMS ############################################-->
+
+                <div id="forms">
+                <h4>Forms</h4>
+
+                <style>
+                    .icon-form {
+                        display:block;
+                        width:inherit;
+                        margin:5px;
+                    }
+
+                    .icon-form::after {
+                        clear:both;
+                    }
+
+                    .icon-form .label {
+                        float:left;
+                        border:1px solid var(--grey);
+                        background-color:white;
+                        padding:10px;
+                        font-size:1rem;
+                        font-weight:none;
+                        border-radius:5px 0px 0px 5px;
+                        color:rgb(140, 140, 140);                        
+                    }
+
+                    input[type=textfield]::placeholder {
+                        color:rgb(140, 140, 140);
+                    }
+
+                    .icon-form .field {
+                        padding:10px;
+                        border-radius:0px 5px 5px 0px;
+                        border:1px solid var(--grey);
+                    }
+                </style> 
+
+                <form action="submit.html" style="width:500px;">
+                    <div class="icon-form">
+                        <label class="label"><i class="fas fa-at"></i></label> 
+                        <input class="field" type="textfield" placeholder="Username" />
+                    </div>
+
+                    <div class="icon-form">
+                        <label class="label"><i class="far fa-envelope"></i></label> 
+                        <input class="field" type="textfield" placeholder="Email" />
+                    </div>
+
+                    <div class="icon-form">
+                        <label class="label"><i class="fas fa-key"></i></label> 
+                        <input class="field" type="textfield" placeholder="Password" />
+                    </div>
+
+                    <div class="icon-form">
+                        <label class="label"><i class="fas fa-key"></i></label> 
+                        <input class="field" type="textfield" placeholder="Confirm Password" />
+                    </div>
+                </form>
+                </div>
+
+<!--########################################## TYPOGRAPHY ############################################-->
+
+                <h2>Javascript</h2>
+                <ol>
+                    <li><b>Components</b></li> 
+                    <li>Triggers</li>
+                    <li>Roles</li>
+                    <li>Uniques</li>
+                    <li>Tokens</li>
+                    <li><b>Composites</b></li>
+                    <li>Modal</li>
+                    <li>Tabs</li>
+                    <li>Pages</li>
+                    <li>Dropdowns</li>
+                    <li>Drag & Drop</li>
+                    <li><b>Mobile</b></li> 
+                </ol>  
+
+                <h2>Reference</h2> 
+                <div>
+                    <ol>
+                        <li>A</li>
+                        <li>B</li>
+                        <li>C</li>
+                        <li>D</li>
+                        <li>E</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- ############################################################################################-->
+<!-- # ================================== GAME ENGINE ========================================= #-->
+<!-- ############################################################################################-->
+    <section id="page-ngine" data-role="page">
+        <div id="left-menu" class="nav-left">
+            <aside id="menu" class="accordion-list" data-cluster="ngine-classes">
+                <div data-role="surf-trigger" href="#triggers">System</div>
+            </aside>
+            <div id="content" class="content">
+                <h3>Component</h3>
+                <h3>Debug</h3>
+                <h3>Entity</h3>
+                <h3>FileSystem</h3>
+                <h3>Loader</h3>
+                <h3>Raycaster</h3>
+                <h3>Scaffolding</h3>
+                <h3>Scene</h3>
+                <h3>Script</h3>
+                <h3>Selector</h3>
+                <h3>System</h3>
+                <h3>User</h3>
+                <h3>World</h3>
+
+                <h3>Addons/Rain</h3>
+                <h3>Addons/Snow</h3>
+                <h3>Addons/Tornado</h3>
+                <h3>Addons/Ocean</h3>
+
+                <h3>Audio/Analyser</h3>
+
+                <h3>Cinematic/Cinematic</h3>
+                <h3>Cinematic/Automatic</h3>
+
+                <h3>Controls/Controls</h3>
+                <h3>Controls/FirstPersonControls</h3>
+                <h3>Controls/OrbitControls</h3>
+                <h3>Controls/ThirdPersonControls</h3>
+
+                <h3>Handler/Developer</h3>
+                <h3>Handler/Gamepad</h3>
+                <h3>Handler/Handler</h3>
+                <h3>Handler/Keyboard</h3>
+                <h3>Handler/XRHandler</h3>
+
+                <h3>System/Socket</h3>
+                <h3>System/Voice</h3>
+
+                <h3>UI/Canvas</h3>
+                <h3>UI/Keyboard</h3>
+                <h3>UI/Shell</h3>
+                <h3>UI/UI</h3>
+
+                <h3>XR/Hand</h3>
+                <h3>XR/Rig</h3>
+                <h3>XR/XR</h3>
+                <h3>XR/XRController</h3>
+                <h3>XR/XRHandler</h3>
+
+
+
+
+            </div>
+        </div>
+    </section>
+
+    </div>
+    </div>
+    </div>
+    </body>
+</html> 

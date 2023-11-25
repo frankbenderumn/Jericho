@@ -1,0 +1,14 @@
+<div id="something">
+    <div class="header" style="background-color:black;color:white;">
+        $[iyield]{fname}$
+    </div>
+    <div class="body">
+        $[iyield]{lname}$
+        <div class="sub-content">
+            $[iyield]{email}$
+        </div>
+    </div>
+    <div class="footer">
+        $[iyield]{username}$
+    </div>
+</div>

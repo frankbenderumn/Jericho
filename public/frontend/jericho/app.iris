@@ -1,0 +1,8 @@
+$[idoc]$
+$[ipart]{header.html}$
+$[itemp=app]{
+    header: "something",
+    body: "body",
+    caption: "caption",
+    footer: "foot"
+}$

@@ -1,0 +1,166 @@
+<style>
+    .celerity-hero {
+        background-image:url("$[iyield]{img}$");
+    }
+    .celerity-gradient {
+        background: linear-gradient(to bottom,  #003b07 0%,#23ae2f 100%); /* W3C, IE10+, FF16+, */
+    }
+</style>
+
+<div id="celerity-container" class="hero celerity-gradient" style="color:white;width:100%;height:800px;background-image:url('../assets/images/matrix2.png');background-size: cover;">
+    <div class="stage" style="position:relative;top:200px;">
+    <H1 class="font-borned" style="font-size:4em;">$[iyield]{title}$<h1>
+    <h4 class="font-borned">$[iyield]{subtitle}$<h4>
+    </div>
+</div>
+<div style="background-color:red;" class="celerity-gradient">
+<div style="height:200px;"></div>
+</div>
+
+<script type="module">
+
+    let camera, stats, scene, db, wireframe;
+    let nodes = [];
+    let composer, renderer, mixer, clock;
+
+    const params = {
+        exposure: 1,
+        bloomStrength: 2,
+        bloomThreshold: 0,
+        bloomRadius: 1
+    };
+
+    init();
+
+    function node(x, y, z) {
+        const geometry = new THREE.IcosahedronGeometry(0.05, 0);
+        const material = new THREE.MeshLambertMaterial({ color: 0x23ae2f, opacity: 0.9 });
+        const sphere = new THREE.Mesh(geometry, material);
+        sphere.position.set(x, y, z);
+        // sphere.scale.set(0.5, 0.5, 0.5);
+        return sphere;
+    }
+
+    function init() {
+
+        const container = document.getElementById('celerity-container');
+
+        // let container = document.getElementById('celerity-container');
+        container.className += ' zstack-child';
+        let width = window.innerWidth / 2;
+        let height = 800;
+        // stats = new Stats();
+        // container.appendChild(stats.dom);
+
+        clock = new THREE.Clock();
+
+        renderer = new THREE.WebGLRenderer({ antialias: true});
+        // renderer.setPixelRatio(window.devicePixelRatio);
+        // renderer.autoClear = false;
+        renderer.setClearColor(0x00ff00, 0.0);
+        renderer.setSize(width, height);
+        // renderer.toneMapping = THREE.ReinhardToneMapping;
+        renderer.domElement.style.float = "right";
+        container.appendChild(renderer.domElement);
+
+        scene = new THREE.Scene();
+
+        // scene.background = new THREE.Color(0xff0000);
+
+        camera = new THREE.PerspectiveCamera(40, width / height, 1, 2000);
+        camera.position.set(- 5, 2.5, - 3.5);
+        scene.add(camera);
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.maxPolarAngle = Math.PI * 0.5;
+        controls.minDistance = 1;
+        controls.maxDistance = 10;
+
+        scene.add(new THREE.AmbientLight(0x404040));
+
+        const pointLight = new THREE.PointLight(0xffffff, 1);
+        camera.add(pointLight);
+
+        new THREE.GLTFLoader().load('assets/models/aku.glb', function (gltf) {
+
+            const model = gltf.scene;
+
+            db = model;
+            // scene.add(model);
+
+            const geometry = new THREE.CylinderGeometry(1, 1, 2, 32);
+            const material = new THREE.MeshLambertMaterial({ color: 0x222222 });
+            db = new THREE.Mesh(geometry, material);
+            db.position.set(0, 1, 0);
+            scene.add(db);
+
+
+            var geo = new THREE.EdgesGeometry(db.geometry); // or WireframeGeometry
+            var mat = new THREE.LineBasicMaterial({ color: 0x00ff00 });
+            wireframe = new THREE.LineSegments(geo, mat);
+            wireframe.position.set(0, 1, 0);
+            wireframe.scale.set(1.01, 1.01, 1.01);
+            scene.add(wireframe);
+
+            animate();
+
+        });
+
+        for (let i = 0; i < 100; i++) {
+            let n = node(1, 1, 1);
+            n.orbit = 0;
+            n.speed = 0.01 + Math.random() * 0.08;
+            // n.scale.set(0.1, 0.1, 0.1);
+            let x = Math.sin(360 / 20 * (i + n.orbit)) * 1.5;
+            let y = Math.random() * 1 + 0.5;
+            let z = Math.cos(360 / 20 * (i + n.orbit)) * 1.5;
+            n.position.set(x, y, z);
+            n.update = (dt) => {
+                n.orbit += n.speed * dt;
+                let x = Math.sin(360 / 20 * (i + n.orbit)) * 1.5;
+                // let y = Math.random() * 1 + 0.5;
+                let z = Math.cos(360 / 20 * (i + n.orbit)) * 1.5;
+                n.position.set(x, y, z);
+            }
+            nodes.push(n);
+            scene.add(n);
+        }
+
+        window.addEventListener('resize', onWindowResize);
+
+    }
+
+    function onWindowResize() {
+
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(width, height);
+        // composer.setSize(width, height);
+
+    }
+
+    function animate() {
+
+        requestAnimationFrame(animate);
+
+        const delta = clock.getDelta();
+
+        db.rotation.y += 0.6 * delta;
+        wireframe.rotation.y -= 0.6 * delta;
+
+        nodes.forEach((node) => {
+            node.update(delta);
+        });
+
+        // mixer.update(delta);
+
+        // stats.update();
+        // composer.render();
+        renderer.render(scene, camera);
+    }
+
+</script>
